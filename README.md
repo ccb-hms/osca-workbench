@@ -1,74 +1,56 @@
-# The Carpentries Workbench Template R Markdown Lesson
+# Orchestrating Single-Cell Analysis with Bioconductor
 
-This lesson is a template lesson that uses [The Carpentries Workbench][workbench].
+This is a pre-alpha adaptation of the 2023 ISMB OSCA tutorial using The Carpentries Workbench lesson template. 
 
-## Note about lesson life cycle stage
-Although the `config.yaml` states the life cycle stage as pre-alpha, **the template is stable and ready to use**. The life cycle stage is preset to `"pre-alpha"` as this setting is appropriate for new lessons initialised using the template.
+### Vignettes converted
 
-## Create a new repository from this template
+As individual vignettes are converted into lessons, they can be added to `config.yaml` to be rendered and shown in the final Github Pages lesson.  
 
-To use this template to start a new lesson repository, 
-make sure you're logged into Github.   
-Visit https://github.com/carpentries/workbench-template-rmd/generate
-and follow the instructions.
-Checking the 'Include all branches' option will save some time waiting for the first website build
-when your new repository is initialised.
+### Vignettes not yet converted
+- Introduction to Bioconductor
+- Exploratory data analysis
+- Cell type annotation
+- Multi-sample analyses
+- Working with large data
+- Accessing data from the Human Cell Atlas
 
-If you have any questions, contact [@tobyhodges](https://github.com/tobyhodges)
+## Description
 
-## Configure a new lesson
+In the last few years, the profiling of a large number of genome-wide features
+in individual cells has become routine. Consequently, a plethora of tools for
+the analysis of single-cell data has been developed, making it hard to understand
+the critical steps in the analysis workflow and the best methods for each objective
+of one’s study.
 
-Follow the steps below to
-complete the initial configuration of a new lesson repository built from this template:
+This tutorial aims to provide a solid foundation in using Bioconductor tools
+for single-cell RNA-seq analysis by walking through various steps of typical
+workflows using example datasets.
 
-1. **Make sure GitHub Pages is activated:**
-   navigate to _Settings_,
-   select _Pages_ from the left sidebar,
-   and make sure that `gh-pages` is selected as the branch to build from.
-   If no `gh-pages` branch is available, check _Actions_ to see if the first
-   website build workflows are still running.
-   The branch should become available when those have completed.
-1. **Adjust the `config.yaml` file:**
-   this file contains global parameters for your lesson site.
-   Individual fields within the file are documented with comments (beginning with `#`)
-   At minimum, you should adjust all the fields marked 'FIXME':
-   - `title`
-   - `created`
-   - `keywords`
-   - `life_cycle` (the default, _pre-alpha_, is the appropriate for brand new lessons)
-   - `contact`
-1. **Annotate the repository** with site URL and topic tags:
-   navigate back to the repository landing page and
-   click on the gear wheel/cog icon (similar to ⚙️) 
-   at the top-right of the _About_ box.
-   Check the "Use your GitHub Pages website" option,
-   and [add some keywords and other annotations to describe your lesson](https://cdh.carpentries.org/the-carpentries-incubator.html#topic-tags)
-   in the _Topics_ field.
-   At minimum, these should include:
-   - `lesson`
-   - the life cycle of the lesson (e.g. `pre-alpha`)
-   - the human language the lesson is written in (e.g. `deutsch`)
-1. **Adjust the name of the `.Rproj` file.**
-   It is simplest to make this match the name of the repository.
-1. **Adjust the 
-   `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, and `LICENSE.md` files**
-   as appropriate for your project.
-   -  `CODE_OF_CONDUCT.md`: 
-      if you are using this template for a project outside The Carpentries,
-      you should adjust this file to describe 
-      who should be contacted with Code of Conduct reports,
-      and how those reports will be handled.
-   -  `CONTRIBUTING.md`:
-      depending on the current state and maturity of your project,
-      the contents of the template Contributing Guide may not be appropriate.
-      You should adjust the file to help guide contributors on how best
-      to get involved and make an impact on your lesson.
-   -  `LICENSE.md`:
-      in line with the terms of the CC-BY license,
-      you should ensure that the copyright information 
-      provided in the license file is accurate for your project.
-1. **Update this README with 
-   [relevant information about your lesson](https://carpentries.github.io/lesson-development-training/collaborating-newcomers.html#readme)**
-   and delete this section.
+This tutorial uses as a "text-book" the online book "Orchestrating Single-Cell
+Analysis with Bioconductor"
+([OSCA](https://bioconductor.org/books/release/OSCA/)), 
+started in 2018 and continuously updated by many contributors from the Bioconductor
+community. Like the book, this tutorial strives to be of interest to the
+experimental biologists wanting to analyze their data and to the bioinformaticians
+approaching single-cell data.
 
-[workbench]: https://carpentries.github.io/sandpaper-docs/
+## Learning objectives
+
+Attendees will learn how to analyze multi-condition single-cell RNA-seq from
+raw data to statistical analyses and result interpretation. Students will learn
+where the critical steps and methods choices are and will be able to leverage
+large-data resources to analyze datasets comprising millions of cells.
+
+In particular, participants will learn:
+
+* How to access publicly available data, such as those from the Human Cell Atlas.
+* How to perform data exploration, normalization, and dimensionality reduction.
+* How to identify cell types/states and marker genes.
+* How to correct for batch effects and integrate multiple samples.
+* How to perform differential expression and differential abundance analysis between conditions.
+* How to work with large out-of-memory datasets.
+
+## Source
+
+This lesson is a template lesson that uses [The Carpentries Workbench][workbench] and is based on materials from the [OSCA tutorial at the ISMB 2023](https://bioconductor.github.io/ISMB.OSCA/).
+
