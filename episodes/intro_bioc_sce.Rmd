@@ -1,13 +1,21 @@
 ---
 title: Introduction to Bioconductor and the SingleCellExperiment class
-vignette: >
-  % \VignetteIndexEntry{Introduction}
-  % \VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
-output:
-  html_document:
-    mathjax: null   
+teaching: 10 # Minutes of teaching in the lesson
+exercises: 2 # Minutes of exercises in the lesson
 ---
+
+:::::::::::::::::::::::::::::::::::::: questions 
+
+- What is Bioconductor?
+- How is single-cell data store in the Bioconductor ecosystem?
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: objectives
+
+- TODO
+
+::::::::::::::::::::::::::::::::::::::::::::::::
 
 # Setup
 
@@ -92,24 +100,50 @@ library(scater)
 plotReducedDim(sce, "pca.corrected.E8.5", colour_by = "celltype.mapped")
 ```
 
+:::::::::::::::::::::::::::::::::: challenge
 
-# Session Info
+#### Exercise 1
 
-```{r sessionInfo}
-sessionInfo()
-```
+Create a `SingleCellExperiment` object: Try and create a SingleCellExperiment object "from scratch". Start from a matrix (either randomly generated or with some fake data in it) and add one or more columns as colData.
+
+:::::::::::::: hint
+
+The `SingleCellExperiment` function can be used to create a new SingleCellExperiment object
+
+:::::::::::::::::::::::
+
+:::::::::::::: solution
+
+TODO
+:::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::: challenge
+
+#### Exercise 2
+
+Combining two objects: The `MouseGastrulationData` package contains several datasets. Download sample 6 of the chimera experiment by running `sce6 <- WTChimeraData(sample=6)`. Use the `cbind` function to combine the new data with the `sce` object created before. 
+
+:::::::::::::: solution
+
+TODO
+:::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::::::::
+
+
+::::::::::::::::::::::::::::::::::::: keypoints 
+
+- TODO
+
+::::::::::::::::::::::::::::::::::::::::::::::::
 
 # Further Reading
 
 * OSCA book, [Introduction](https://bioconductor.org/books/release/OSCA.intro)
 
-# Exercises
 
-1. Create a `SingleCellExperiment` object: Try and create a SingleCellExperiment object "from scratch". Start from a matrix (either randomly generated or with some fake data in it) and add one or more columns as colData.
-
-Hint: the `SingleCellExperiment` function can be used to create a new SingleCellExperiment object.
-
-2. Combining two objects: The `MouseGastrulationData` package contains several datasets. Download sample 6 of the chimera experiment by running `sce6 <- WTChimeraData(sample=6)`. Use the `cbind` function to combine the new data with the `sce` object created before. 
 
 
 
