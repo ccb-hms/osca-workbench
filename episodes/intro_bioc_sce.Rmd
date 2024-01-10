@@ -39,7 +39,7 @@ knitr::include_graphics("http://bioconductor.org/books/3.17/OSCA.intro/images/Si
 Let's start with an example dataset.
 
 ```{r, message = FALSE}
-sce <- WTChimeraData(sample=5)
+sce <- WTChimeraData(samples=5)
 sce
 ```
 
