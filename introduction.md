@@ -17,6 +17,141 @@ exercises: 2
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+
+```r
+library("SummarizedExperiment")
+```
+
+```{.output}
+Loading required package: MatrixGenerics
+```
+
+```{.output}
+Loading required package: matrixStats
+```
+
+```{.output}
+
+Attaching package: 'MatrixGenerics'
+```
+
+```{.output}
+The following objects are masked from 'package:matrixStats':
+
+    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+    colWeightedMeans, colWeightedMedians, colWeightedSds,
+    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+    rowWeightedSds, rowWeightedVars
+```
+
+```{.output}
+Loading required package: GenomicRanges
+```
+
+```{.output}
+Loading required package: stats4
+```
+
+```{.output}
+Loading required package: BiocGenerics
+```
+
+```{.output}
+
+Attaching package: 'BiocGenerics'
+```
+
+```{.output}
+The following objects are masked from 'package:stats':
+
+    IQR, mad, sd, var, xtabs
+```
+
+```{.output}
+The following objects are masked from 'package:base':
+
+    anyDuplicated, aperm, append, as.data.frame, basename, cbind,
+    colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,
+    get, grep, grepl, intersect, is.unsorted, lapply, Map, mapply,
+    match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,
+    Position, rank, rbind, Reduce, rownames, sapply, setdiff, sort,
+    table, tapply, union, unique, unsplit, which.max, which.min
+```
+
+```{.output}
+Loading required package: S4Vectors
+```
+
+```{.output}
+
+Attaching package: 'S4Vectors'
+```
+
+```{.output}
+The following object is masked from 'package:utils':
+
+    findMatches
+```
+
+```{.output}
+The following objects are masked from 'package:base':
+
+    expand.grid, I, unname
+```
+
+```{.output}
+Loading required package: IRanges
+```
+
+```{.output}
+Loading required package: GenomeInfoDb
+```
+
+```{.output}
+Loading required package: Biobase
+```
+
+```{.output}
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+```
+
+```{.output}
+
+Attaching package: 'Biobase'
+```
+
+```{.output}
+The following object is masked from 'package:MatrixGenerics':
+
+    rowMedians
+```
+
+```{.output}
+The following objects are masked from 'package:matrixStats':
+
+    anyMissing, rowMedians
+```
+
+```{.warning}
+Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
+'DelayedArray::makeNindexFromArrayViewport' when loading 'SummarizedExperiment'
+```
+
 ## Introduction
 
 This is a lesson created via The Carpentries Workbench. It is written in
