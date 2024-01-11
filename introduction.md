@@ -154,6 +154,16 @@ Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
 
 ```r
 library("SingleCellExperiment")
+library("MouseGastrulationData")
+```
+
+```{.output}
+Loading required package: SpatialExperiment
+```
+
+```{.warning}
+Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
+'DelayedArray::makeNindexFromArrayViewport' when loading 'HDF5Array'
 ```
 
 ## Introduction
