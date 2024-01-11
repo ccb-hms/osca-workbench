@@ -19,6 +19,7 @@ exercises: 2
 
 ```{r}
 library("SummarizedExperiment")
+library("SingleCellExperiment")
 ```
 
 ## Introduction
