@@ -152,6 +152,10 @@ Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
 'DelayedArray::makeNindexFromArrayViewport' when loading 'SummarizedExperiment'
 ```
 
+```r
+library("SingleCellExperiment")
+```
+
 ## Introduction
 
 This is a lesson created via The Carpentries Workbench. It is written in
