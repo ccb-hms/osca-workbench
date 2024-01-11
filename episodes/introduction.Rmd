@@ -17,6 +17,10 @@ exercises: 2
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+```{r}
+library("SummarizedExperiment")
+```
+
 ## Introduction
 
 This is a lesson created via The Carpentries Workbench. It is written in
