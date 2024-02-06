@@ -60,7 +60,6 @@ contact: 'christopher_magnano@hms.harvard.edu' # TODO probably change to Ludwig
 # Order of episodes in your lesson
 episodes:
 - introduction.Rmd
-- intro_bioc_sce.Rmd
 
 # Information for Learners
 learners:
