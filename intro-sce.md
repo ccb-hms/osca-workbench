@@ -41,24 +41,22 @@ Let's start with an example dataset.
 
 ```r
 sce <- WTChimeraData(samples=5)
-```
-
-```{.error}
-Error in `collect()`:
-! Failed to collect lazy table.
-Caused by error in `db_collect()` at dbplyr/R/verb-compute.R:131:2:
-! Arguments in `...` must be used.
-✖ Problematic argument:
-• ..1 = Inf
-ℹ Did you misspell an argument name?
-```
-
-```r
 sce
 ```
 
-```{.error}
-Error in eval(expr, envir, enclos): object 'sce' not found
+```{.output}
+class: SingleCellExperiment 
+dim: 29453 2411 
+metadata(0):
+assays(1): counts
+rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
+  ENSMUSG00000095742 tomato-td
+rowData names(2): ENSEMBL SYMBOL
+colnames(2411): cell_9769 cell_9770 ... cell_12178 cell_12179
+colData names(11): cell barcode ... doub.density sizeFactor
+reducedDimNames(2): pca.corrected.E7.5 pca.corrected.E8.5
+mainExpName: NULL
+altExpNames(0):
 ```
 
 We can think of this (and other) class as a _container_, that contains several different pieces of data in so-called _slots_.
@@ -76,16 +74,20 @@ This is arguably the most fundamental part of the object that contains the count
 identical(assay(sce), counts(sce))
 ```
 
-```{.error}
-Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'assay': object 'sce' not found
+```{.output}
+[1] TRUE
 ```
 
 ```r
 counts(sce)[1:3, 1:3]
 ```
 
-```{.error}
-Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'counts': object 'sce' not found
+```{.output}
+3 x 3 sparse Matrix of class "dgTMatrix"
+                   cell_9769 cell_9770 cell_9771
+ENSMUSG00000051951         .         .         .
+ENSMUSG00000089699         .         .         .
+ENSMUSG00000102343         .         .         .
 ```
 
 You will notice that in this case we have a sparse matrix of class "dgTMatrix" inside the object. More generally, any "matrix-like" object can be used, e.g., dense matrices or HDF5-backed matrices (see "Working with large data").
@@ -101,16 +103,68 @@ One can interact with them as usual, e.g., by extracting columns or adding addit
 colData(sce)
 ```
 
-```{.error}
-Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'colData': object 'sce' not found
+```{.output}
+DataFrame with 2411 rows and 11 columns
+                  cell          barcode    sample       stage    tomato
+           <character>      <character> <integer> <character> <logical>
+cell_9769    cell_9769 AAACCTGAGACTGTAA         5        E8.5      TRUE
+cell_9770    cell_9770 AAACCTGAGATGCCTT         5        E8.5      TRUE
+cell_9771    cell_9771 AAACCTGAGCAGCCTC         5        E8.5      TRUE
+cell_9772    cell_9772 AAACCTGCATACTCTT         5        E8.5      TRUE
+cell_9773    cell_9773 AAACGGGTCAACACCA         5        E8.5      TRUE
+...                ...              ...       ...         ...       ...
+cell_12175  cell_12175 TTTGGTTAGTCCGTAT         5        E8.5      TRUE
+cell_12176  cell_12176 TTTGGTTAGTGTTGAA         5        E8.5      TRUE
+cell_12177  cell_12177 TTTGGTTGTTAAAGAC         5        E8.5      TRUE
+cell_12178  cell_12178 TTTGGTTTCAGTCAGT         5        E8.5      TRUE
+cell_12179  cell_12179 TTTGGTTTCGCCATAA         5        E8.5      TRUE
+                pool stage.mapped        celltype.mapped closest.cell
+           <integer>  <character>            <character>  <character>
+cell_9769          3        E8.25             Mesenchyme   cell_24159
+cell_9770          3         E8.5            Endothelium   cell_96660
+cell_9771          3         E8.5              Allantois  cell_134982
+cell_9772          3         E8.5             Erythroid3  cell_133892
+cell_9773          3        E8.25             Erythroid1   cell_76296
+...              ...          ...                    ...          ...
+cell_12175         3         E8.5             Erythroid3  cell_138060
+cell_12176         3         E8.5 Forebrain/Midbrain/H..   cell_72709
+cell_12177         3        E8.25       Surface ectoderm  cell_100275
+cell_12178         3        E8.25             Erythroid2   cell_70906
+cell_12179         3         E8.5            Spinal cord  cell_102334
+           doub.density sizeFactor
+              <numeric>  <numeric>
+cell_9769    0.02985045    1.41243
+cell_9770    0.00172753    1.22757
+cell_9771    0.01338013    1.15439
+cell_9772    0.00218402    1.28676
+cell_9773    0.00211723    1.78719
+...                 ...        ...
+cell_12175   0.00129403   1.219506
+cell_12176   0.01833074   1.095753
+cell_12177   0.03104037   0.910728
+cell_12178   0.00169483   2.061701
+cell_12179   0.03767894   1.798687
 ```
 
 ```r
 rowData(sce)
 ```
 
-```{.error}
-Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'rowData': object 'sce' not found
+```{.output}
+DataFrame with 29453 rows and 2 columns
+                              ENSEMBL         SYMBOL
+                          <character>    <character>
+ENSMUSG00000051951 ENSMUSG00000051951           Xkr4
+ENSMUSG00000089699 ENSMUSG00000089699         Gm1992
+ENSMUSG00000102343 ENSMUSG00000102343        Gm37381
+ENSMUSG00000025900 ENSMUSG00000025900            Rp1
+ENSMUSG00000025902 ENSMUSG00000025902          Sox17
+...                               ...            ...
+ENSMUSG00000095041 ENSMUSG00000095041     AC149090.1
+ENSMUSG00000063897 ENSMUSG00000063897          DHRSX
+ENSMUSG00000096730 ENSMUSG00000096730       Vmn2r122
+ENSMUSG00000095742 ENSMUSG00000095742 CAAA01147332.1
+tomato-td                   tomato-td      tomato-td
 ```
 
 Note the `$` short cut.
@@ -120,24 +174,56 @@ Note the `$` short cut.
 identical(colData(sce)$sum, sce$sum)
 ```
 
-```{.error}
-Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'colData': object 'sce' not found
+```{.output}
+[1] TRUE
 ```
 
 ```r
 sce$my_sum <- colSums(counts(sce))
-```
-
-```{.error}
-Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'colSums': error in evaluating the argument 'object' in selecting a method for function 'counts': object 'sce' not found
-```
-
-```r
 colData(sce)
 ```
 
-```{.error}
-Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'colData': object 'sce' not found
+```{.output}
+DataFrame with 2411 rows and 12 columns
+                  cell          barcode    sample       stage    tomato
+           <character>      <character> <integer> <character> <logical>
+cell_9769    cell_9769 AAACCTGAGACTGTAA         5        E8.5      TRUE
+cell_9770    cell_9770 AAACCTGAGATGCCTT         5        E8.5      TRUE
+cell_9771    cell_9771 AAACCTGAGCAGCCTC         5        E8.5      TRUE
+cell_9772    cell_9772 AAACCTGCATACTCTT         5        E8.5      TRUE
+cell_9773    cell_9773 AAACGGGTCAACACCA         5        E8.5      TRUE
+...                ...              ...       ...         ...       ...
+cell_12175  cell_12175 TTTGGTTAGTCCGTAT         5        E8.5      TRUE
+cell_12176  cell_12176 TTTGGTTAGTGTTGAA         5        E8.5      TRUE
+cell_12177  cell_12177 TTTGGTTGTTAAAGAC         5        E8.5      TRUE
+cell_12178  cell_12178 TTTGGTTTCAGTCAGT         5        E8.5      TRUE
+cell_12179  cell_12179 TTTGGTTTCGCCATAA         5        E8.5      TRUE
+                pool stage.mapped        celltype.mapped closest.cell
+           <integer>  <character>            <character>  <character>
+cell_9769          3        E8.25             Mesenchyme   cell_24159
+cell_9770          3         E8.5            Endothelium   cell_96660
+cell_9771          3         E8.5              Allantois  cell_134982
+cell_9772          3         E8.5             Erythroid3  cell_133892
+cell_9773          3        E8.25             Erythroid1   cell_76296
+...              ...          ...                    ...          ...
+cell_12175         3         E8.5             Erythroid3  cell_138060
+cell_12176         3         E8.5 Forebrain/Midbrain/H..   cell_72709
+cell_12177         3        E8.25       Surface ectoderm  cell_100275
+cell_12178         3        E8.25             Erythroid2   cell_70906
+cell_12179         3         E8.5            Spinal cord  cell_102334
+           doub.density sizeFactor    my_sum
+              <numeric>  <numeric> <numeric>
+cell_9769    0.02985045    1.41243     27577
+cell_9770    0.00172753    1.22757     29309
+cell_9771    0.01338013    1.15439     28795
+cell_9772    0.00218402    1.28676     34794
+cell_9773    0.00211723    1.78719     38300
+...                 ...        ...       ...
+cell_12175   0.00129403   1.219506     26680
+cell_12176   0.01833074   1.095753     19013
+cell_12177   0.03104037   0.910728     24627
+cell_12178   0.00169483   2.061701     46162
+cell_12179   0.03767894   1.798687     38398
 ```
 
 ## The `reducedDims`
@@ -151,8 +237,9 @@ One of the peculiarity of SingleCellExperiment is its ability to store reduced d
 reducedDims(sce)
 ```
 
-```{.error}
-Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'reducedDims': object 'sce' not found
+```{.output}
+List of length 2
+names(2): pca.corrected.E7.5 pca.corrected.E8.5
 ```
 
 As for the other slots, we have the usual setter/getter, but it is somewhat rare to interact directly with these functions.
@@ -178,9 +265,11 @@ Loading required package: ggplot2
 plotReducedDim(sce, "pca.corrected.E8.5", colour_by = "celltype.mapped")
 ```
 
-```{.error}
-Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'reducedDim': object 'sce' not found
+```{.warning}
+Warning: Removed 131 rows containing missing values (`geom_point()`).
 ```
+
+<img src="fig/intro-sce-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
 :::::::::::::::::::::::::::::::::: challenge
 

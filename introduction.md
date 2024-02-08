@@ -161,11 +161,6 @@ library("MouseGastrulationData")
 Loading required package: SpatialExperiment
 ```
 
-```{.warning}
-Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
-'DelayedArray::makeNindexFromArrayViewport' when loading 'HDF5Array'
-```
-
 ## Introduction
 
 This is a lesson created via The Carpentries Workbench. It is written in
