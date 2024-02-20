@@ -63,6 +63,7 @@ episodes:
 - intro-sce.Rmd
 - eda_qc.Rmd
 - cell_type_annotation.Rmd
+- multi-sample.Rmd
 
 # Information for Learners
 learners:
