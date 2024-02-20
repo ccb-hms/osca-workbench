@@ -13,6 +13,9 @@
     <loc>https://ccb-hms.github.io/osca-carpentries/aio.html</loc>
   </url>
   <url>
+    <loc>https://ccb-hms.github.io/osca-carpentries/cell_type_annotation.html</loc>
+  </url>
+  <url>
     <loc>https://ccb-hms.github.io/osca-carpentries/eda_qc.html</loc>
   </url>
   <url>
@@ -32,6 +35,9 @@
   </url>
   <url>
     <loc>https://ccb-hms.github.io/osca-carpentries/instructor/aio.html</loc>
+  </url>
+  <url>
+    <loc>https://ccb-hms.github.io/osca-carpentries/instructor/cell_type_annotation.html</loc>
   </url>
   <url>
     <loc>https://ccb-hms.github.io/osca-carpentries/instructor/eda_qc.html</loc>
