@@ -61,6 +61,7 @@ contact: 'christopher_magnano@hms.harvard.edu' # TODO probably change to Ludwig
 episodes:
 - introduction.Rmd
 - intro-sce.Rmd
+- eda_qc.Rmd
 
 # Information for Learners
 learners:
