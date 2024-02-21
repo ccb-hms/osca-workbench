@@ -64,6 +64,8 @@ episodes:
 - eda_qc.Rmd
 - cell_type_annotation.Rmd
 - multi-sample.Rmd
+- large_data.Rmd
+- hca.Rmd
 
 # Information for Learners
 learners:
