@@ -1119,20 +1119,10 @@
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
-      "RemoteRepo": "seurat-data",
       "RemoteUsername": "satijalab",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "4dc08e022f51c324bc7bf785b1b5771d2742701d",
-      "Requirements": [
-        "R",
-        "SeuratObject",
-        "cli",
-        "crayon",
-        "rappdirs",
-        "stats",
-        "utils"
-      ],
-      "Hash": "58823864a94ee08545fb114c5c629f51"
+      "RemoteRepo": "seurat-data",
+      "RemoteRef": "master",
+      "RemoteSha": "4dc08e022f51c324bc7bf785b1b5771d2742701d"
     },
     "SeuratObject": {
       "Package": "SeuratObject",
