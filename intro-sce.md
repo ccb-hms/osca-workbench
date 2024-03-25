@@ -1,19 +1,22 @@
 ---
 title: Introduction to Bioconductor and the SingleCellExperiment class
-teaching: 10 # Minutes of teaching in the lesson
-exercises: 2 # Minutes of exercises in the lesson
+teaching: 20 # Minutes of teaching in the lesson
+exercises: 10 # Minutes of exercises in the lesson
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
 - What is Bioconductor?
-- How is single-cell data store in the Bioconductor ecosystem?
+- How is single-cell data stored in the Bioconductor ecosystem?
+- What is a `SingleCellObject`?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- TODO
+- Install and update packages from Bioconductor. 
+- Load data from common single-cell data formats as `SingleCellExperiment` objects. 
+- Inspect, extract, and manipulate `SingleCellExperiment` objects. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -24,6 +27,79 @@ exercises: 2 # Minutes of exercises in the lesson
 library("SummarizedExperiment")
 library("SingleCellExperiment")
 library("MouseGastrulationData")
+library(BiocStyle)
+```
+
+# Bioconductor
+
+## Overview 
+
+Within the R ecosystem, the Bioconductor project provides tools for the analysis and comprehension of high-throughput genomics data.
+The scope of the project covers microarray data, various forms of sequencing (RNA-seq, ChIP-seq, bisulfite, genotyping, etc.), proteomics, flow cytometry and more.
+One of Bioconductor's main selling points is the use of common data structures to promote interoperability between packages,
+allowing code written by different people (from different organizations, in different countries) to work together seamlessly in complex analyses. 
+By extending R to genomics, Bioconductor serves as a powerful addition to the computational biologist's toolkit.
+
+## Installing Bioconductor Packages
+
+The default repository for R packages is the [Comprehensive R Archive Network](https://cran.r-project.org/mirrors.html) (CRAN), which is home to over 13,000 different R packages. 
+We can easily install packages from CRAN - say, the popular *[ggplot2](https://CRAN.R-project.org/package=ggplot2)* package for data visualization - by opening up R and typing in:
+
+
+```r
+install.packages("ggplot2")
+```
+
+In our case, however, we want to install Bioconductor packages.
+These packages are located in a separate repository (see comments below) so we first install the *[BiocManager](https://CRAN.R-project.org/package=BiocManager)* package to easily connect to the Bioconductor servers.
+
+
+```r
+install.packages("BiocManager")
+```
+
+After that, we can use *[BiocManager](https://CRAN.R-project.org/package=BiocManager)*'s `install()` function to install any package from Bioconductor.
+For example, the code chunk below uses this approach to install the *[SingleCellExperiment](https://bioconductor.org/packages/3.18/SingleCellExperiment)* package.
+
+
+```r
+## The command below is a one-line shortcut for:
+## library(BiocManager)
+## install("SingleCellExperiment")
+BiocManager::install("SingleCellExperiment")
+```
+
+Should we forget, the same instructions are present on the landing page of any Bioconductor package.
+For example, looking at the [`scater`](https://bioconductor.org/packages/release/bioc/html/scater.html) package page on Bioconductor, we can see the following copy-pasteable instructions:
+
+
+```r
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("scater")
+```
+
+Packages only need to be installed once, and then they are available for all subsequent uses of a particular R installation.
+There is no need to repeat the installation every time we start R.
+
+## Finding relevant packages
+
+To find relevant Bioconductor packages, one useful resource is the [BiocViews](https://bioconductor.org/packages/release/BiocViews.html) page.
+This provides a hierarchically organized view of annotations associated with each Bioconductor package.
+For example, under the ["Software"](https://bioconductor.org/packages/release/BiocViews.html#___Software) label, we might be interested in a particular ["Technology"](https://bioconductor.org/packages/release/BiocViews.html#___Technology) such as... say, ["SingleCell"](https://bioconductor.org/packages/release/BiocViews.html#___SingleCell).
+This gives us a listing of all Bioconductor packages that might be useful for our single-cell data analyses. 
+CRAN uses the similar concept of ["Task views"](https://cran.r-project.org/web/views/), though this is understandably more general than genomics.
+For example, the [Cluster task view page](https://cran.r-project.org/web/views/Cluster.html) lists an assortment of packages that are relevant to cluster analyses.
+
+## Staying up to date
+
+Updating all R/Bioconductor packages is as simple as running `BiocManager::install()` without any arguments.
+This will check for more recent versions of each package (within a Bioconductor release) and prompt the user to update if any are available.
+
+
+```r
+BiocManager::install()
 ```
 
 # The `SingleCellExperiment` class
@@ -228,7 +304,7 @@ cell_12179   0.03767894   1.798687     38398
 
 ## The `reducedDims`
 
-Everything that we have described so far (except for the `counts` getter) is part of the `SummarizedExperiment` class that SingleCellExperiment extends.
+Everything that we have described so far (except for the `counts` getter) is part of the `SummarizedExperiment` class that SingleCellExperiment extends. You can find a complete lesson on the `SummarizedExperiment` class [here](https://carpentries-incubator.github.io/bioc-intro/60-next-steps.html).
 
 One of the peculiarity of SingleCellExperiment is its ability to store reduced dimension matrices within the object. These may include PCA, t-SNE, UMAP, etc.
 
@@ -270,7 +346,7 @@ Warning: Removed 131 rows containing missing values or values outside the scale 
 (`geom_point()`).
 ```
 
-<img src="fig/intro-sce-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
+<img src="fig/intro-sce-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 
 :::::::::::::::::::::::::::::::::: challenge
 
@@ -307,7 +383,9 @@ TODO
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- TODO
+- Bioconductor is a project provide support and packages for the comprehension of high high-throughput biology data.
+- A `SingleCellExperiment` object is an extension of the `SummarizedExperiment` object.
+- `SingleCellExperiment` objects contain specialized data fields for storing data unique to single cell analyses, such as the `reducedDims` field. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
