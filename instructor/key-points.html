@@ -182,7 +182,7 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="introduction.html">1. Using RMarkdown</a>
+        <a href="intro-sce.html">1. Introduction to Bioconductor and the SingleCellExperiment class</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -194,7 +194,7 @@
 <div class="accordion accordion-flush" id="accordionFlush3">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading3">
-        <a href="intro-sce.html">2. Introduction to Bioconductor and the SingleCellExperiment class</a>
+        <a href="eda_qc.html">2. Exploratory data analysis and quality control</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -206,7 +206,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="eda_qc.html">3. Exploratory data analysis and quality control</a>
+        <a href="cell_type_annotation.html">3. Cell type annotation</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -218,7 +218,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="cell_type_annotation.html">4. Cell type annotation</a>
+        <a href="multi-sample.html">4. Multi-sample analyses</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -230,7 +230,7 @@
 <div class="accordion accordion-flush" id="accordionFlush6">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading6">
-        <a href="multi-sample.html">5. Multi-sample analyses</a>
+        <a href="large_data.html">5. Working with large data</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -294,18 +294,7 @@
     <main id="main-content" class="main-content"><div class="container lesson-content">
         
         
-<section id="introduction"><h2 class="section-heading"><a href="introduction.html">Using RMarkdown</a></h2>
-<hr class="half-width">
-<ul>
-<li>Use <code>.md</code> files for episodes when you want static
-content</li>
-<li>Use <code>.Rmd</code> files for episodes when you need to generate
-output</li>
-<li>Run <code>sandpaper::check_lesson()</code> to identify any issues
-with your lesson</li>
-<li>Run <code>sandpaper::build_lesson()</code> to preview your lesson
-locally</li>
-</ul></section><section id="intro-sce"><h2 class="section-heading"><a href="intro-sce.html">Introduction to Bioconductor and the SingleCellExperiment classSetup<a class="anchor" aria-label="anchor" href="#setup"></a>The <code>SingleCellExperiment</code> class<a class="anchor" aria-label="anchor" href="#the-singlecellexperiment-class"></a>Further Reading<a class="anchor" aria-label="anchor" href="#further-reading"></a></a></h2>
+<section id="intro-sce"><h2 class="section-heading"><a href="intro-sce.html">Introduction to Bioconductor and the SingleCellExperiment classSetup<a class="anchor" aria-label="anchor" href="#setup"></a>The <code>SingleCellExperiment</code> class<a class="anchor" aria-label="anchor" href="#the-singlecellexperiment-class"></a>Further Reading<a class="anchor" aria-label="anchor" href="#further-reading"></a></a></h2>
 <hr class="half-width">
 <ul>
 <li>TODO</li>
@@ -318,6 +307,10 @@ locally</li>
 <ul>
 <li>TODO</li>
 </ul></section><section id="multi-sample"><h2 class="section-heading"><a href="multi-sample.html">Multi-sample analysesSetup and data exploration<a class="anchor" aria-label="anchor" href="#setup-and-data-exploration"></a>Correcting batch effects<a class="anchor" aria-label="anchor" href="#correcting-batch-effects"></a>Differential Expression<a class="anchor" aria-label="anchor" href="#differential-expression"></a>Differential Abundance<a class="anchor" aria-label="anchor" href="#differential-abundance"></a>Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>Further Reading<a class="anchor" aria-label="anchor" href="#further-reading"></a>Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a></a></h2>
+<hr class="half-width">
+<ul>
+<li>TODO</li>
+</ul></section><section id="large_data"><h2 class="section-heading"><a href="large_data.html">Working with large dataMotivation<a class="anchor" aria-label="anchor" href="#motivation"></a>Out of memory representations<a class="anchor" aria-label="anchor" href="#out-of-memory-representations"></a>Parallelization<a class="anchor" aria-label="anchor" href="#parallelization"></a>Fast approximations<a class="anchor" aria-label="anchor" href="#fast-approximations"></a>Interoperability with popular single-cell analysis ecosytems<a class="anchor" aria-label="anchor" href="#interoperability-with-popular-single-cell-analysis-ecosytems"></a>Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>Further Reading<a class="anchor" aria-label="anchor" href="#further-reading"></a>Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>References<a class="anchor" aria-label="anchor" href="#references"></a></a></h2>
 <hr class="half-width">
 <ul>
 <li>TODO</li>
@@ -346,7 +339,7 @@ locally</li>
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
         
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.2" class="external-link">sandpaper (0.16.2)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.3" class="external-link">pegboard (0.7.3)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.1" class="external-link">varnish (1.0.1)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.3" class="external-link">sandpaper (0.16.3)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.4" class="external-link">pegboard (0.7.4)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.1" class="external-link">varnish (1.0.1)</a></p>
 			</div>
 		</footer>
 </div> <!-- / div.container -->
@@ -369,8 +362,8 @@ locally</li>
   "url": "https://ccb-hms.github.io/osca-carpentries/instructor/key-points.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/instructor/key-points.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-02-20",
-  "datePublished": "2024-02-20"
+  "dateModified": "2024-03-25",
+  "datePublished": "2024-03-25"
 }
 
   </script><script>
