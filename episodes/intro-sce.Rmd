@@ -26,6 +26,7 @@ exercises: 10 # Minutes of exercises in the lesson
 library("SummarizedExperiment")
 library("SingleCellExperiment")
 library("MouseGastrulationData")
+library(BiocStyle)
 ```
 
 # Bioconductor
