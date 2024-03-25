@@ -1084,28 +1084,6 @@
       ],
       "Hash": "f5325a968489ef65254a51d74dc0c520"
     },
-    "SeuratData": {
-      "Package": "SeuratData",
-      "Version": "0.2.2",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteUsername": "lgeistlinger",
-      "RemoteRepo": "SeuratData",
-      "RemoteRef": "main",
-      "RemoteSha": "9d69bf2f911e848a349b45f0957e576ca0239645",
-      "Requirements": [
-        "R",
-        "Seurat",
-        "SeuratObject",
-        "cli",
-        "crayon",
-        "rappdirs",
-        "stats",
-        "utils"
-      ],
-      "Hash": "5addf4bff71e4c7a0230646d586c16d5"
-    },
     "SeuratObject": {
       "Package": "SeuratObject",
       "Version": "5.0.1",

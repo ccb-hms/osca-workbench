@@ -344,12 +344,13 @@ We therefore need to first install the
 from GitHub only. 
 
 ```{r, eval = FALSE}
-BiocManager::install("satijalab/seurat-data")
+#BiocManager::install("satijalab/seurat-data")
+BiocManager::install("lgeistlinger/SeuratData")
 ```
 
 We then proceed by loading all required packages and installing the PBMC dataset:
 
-```{r seurat-data}
+```{r seurat-data, eval = FALSE}
 library(SeuratData)
 InstallData("pbmc3k")
 ```
@@ -357,9 +358,10 @@ InstallData("pbmc3k")
 We then load the dataset as an `SeuratObject` and convert it to a 
 `SingleCellExperiment`.
 
-```{r seurat_singlecell}
+```{r seurat_singlecell, eval = FALSE}
 # Use PBMC3K from SeuratData
 pbmc <- LoadData(ds = "pbmc3k", type = "pbmc3k.final")
+pbmc <- UpdateSeuratObject(pbmc)
 pbmc
 pbmc.sce <- as.SingleCellExperiment(pbmc)
 pbmc.sce
@@ -368,7 +370,7 @@ pbmc.sce
 Seurat also allows conversion from `SingleCellExperiment` objects to Seurat objects; 
 we demonstrate this here on the wild-type chimera mouse gastrulation dataset. 
 
-```{r sce2sobj, message = FALSE}
+```{r sce2sobj, message = FALSE, eval = FALSE}
 sce <- WTChimeraData(samples = 5, type = "processed")
 assay(sce) <- as.matrix(assay(sce))
 sce <- logNormCounts(sce)
@@ -378,7 +380,7 @@ sce
 After some processing of the dataset, the actual conversion is carried out with
 the `as.Seurat` function.
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, eval = FALSE}
 sobj <- as.Seurat(sce)
 Idents(sobj) <- "celltype.mapped"
 sobj
@@ -446,9 +448,6 @@ sessionInfo()
 * The `BiocParallel` `r Biocpkg("BiocParallel", vignette = "Introduction_To_BiocParallel.html", label = "intro vignette")`. 
 
 # Exercises
-
-1. 
-
 
 :::::::::::::::::::::::::::::::::: challenge
 
