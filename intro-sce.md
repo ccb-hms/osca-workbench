@@ -266,7 +266,8 @@ plotReducedDim(sce, "pca.corrected.E8.5", colour_by = "celltype.mapped")
 ```
 
 ```{.warning}
-Warning: Removed 131 rows containing missing values (`geom_point()`).
+Warning: Removed 131 rows containing missing values or values outside the scale range
+(`geom_point()`).
 ```
 
 <img src="fig/intro-sce-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />

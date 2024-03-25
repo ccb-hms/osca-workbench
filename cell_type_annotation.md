@@ -911,9 +911,9 @@ sessionInfo()
 ```
 
 ```{.output}
-R version 4.3.2 (2023-10-31)
+R version 4.3.3 (2024-02-29)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 22.04.3 LTS
+Running under: Ubuntu 22.04.4 LTS
 
 Matrix products: default
 BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0 
@@ -937,12 +937,12 @@ other attached packages:
  [3] annotate_1.80.0              XML_3.99-0.16.1             
  [5] AnnotationDbi_1.64.1         pheatmap_1.0.12             
  [7] scran_1.30.2                 scater_1.30.1               
- [9] ggplot2_3.4.4                scuttle_1.12.0              
+ [9] ggplot2_3.5.0                scuttle_1.12.0              
 [11] bluster_1.12.0               SingleR_2.4.1               
 [13] MouseGastrulationData_1.16.0 SpatialExperiment_1.12.0    
 [15] SingleCellExperiment_1.24.0  SummarizedExperiment_1.32.0 
 [17] Biobase_2.62.0               GenomicRanges_1.54.1        
-[19] GenomeInfoDb_1.38.5          IRanges_2.36.0              
+[19] GenomeInfoDb_1.38.8          IRanges_2.36.0              
 [21] S4Vectors_0.40.2             BiocGenerics_0.48.1         
 [23] MatrixGenerics_1.14.0        matrixStats_1.2.0           
 [25] AUCell_1.24.0                BiocStyle_2.30.0            
@@ -950,52 +950,52 @@ other attached packages:
 loaded via a namespace (and not attached):
   [1] RColorBrewer_1.1-3            jsonlite_1.8.8               
   [3] magrittr_2.0.3                ggbeeswarm_0.7.2             
-  [5] magick_2.8.2                  farver_2.1.1                 
-  [7] rmarkdown_2.25                zlibbioc_1.48.0              
+  [5] magick_2.8.3                  farver_2.1.1                 
+  [7] rmarkdown_2.26                zlibbioc_1.48.2              
   [9] vctrs_0.6.5                   memoise_2.0.1                
  [11] DelayedMatrixStats_1.24.0     RCurl_1.98-1.14              
- [13] htmltools_0.5.7               S4Arrays_1.2.0               
- [15] AnnotationHub_3.10.0          curl_5.2.0                   
- [17] BiocNeighbors_1.20.2          SparseArray_1.2.3            
+ [13] htmltools_0.5.7               S4Arrays_1.2.1               
+ [15] AnnotationHub_3.10.0          curl_5.2.1                   
+ [17] BiocNeighbors_1.20.2          SparseArray_1.2.4            
  [19] htmlwidgets_1.6.4             plotly_4.10.4                
- [21] cachem_1.0.8                  igraph_2.0.1.1               
+ [21] cachem_1.0.8                  igraph_2.0.3                 
  [23] mime_0.12                     lifecycle_1.0.4              
  [25] pkgconfig_2.0.3               rsvd_1.0.5                   
  [27] Matrix_1.6-5                  R6_2.5.1                     
  [29] fastmap_1.1.1                 GenomeInfoDbData_1.2.11      
- [31] shiny_1.8.0                   digest_0.6.34                
+ [31] shiny_1.8.0                   digest_0.6.35                
  [33] colorspace_2.1-0              dqrng_0.3.2                  
  [35] irlba_2.3.5.1                 ExperimentHub_2.10.0         
- [37] RSQLite_2.3.5                 beachmat_2.18.0              
+ [37] RSQLite_2.3.5                 beachmat_2.18.1              
  [39] labeling_0.4.3                filelock_1.0.3               
  [41] fansi_1.0.6                   httr_1.4.7                   
- [43] abind_1.4-5                   compiler_4.3.2               
+ [43] abind_1.4-5                   compiler_4.3.3               
  [45] bit64_4.0.5                   withr_3.0.0                  
  [47] BiocParallel_1.36.0           viridis_0.6.5                
- [49] DBI_1.2.1                     highr_0.10                   
+ [49] DBI_1.2.2                     highr_0.10                   
  [51] R.utils_2.12.3                MASS_7.3-60.0.1              
  [53] rappdirs_0.3.3                DelayedArray_0.28.0          
- [55] rjson_0.2.21                  tools_4.3.2                  
+ [55] rjson_0.2.21                  tools_4.3.3                  
  [57] vipor_0.4.7                   beeswarm_0.4.0               
  [59] interactiveDisplayBase_1.40.0 httpuv_1.6.14                
  [61] R.oo_1.26.0                   glue_1.7.0                   
  [63] nlme_3.1-164                  promises_1.2.1               
- [65] grid_4.3.2                    cluster_2.1.6                
+ [65] grid_4.3.3                    cluster_2.1.6                
  [67] generics_0.1.3                gtable_0.3.4                 
  [69] R.methodsS3_1.8.2             tidyr_1.3.1                  
- [71] data.table_1.15.0             metapod_1.10.1               
+ [71] data.table_1.15.2             metapod_1.10.1               
  [73] BiocSingular_1.18.0           ScaledMatrix_1.10.0          
  [75] utf8_1.2.4                    XVector_0.42.0               
  [77] ggrepel_0.9.5                 BiocVersion_3.18.1           
  [79] pillar_1.9.0                  limma_3.58.1                 
  [81] BumpyMatrix_1.10.0            later_1.3.2                  
- [83] splines_4.3.2                 dplyr_1.1.4                  
- [85] BiocFileCache_2.10.1          lattice_0.22-5               
- [87] survival_3.5-7                FNN_1.1.4                    
- [89] renv_1.0.3                    bit_4.0.5                    
- [91] tidyselect_1.2.0              locfit_1.5-9.8               
- [93] Biostrings_2.70.2             knitr_1.45                   
- [95] gridExtra_2.3                 edgeR_4.0.15                 
+ [83] splines_4.3.3                 dplyr_1.1.4                  
+ [85] BiocFileCache_2.10.1          lattice_0.22-6               
+ [87] survival_3.5-8                FNN_1.1.4                    
+ [89] renv_1.0.5                    bit_4.0.5                    
+ [91] tidyselect_1.2.1              locfit_1.5-9.9               
+ [93] Biostrings_2.70.3             knitr_1.45                   
+ [95] gridExtra_2.3                 edgeR_4.0.16                 
  [97] xfun_0.42                     mixtools_2.0.0               
  [99] statmod_1.5.0                 lazyeval_0.2.2               
 [101] yaml_2.3.8                    evaluate_0.23                
@@ -1004,13 +1004,13 @@ loaded via a namespace (and not attached):
 [107] cli_3.6.2                     uwot_0.1.16                  
 [109] xtable_1.8-4                  segmented_2.0-3              
 [111] munsell_0.5.0                 Rcpp_1.0.12                  
-[113] dbplyr_2.4.0                  png_0.1-8                    
-[115] parallel_4.3.2                ellipsis_0.3.2               
+[113] dbplyr_2.5.0                  png_0.1-8                    
+[115] parallel_4.3.3                ellipsis_0.3.2               
 [117] blob_1.2.4                    sparseMatrixStats_1.14.0     
 [119] bitops_1.0-7                  viridisLite_0.4.2            
 [121] scales_1.3.0                  purrr_1.0.2                  
 [123] crayon_1.5.2                  rlang_1.1.3                  
-[125] KEGGREST_1.42.0              
+[125] cowplot_1.1.3                 KEGGREST_1.42.0              
 ```
 
 # Further Reading
