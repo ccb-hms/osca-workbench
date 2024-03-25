@@ -59,7 +59,6 @@ contact: 'christopher_magnano@hms.harvard.edu' # TODO probably change to Ludwig
 
 # Order of episodes in your lesson
 episodes:
-- introduction.Rmd
 - intro-sce.Rmd
 - eda_qc.Rmd
 - cell_type_annotation.Rmd
