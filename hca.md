@@ -131,7 +131,7 @@ metadata |>
 ```{.output}
 Rows: ??
 Columns: 10
-Database: DuckDB v0.10.0 [unknown@Linux 6.5.0-1016-azure:R 4.3.3/:memory:]
+Database: DuckDB v0.10.1 [unknown@Linux 6.5.0-1017-azure:R 4.3.3/:memory:]
 $ cell_                             <chr> "TTATGCTAGGGTGTTG_12", "GCTTGAACATGG…
 $ sample_                           <chr> "039c558ca1c43dc74c563b58fe0d6289", …
 $ cell_type                         <chr> "mature NK T cell", "mature NK T cel…
@@ -187,7 +187,7 @@ metadata |>
 
 ```{.output}
 # Source:   SQL [?? x 2]
-# Database: DuckDB v0.10.0 [unknown@Linux 6.5.0-1016-azure:R 4.3.3/:memory:]
+# Database: DuckDB v0.10.1 [unknown@Linux 6.5.0-1017-azure:R 4.3.3/:memory:]
    tissue                          n
    <chr>                       <dbl>
  1 renal medulla                   6
@@ -230,19 +230,19 @@ metadata |>
 
 ```{.output}
 # Source:   SQL [?? x 2]
-# Database: DuckDB v0.10.0 [unknown@Linux 6.5.0-1016-azure:R 4.3.3/:memory:]
-   assay                              n
-   <chr>                          <dbl>
- 1 10x 3' v3                         21
- 2 Slide-seq                          4
- 3 10x 3' v2                         27
- 4 Visium Spatial Gene Expression     7
- 5 10x 5' v1                          7
- 6 scRNA-seq                          4
- 7 Seq-Well                           2
- 8 10x 5' v2                          2
- 9 10x 3' v1                          1
-10 Smart-seq2                         1
+# Database: DuckDB v0.10.1 [unknown@Linux 6.5.0-1017-azure:R 4.3.3/:memory:]
+   assay           n
+   <chr>       <dbl>
+ 1 10x 5' v2       2
+ 2 sci-RNA-seq     1
+ 3 10x 3' v1       1
+ 4 Smart-seq2      1
+ 5 10x 3' v3      21
+ 6 Slide-seq       4
+ 7 scRNA-seq       4
+ 8 Seq-Well        2
+ 9 10x 3' v2      27
+10 10x 5' v1       7
 # ℹ more rows
 ```
 
@@ -257,7 +257,7 @@ metadata |>
 
 ```{.output}
 # Source:   SQL [1 x 2]
-# Database: DuckDB v0.10.0 [unknown@Linux 6.5.0-1016-azure:R 4.3.3/:memory:]
+# Database: DuckDB v0.10.1 [unknown@Linux 6.5.0-1017-azure:R 4.3.3/:memory:]
   organism         n
   <chr>        <dbl>
 1 Homo sapiens    63
