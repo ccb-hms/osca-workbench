@@ -6,13 +6,15 @@ exercises: 10 # Minutes of exercises in the lesson
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- TODO
+- How to obtain comprehensive single-cell reference maps from the Human Cell Atlas?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- TODO
+- Learn about different resources for public single-cell RNA-seq data.
+- Learn how to access data from the Human Cell Atlas using the CuratedAtlasQueryR package.
+- Learn how to query for cells of interest and how to download them into a SingleCellExperiment object. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -67,10 +69,7 @@ bulk counts are also available to facilitate large-scale, summary analyses of
 transcriptional profiles. This platform offers a standardized workflow for
 accessing atlas-level datasets programmatically and reproducibly.
 
-
-```{.error}
-Error in knitr::include_graphics("figures/HCA_sccomp_SUPPLEMENTARY_technical_cartoon_curatedAtlasQuery.png"): Cannot find the file(s): "figures/HCA_sccomp_SUPPLEMENTARY_technical_cartoon_curatedAtlasQuery.png"
-```
+![](figures/HCA_sccomp_SUPPLEMENTARY_technical_cartoon_curatedAtlasQuery.png)
 
 # Data Sources in R / Bioconductor
 
@@ -89,7 +88,7 @@ There are a few options to access single cell data with R / Bioconductor.
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
-BiocManager::install("stemangiola/CuratedAtlasQueryR")
+BiocManager::install("CuratedAtlasQueryR")
 ```
 
 # Package load 
@@ -111,14 +110,6 @@ allows us to get a small and quick subset of the available metadata.
 metadata <- get_metadata(remote_url = CuratedAtlasQueryR::SAMPLE_DATABASE_URL)
 ```
 
-```{.output}
-ℹ Downloading 1 file, totalling 0 GB
-```
-
-```{.output}
-ℹ Downloading https://object-store.rc.nectar.org.au/v1/AUTH_06d6e008e3e642da99d806ba3ea629c5/metadata/sample_metadata.0.2.3.parquet to /home/runner/.cache/R/CuratedAtlasQueryR/metadata.0.2.3.parquet
-```
-
 Get a view of the first 10 columns in the metadata with `glimpse`
 
 
@@ -131,7 +122,7 @@ metadata |>
 ```{.output}
 Rows: ??
 Columns: 10
-Database: DuckDB v0.10.1 [unknown@Linux 6.5.0-1017-azure:R 4.3.3/:memory:]
+Database: DuckDB v0.10.1 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
 $ cell_                             <chr> "TTATGCTAGGGTGTTG_12", "GCTTGAACATGG…
 $ sample_                           <chr> "039c558ca1c43dc74c563b58fe0d6289", …
 $ cell_type                         <chr> "mature NK T cell", "mature NK T cel…
@@ -187,19 +178,19 @@ metadata |>
 
 ```{.output}
 # Source:   SQL [?? x 2]
-# Database: DuckDB v0.10.1 [unknown@Linux 6.5.0-1017-azure:R 4.3.3/:memory:]
+# Database: DuckDB v0.10.1 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
    tissue                          n
    <chr>                       <dbl>
  1 renal medulla                   6
  2 caecum                          1
  3 ileum                           1
- 4 lymph node                      2
- 5 transition zone of prostate     2
- 6 peripheral zone of prostate     2
+ 4 transition zone of prostate     2
+ 5 peripheral zone of prostate     2
+ 6 lymph node                      2
  7 fovea centralis                 1
  8 adrenal gland                   1
- 9 heart left ventricle            7
-10 bone marrow                     4
+ 9 blood                          17
+10 kidney                          8
 # ℹ more rows
 ```
 
@@ -208,11 +199,6 @@ metadata |>
 
 ```r
 head(names(metadata), 10)
-```
-
-```{.output}
-! The `names()` method of <tbl_lazy> is for internal use only.
-ℹ Did you mean `colnames()`?
 ```
 
 ```{.output}
@@ -230,19 +216,19 @@ metadata |>
 
 ```{.output}
 # Source:   SQL [?? x 2]
-# Database: DuckDB v0.10.1 [unknown@Linux 6.5.0-1017-azure:R 4.3.3/:memory:]
+# Database: DuckDB v0.10.1 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
    assay           n
    <chr>       <dbl>
- 1 10x 5' v2       2
- 2 sci-RNA-seq     1
- 3 10x 3' v1       1
- 4 Smart-seq2      1
- 5 10x 3' v3      21
- 6 Slide-seq       4
- 7 scRNA-seq       4
- 8 Seq-Well        2
- 9 10x 3' v2      27
-10 10x 5' v1       7
+ 1 10x 3' v2      27
+ 2 10x 5' v1       7
+ 3 10x 3' v3      21
+ 4 Slide-seq       4
+ 5 10x 5' v2       2
+ 6 sci-RNA-seq     1
+ 7 10x 3' v1       1
+ 8 Smart-seq2      1
+ 9 scRNA-seq       4
+10 Seq-Well        2
 # ℹ more rows
 ```
 
@@ -257,7 +243,7 @@ metadata |>
 
 ```{.output}
 # Source:   SQL [1 x 2]
-# Database: DuckDB v0.10.1 [unknown@Linux 6.5.0-1017-azure:R 4.3.3/:memory:]
+# Database: DuckDB v0.10.1 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
   organism         n
   <chr>        <dbl>
 1 Homo sapiens    63
@@ -283,38 +269,7 @@ single_cell_counts <-
         stringr::str_like(cell_type, "%CD4%")
     ) |>
     get_single_cell_experiment()
-```
 
-```{.output}
-ℹ Realising metadata.
-```
-
-```{.output}
-ℹ Synchronising files
-```
-
-```{.output}
-ℹ Downloading 2 files, totalling 0.17 GB
-```
-
-```{.output}
-ℹ Downloading https://object-store.rc.nectar.org.au/v1/AUTH_06d6e008e3e642da99d806ba3ea629c5/cellxgene-0.2.1-hdf5/original/bc380dae8b14313a870973697842878b/assays.h5 to /home/runner/.cache/R/CuratedAtlasQueryR/0.2.1/original/bc380dae8b14313a870973697842878b/assays.h5
-```
-
-```{.output}
-Downloading files ■■■■■■■■■■■■■■■■                  50% |  ETA: 13s
-```
-
-```{.output}
-ℹ Downloading https://object-store.rc.nectar.org.au/v1/AUTH_06d6e008e3e642da99d806ba3ea629c5/cellxgene-0.2.1-hdf5/original/bc380dae8b14313a870973697842878b/se.rds to /home/runner/.cache/R/CuratedAtlasQueryR/0.2.1/original/bc380dae8b14313a870973697842878b/se.rds
-```
-
-```{.output}
-Downloading files ■■■■■■■■■■■■■■■■                  50% |  ETA: 13sℹ Reading files.
-ℹ Compiling Single Cell Experiment.
-```
-
-```r
 single_cell_counts
 ```
 
@@ -351,35 +306,6 @@ metadata |>
 ```
 
 ```{.output}
-ℹ Realising metadata.
-```
-
-```{.output}
-ℹ Synchronising files
-```
-
-```{.output}
-ℹ Downloading 2 files, totalling 0.29 GB
-```
-
-```{.output}
-ℹ Downloading https://object-store.rc.nectar.org.au/v1/AUTH_06d6e008e3e642da99d806ba3ea629c5/cellxgene-0.2.1-hdf5/cpm/bc380dae8b14313a870973697842878b/assays.h5 to /home/runner/.cache/R/CuratedAtlasQueryR/0.2.1/cpm/bc380dae8b14313a870973697842878b/assays.h5
-```
-
-```{.output}
-Downloading files ■■■■■■■■■■■■■■■■                  50% |  ETA: 21s
-```
-
-```{.output}
-ℹ Downloading https://object-store.rc.nectar.org.au/v1/AUTH_06d6e008e3e642da99d806ba3ea629c5/cellxgene-0.2.1-hdf5/cpm/bc380dae8b14313a870973697842878b/se.rds to /home/runner/.cache/R/CuratedAtlasQueryR/0.2.1/cpm/bc380dae8b14313a870973697842878b/se.rds
-```
-
-```{.output}
-Downloading files ■■■■■■■■■■■■■■■■                  50% |  ETA: 21sℹ Reading files.
-ℹ Compiling Single Cell Experiment.
-```
-
-```{.output}
 class: SingleCellExperiment 
 dim: 36229 1571 
 metadata(0):
@@ -407,29 +333,7 @@ single_cell_counts <-
         stringr::str_like(cell_type, "%CD4%")
     ) |>
     get_single_cell_experiment(assays = "cpm", features = "PUM1")
-```
 
-```{.output}
-ℹ Realising metadata.
-```
-
-```{.output}
-ℹ Synchronising files
-```
-
-```{.output}
-ℹ Downloading 0 files, totalling 0 GB
-```
-
-```{.output}
-ℹ Reading files.
-```
-
-```{.output}
-ℹ Compiling Single Cell Experiment.
-```
-
-```r
 single_cell_counts
 ```
 
@@ -576,34 +480,6 @@ metadata |>
 ```
 
 ```{.output}
-ℹ Realising metadata.
-```
-
-```{.output}
-ℹ Synchronising files
-```
-
-```{.output}
-ℹ Downloading 2 files, totalling 0 GB
-```
-
-```{.output}
-ℹ Downloading https://object-store.rc.nectar.org.au/v1/AUTH_06d6e008e3e642da99d806ba3ea629c5/cellxgene-0.2.1-hdf5/original/893d8537e318769108b4962020ddd846/assays.h5 to /home/runner/.cache/R/CuratedAtlasQueryR/0.2.1/original/893d8537e318769108b4962020ddd846/assays.h5
-```
-
-```{.output}
-ℹ Downloading https://object-store.rc.nectar.org.au/v1/AUTH_06d6e008e3e642da99d806ba3ea629c5/cellxgene-0.2.1-hdf5/original/893d8537e318769108b4962020ddd846/se.rds to /home/runner/.cache/R/CuratedAtlasQueryR/0.2.1/original/893d8537e318769108b4962020ddd846/se.rds
-```
-
-```{.output}
-ℹ Reading files.
-```
-
-```{.output}
-ℹ Compiling Single Cell Experiment.
-```
-
-```{.output}
 class: SingleCellExperiment 
 dim: 36229 12 
 metadata(0):
@@ -627,11 +503,3 @@ altExpNames(0):
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-# Acknowledgements
-
-Thank you to [Stefano Mangiola](https://github.com/stemangiola) and his team for
-developing
-[CuratedAtlasQueryR](https://github.com/stemangiola/CuratedAtlasQueryR) and
-graciously providing the content from their vignette. Make sure to keep an eye
-out for their publication for proper citation. Their bioRxiv paper can be found
-at <https://www.biorxiv.org/content/10.1101/2023.06.08.542671v1>.
