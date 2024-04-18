@@ -6,13 +6,15 @@ exercises: 10 # Minutes of exercises in the lesson
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- TODO
+- How to obtain comprehensive single-cell reference maps from the Human Cell Atlas?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- TODO
+- Learn about different resources for public single-cell RNA-seq data.
+- Learn how to access data from the Human Cell Atlas using the CuratedAtlasQueryR package.
+- Learn how to query for cells of interest and how to download them into a SingleCellExperiment object. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -67,11 +69,7 @@ bulk counts are also available to facilitate large-scale, summary analyses of
 transcriptional profiles. This platform offers a standardized workflow for
 accessing atlas-level datasets programmatically and reproducibly.
 
-```{r,echo=FALSE}
-knitr::include_graphics(
-    "figures/HCA_sccomp_SUPPLEMENTARY_technical_cartoon_curatedAtlasQuery.png"
-)
-```
+![](figures/HCA_sccomp_SUPPLEMENTARY_technical_cartoon_curatedAtlasQuery.png)
 
 # Data Sources in R / Bioconductor
 
@@ -85,16 +83,16 @@ There are a few options to access single cell data with R / Bioconductor.
 
 # Installation
 
-```{r,eval=FALSE}
+```{r, eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
-BiocManager::install("stemangiola/CuratedAtlasQueryR")
+BiocManager::install("CuratedAtlasQueryR")
 ```
 
 # Package load 
 
-```{r,include=TRUE,results="hide",message=FALSE,warning=FALSE}
+```{r, include = TRUE, results = "hide", message = FALSE, warning = FALSE}
 library(CuratedAtlasQueryR)
 library(dplyr)
 ```
@@ -105,7 +103,7 @@ The metadata allows the user to get a lay of the land of what is available
 via the package. In this example, we are using the sample database URL which
 allows us to get a small and quick subset of the available metadata.
 
-```{r}
+```{r, message = FALSE}
 metadata <- get_metadata(remote_url = CuratedAtlasQueryR::SAMPLE_DATABASE_URL)
 ```
 
@@ -151,7 +149,7 @@ metadata |>
 
 # Columns available in the metadata
 
-```{r}
+```{r, message = FALSE}
 head(names(metadata), 10)
 ```
 
@@ -180,7 +178,7 @@ data.
 
 ### Query raw counts
 
-```{r}
+```{r, message = FALSE}
 single_cell_counts <- 
     metadata |>
     dplyr::filter(
@@ -199,7 +197,7 @@ single_cell_counts
 This is helpful if just few genes are of interest, as they can be compared
 across samples.
 
-```{r}
+```{r, message = FALSE}
 metadata |>
   dplyr::filter(
       ethnicity == "African" &
@@ -212,7 +210,7 @@ metadata |>
 
 ### Extract only a subset of genes
 
-```{r}
+```{r, message = FALSE}
 single_cell_counts <-
     metadata |>
     dplyr::filter(
@@ -334,7 +332,7 @@ possible.
 
 :::::::::::::: solution
 
-```{r}
+```{r, message = FALSE}
 metadata |> 
     dplyr::filter(
         sex == "female" &
@@ -356,11 +354,3 @@ metadata |>
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-# Acknowledgements
-
-Thank you to [Stefano Mangiola](https://github.com/stemangiola) and his team for
-developing
-[CuratedAtlasQueryR](https://github.com/stemangiola/CuratedAtlasQueryR) and
-graciously providing the content from their vignette. Make sure to keep an eye
-out for their publication for proper citation. Their bioRxiv paper can be found
-at <https://www.biorxiv.org/content/10.1101/2023.06.08.542671v1>.
