@@ -6,14 +6,6 @@ This is a pre-alpha adaptation of the 2023 ISMB OSCA tutorial using The Carpentr
 
 As individual vignettes are converted into lessons, they can be added to `config.yaml` to be rendered and shown in the final Github Pages lesson.  
 
-### Vignettes not yet converted
-- Introduction to Bioconductor
-- Exploratory data analysis
-- Cell type annotation
-- Multi-sample analyses
-- Working with large data
-- Accessing data from the Human Cell Atlas
-
 ## Description
 
 In the last few years, the profiling of a large number of genome-wide features
@@ -52,5 +44,5 @@ In particular, participants will learn:
 
 ## Source
 
-This lesson is a template lesson that uses [The Carpentries Workbench][workbench] and is based on materials from the [OSCA tutorial at the ISMB 2023](https://bioconductor.github.io/ISMB.OSCA/).
+This lesson is a template lesson that uses [The Carpentries Workbench](https://carpentries.github.io/sandpaper-docs/) and is based on materials from the [OSCA tutorial at the ISMB 2023](https://bioconductor.github.io/ISMB.OSCA/).
 
