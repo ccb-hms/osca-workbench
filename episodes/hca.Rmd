@@ -6,15 +6,15 @@ exercises: 10 # Minutes of exercises in the lesson
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How to obtain comprehensive single-cell reference maps from the Human Cell Atlas?
+- How to obtain single-cell reference maps from the Human Cell Atlas?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
 - Learn about different resources for public single-cell RNA-seq data.
-- Learn how to access data from the Human Cell Atlas using the CuratedAtlasQueryR package.
-- Learn how to query for cells of interest and how to download them into a SingleCellExperiment object. 
+- Learn how to access data from the Human Cell Atlas using the `CuratedAtlasQueryR` package.
+- Learn how to query for cells of interest and how to download them into a `SingleCellExperiment` object. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -350,7 +350,8 @@ metadata |>
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- TODO
+- The `CuratedAtlasQueryR` package provides programmatic access to single-cell reference maps from the Human Cell Atlas.
+- The package provides functionality to query for cells of interest and to download them into a `SingleCellExperiment` object.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
