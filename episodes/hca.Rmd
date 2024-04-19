@@ -69,7 +69,7 @@ bulk counts are also available to facilitate large-scale, summary analyses of
 transcriptional profiles. This platform offers a standardized workflow for
 accessing atlas-level datasets programmatically and reproducibly.
 
-![](figures/HCA_sccomp_SUPPLEMENTARY_technical_cartoon_curatedAtlasQuery.png)
+![](figures/curatedAtlasQuery.png)
 
 # Data Sources in R / Bioconductor
 

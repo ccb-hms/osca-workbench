@@ -17,7 +17,7 @@ exercises: 2 # Minutes of exercises in the lesson
 - Learn how to work with out-of-memory data representations such as HDF5.
 - Learn how to speed up single-cell analysis with parallel computation.
 - Learn how to invoke fast approximations for essential analysis steps.
-- Learn how to convert SingleCellExperiment objects to SeuratObjects and AnnData objects.
+- Learn how to convert `SingleCellExperiment` objects to `SeuratObject`s and `AnnData` objects.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -526,7 +526,7 @@ Use Seurat's `DimPlot` function.
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Out-of-memory representations can be used to work with single-cell datasets that are too large to fit in memory 
+- Out-of-memory representations can be used to work with single-cell datasets that are too large to fit in memory
 - Parallelization of calculations across genes or cells is an effective strategy for speeding up analysis of large single-cell datasets
 - Fast approximations for nearest neighbor search and singular value composition can speed up essential steps of single-cell analysis with minimal loss of accuracy
 - Converter functions between existing single-cell data formats enable analysis workflows that leverage complementary functionality from poplular single-cell analysis ecosystems 
