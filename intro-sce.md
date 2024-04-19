@@ -24,9 +24,9 @@ exercises: 10 # Minutes of exercises in the lesson
 
 
 ```r
-library("SummarizedExperiment")
-library("SingleCellExperiment")
-library("MouseGastrulationData")
+library(SummarizedExperiment)
+library(SingleCellExperiment)
+library(MouseGastrulationData)
 library(BiocStyle)
 ```
 
