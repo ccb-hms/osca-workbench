@@ -266,7 +266,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Introduction to Bioconductor and the SingleCellExperiment class</h1>
-        <p>Last updated on 2024-04-09 |
+        <p>Last updated on 2024-04-19 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/intro-sce.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -287,7 +287,7 @@
 <h3 class="card-title">Questions</h3>
 <ul><li>What is Bioconductor?</li>
 <li>How is single-cell data stored in the Bioconductor ecosystem?</li>
-<li>What is a <code>SingleCellObject</code>?</li>
+<li>What is a <code>SingleCellExperiment</code> object?</li>
 </ul></div>
 </div>
 </div>
@@ -730,7 +730,7 @@ columns as colData.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>The <code>SingleCellExperiment</code> function can be used to create
 a new SingleCellExperiment object</p>
@@ -743,7 +743,7 @@ a new SingleCellExperiment object</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -771,7 +771,7 @@ by running <code>sce6 &lt;- WTChimeraData(sample=6)</code>. Use the
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -786,13 +786,13 @@ by running <code>sce6 &lt;- WTChimeraData(sample=6)</code>. Use the
 <h3 class="callout-title">Key Points<a class="anchor" aria-label="anchor" href="#keypoints1"></a>
 </h3>
 <div class="callout-content">
-<ul><li>Bioconductor is a project provide support and packages for the
-comprehension of high high-throughput biology data.</li>
+<ul><li>Bioconductor is a project that provides open-source software
+packages for the comprehension of high-throughput biology data.</li>
 <li>A <code>SingleCellExperiment</code> object is an extension of the
 <code>SummarizedExperiment</code> object.</li>
 <li>
 <code>SingleCellExperiment</code> objects contain specialized data
-fields for storing data unique to single cell analyses, such as the
+fields for storing data unique to single-cell analyses, such as the
 <code>reducedDims</code> field.</li>
 </ul></div>
 </div>
@@ -868,8 +868,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/intro-sce.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/intro-sce.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-04-09",
-  "datePublished": "2024-04-18"
+  "dateModified": "2024-04-19",
+  "datePublished": "2024-04-19"
 }
 
   </script><script>
