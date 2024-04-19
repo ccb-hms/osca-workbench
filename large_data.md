@@ -6,13 +6,18 @@ exercises: 2 # Minutes of exercises in the lesson
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- TODO
+- How to work with single-cell datasets that are too large to fit in memory?
+- How to speed up single-cell analysis workflows for large datasets?
+- How to convert between popular single-cell data formats?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- TODO
+- Learn how to work with out-of-memory data representations such as HDF5.
+- Learn how to speed up single-cell analysis with parallel computation.
+- Learn how to invoke fast approximations for essential analysis steps.
+- Learn how to convert SingleCellExperiment objects to SeuratObjects and AnnData objects.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -61,19 +66,6 @@ data set, as provided by the
 
 ```r
 library(TENxBrainData)
-```
-
-```{.warning}
-Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
-'DelayedArray::makeNindexFromArrayViewport' when loading 'SummarizedExperiment'
-```
-
-```{.warning}
-Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
-'DelayedArray::makeNindexFromArrayViewport' when loading 'HDF5Array'
-```
-
-```r
 sce.brain <- TENxBrainData20k() 
 sce.brain
 ```
@@ -193,17 +185,6 @@ function that we used in the other workflows.
 
 ```r
 library(scater)
-```
-
-```{.output}
-Loading required package: scuttle
-```
-
-```{.output}
-Loading required package: ggplot2
-```
-
-```r
 is.mito <- grepl("^mt-", rowData(sce.brain)$Symbol)
 qcstats <- perCellQCMetrics(sce.brain, subsets = list(Mt = is.mito))
 qcstats
@@ -425,19 +406,19 @@ table(exact = colLabels(sce), approx = clusters)
 ```{.output}
      approx
 exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
-   1   90   0   0   0   0   0   0   0   1   0   0   0   0   0   0
+   1   90   0   0   0   2   0   0   0   1   0   0   0   0   0   0
    2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
    3    0   0  75   0   0   0   0   0   0   0   0   0   0   0   0
    4    0   0   0 341   0   0   0   0   0   0   0   0   0   0   0
-   5    1   0   0   0 392   0   0   0   1   1   0   3   0   0   0
-   6    0   0   0   0   0 209   0   0   0   0   0   0   0   0   0
+   5    0   0   0   0 388   0   0   1   0   1   0   5   0   0   0
+   6    0   0   0   0   0 196  13   0   0   0   0   0   0   0   0
    7    0   0   0   0   0   0 245   0   0   1   0   0   0   0   0
-   8    0   0   0   0   1   0   0  95   0   0   0   0   0   0   0
+   8    0   0   0   0   0   0   0  96   0   0   0   0   0   0   0
    9    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
-   10   0   0   0   0   0   0   0   0   0 112   4   0   1   0   0
-   11   0   0   0   0   0   1   0   0   0   0 143   0   0   0   0
-   12   0   0   0   0   3   0   0   0   0  10   0 201   0   0   0
-   13   0   0   0   0   0   0   0   0   0   0   6   0 146   0   0
+   10   0   0   0   0   0   0   0   0   0 113   0   0   0   0   0
+   11   0   0   0   0   0   1   0   0   0   0 153   0   0   0   0
+   12   0   0   0   0   4   0   0   0   0  16   0 195   0   0   0
+   13   0   0   0   0   0   0   0   0   0   0   0   0 146   0   0
    14   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0
    15   0   0   0   0   0   0   0   0   0   0   0   0   0   0  56
 ```
@@ -574,8 +555,7 @@ from GitHub only.
 
 
 ```r
-#BiocManager::install("satijalab/seurat-data")
-BiocManager::install("lgeistlinger/SeuratData")
+BiocManager::install("satijalab/seurat-data")
 ```
 
 We then proceed by loading all required packages and installing the PBMC dataset:
@@ -660,24 +640,6 @@ readH5AD(example_h5ad)
 ```
 
 ```{.output}
-+ /home/runner/.cache/R/basilisk/1.14.3/0/bin/conda 'create' '--yes' '--prefix' '/home/runner/.cache/R/basilisk/1.14.3/zellkonverter/1.12.1/zellkonverterAnnDataEnv-0.10.2' 'python=3.11.5' '--quiet' '-c' 'conda-forge'
-```
-
-```{.output}
-+ /home/runner/.cache/R/basilisk/1.14.3/0/bin/conda 'install' '--yes' '--prefix' '/home/runner/.cache/R/basilisk/1.14.3/zellkonverter/1.12.1/zellkonverterAnnDataEnv-0.10.2' 'python=3.11.5'
-```
-
-```{.output}
-+ /home/runner/.cache/R/basilisk/1.14.3/0/bin/conda 'install' '--yes' '--prefix' '/home/runner/.cache/R/basilisk/1.14.3/zellkonverter/1.12.1/zellkonverterAnnDataEnv-0.10.2' '-c' 'conda-forge' 'python=3.11.5' 'anndata=0.10.2' 'h5py=3.10.0' 'hdf5=1.14.2' 'natsort=8.4.0' 'numpy=1.26.0' 'packaging=23.2' 'pandas=2.1.1' 'python=3.11.5' 'scipy=1.11.3'
-```
-
-```{.warning}
-Warning: The names of these selected uns$highlights items have been modified to match R
-conventions: '0' -> 'X0', '159' -> 'X159', '319' -> 'X319', '459' -> 'X459',
-and '619' -> 'X619'
-```
-
-```{.output}
 class: SingleCellExperiment 
 dim: 11 640 
 metadata(2): highlights iroot
@@ -699,10 +661,6 @@ chimera mouse gastrulation dataset.
 ```r
 out.file <- tempfile(pattern = ".h5ad")
 writeH5AD(sce, file = out.file)
-```
-
-```{.output}
-ℹ Using the 'counts' assay as the X matrix
 ```
 
 The resulting H5AD file can then be read into Python using scanpy's
@@ -800,7 +758,7 @@ loaded via a namespace (and not attached):
  [79] tensor_1.5                    spatstat.data_3.0-4          
  [81] RSQLite_2.3.5                 tidyr_1.3.1                  
  [83] utf8_1.2.4                    generics_0.1.3               
- [85] data.table_1.15.2             renv_1.0.5                   
+ [85] data.table_1.15.2             renv_1.0.7                   
  [87] htmlwidgets_1.6.4             httr_1.4.7                   
  [89] uwot_0.1.16                   pkgconfig_2.0.3              
  [91] gtable_0.3.4                  blob_1.2.4                   
@@ -918,7 +876,10 @@ Use Seurat's `DimPlot` function.
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- TODO
+- Out-of-memory representations can be used to work with single-cell datasets that are too large to fit in memory 
+- Parallelization of calculations across genes or cells is an effective strategy for speeding up analysis of large single-cell datasets
+- Fast approximations for nearest neighbor search and singular value composition can speed up essential steps of single-cell analysis with minimal loss of accuracy
+- Converter functions between existing single-cell data formats enable analysis workflows that leverage complementary functionality from poplular single-cell analysis ecosystems 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 

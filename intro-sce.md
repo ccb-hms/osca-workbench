@@ -8,7 +8,7 @@ exercises: 10 # Minutes of exercises in the lesson
 
 - What is Bioconductor?
 - How is single-cell data stored in the Bioconductor ecosystem?
-- What is a `SingleCellObject`?
+- What is a `SingleCellExperiment` object?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -383,9 +383,9 @@ TODO
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Bioconductor is a project provide support and packages for the comprehension of high high-throughput biology data.
+- Bioconductor is a project that provides open-source software packages for the comprehension of high-throughput biology data.
 - A `SingleCellExperiment` object is an extension of the `SummarizedExperiment` object.
-- `SingleCellExperiment` objects contain specialized data fields for storing data unique to single cell analyses, such as the `reducedDims` field. 
+- `SingleCellExperiment` objects contain specialized data fields for storing data unique to single-cell analyses, such as the `reducedDims` field. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 

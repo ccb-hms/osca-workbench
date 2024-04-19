@@ -6,15 +6,15 @@ exercises: 10 # Minutes of exercises in the lesson
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How to obtain comprehensive single-cell reference maps from the Human Cell Atlas?
+- How to obtain single-cell reference maps from the Human Cell Atlas?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
 - Learn about different resources for public single-cell RNA-seq data.
-- Learn how to access data from the Human Cell Atlas using the CuratedAtlasQueryR package.
-- Learn how to query for cells of interest and how to download them into a SingleCellExperiment object. 
+- Learn how to access data from the Human Cell Atlas using the `CuratedAtlasQueryR` package.
+- Learn how to query for cells of interest and how to download them into a `SingleCellExperiment` object. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -189,8 +189,8 @@ metadata |>
  6 lymph node                      2
  7 fovea centralis                 1
  8 adrenal gland                   1
- 9 blood                          17
-10 kidney                          8
+ 9 heart left ventricle            7
+10 bone marrow                     4
 # ℹ more rows
 ```
 
@@ -217,18 +217,18 @@ metadata |>
 ```{.output}
 # Source:   SQL [?? x 2]
 # Database: DuckDB v0.10.1 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
-   assay           n
-   <chr>       <dbl>
- 1 10x 3' v2      27
- 2 10x 5' v1       7
- 3 10x 3' v3      21
- 4 Slide-seq       4
- 5 10x 5' v2       2
- 6 sci-RNA-seq     1
- 7 10x 3' v1       1
- 8 Smart-seq2      1
- 9 scRNA-seq       4
-10 Seq-Well        2
+   assay                              n
+   <chr>                          <dbl>
+ 1 scRNA-seq                          4
+ 2 Seq-Well                           2
+ 3 Drop-seq                           1
+ 4 10x 3' v3                         21
+ 5 Slide-seq                          4
+ 6 10x 3' v2                         27
+ 7 Visium Spatial Gene Expression     7
+ 8 10x 5' v2                          2
+ 9 sci-RNA-seq                        1
+10 10x 3' v1                          1
 # ℹ more rows
 ```
 
@@ -499,7 +499,8 @@ altExpNames(0):
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- TODO
+- The `CuratedAtlasQueryR` package provides programmatic access to single-cell reference maps from the Human Cell Atlas.
+- The package provides functionality to query for cells of interest and to download them into a `SingleCellExperiment` object.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
