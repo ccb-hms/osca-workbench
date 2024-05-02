@@ -782,7 +782,7 @@ columns as colData.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
 <div class="accordion-body">
 <p>The <code>SingleCellExperiment</code> function can be used to create
 a new SingleCellExperiment object</p>
@@ -1030,7 +1030,7 @@ contain a cell, while the large majority of droplets are empty.</p>
   <h3 class="accordion-header" id="headingSpoiler1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>Setting the Random Seed</h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
 <div class="accordion-body">
 <p>Whenever your code involves randomness, it’s a good idea to set the
 random seed in R with <code>set.seed()</code> from the base <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link">random</a>
@@ -1839,7 +1839,7 @@ results?</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>First subset the object to include only highly variable genes
 (<code>sce2 &lt;- sce[hvg.sce.var,]</code>) and then apply the
@@ -1937,7 +1937,12 @@ any links that you are not going to use.
 <div class="inner">
 <h3 class="card-title">Questions</h3>
 <ul>
-<li>TODO</li>
+<li>How is clustering used in scRNA-seq data analysis?</li>
+<li>How are marker genes used to interpret clustering results?</li>
+<li>What are the challenges and common approaches for assigning cell
+type labels in scRNA-seq data?</li>
+<li>How can we further validate and refine cell type annotations from
+scRNA-seq data?</li>
 </ul>
 </div>
 </div>
@@ -1947,7 +1952,18 @@ any links that you are not going to use.
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
 <ul>
-<li>TODO</li>
+<li>Understand that clustering is an unsupervised learning technique
+that groups cells with similar expression profiles.</li>
+<li>Learn how to identify genes that differentiate clusters and assign
+potential biological meaning to each cluster based on marker gene
+function.</li>
+<li>Understand two strategies for cell type annotation: 1. comparing to
+reference datasets with known cell type labels and 2. Identifying cell
+type marker genes and assigning labels based on marker set
+enrichment.</li>
+<li>Explore additional methods to assess the quality of assigned labels,
+such as examining the distribution of marker gene expression within
+clusters.</li>
 </ul>
 </div>
 </div>
@@ -3152,7 +3168,16 @@ any links that you are not going to use.
 <div class="inner">
 <h3 class="card-title">Questions</h3>
 <ul>
-<li>TODO</li>
+<li>How can we identify and remove unwanted variation introduced by
+processing differences between samples (batch effects) in scRNA-seq
+data?</li>
+<li>How can we identify genes that are expressed differently between
+groups of cells in scRNA-seq data (e.g., different cell types or
+conditions)?</li>
+<li>How can we identify cell types (clusters) that show significant
+changes in abundance between conditions in scRNA-seq data? How can we
+address potential biases caused by differences in cell numbers per
+type?</li>
 </ul>
 </div>
 </div>
@@ -3162,7 +3187,16 @@ any links that you are not going to use.
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
 <ul>
-<li>TODO</li>
+<li>Understand the concept of batch effects and their impact on data
+analysis. Learn how to utilize tools like correctExperiment from the
+batchelor package to correct for batch effects based on sample
+information.</li>
+<li>Master the workflow for differential expression analysis (DEA),
+including grouping cells, creating pseudo-bulk samples, normalization,
+and differential expression testing with tools like edgeR.</li>
+<li>Understand differential abundance (DA) analysis, considering
+compositional effects and strategies to address them, for robust
+identification of cell type abundance changes between conditions.</li>
 </ul>
 </div>
 </div>
@@ -4651,21 +4685,22 @@ approximation can be largely ignored.</p>
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>     approx
-exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14
-   1   88   0   0   0   2   0   0   0   2   0   0   0   0   0
-   2    0 143   0   1   0   0   0   0   0   0   0   0   0   0
-   3    0   0  75   0   2   0   0   0   0   0   0   0   0   0
-   4    0   0   0 397   0   0   0   0   0   0   0   0   0   0
-   5    0   0   0   0 391   0   0   0   0   1   0   0   0   0
-   6    0   0   0   0   0 202   0   0   0   0   0   0   0   0
-   7    0   0   0   0   0   8 245   0   0   1   0   0   0   0
-   8    0   0   0   0   1   0   0  95   0   0   0   0   0   0
-   9    1   0   0   0   1   0   0   0 106   0   0   0   0   0
-   10   0   0   0   0   0   0   0   0   0 113   0   0   0   0
-   11   0   0   0   0   0   0   0   0   0   0 153   0   0   0
-   12   0   0   0   0   4   0   0   0   0  10   0 203   0   0
-   13   0   0   0   0   0   0   0   0   0   0   0   0 146   0
-   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20</code></pre>
+exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
+   1   90   0   0   0   0   0   0   0   1   0   0   0   0   0   0
+   2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
+   3    0   0  75   0   0   0   0   0   0   0   0   0   0   0   0
+   4    0   0   0 341   0   0   0   0   0   0   0   0   0   0   0
+   5    0   0   2   0 391   0   0   2   0   0   0   5   0   0   0
+   6    0   0   0   0   0  80 245   0   0   1   0   2   0   0   0
+   7    0   0   0   0   0 129   0   0   0   0   2   0   0   0   0
+   8    0   0   0   0   1   0   0  93   0   0   0   0   0   0   0
+   9    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
+   10   0   0   0   0   0   0   0   0   0 108   8   5   0   0   0
+   11   0   0   0   0   0   0   0   0   0   0 138   0   0   0   0
+   12   0   0   0   0   5   0   0   0   0   0   0 207   0   0   0
+   13   0   0   0   0   0   0   0   0   0   0   6   0 146   0   0
+   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0
+   15   0   0   0   0   0   0   0   0   0   0   0   0   0   0  56</code></pre>
 </div>
 <p>Note that Annoy writes the NN index to disk prior to performing the
 search. Thus, it may not actually be faster than the default exact
@@ -5482,18 +5517,18 @@ datasets by tissue type.</p>
 </h3>
 <pre class="output" tabindex="0"><code># Source:   SQL [?? x 2]
 # Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
-   tissue                             n
-   &lt;chr&gt;                          &lt;dbl&gt;
- 1 blood                             17
- 2 kidney                             8
- 3 kidney blood vessel                4
- 4 lung parenchyma                    2
- 5 respiratory airway                 6
- 6 dorsolateral prefrontal cortex     1
- 7 heart left ventricle               7
- 8 bone marrow                        4
- 9 lung                               4
-10 sigmoid colon                      1
+   tissue                      n
+   &lt;chr&gt;                   &lt;dbl&gt;
+ 1 pleural effusion            1
+ 2 caudate lobe of liver       1
+ 3 cortex of kidney            7
+ 4 nose                        1
+ 5 thymus                      4
+ 6 epithelium of esophagus     1
+ 7 transverse colon            1
+ 8 liver                       1
+ 9 renal medulla               6
+10 caecum                      1
 # ℹ more rows</code></pre>
 </div>
 </div>
@@ -5528,18 +5563,18 @@ datasets by tissue type.</p>
 </h3>
 <pre class="output" tabindex="0"><code># Source:   SQL [?? x 2]
 # Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
-   assay                              n
-   &lt;chr&gt;                          &lt;dbl&gt;
- 1 sci-RNA-seq                        1
- 2 10x 5' v2                          2
- 3 10x 3' v1                          1
- 4 Smart-seq2                         1
- 5 10x 3' v3                         21
- 6 Slide-seq                          4
- 7 10x 3' v2                         27
- 8 Visium Spatial Gene Expression     7
- 9 10x 5' v1                          7
-10 scRNA-seq                          4
+   assay           n
+   &lt;chr&gt;       &lt;dbl&gt;
+ 1 10x 3' v3      21
+ 2 Slide-seq       4
+ 3 scRNA-seq       4
+ 4 Seq-Well        2
+ 5 Drop-seq        1
+ 6 10x 5' v2       2
+ 7 10x 3' v1       1
+ 8 Smart-seq2      1
+ 9 sci-RNA-seq     1
+10 10x 3' v2      27
 # ℹ more rows</code></pre>
 </div>
 </div>
@@ -5743,7 +5778,7 @@ cells per tissue in descending order.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5777,7 +5812,7 @@ cells?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5811,7 +5846,7 @@ summarise.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5853,7 +5888,7 @@ columns, where possible.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4">Show me the solution</h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
