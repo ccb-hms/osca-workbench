@@ -92,11 +92,11 @@
   Orchestrating Large-Scale Single-Cell Analysis with Bioconductor
 </div>
 
-<aside class="col-md-12 lesson-progress"><div style="width: 28%" class="percentage">
-    28%
+<aside class="col-md-12 lesson-progress"><div style="width: 21%" class="percentage">
+    21%
   </div>
   <div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" style="width: 28%" aria-valuenow="28" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar incubator" role="progressbar" style="width: 21%" aria-valuenow="21" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
     </div>
   </div>
 </aside><div class="container">
@@ -162,12 +162,27 @@
 <div class="accordion accordion-flush" id="accordionFlushcurrent">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-headingcurrent">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsecurrent" aria-expanded="true" aria-controls="flush-collapsecurrent">
         <span class="visually-hidden">Current Chapter</span>
         <span class="current-chapter">
         2. Exploratory data analysis and quality control
         </span>
-      
+      </button>
     </div><!--/div.accordion-header-->
+        
+    <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
+      <div class="accordion-body">
+        <ul><li><a href="#setup-and-experimental-design">Setup and experimental design</a></li>
+<li><a href="#droplet-processing">Droplet processing</a></li>
+<li><a href="#quality-control">Quality control</a></li>
+<li><a href="#normalization">Normalization</a></li>
+<li><a href="#feature-selection">Feature Selection</a></li>
+<li><a href="#dimensionality-reduction">Dimensionality Reduction</a></li>
+<li><a href="#doublet-identification">Doublet identification</a></li>
+<li><a href="#exercises">Exercises</a></li>
+<li><a href="#references">References</a></li>
+        </ul></div><!--/div.accordion-body-->
+    </div><!--/div.accordion-collapse-->
         
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
@@ -266,7 +281,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Exploratory data analysis and quality control</h1>
-        <p>Last updated on 2024-04-09 |
+        <p>Last updated on 2024-05-02 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/eda_qc.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -285,7 +300,10 @@
 <div class="card-body">
 <div class="inner">
 <h3 class="card-title">Questions</h3>
-<ul><li>TODO</li>
+<ul><li>How do I examine the quality of single-cell data?</li>
+<li>What data visualizations should I use during quality-control in a
+single-cell analysis?</li>
+<li>How do I prepare single-cell data for analysis?</li>
 </ul></div>
 </div>
 </div>
@@ -293,15 +311,19 @@
 <div class="card-body">
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
-<ul><li>TODO</li>
+<ul><li>Determine and communicate the quality of single-cell data.</li>
+<li>Identify and filter empty droplets and doublets.</li>
+<li>Perform normalization, highly-variable gene selection, and
+dimensionality reduction as parts of a single-cell analysis
+pipeline.</li>
 </ul></div>
 </div>
 </div>
 </div>
 </div>
-<div class="section level1">
-<h1 id="setup-and-experimental-design">Setup and experimental design<a class="anchor" aria-label="anchor" href="#setup-and-experimental-design"></a></h1>
-<p>As mentioned in the introduction, in this tutorial we will use the
+<section id="setup-and-experimental-design"><h2 class="section-heading">Setup and experimental design<a class="anchor" aria-label="anchor" href="#setup-and-experimental-design"></a>
+</h2>
+<hr class="half-width"><p>As mentioned in the introduction, in this tutorial we will use the
 wild-type data from the Tal1 chimera experiment. These data are
 available through the <a href="https://bioconductor.org/packages/release/data/experiment/html/MouseGastrulationData.html" class="external-link">MouseGastrulationData</a>
 Bioconductor package, which contains several datasets.</p>
@@ -320,19 +342,8 @@ that contains all the droplets for which we have sequenced reads.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">MouseGastrulationData</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
-'DelayedArray::makeNindexFromArrayViewport' when loading 'SummarizedExperiment'</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb3">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">WTChimeraData</span><span class="op">(</span>samples<span class="op">=</span><span class="fl">5</span>, type<span class="op">=</span><span class="st">"raw"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">MouseGastrulationData</span><span class="op">)</span></span>
+<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">WTChimeraData</span><span class="op">(</span>samples<span class="op">=</span><span class="fl">5</span>, type<span class="op">=</span><span class="st">"raw"</span><span class="op">)</span></span>
 <span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="va">sce</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="va">sce</span></span></code></pre>
 </div>
@@ -353,61 +364,41 @@ reducedDimNames(0):
 mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="droplet-processing">Droplet processing<a class="anchor" aria-label="anchor" href="#droplet-processing"></a></h1>
-<p>From the experiment, we expect to have only a few thousand cells,
+<p>This is the same data we examined in the previous lesson.</p>
+</section><section id="droplet-processing"><h2 class="section-heading">Droplet processing<a class="anchor" aria-label="anchor" href="#droplet-processing"></a>
+</h2>
+<hr class="half-width"><p>From the experiment, we expect to have only a few thousand cells,
 while we can see that we have data for more than 500,000 droplets. It is
 likely that most of these droplets are empty and are capturing only
 ambient or background RNA.</p>
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">DropletUtils</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
-'DelayedArray::makeNindexFromArrayViewport' when loading 'HDF5Array'</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb7">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">bcrank</span> <span class="op">&lt;-</span> <span class="fu">barcodeRanks</span><span class="op">(</span><span class="fu">counts</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">DropletUtils</span><span class="op">)</span></span>
+<span><span class="va">bcrank</span> <span class="op">&lt;-</span> <span class="fu">barcodeRanks</span><span class="op">(</span><span class="fu">counts</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Only showing unique points for plotting speed.</span></span>
 <span><span class="va">uniq</span> <span class="op">&lt;-</span> <span class="op">!</span><span class="fu">duplicated</span><span class="op">(</span><span class="va">bcrank</span><span class="op">$</span><span class="va">rank</span><span class="op">)</span></span>
 <span><span class="fu">plot</span><span class="op">(</span><span class="va">bcrank</span><span class="op">$</span><span class="va">rank</span><span class="op">[</span><span class="va">uniq</span><span class="op">]</span>, <span class="va">bcrank</span><span class="op">$</span><span class="va">total</span><span class="op">[</span><span class="va">uniq</span><span class="op">]</span>, log<span class="op">=</span><span class="st">"xy"</span>,</span>
-<span>    xlab<span class="op">=</span><span class="st">"Rank"</span>, ylab<span class="op">=</span><span class="st">"Total UMI count"</span>, cex.lab<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning in xy.coords(x, y, xlabel, ylabel, log): 1 y value &lt;= 0 omitted from
-logarithmic plot</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb9">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">abline</span><span class="op">(</span>h<span class="op">=</span><span class="fu">metadata</span><span class="op">(</span><span class="va">bcrank</span><span class="op">)</span><span class="op">$</span><span class="va">inflection</span>, col<span class="op">=</span><span class="st">"darkgreen"</span>, lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span>    xlab<span class="op">=</span><span class="st">"Rank"</span>, ylab<span class="op">=</span><span class="st">"Total UMI count"</span>, cex.lab<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">abline</span><span class="op">(</span>h<span class="op">=</span><span class="fu">metadata</span><span class="op">(</span><span class="va">bcrank</span><span class="op">)</span><span class="op">$</span><span class="va">inflection</span>, col<span class="op">=</span><span class="st">"darkgreen"</span>, lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu">abline</span><span class="op">(</span>h<span class="op">=</span><span class="fu">metadata</span><span class="op">(</span><span class="va">bcrank</span><span class="op">)</span><span class="op">$</span><span class="va">knee</span>, col<span class="op">=</span><span class="st">"dodgerblue"</span>, lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">legend</span><span class="op">(</span><span class="st">"bottomleft"</span>, legend<span class="op">=</span><span class="fu">c</span><span class="op">(</span><span class="st">"Inflection"</span>, <span class="st">"Knee"</span><span class="op">)</span>, </span>
 <span>        col<span class="op">=</span><span class="fu">c</span><span class="op">(</span><span class="st">"darkgreen"</span>, <span class="st">"dodgerblue"</span><span class="op">)</span>, lty<span class="op">=</span><span class="fl">2</span>, cex<span class="op">=</span><span class="fl">1.2</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/eda_qc-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The distribution of total counts exhibits a sharp transition between
-barcodes with large and small total counts, probably corresponding to
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The distribution of total counts (called the unique molecular
+identifier or UMI count) exhibits a sharp transition between barcodes
+with large and small total counts, probably corresponding to
 cell-containing and empty droplets respectively.</p>
 <p>A simple approach would be to apply a threshold on the total count to
 only retain those barcodes with large totals. However, this may
 unnecessarily discard libraries derived from cell types with low RNA
 content.</p>
-<div class="section level2">
-<h2 id="testing-for-empty-droplets">Testing for empty droplets<a class="anchor" aria-label="anchor" href="#testing-for-empty-droplets"></a></h2>
+<div class="section level3">
+<h3 id="testing-for-empty-droplets">Testing for empty droplets<a class="anchor" aria-label="anchor" href="#testing-for-empty-droplets"></a></h3>
 <p>A better approach is to test whether the expression profile for each
 cell barcode is significantly different from the ambient RNA pool <span class="citation">[@lun2019emptydrops]</span>. Any significant deviation
 indicates that the barcode corresponds to a cell-containing droplet.
@@ -417,7 +408,7 @@ similar total counts.</p>
 <p>We call cells at a false discovery rate (FDR) of 0.1%, meaning that
 no more than 0.1% of our called barcodes should be empty droplets on
 average.</p>
-<div class="codewrapper sourceCode" id="cb10">
+<div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -436,7 +427,7 @@ average.</p>
 <pre class="output" tabindex="0"><code>   Mode   FALSE    TRUE    NA's 
 logical    6184    3131  513239 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb12">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -462,11 +453,31 @@ altExpNames(0):</code></pre>
 </div>
 <p>The end result confirms our prior expectation: only 3131 droplets
 contain a cell, while the large majority of droplets are empty.</p>
+<div id="accordionSpoiler1" class="accordion spoiler-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
+  <h3 class="accordion-header" id="headingSpoiler1">
+<div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>Setting the Random Seed</h3>
+</button>
+<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
+<div class="accordion-body">
+<p>Whenever your code involves randomness, it’s a good idea to set the
+random seed in R with <code>set.seed()</code> from the base <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link">random</a>
+package.</p>
+<p>A pseudo-random number generator, such as the one used by
+<code>random</code>, will always return the same pseudo-random numbers
+in the same order after the seed is set to a value.</p>
+<p>This allows us to write code which is fully reproducible and will
+always give identical results, despite technically involving inherent
+randomness.</p>
 </div>
 </div>
-<div class="section level1">
-<h1 id="quality-control">Quality control<a class="anchor" aria-label="anchor" href="#quality-control"></a></h1>
-<p>While we have removed empty droplets, this does not necessarily imply
+</div>
+</div>
+</div>
+</section><section id="quality-control"><h2 class="section-heading">Quality control<a class="anchor" aria-label="anchor" href="#quality-control"></a>
+</h2>
+<hr class="half-width"><p>While we have removed empty droplets, this does not necessarily imply
 that all the cell-containing droplets should be kept for downstream
 analysis. In fact, some droplets could contain low-quality samples, due
 to cell damage or failure in library preparation.</p>
@@ -479,9 +490,9 @@ analysis</li>
 <li>contain contaminating transcripts from ambient RNA</li>
 </ul><p>To mitigate these problems, we can check a few quality-control
 metrics and, if needed, remove low-quality samples.</p>
-<div class="section level2">
-<h2 id="choice-of-quality-control-metrics">Choice of quality-control metrics<a class="anchor" aria-label="anchor" href="#choice-of-quality-control-metrics"></a></h2>
-<p>There are many possibile ways to define a set of quality-control
+<div class="section level3">
+<h3 id="choice-of-quality-control-metrics">Choice of quality-control metrics<a class="anchor" aria-label="anchor" href="#choice-of-quality-control-metrics"></a></h3>
+<p>There are many possible ways to define a set of quality-control
 metrics, see for instance <span class="citation">@cole2019performance</span>. Here, we keep it simple
 and consider only:</p>
 <ul><li>the <em>library size</em>, defined as the total sum of counts across
@@ -503,67 +514,24 @@ stripped.</p>
 <code>EnsDb</code> mouse package available in Bioconductor, but a more
 updated version of Ensembl can be used through the
 <code>AnnotationHub</code> or <code>biomaRt</code> packages.</p>
-<div class="codewrapper sourceCode" id="cb14">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">EnsDb.Mmusculus.v79</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Loading required package: ensembldb</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Loading required package: GenomicFeatures</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Loading required package: AnnotationDbi</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Loading required package: AnnotationFilter</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>
-Attaching package: 'ensembldb'</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>The following object is masked from 'package:stats':
-
-    filter</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb21">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">chr.loc</span> <span class="op">&lt;-</span> <span class="fu">mapIds</span><span class="op">(</span><span class="va">EnsDb.Mmusculus.v79</span>, keys<span class="op">=</span><span class="fu">rownames</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span>,</span>
-<span>    keytype<span class="op">=</span><span class="st">"GENEID"</span>, column<span class="op">=</span><span class="st">"SEQNAME"</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning: Unable to map 2918 of 29453 requested IDs.</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb23">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">is.mito</span> <span class="op">&lt;-</span> <span class="fu">which</span><span class="op">(</span><span class="va">chr.loc</span><span class="op">==</span><span class="st">"MT"</span><span class="op">)</span></span></code></pre>
+<span>    keytype<span class="op">=</span><span class="st">"GENEID"</span>, column<span class="op">=</span><span class="st">"SEQNAME"</span><span class="op">)</span></span>
+<span><span class="va">is.mito</span> <span class="op">&lt;-</span> <span class="fu">which</span><span class="op">(</span><span class="va">chr.loc</span><span class="op">==</span><span class="st">"MT"</span><span class="op">)</span></span></code></pre>
 </div>
 <p>We can use the <code>scuttle</code> package to compute a set of
 quality-control metrics, specifying that we want to use the
 mitochondrial genes as a special set of features.</p>
-<div class="codewrapper sourceCode" id="cb24">
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -608,7 +576,7 @@ TTTGTCATCTGAGTGT             5.992509       267</code></pre>
 <p>Now that we have computed the metrics, we have to decide on
 thresholds to define high- and low-quality samples. We could check how
 many cells are above/below a certain fixed threshold. For instance,</p>
-<div class="codewrapper sourceCode" id="cb26">
+<div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -621,7 +589,7 @@ many cells are above/below a certain fixed threshold. For instance,</p>
 FALSE  TRUE 
  2477   654 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb28">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -636,7 +604,7 @@ FALSE  TRUE
 </div>
 <p>or we could look at the distribution of such metrics and use a data
 adaptive threshold.</p>
-<div class="codewrapper sourceCode" id="cb30">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -648,7 +616,7 @@ adaptive threshold.</p>
 <pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
      98    4126    5168    4455    5670    7908 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb32">
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -665,7 +633,7 @@ By default, we consider a value to be an outlier if it is more than 3
 median absolute deviations (MADs) from the median in the “problematic”
 direction. This is loosely motivated by the fact that such a filter will
 retain 99% of non-outlier values that follow a normal distribution.</p>
-<div class="codewrapper sourceCode" id="cb34">
+<div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -680,7 +648,7 @@ retain 99% of non-outlier values that follow a normal distribution.</p>
                   discard 
                       694 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb36">
+<div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -692,7 +660,7 @@ retain 99% of non-outlier values that follow a normal distribution.</p>
 <pre class="output" tabindex="0"><code>   Mode   FALSE    TRUE 
 logical    2437     694 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb38">
+<div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -700,63 +668,54 @@ logical    2437     694 </code></pre>
 <span><span class="va">sce</span><span class="op">$</span><span class="va">discard</span> <span class="op">&lt;-</span> <span class="va">reasons</span><span class="op">$</span><span class="va">discard</span></span></code></pre>
 </div>
 </div>
-<div class="section level2">
-<h2 id="diagnostic-plots">Diagnostic plots<a class="anchor" aria-label="anchor" href="#diagnostic-plots"></a></h2>
+<div class="section level3">
+<h3 id="diagnostic-plots">Diagnostic plots<a class="anchor" aria-label="anchor" href="#diagnostic-plots"></a></h3>
 <p>It is always a good idea to check the distribution of the QC metrics
 and to visualize the cells that were removed, to identify possible
 problems with the procedure. In particular, we expect to have few
 outliers and with a marked difference from “regular” cells (e.g., a
 bimodal distribution or a long tail). Moreover, if there are too many
 discarded cells, further exploration might be needed.</p>
-<div class="codewrapper sourceCode" id="cb39">
+<div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">scater</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">scater</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, y <span class="op">=</span> <span class="st">"sum"</span>, colour_by <span class="op">=</span> <span class="st">"discard"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Total count"</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Loading required package: ggplot2</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb41">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, y <span class="op">=</span> <span class="st">"sum"</span>, colour_by <span class="op">=</span> <span class="st">"discard"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Total count"</span><span class="op">)</span></span></code></pre>
-</div>
-<figure><img src="fig/eda_qc-rendered-unnamed-chunk-9-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb42">
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, y <span class="op">=</span> <span class="st">"detected"</span>, colour_by <span class="op">=</span> <span class="st">"discard"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Detected features"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/eda_qc-rendered-unnamed-chunk-9-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb43">
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-10-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, y <span class="op">=</span> <span class="st">"subsets_Mito_percent"</span>, colour_by <span class="op">=</span> <span class="st">"discard"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Mito percent"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/eda_qc-rendered-unnamed-chunk-9-3.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>While the univariate distribution of QC metrics can give some insight
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-10-3.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>While the univariate distribution of QC metrics can give some insight
 on the quality of the sample, often looking at the bivariate
 distribution of QC metrics is useful, e.g., to confirm that there are no
 cells with both large total counts and large mitochondrial counts, to
 ensure that we are not inadvertently removing high-quality cells that
 happen to be highly metabolically active.</p>
-<div class="codewrapper sourceCode" id="cb44">
+<div class="codewrapper sourceCode" id="cb28">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, x<span class="op">=</span><span class="st">"sum"</span>, y<span class="op">=</span><span class="st">"subsets_Mito_percent"</span>, colour_by<span class="op">=</span><span class="st">"discard"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/eda_qc-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>It could also be a good idea to perform a differential expression
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>It could also be a good idea to perform a differential expression
 analysis between retained and discarded cells to check wether we are
 removing an unusual cell population rather than low-quality libraries
 (see <a href="http://bioconductor.org/books/3.17/OSCA.advanced/quality-control-redux.html#qc-discard-cell-types" class="external-link">Section
 1.5 of OSCA advanced</a>).</p>
 <p>Once we are happy with the results, we can discard the low-quality
 cells by subsetting the original object.</p>
-<div class="codewrapper sourceCode" id="cb45">
+<div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -781,10 +740,9 @@ mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
 </div>
-</div>
-<div class="section level1">
-<h1 id="normalization">Normalization<a class="anchor" aria-label="anchor" href="#normalization"></a></h1>
-<p>Systematic differences in sequencing coverage between libraries are
+</section><section id="normalization"><h2 class="section-heading">Normalization<a class="anchor" aria-label="anchor" href="#normalization"></a>
+</h2>
+<hr class="half-width"><p>Systematic differences in sequencing coverage between libraries are
 often observed in single-cell RNA sequencing data. They typically arise
 from technical differences in cDNA capture or PCR amplification
 efficiency across cells, attributable to the difficulty of achieving
@@ -812,7 +770,7 @@ proportional to its library size where the proportionality constant is
 defined such that the mean size factor across all cells is equal to 1.
 This ensures that the normalized expression values are on the same scale
 as the original counts.</p>
-<div class="codewrapper sourceCode" id="cb47">
+<div class="codewrapper sourceCode" id="cb31">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -825,14 +783,14 @@ as the original counts.</p>
 <pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
  0.2730  0.7879  0.9600  1.0000  1.1730  2.5598 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb49">
+<div class="codewrapper sourceCode" id="cb33">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">hist</span><span class="op">(</span><span class="fu">log10</span><span class="op">(</span><span class="va">lib.sf</span><span class="op">)</span>, xlab<span class="op">=</span><span class="st">"Log10[Size factor]"</span>, col<span class="op">=</span><span class="st">'grey80'</span>, breaks <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/eda_qc-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="section level2">
-<h2 id="normalization-by-deconvolution">Normalization by deconvolution<a class="anchor" aria-label="anchor" href="#normalization-by-deconvolution"></a></h2>
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="section level3">
+<h3 id="normalization-by-deconvolution">Normalization by deconvolution<a class="anchor" aria-label="anchor" href="#normalization-by-deconvolution"></a></h3>
 <p>Library size normalization is not optimal, as it assumes that the
 total sum of UMI counts differ between cells only for technical and not
 biological reason. This can be a problem if a highly-expressed subset of
@@ -854,7 +812,7 @@ populations.</p>
 other methods have been proposed and lead to similar performance (see
 <span class="citation">@borella2022psinorm</span> for a comparative
 review).</p>
-<div class="codewrapper sourceCode" id="cb50">
+<div class="codewrapper sourceCode" id="cb34">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -870,7 +828,7 @@ review).</p>
   1   2   3   4   5   6   7   8   9  10  11  12  13 
 273 159 250 122 187 201 154 252 152 169 199 215 104 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb52">
+<div class="codewrapper sourceCode" id="cb36">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -883,7 +841,7 @@ review).</p>
 <pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
  0.3100  0.8028  0.9626  1.0000  1.1736  2.7858 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb54">
+<div class="codewrapper sourceCode" id="cb38">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -892,13 +850,13 @@ review).</p>
 <span>    col<span class="op">=</span><span class="fu">as.integer</span><span class="op">(</span><span class="va">clust</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">abline</span><span class="op">(</span>a<span class="op">=</span><span class="fl">0</span>, b<span class="op">=</span><span class="fl">1</span>, col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/eda_qc-rendered-unnamed-chunk-14-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Once we have computed the size factors, we compute the normalized
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-15-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Once we have computed the size factors, we compute the normalized
 expression values for each cell by dividing the count for each gene with
 the appropriate size factor for that cell. Since we are typically going
 to work with log-transformed counts, the function
 <code>logNormCounts</code> also log-transforms the normalized values,
 creating a new assay called <code>logcounts</code>.</p>
-<div class="codewrapper sourceCode" id="cb55">
+<div class="codewrapper sourceCode" id="cb39">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -924,10 +882,9 @@ mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
 </div>
-</div>
-<div class="section level1">
-<h1 id="feature-selection">Feature Selection<a class="anchor" aria-label="anchor" href="#feature-selection"></a></h1>
-<p>The typical next steps in the analysis of single-cell data are
+</section><section id="feature-selection"><h2 class="section-heading">Feature Selection<a class="anchor" aria-label="anchor" href="#feature-selection"></a>
+</h2>
+<hr class="half-width"><p>The typical next steps in the analysis of single-cell data are
 dimensionality reduction and clustering, which involve measuring the
 similarity between cells.</p>
 <p>The choice of genes to use in this calculation has a major impact on
@@ -936,8 +893,8 @@ about the biology of the system while removing genes that contain only
 random noise. This aims to preserve interesting biological structure
 without the variance that obscures that structure, and to reduce the
 size of the data to improve computational efficiency of later steps.</p>
-<div class="section level2">
-<h2 id="quantifying-per-gene-variation">Quantifying per-gene variation<a class="anchor" aria-label="anchor" href="#quantifying-per-gene-variation"></a></h2>
+<div class="section level3">
+<h3 id="quantifying-per-gene-variation">Quantifying per-gene variation<a class="anchor" aria-label="anchor" href="#quantifying-per-gene-variation"></a></h3>
 <p>The simplest approach to feature selection is to select the most
 variable genes based on their log-normalized expression across the
 population.</p>
@@ -948,7 +905,7 @@ cases, which means that the total variance of a gene is driven more by
 its abundance than its underlying biological heterogeneity. To account
 for this, the <code>modelGeneVar</code> function fits a trend to the
 variance with respect to abundance across all genes.</p>
-<div class="codewrapper sourceCode" id="cb57">
+<div class="codewrapper sourceCode" id="cb41">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -959,12 +916,12 @@ variance with respect to abundance across all genes.</p>
 <span>     ylab <span class="op">=</span> <span class="st">"Variance of log-expression"</span><span class="op">)</span></span>
 <span><span class="fu">curve</span><span class="op">(</span><span class="va">fit.sce</span><span class="op">$</span><span class="fu">trend</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"dodgerblue"</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/eda_qc-rendered-unnamed-chunk-16-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The blue line represents the uninteresting “technical” variance for
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-17-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The blue line represents the uninteresting “technical” variance for
 any given gene abundance. The genes with a lot of additional variance
 exhibit interesting “biological” variation.</p>
 </div>
-<div class="section level2">
-<h2 id="selecting-highly-variable-genes">Selecting highly variable genes<a class="anchor" aria-label="anchor" href="#selecting-highly-variable-genes"></a></h2>
+<div class="section level3">
+<h3 id="selecting-highly-variable-genes">Selecting highly variable genes<a class="anchor" aria-label="anchor" href="#selecting-highly-variable-genes"></a></h3>
 <p>The next step is to select the subset of HVGs to use in downstream
 analyses. A larger set will assure that we do not remove important
 genes, at the cost of potentially increasing noise. Typically, we
@@ -975,7 +932,7 @@ instance, we may expect that only about 10% of genes to be
 differentially expressed across our cell populations and hence select
 10% of genes as higly variable (e.g., by setting
 <code>prop=0.1</code>).</p>
-<div class="codewrapper sourceCode" id="cb58">
+<div class="codewrapper sourceCode" id="cb42">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -989,10 +946,9 @@ differentially expressed across our cell populations and hence select
 [4] "ENSMUSG00000052187" "ENSMUSG00000048583" "ENSMUSG00000051855"</code></pre>
 </div>
 </div>
-</div>
-<div class="section level1">
-<h1 id="dimensionality-reduction">Dimensionality Reduction<a class="anchor" aria-label="anchor" href="#dimensionality-reduction"></a></h1>
-<p>Many scRNA-seq analysis procedures involve comparing cells based on
+</section><section id="dimensionality-reduction"><h2 class="section-heading">Dimensionality Reduction<a class="anchor" aria-label="anchor" href="#dimensionality-reduction"></a>
+</h2>
+<hr class="half-width"><p>Many scRNA-seq analysis procedures involve comparing cells based on
 their expression values across multiple genes. For example, clustering
 aims to identify cells with similar transcriptomic profiles by computing
 Euclidean distances across genes. In these applications, each individual
@@ -1004,8 +960,8 @@ original information. This obviously reduces the computational work
 (e.g., it is easier to compute distance in lower-dimensional spaces),
 and more importantly leads to less noisy and more interpretable results
 (cf. the <em>curse of dimensionality</em>).</p>
-<div class="section level2">
-<h2 id="principal-component-analysis-pca">Principal Component Analysis (PCA)<a class="anchor" aria-label="anchor" href="#principal-component-analysis-pca"></a></h2>
+<div class="section level3">
+<h3 id="principal-component-analysis-pca">Principal Component Analysis (PCA)<a class="anchor" aria-label="anchor" href="#principal-component-analysis-pca"></a></h3>
 <p>Principal component analysis (PCA) is a dimensionality reduction
 technique that provides a parsimonious summarization of the data by
 replacing the original variables (genes) by fewer linear combinations of
@@ -1024,7 +980,7 @@ metrics and PCs).</p>
 <p>One simple way to maximize our chance of capturing biological
 variation is by computing the PCs starting from the highly variable
 genes identified before.</p>
-<div class="codewrapper sourceCode" id="cb60">
+<div class="codewrapper sourceCode" id="cb44">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1050,31 +1006,31 @@ altExpNames(0):</code></pre>
 </div>
 <p>By default, <code>runPCA</code> computes the first 50 principal
 components. We can check how much original variability they explain.</p>
-<div class="codewrapper sourceCode" id="cb62">
+<div class="codewrapper sourceCode" id="cb46">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">percent.var</span> <span class="op">&lt;-</span> <span class="fu">attr</span><span class="op">(</span><span class="fu">reducedDim</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span>, <span class="st">"percentVar"</span><span class="op">)</span></span>
 <span><span class="fu">plot</span><span class="op">(</span><span class="va">percent.var</span>, log<span class="op">=</span><span class="st">"y"</span>, xlab<span class="op">=</span><span class="st">"PC"</span>, ylab<span class="op">=</span><span class="st">"Variance explained (%)"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/eda_qc-rendered-unnamed-chunk-19-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>And we can of course visualize the first 2-3 components, perhaps
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-20-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>And we can of course visualize the first 2-3 components, perhaps
 color-coding each point by an interesting feature, in this case the
 total number of UMIs per cell.</p>
-<div class="codewrapper sourceCode" id="cb63">
+<div class="codewrapper sourceCode" id="cb47">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plotPCA</span><span class="op">(</span><span class="va">sce</span>, colour_by<span class="op">=</span><span class="st">"sum"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/eda_qc-rendered-unnamed-chunk-20-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb64">
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-21-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb48">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plotReducedDim</span><span class="op">(</span><span class="va">sce</span>, dimred<span class="op">=</span><span class="st">"PCA"</span>, ncomponents<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/eda_qc-rendered-unnamed-chunk-20-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></div>
-<div class="section level2">
-<h2 id="non-linear-methods">Non-linear methods<a class="anchor" aria-label="anchor" href="#non-linear-methods"></a></h2>
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-21-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></div>
+<div class="section level3">
+<h3 id="non-linear-methods">Non-linear methods<a class="anchor" aria-label="anchor" href="#non-linear-methods"></a></h3>
 <p>While PCA is a simple and effective way to visualize (and interpret!)
 scRNA-seq data, non-linear methods such as t-SNE (<em>t-stochastic
 neighbor embedding</em>) and UMAP (<em>uniform manifold approximation
@@ -1082,7 +1038,7 @@ and projection</em>) have gained much popularity in the literature.</p>
 <p>These methods attempt to find a low-dimensional representation of the
 data that preserves the distances between each point and its neighbors
 in the high-dimensional space.</p>
-<div class="codewrapper sourceCode" id="cb65">
+<div class="codewrapper sourceCode" id="cb49">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1090,7 +1046,7 @@ in the high-dimensional space.</p>
 <span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runTSNE</span><span class="op">(</span><span class="va">sce</span>, dimred<span class="op">=</span><span class="st">"PCA"</span><span class="op">)</span></span>
 <span><span class="fu">plotTSNE</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/eda_qc-rendered-unnamed-chunk-21-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb66">
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-22-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb50">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1098,7 +1054,7 @@ in the high-dimensional space.</p>
 <span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runUMAP</span><span class="op">(</span><span class="va">sce</span>, dimred<span class="op">=</span><span class="st">"PCA"</span><span class="op">)</span></span>
 <span><span class="fu">plotUMAP</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/eda_qc-rendered-unnamed-chunk-22-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>It is easy to over-interpret t-SNE and UMAP plots. We note that the
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-23-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>It is easy to over-interpret t-SNE and UMAP plots. We note that the
 relative sizes and positions of the visual clusters may be misleading,
 as they tend to inflate dense clusters and compress sparse ones, such
 that we cannot use the size as a measure of subpopulation
@@ -1110,7 +1066,7 @@ relationships between distant clusters.</p>
 <p>Note that the <code>sce</code> object now includes all the computed
 dimensionality reduced representations of the data for ease of reusing
 and replotting without the need for recomputing.</p>
-<div class="codewrapper sourceCode" id="cb67">
+<div class="codewrapper sourceCode" id="cb51">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1140,10 +1096,9 @@ run will lead to different plots) and that there are key parameters to
 be set that change the results substantially (e.g., the “perplexity”
 parameter of t-SNE).</p>
 </div>
-</div>
-<div class="section level1">
-<h1 id="doublet-identification">Doublet identification<a class="anchor" aria-label="anchor" href="#doublet-identification"></a></h1>
-<p><em>Doublets</em> are artifactual libraries generated from two cells.
+</section><section id="doublet-identification"><h2 class="section-heading">Doublet identification<a class="anchor" aria-label="anchor" href="#doublet-identification"></a>
+</h2>
+<hr class="half-width"><p><em>Doublets</em> are artifactual libraries generated from two cells.
 They typically arise due to errors in cell sorting or capture.
 Specifically, in droplet-based protocols, it may happen that two cells
 are captured in the same droplet.</p>
@@ -1161,8 +1116,8 @@ pooling multiple donors in one run) or antibody tagging (e.g.,
 CITE-seq).</p>
 <p>There are several computational methods to identify doublets; we
 describe only one here based on in-silico simulation of doublets.</p>
-<div class="section level2">
-<h2 id="computing-doublet-desities">Computing doublet desities<a class="anchor" aria-label="anchor" href="#computing-doublet-desities"></a></h2>
+<div class="section level3">
+<h3 id="computing-doublet-desities">Computing doublet desities<a class="anchor" aria-label="anchor" href="#computing-doublet-desities"></a></h3>
 <p>At a high level, the algorithm can be defined by the following
 steps:</p>
 <ol style="list-style-type: decimal"><li>Simulate thousands of doublets by adding together two randomly
@@ -1177,7 +1132,7 @@ each cell.</li>
 very likely to be a doublet itself.</p>
 <p>This approach is implemented below, where we visualize the scores in
 a t-SNE plot.</p>
-<div class="codewrapper sourceCode" id="cb69">
+<div class="codewrapper sourceCode" id="cb53">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1194,7 +1149,7 @@ a t-SNE plot.</p>
 <pre class="output" tabindex="0"><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
 0.000000 0.000000 0.000000 0.002014 0.000000 1.886238 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb71">
+<div class="codewrapper sourceCode" id="cb55">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1202,10 +1157,10 @@ a t-SNE plot.</p>
 <span></span>
 <span><span class="fu">plotTSNE</span><span class="op">(</span><span class="va">sce</span>, colour_by<span class="op">=</span><span class="st">"DoubletScore"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/eda_qc-rendered-unnamed-chunk-24-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We can explicitly convert this into doublet calls by identifying
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We can explicitly convert this into doublet calls by identifying
 large outliers for the score within each sample. Here we use the
 “griffiths” method to do so.</p>
-<div class="codewrapper sourceCode" id="cb72">
+<div class="codewrapper sourceCode" id="cb56">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1219,171 +1174,44 @@ large outliers for the score within each sample. Here we use the
 <pre class="output" tabindex="0"><code>singlet doublet 
    2407      30 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb74">
+<div class="codewrapper sourceCode" id="cb58">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sce</span><span class="op">$</span><span class="va">doublet</span> <span class="op">&lt;-</span> <span class="va">dbl.calls</span></span>
 <span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, y<span class="op">=</span><span class="st">"DoubletScore"</span>, colour_by<span class="op">=</span><span class="st">"doublet"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/eda_qc-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb75">
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-26-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb59">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plotTSNE</span><span class="op">(</span><span class="va">sce</span>, colour_by<span class="op">=</span><span class="st">"doublet"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/eda_qc-rendered-unnamed-chunk-25-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>One way to determine whether a cell is in a real transient state or
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-26-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>One way to determine whether a cell is in a real transient state or
 it is a doublet is to check the number of detected genes and total UMI
 counts.</p>
-<div class="codewrapper sourceCode" id="cb76">
+<div class="codewrapper sourceCode" id="cb60">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, <span class="st">"detected"</span>, <span class="st">"sum"</span>, colour_by <span class="op">=</span> <span class="st">"DoubletScore"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/eda_qc-rendered-unnamed-chunk-26-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb77">
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-27-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb61">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, <span class="st">"detected"</span>, <span class="st">"sum"</span>, colour_by <span class="op">=</span> <span class="st">"doublet"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/eda_qc-rendered-unnamed-chunk-26-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>In this case, we only have a few doublets at the periphery of some
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-27-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>In this case, we only have a few doublets at the periphery of some
 clusters. It could be fine to keep the doublets in the analysis, but it
 may be safer to discard them to avoid biases in downstream analysis
 (e.g., differential expression).</p>
 </div>
-</div>
-<div class="section level1">
-<h1 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a></h1>
-<div class="codewrapper sourceCode" id="cb78">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">sessionInfo</span><span class="op">(</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>R version 4.3.2 (2023-10-31)
-Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 22.04.3 LTS
-
-Matrix products: default
-BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0 
-LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.10.0
-
-locale:
- [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
- [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
- [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
-[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
-
-time zone: UTC
-tzcode source: system (glibc)
-
-attached base packages:
-[1] stats4    stats     graphics  grDevices utils     datasets  methods  
-[8] base     
-
-other attached packages:
- [1] scDblFinder_1.16.0           scran_1.30.2                
- [3] scater_1.30.1                ggplot2_3.4.4               
- [5] scuttle_1.12.0               EnsDb.Mmusculus.v79_2.99.0  
- [7] ensembldb_2.26.0             AnnotationFilter_1.26.0     
- [9] GenomicFeatures_1.54.3       AnnotationDbi_1.64.1        
-[11] DropletUtils_1.22.0          MouseGastrulationData_1.16.0
-[13] SpatialExperiment_1.12.0     SingleCellExperiment_1.24.0 
-[15] SummarizedExperiment_1.32.0  Biobase_2.62.0              
-[17] GenomicRanges_1.54.1         GenomeInfoDb_1.38.5         
-[19] IRanges_2.36.0               S4Vectors_0.40.2            
-[21] BiocGenerics_0.48.1          MatrixGenerics_1.14.0       
-[23] matrixStats_1.2.0            BiocStyle_2.30.0            
-
-loaded via a namespace (and not attached):
-  [1] later_1.3.2                   BiocIO_1.12.0                
-  [3] bitops_1.0-7                  filelock_1.0.3               
-  [5] tibble_3.2.1                  R.oo_1.26.0                  
-  [7] XML_3.99-0.16.1               lifecycle_1.0.4              
-  [9] edgeR_4.0.15                  lattice_0.22-5               
- [11] MASS_7.3-60.0.1               magrittr_2.0.3               
- [13] limma_3.58.1                  rmarkdown_2.25               
- [15] yaml_2.3.8                    metapod_1.10.1               
- [17] httpuv_1.6.14                 DBI_1.2.1                    
- [19] abind_1.4-5                   zlibbioc_1.48.0              
- [21] Rtsne_0.17                    purrr_1.0.2                  
- [23] R.utils_2.12.3                BumpyMatrix_1.10.0           
- [25] RCurl_1.98-1.14               rappdirs_0.3.3               
- [27] GenomeInfoDbData_1.2.11       ggrepel_0.9.5                
- [29] irlba_2.3.5.1                 dqrng_0.3.2                  
- [31] DelayedMatrixStats_1.24.0     codetools_0.2-19             
- [33] DelayedArray_0.28.0           xml2_1.3.6                   
- [35] tidyselect_1.2.0              farver_2.1.1                 
- [37] ScaledMatrix_1.10.0           viridis_0.6.5                
- [39] BiocFileCache_2.10.1          GenomicAlignments_1.38.2     
- [41] jsonlite_1.8.8                BiocNeighbors_1.20.2         
- [43] ellipsis_0.3.2                tools_4.3.2                  
- [45] progress_1.2.3                Rcpp_1.0.12                  
- [47] glue_1.7.0                    gridExtra_2.3                
- [49] SparseArray_1.2.3             xfun_0.42                    
- [51] dplyr_1.1.4                   HDF5Array_1.30.0             
- [53] withr_3.0.0                   BiocManager_1.30.22          
- [55] fastmap_1.1.1                 rhdf5filters_1.14.1          
- [57] bluster_1.12.0                fansi_1.0.6                  
- [59] digest_0.6.34                 rsvd_1.0.5                   
- [61] R6_2.5.1                      mime_0.12                    
- [63] colorspace_2.1-0              biomaRt_2.58.2               
- [65] RSQLite_2.3.5                 R.methodsS3_1.8.2            
- [67] utf8_1.2.4                    generics_0.1.3               
- [69] renv_1.0.3                    data.table_1.15.0            
- [71] rtracklayer_1.62.0            FNN_1.1.4                    
- [73] prettyunits_1.2.0             httr_1.4.7                   
- [75] S4Arrays_1.2.0                uwot_0.1.16                  
- [77] pkgconfig_2.0.3               gtable_0.3.4                 
- [79] blob_1.2.4                    XVector_0.42.0               
- [81] htmltools_0.5.7               ProtGenerics_1.34.0          
- [83] scales_1.3.0                  png_0.1-8                    
- [85] knitr_1.45                    rjson_0.2.21                 
- [87] curl_5.2.0                    cachem_1.0.8                 
- [89] rhdf5_2.46.1                  stringr_1.5.1                
- [91] BiocVersion_3.18.1            parallel_4.3.2               
- [93] vipor_0.4.7                   restfulr_0.0.15              
- [95] pillar_1.9.0                  grid_4.3.2                   
- [97] vctrs_0.6.5                   promises_1.2.1               
- [99] BiocSingular_1.18.0           dbplyr_2.4.0                 
-[101] beachmat_2.18.0               xtable_1.8-4                 
-[103] cluster_2.1.6                 beeswarm_0.4.0               
-[105] evaluate_0.23                 magick_2.8.2                 
-[107] cli_3.6.2                     locfit_1.5-9.8               
-[109] compiler_4.3.2                Rsamtools_2.18.0             
-[111] rlang_1.1.3                   crayon_1.5.2                 
-[113] labeling_0.4.3                ggbeeswarm_0.7.2             
-[115] stringi_1.8.3                 viridisLite_0.4.2            
-[117] BiocParallel_1.36.0           munsell_0.5.0                
-[119] Biostrings_2.70.2             lazyeval_0.2.2               
-[121] Matrix_1.6-5                  ExperimentHub_2.10.0         
-[123] hms_1.1.3                     sparseMatrixStats_1.14.0     
-[125] bit64_4.0.5                   Rhdf5lib_1.24.2              
-[127] KEGGREST_1.42.0               statmod_1.5.0                
-[129] shiny_1.8.0                   interactiveDisplayBase_1.40.0
-[131] highr_0.10                    AnnotationHub_3.10.0         
-[133] igraph_2.0.1.1                memoise_2.0.1                
-[135] bit_4.0.5                     xgboost_1.7.7.1              </code></pre>
-</div>
-</div>
-<div class="section level1">
-<h1 id="further-reading">Further Reading<a class="anchor" aria-label="anchor" href="#further-reading"></a></h1>
-<ul><li>OSCA book, Basics, <a href="https://bioconductor.org/books/release/OSCA.basic" class="external-link">Chapters
-1-4</a>
-</li>
-<li>OSCA book, Advanced, <a href="https://bioconductor.org/books/release/OSCA.advanced/" class="external-link">Chapters
-7-8</a>
-</li>
-</ul></div>
-<div class="section level1">
-<h1 id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a></h1>
-<div id="exercise-1-normalization" class="callout challenge">
+</section><section id="exercises"><h2 class="section-heading">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
+</h2>
+<hr class="half-width"><div id="exercise-1-normalization" class="callout discussion">
 <div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
+<i class="callout-icon" data-feather="message-circle"></i>
 </div>
 <div id="exercise-1-normalization" class="callout-inner">
 <h3 class="callout-title">Exercise 1: Normalization<a class="anchor" aria-label="anchor" href="#exercise-1-normalization"></a>
@@ -1395,18 +1223,6 @@ loaded via a namespace (and not attached):
 considering a preliminary clustering. Compare the resulting size factors
 via a scatter plot. How do the results change? What are the risks of not
 including clustering information?</p>
-</div>
-</div>
-</div>
-<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
-</button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
-<div class="accordion-body">
-<p>TODO</p>
-</div>
 </div>
 </div>
 </div>
@@ -1431,7 +1247,7 @@ results?</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
 <div class="accordion-body">
 <p>First subset the object to include only highly variable genes
 (<code>sce2 &lt;- sce[hvg.sce.var,]</code>) and then apply the
@@ -1441,21 +1257,9 @@ results?</p>
 </div>
 </div>
 </div>
-<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
-  <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
-</button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
-<div class="accordion-body">
-<p>TODO</p>
-</div>
-</div>
-</div>
-</div>
-<div id="exercise-3-pbmc-data" class="callout challenge">
+<div id="exercise-3-pbmc-data" class="callout discussion">
 <div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
+<i class="callout-icon" data-feather="message-circle"></i>
 </div>
 <div id="exercise-3-pbmc-data" class="callout-inner">
 <h3 class="callout-title">Exercise 3: PBMC Data<a class="anchor" aria-label="anchor" href="#exercise-3-pbmc-data"></a>
@@ -1468,18 +1272,6 @@ Repeat the analysis of this vignette using those data.</p>
 </div>
 </div>
 </div>
-<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
-  <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
-</button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
-<div class="accordion-body">
-<p>TODO</p>
-</div>
-</div>
-</div>
-</div>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -1488,22 +1280,50 @@ Repeat the analysis of this vignette using those data.</p>
 <h3 class="callout-title">Key Points<a class="anchor" aria-label="anchor" href="#keypoints1"></a>
 </h3>
 <div class="callout-content">
-<ul><li>TODO</li>
+<ul><li>Remove empty droplets using a chosen FDR cutoff and the
+<code>emptyDrops</code> function.</li>
+<li>Choose metrics such as mitochondrial read proportion, library size,
+and the number of expressed features to filter out low-quality
+samples.</li>
+<li>Always visualize your chosen QC metrics to identify possible
+issues.</li>
+<li>Normalization of single-cell counts is complex compared to bulk
+data. Use methods such as normalization by deconvolution.</li>
+<li>Calculate per-gene variance with the <code>modelGeneVar</code>
+function and select highly-variable genes with
+<code>getTopHVGs</code>.</li>
+<li>Use PCA to perform dimensionality reduction for downstream analyses.
+UMAP and t-SNE are useful visualization tools, but should not be used
+for further analysis.<br></li>
+<li>Identify possible doublets with the
+<code>computeDoubletDensity</code> and <code>doubletThresholding</code>
+functions.</li>
 </ul></div>
 </div>
 </div>
+<div id="further-reading" class="callout checklist">
+<div class="callout-square">
+<i class="callout-icon" data-feather="check-square"></i>
 </div>
-<div class="section level1">
-<h1 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h1>
-<!-- 
+<div id="further-reading" class="callout-inner">
+<h3 class="callout-title">Further Reading<a class="anchor" aria-label="anchor" href="#further-reading"></a>
+</h3>
+<div class="callout-content">
+<ul><li>OSCA book, Basics, <a href="https://bioconductor.org/books/release/OSCA.basic" class="external-link">Chapters
+1-4</a>
+</li>
+<li>OSCA book, Advanced, <a href="https://bioconductor.org/books/release/OSCA.advanced/" class="external-link">Chapters
+7-8</a>
+</li>
+</ul></div>
+</div>
+</div>
+</section><section id="references"><h2 class="section-heading">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<hr class="half-width"><!-- 
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
- -->
-</div>
-
-
-
-      </div> <!-- / div.lesson-content -->
+ --></section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="intro-sce.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="cell_type_annotation.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
@@ -1561,8 +1381,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/eda_qc.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/eda_qc.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-04-09",
-  "datePublished": "2024-04-30"
+  "dateModified": "2024-05-02",
+  "datePublished": "2024-05-02"
 }
 
   </script><script>
