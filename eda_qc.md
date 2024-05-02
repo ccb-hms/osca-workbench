@@ -1,23 +1,27 @@
 ---
 title: Exploratory data analysis and quality control
-teaching: 10 # Minutes of teaching in the lesson
-exercises: 2 # Minutes of exercises in the lesson
+teaching: 30 # Minutes of teaching in the lesson
+exercises: 15 # Minutes of exercises in the lesson
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- TODO
+- How do I examine the quality of single-cell data?
+- What data visualizations should I use during quality-control in a single-cell analysis?
+- How do I prepare single-cell data for analysis?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- TODO
+- Determine and communicate the quality of single-cell data.
+- Identify and filter empty droplets and doublets.
+- Perform normalization, highly-variable gene selection, and dimensionality reduction as parts of a single-cell analysis pipeline. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 
-# Setup and experimental design
+## Setup and experimental design
 
 
 
@@ -37,14 +41,6 @@ We start our analysis by selecting only sample 5, which contains the injected ce
 
 ```r
 library(MouseGastrulationData)
-```
-
-```{.warning}
-Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
-'DelayedArray::makeNindexFromArrayViewport' when loading 'SummarizedExperiment'
-```
-
-```r
 sce <- WTChimeraData(samples=5, type="raw")
 sce <- sce[[1]]
 sce
@@ -66,7 +62,9 @@ mainExpName: NULL
 altExpNames(0):
 ```
 
-# Droplet processing
+This is the same data we examined in the previous lesson. 
+
+## Droplet processing
 
 From the experiment, we expect to have only a few thousand cells, while we can see that we have data for more than 500,000 droplets. It is likely that most of these droplets are empty and are capturing only ambient or background RNA.
 
@@ -74,28 +72,13 @@ From the experiment, we expect to have only a few thousand cells, while we can s
 
 ```r
 library(DropletUtils)
-```
-
-```{.warning}
-Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
-'DelayedArray::makeNindexFromArrayViewport' when loading 'HDF5Array'
-```
-
-```r
 bcrank <- barcodeRanks(counts(sce))
 
 # Only showing unique points for plotting speed.
 uniq <- !duplicated(bcrank$rank)
 plot(bcrank$rank[uniq], bcrank$total[uniq], log="xy",
     xlab="Rank", ylab="Total UMI count", cex.lab=1.2)
-```
 
-```{.warning}
-Warning in xy.coords(x, y, xlabel, ylabel, log): 1 y value <= 0 omitted from
-logarithmic plot
-```
-
-```r
 abline(h=metadata(bcrank)$inflection, col="darkgreen", lty=2)
 abline(h=metadata(bcrank)$knee, col="dodgerblue", lty=2)
 
@@ -105,11 +88,11 @@ legend("bottomleft", legend=c("Inflection", "Knee"),
 
 <img src="fig/eda_qc-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
 
-The distribution of total counts exhibits a sharp transition between barcodes with large and small total counts, probably corresponding to cell-containing and empty droplets respectively. 
+The distribution of total counts (called the unique molecular identifier or UMI count) exhibits a sharp transition between barcodes with large and small total counts, probably corresponding to cell-containing and empty droplets respectively. 
 
 A simple approach would be to apply a threshold on the total count to only retain those barcodes with large totals. However, this may unnecessarily discard libraries derived from cell types with low RNA content.
 
-## Testing for empty droplets
+### Testing for empty droplets
 
 A better approach is to test whether the expression profile for each cell barcode is significantly different from the ambient RNA pool [@lun2019emptydrops]. Any significant deviation indicates that the barcode corresponds to a cell-containing droplet. This allows us to discriminate between well-sequenced empty droplets and droplets derived from cells with little RNA, both of which would have similar total counts. 
 
@@ -155,7 +138,19 @@ altExpNames(0):
 
 The end result confirms our prior expectation: only 3131 droplets contain a cell, while the large majority of droplets are empty.
 
-# Quality control
+::::::::: spoiler
+
+#### Setting the Random Seed
+
+Whenever your code involves randomness, it's a good idea to set the random seed in R with `set.seed()` from the base [random](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html) package. 
+
+A pseudo-random number generator, such as the one used by `random`, will always return the same pseudo-random numbers in the same order after the seed is set to a value. 
+
+This allows us to write code which is fully reproducible and will always give identical results, despite technically involving inherent randomness. 
+
+:::::::::
+
+## Quality control
 
 While we have removed empty droplets, this does not necessarily imply that all the cell-containing droplets should be kept for downstream analysis.
 In fact, some droplets could contain low-quality samples, due to cell damage or failure in library preparation.
@@ -168,9 +163,9 @@ Retaining these low-quality samples in the analysis could be problematic as they
 
 To mitigate these problems, we can check a few quality-control metrics and, if needed, remove low-quality samples.
 
-## Choice of quality-control metrics
+### Choice of quality-control metrics
 
-There are many possibile ways to define a set of quality-control metrics, see for instance @cole2019performance. Here, we keep it simple and consider only:
+There are many possible ways to define a set of quality-control metrics, see for instance @cole2019performance. Here, we keep it simple and consider only:
 
 - the _library size_, defined as the total sum of counts across all relevant features for each cell;
 - the number of expressed features in each cell, defined as the number of endogenous genes with non-zero counts for that cell;
@@ -185,43 +180,10 @@ First, we need to identify mitochondrial genes. We use the available `EnsDb` mou
 library(EnsDb.Mmusculus.v79)
 ```
 
-```{.output}
-Loading required package: ensembldb
-```
-
-```{.output}
-Loading required package: GenomicFeatures
-```
-
-```{.output}
-Loading required package: AnnotationDbi
-```
-
-```{.output}
-Loading required package: AnnotationFilter
-```
-
-```{.output}
-
-Attaching package: 'ensembldb'
-```
-
-```{.output}
-The following object is masked from 'package:stats':
-
-    filter
-```
 
 ```r
 chr.loc <- mapIds(EnsDb.Mmusculus.v79, keys=rownames(sce),
     keytype="GENEID", column="SEQNAME")
-```
-
-```{.warning}
-Warning: Unable to map 2918 of 29453 requested IDs.
-```
-
-```r
 is.mito <- which(chr.loc=="MT")
 ```
 
@@ -340,7 +302,7 @@ logical    2437     694
 sce$discard <- reasons$discard
 ```
 
-## Diagnostic plots
+### Diagnostic plots
 
 It is always a good idea to check the distribution of the QC metrics and to visualize the cells that were removed, to identify possible problems with the procedure.
 In particular, we expect to have few outliers and with a marked difference from "regular" cells (e.g., a bimodal distribution or a long tail). Moreover, if there are too many discarded cells, further exploration might be needed.
@@ -348,29 +310,23 @@ In particular, we expect to have few outliers and with a marked difference from 
 
 ```r
 library(scater)
-```
 
-```{.output}
-Loading required package: ggplot2
-```
-
-```r
 plotColData(sce, y = "sum", colour_by = "discard") + ggtitle("Total count")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
 
 ```r
 plotColData(sce, y = "detected", colour_by = "discard") + ggtitle("Detected features")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-9-2.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-10-2.png" style="display: block; margin: auto;" />
 
 ```r
 plotColData(sce, y = "subsets_Mito_percent", colour_by = "discard") + ggtitle("Mito percent")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-9-3.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-10-3.png" style="display: block; margin: auto;" />
 
 While the univariate distribution of QC metrics can give some insight on the quality of the sample, often looking at the bivariate distribution of QC metrics is useful, e.g., to confirm that there are no cells with both large total counts and large mitochondrial counts, to ensure that we are not inadvertently removing high-quality cells that happen to be highly metabolically active.
 
@@ -379,7 +335,7 @@ While the univariate distribution of QC metrics can give some insight on the qua
 plotColData(sce, x="sum", y="subsets_Mito_percent", colour_by="discard")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
 It could also be a good idea to perform a differential expression analysis between retained and discarded cells to check wether we are removing an unusual cell population rather than low-quality libraries (see [Section 1.5 of OSCA advanced](http://bioconductor.org/books/3.17/OSCA.advanced/quality-control-redux.html#qc-discard-cell-types)).
 
@@ -407,7 +363,7 @@ mainExpName: NULL
 altExpNames(0):
 ```
 
-# Normalization
+## Normalization
 
 Systematic differences in sequencing coverage between libraries are often observed in single-cell RNA sequencing data. They typically arise from technical differences in cDNA capture or PCR amplification efficiency across cells, attributable to the difficulty of achieving consistent library preparation with minimal starting material [@vallejos2017normalizing]. Normalization aims to remove these differences such that they do not interfere with comparisons of the expression profiles between cells. The hope is that the observed heterogeneity or differential expression within the cell population are driven by biology and not technical biases.
 
@@ -433,10 +389,10 @@ summary(lib.sf)
 hist(log10(lib.sf), xlab="Log10[Size factor]", col='grey80', breaks = 30)
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
 
-## Normalization by deconvolution
+### Normalization by deconvolution
 
 Library size normalization is not optimal, as it assumes that the total sum of UMI counts differ between cells only for technical and not biological reason. This can be a problem if a highly-expressed subset of genes is differentially expressed between cells or cell types.
 
@@ -479,7 +435,7 @@ plot(lib.sf, deconv.sf, xlab="Library size factor",
 abline(a=0, b=1, col="red")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
 
 Once we have computed the size factors, we compute the normalized expression values for each cell by dividing the count for each gene with the appropriate size factor for that cell. Since we are typically going to work with log-transformed counts, the function `logNormCounts` also log-transforms the normalized values, creating a new assay called `logcounts`.
 
@@ -506,13 +462,13 @@ mainExpName: NULL
 altExpNames(0):
 ```
 
-# Feature Selection
+## Feature Selection
 
 The typical next steps in the analysis of single-cell data are dimensionality reduction and clustering, which involve measuring the similarity between cells.
 
 The choice of genes to use in this calculation has a major impact on the results. We want to select genes that contain useful information about the biology of the system while removing genes that contain only random noise. This aims to preserve interesting biological structure without the variance that obscures that structure, and to reduce the size of the data to improve computational efficiency of later steps.
 
-## Quantifying per-gene variation
+### Quantifying per-gene variation
 
 The simplest approach to feature selection is to select the most variable genes based on their log-normalized expression across the population.
 
@@ -528,11 +484,11 @@ plot(fit.sce$mean, fit.sce$var, xlab = "Mean of log-expression",
 curve(fit.sce$trend(x), col = "dodgerblue", add = TRUE, lwd = 2)
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
 
 The blue line represents the uninteresting "technical" variance for any given gene abundance. The genes with a lot of additional variance exhibit interesting "biological" variation.
 
-## Selecting highly variable genes
+### Selecting highly variable genes
 
 The next step is to select the subset of HVGs to use in downstream analyses. A larger set will assure that we do not remove important genes, at the cost of potentially increasing noise. Typically, we restrict ourselves to the top $n$ genes, here we chose $n=1000$, but this choice should be guided by prior biological knowledge; for instance, we may expect that only about 10% of genes to be differentially expressed across our cell populations and hence select 10% of genes as higly variable (e.g., by setting `prop=0.1`).
 
@@ -548,13 +504,13 @@ head(hvg.sce.var)
 ```
 
 
-# Dimensionality Reduction
+## Dimensionality Reduction
 
 Many scRNA-seq analysis procedures involve comparing cells based on their expression values across multiple genes. For example, clustering aims to identify cells with similar transcriptomic profiles by computing Euclidean distances across genes. In these applications, each individual gene represents a dimension of the data, hence we can think of the data as "living" in a ten-thousand-dimensional space.
 
 As the name suggests, dimensionality reduction aims to reduce the number of dimensions, while preserving as much as possible of the original information. This obviously reduces the computational work (e.g., it is easier to compute distance in lower-dimensional spaces), and more importantly leads to less noisy and more interpretable results (cf. the _curse of dimensionality_).
 
-## Principal Component Analysis (PCA)
+### Principal Component Analysis (PCA)
 
 Principal component analysis (PCA) is a dimensionality reduction technique that provides a parsimonious summarization of the data by replacing the original variables (genes) by fewer linear combinations of these variables, that are orthogonal and have successively maximal variance. Such linear combinations seek to "separate out" the observations (cells), while loosing as little information as possible.
 
@@ -592,7 +548,7 @@ percent.var <- attr(reducedDim(sce), "percentVar")
 plot(percent.var, log="y", xlab="PC", ylab="Variance explained (%)")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
 
 And we can of course visualize the first 2-3 components, perhaps color-coding each point by an interesting feature, in this case the total number of UMIs per cell.
 
@@ -601,15 +557,15 @@ And we can of course visualize the first 2-3 components, perhaps color-coding ea
 plotPCA(sce, colour_by="sum")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
 
 ```r
 plotReducedDim(sce, dimred="PCA", ncomponents=3)
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-20-2.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-21-2.png" style="display: block; margin: auto;" />
 
-## Non-linear methods
+### Non-linear methods
 
 While PCA is a simple and effective way to visualize (and interpret!) scRNA-seq data, non-linear methods such as t-SNE (_t-stochastic neighbor embedding_) and UMAP (_uniform manifold approximation and projection_) have gained much popularity in the literature.
 
@@ -622,7 +578,7 @@ sce <- runTSNE(sce, dimred="PCA")
 plotTSNE(sce)
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
 
 
 ```r
@@ -631,7 +587,7 @@ sce <- runUMAP(sce, dimred="PCA")
 plotUMAP(sce)
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
 
 It is easy to over-interpret t-SNE and UMAP plots. We note that the relative sizes and positions of the visual clusters may be misleading, as they tend to inflate dense clusters and compress sparse ones, such that we cannot use the size as a measure of subpopulation heterogeneity. 
 
@@ -663,7 +619,7 @@ altExpNames(0):
 Despite their shortcomings, t-SNE and UMAP may be useful visualization techniques.
 When using them, it is important to consider that they are stochastic methods that involve a random component (each run will lead to different plots) and that there are key parameters to be set that change the results substantially (e.g., the "perplexity" parameter of t-SNE).
 
-# Doublet identification
+## Doublet identification
 
 _Doublets_ are artifactual libraries generated from two cells. They typically arise due to errors in cell sorting or capture. Specifically, in droplet-based protocols, it may happen that two cells are captured in the same droplet. 
 
@@ -673,7 +629,7 @@ It is not easy to computationally identify doublets as they can be hard to disti
 
 There are several computational methods to identify doublets; we describe only one here based on in-silico simulation of doublets.
 
-## Computing doublet desities
+### Computing doublet desities
 
 At a high level, the algorithm can be defined by the following steps:
 
@@ -707,7 +663,7 @@ sce$DoubletScore <- dbl.dens
 plotTSNE(sce, colour_by="DoubletScore")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
 
 We can explicitly convert this into doublet calls by identifying large outliers for the score within each sample. Here we use the "griffiths" method to do so.
 
@@ -728,13 +684,13 @@ sce$doublet <- dbl.calls
 plotColData(sce, y="DoubletScore", colour_by="doublet")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
 
 ```r
 plotTSNE(sce, colour_by="doublet")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-25-2.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-26-2.png" style="display: block; margin: auto;" />
 
 One way to determine whether a cell is in a real transient state or it is a doublet is to check the number of detected genes and total UMI counts.
 
@@ -743,147 +699,23 @@ One way to determine whether a cell is in a real transient state or it is a doub
 plotColData(sce, "detected", "sum", colour_by = "DoubletScore")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
 
 ```r
 plotColData(sce, "detected", "sum", colour_by = "doublet")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-26-2.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-27-2.png" style="display: block; margin: auto;" />
 
 In this case, we only have a few doublets at the periphery of some clusters. It could be fine to keep the doublets in the analysis, but it may be safer to discard them to avoid biases in downstream analysis (e.g., differential expression).
 
-# Session Info
-
-
-```r
-sessionInfo()
-```
-
-```{.output}
-R version 4.3.2 (2023-10-31)
-Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 22.04.3 LTS
-
-Matrix products: default
-BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0 
-LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.10.0
-
-locale:
- [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
- [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
- [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
-[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
-
-time zone: UTC
-tzcode source: system (glibc)
-
-attached base packages:
-[1] stats4    stats     graphics  grDevices utils     datasets  methods  
-[8] base     
-
-other attached packages:
- [1] scDblFinder_1.16.0           scran_1.30.2                
- [3] scater_1.30.1                ggplot2_3.4.4               
- [5] scuttle_1.12.0               EnsDb.Mmusculus.v79_2.99.0  
- [7] ensembldb_2.26.0             AnnotationFilter_1.26.0     
- [9] GenomicFeatures_1.54.3       AnnotationDbi_1.64.1        
-[11] DropletUtils_1.22.0          MouseGastrulationData_1.16.0
-[13] SpatialExperiment_1.12.0     SingleCellExperiment_1.24.0 
-[15] SummarizedExperiment_1.32.0  Biobase_2.62.0              
-[17] GenomicRanges_1.54.1         GenomeInfoDb_1.38.5         
-[19] IRanges_2.36.0               S4Vectors_0.40.2            
-[21] BiocGenerics_0.48.1          MatrixGenerics_1.14.0       
-[23] matrixStats_1.2.0            BiocStyle_2.30.0            
-
-loaded via a namespace (and not attached):
-  [1] later_1.3.2                   BiocIO_1.12.0                
-  [3] bitops_1.0-7                  filelock_1.0.3               
-  [5] tibble_3.2.1                  R.oo_1.26.0                  
-  [7] XML_3.99-0.16.1               lifecycle_1.0.4              
-  [9] edgeR_4.0.15                  lattice_0.22-5               
- [11] MASS_7.3-60.0.1               magrittr_2.0.3               
- [13] limma_3.58.1                  rmarkdown_2.25               
- [15] yaml_2.3.8                    metapod_1.10.1               
- [17] httpuv_1.6.14                 DBI_1.2.1                    
- [19] abind_1.4-5                   zlibbioc_1.48.0              
- [21] Rtsne_0.17                    purrr_1.0.2                  
- [23] R.utils_2.12.3                BumpyMatrix_1.10.0           
- [25] RCurl_1.98-1.14               rappdirs_0.3.3               
- [27] GenomeInfoDbData_1.2.11       ggrepel_0.9.5                
- [29] irlba_2.3.5.1                 dqrng_0.3.2                  
- [31] DelayedMatrixStats_1.24.0     codetools_0.2-19             
- [33] DelayedArray_0.28.0           xml2_1.3.6                   
- [35] tidyselect_1.2.0              farver_2.1.1                 
- [37] ScaledMatrix_1.10.0           viridis_0.6.5                
- [39] BiocFileCache_2.10.1          GenomicAlignments_1.38.2     
- [41] jsonlite_1.8.8                BiocNeighbors_1.20.2         
- [43] ellipsis_0.3.2                tools_4.3.2                  
- [45] progress_1.2.3                Rcpp_1.0.12                  
- [47] glue_1.7.0                    gridExtra_2.3                
- [49] SparseArray_1.2.3             xfun_0.42                    
- [51] dplyr_1.1.4                   HDF5Array_1.30.0             
- [53] withr_3.0.0                   BiocManager_1.30.22          
- [55] fastmap_1.1.1                 rhdf5filters_1.14.1          
- [57] bluster_1.12.0                fansi_1.0.6                  
- [59] digest_0.6.34                 rsvd_1.0.5                   
- [61] R6_2.5.1                      mime_0.12                    
- [63] colorspace_2.1-0              biomaRt_2.58.2               
- [65] RSQLite_2.3.5                 R.methodsS3_1.8.2            
- [67] utf8_1.2.4                    generics_0.1.3               
- [69] renv_1.0.3                    data.table_1.15.0            
- [71] rtracklayer_1.62.0            FNN_1.1.4                    
- [73] prettyunits_1.2.0             httr_1.4.7                   
- [75] S4Arrays_1.2.0                uwot_0.1.16                  
- [77] pkgconfig_2.0.3               gtable_0.3.4                 
- [79] blob_1.2.4                    XVector_0.42.0               
- [81] htmltools_0.5.7               ProtGenerics_1.34.0          
- [83] scales_1.3.0                  png_0.1-8                    
- [85] knitr_1.45                    rjson_0.2.21                 
- [87] curl_5.2.0                    cachem_1.0.8                 
- [89] rhdf5_2.46.1                  stringr_1.5.1                
- [91] BiocVersion_3.18.1            parallel_4.3.2               
- [93] vipor_0.4.7                   restfulr_0.0.15              
- [95] pillar_1.9.0                  grid_4.3.2                   
- [97] vctrs_0.6.5                   promises_1.2.1               
- [99] BiocSingular_1.18.0           dbplyr_2.4.0                 
-[101] beachmat_2.18.0               xtable_1.8-4                 
-[103] cluster_2.1.6                 beeswarm_0.4.0               
-[105] evaluate_0.23                 magick_2.8.2                 
-[107] cli_3.6.2                     locfit_1.5-9.8               
-[109] compiler_4.3.2                Rsamtools_2.18.0             
-[111] rlang_1.1.3                   crayon_1.5.2                 
-[113] labeling_0.4.3                ggbeeswarm_0.7.2             
-[115] stringi_1.8.3                 viridisLite_0.4.2            
-[117] BiocParallel_1.36.0           munsell_0.5.0                
-[119] Biostrings_2.70.2             lazyeval_0.2.2               
-[121] Matrix_1.6-5                  ExperimentHub_2.10.0         
-[123] hms_1.1.3                     sparseMatrixStats_1.14.0     
-[125] bit64_4.0.5                   Rhdf5lib_1.24.2              
-[127] KEGGREST_1.42.0               statmod_1.5.0                
-[129] shiny_1.8.0                   interactiveDisplayBase_1.40.0
-[131] highr_0.10                    AnnotationHub_3.10.0         
-[133] igraph_2.0.1.1                memoise_2.0.1                
-[135] bit_4.0.5                     xgboost_1.7.7.1              
-```
-
-# Further Reading
-
-* OSCA book, Basics, [Chapters 1-4](https://bioconductor.org/books/release/OSCA.basic)
-* OSCA book, Advanced, [Chapters 7-8](https://bioconductor.org/books/release/OSCA.advanced/)
-
-# Exercises
+## Exercises
 
 :::::::::::::::::::::::::::::::::: challenge
 
 #### Exercise 1: Normalization
 
 Here we used the deconvolution method implemented in `scran` based on a previous clustering step. Use the `calculateSumFactors` to compute the size factors without considering a preliminary clustering. Compare the resulting size factors via a scatter plot. How do the results change? What are the risks of not including clustering information?
-
-:::::::::::::: solution
-
-TODO
-:::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::::::::
 
@@ -899,11 +731,6 @@ First subset the object to include only highly variable genes (`sce2 <- sce[hvg.
 
 :::::::::::::::::::::::
 
-:::::::::::::: solution
-
-TODO
-:::::::::::::::::::::::
-
 :::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::: challenge
@@ -912,17 +739,27 @@ TODO
 
 The package `DropletTestFiles` includes the raw output from Cell Ranger of the peripheral blood mononuclear cell (PBMC) dataset from 10X Genomics, publicly available from the 10X Genomics website. Repeat the analysis of this vignette using those data.
 
-:::::::::::::: solution
-
-TODO
-:::::::::::::::::::::::
-
-:::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- TODO
+- Remove empty droplets using a chosen FDR cutoff and the `emptyDrops` function. 
+- Choose metrics such as mitochondrial read proportion, library size, and the number of expressed features to filter out low-quality samples. 
+- Always visualize your chosen QC metrics to identify possible issues. 
+- Normalization of single-cell counts is complex compared to bulk data. Use methods such as normalization by deconvolution.
+- Calculate per-gene variance with the `modelGeneVar` function and select highly-variable genes with `getTopHVGs`.
+- Use PCA to perform dimensionality reduction for downstream analyses. UMAP and t-SNE are useful visualization tools, but should not be used for further analysis.  
+- Identify possible doublets with the `computeDoubletDensity` and `doubletThresholding` functions. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-# References
+:::::::::::::: checklist
+
+## Further Reading
+
+* OSCA book, Basics, [Chapters 1-4](https://bioconductor.org/books/release/OSCA.basic)
+* OSCA book, Advanced, [Chapters 7-8](https://bioconductor.org/books/release/OSCA.advanced/)
+
+:::::::::::::::
+
+## References

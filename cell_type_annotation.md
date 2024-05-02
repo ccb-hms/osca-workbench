@@ -1,18 +1,24 @@
 ---
 title: Cell type annotation
-teaching: 10 # Minutes of teaching in the lesson
-exercises: 2 # Minutes of exercises in the lesson
+teaching: 30 # Minutes of teaching in the lesson
+exercises: 15 # Minutes of exercises in the lesson
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- TODO
+- How is clustering used in scRNA-seq data analysis?
+- How are marker genes used to interpret clustering results?
+- What are the challenges and common approaches for assigning cell type labels in scRNA-seq data?
+- How can we further validate and refine cell type annotations from scRNA-seq data?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- TODO
+- Understand that clustering is an unsupervised learning technique that groups cells with similar expression profiles.
+- Learn how to identify genes that differentiate clusters and assign potential biological meaning to each cluster based on marker gene function.
+- Understand two strategies for cell type annotation: 1. comparing to reference datasets with known cell type labels and 2. Identifying cell type marker genes and assigning labels based on marker set enrichment.
+- Explore additional methods to assess the quality of assigned labels, such as examining the distribution of marker gene expression within clusters.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -992,7 +998,7 @@ loaded via a namespace (and not attached):
  [83] splines_4.3.3                 dplyr_1.1.4                  
  [85] BiocFileCache_2.10.1          lattice_0.22-6               
  [87] survival_3.5-8                FNN_1.1.4                    
- [89] renv_1.0.5                    bit_4.0.5                    
+ [89] renv_1.0.7                    bit_4.0.5                    
  [91] tidyselect_1.2.1              locfit_1.5-9.9               
  [93] Biostrings_2.70.3             knitr_1.45                   
  [95] gridExtra_2.3                 edgeR_4.0.16                 

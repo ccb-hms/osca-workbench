@@ -122,7 +122,7 @@ metadata |>
 ```{.output}
 Rows: ??
 Columns: 10
-Database: DuckDB v0.10.1 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
+Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
 $ cell_                             <chr> "TTATGCTAGGGTGTTG_12", "GCTTGAACATGG…
 $ sample_                           <chr> "039c558ca1c43dc74c563b58fe0d6289", …
 $ cell_type                         <chr> "mature NK T cell", "mature NK T cel…
@@ -178,19 +178,19 @@ metadata |>
 
 ```{.output}
 # Source:   SQL [?? x 2]
-# Database: DuckDB v0.10.1 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
-   tissue                          n
-   <chr>                       <dbl>
- 1 renal medulla                   6
- 2 caecum                          1
- 3 ileum                           1
- 4 transition zone of prostate     2
- 5 peripheral zone of prostate     2
- 6 fovea centralis                 1
- 7 adrenal gland                   1
- 8 lymph node                      2
- 9 heart left ventricle            7
-10 bone marrow                     4
+# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
+   tissue                      n
+   <chr>                   <dbl>
+ 1 pleural effusion            1
+ 2 caudate lobe of liver       1
+ 3 cortex of kidney            7
+ 4 nose                        1
+ 5 thymus                      4
+ 6 epithelium of esophagus     1
+ 7 transverse colon            1
+ 8 liver                       1
+ 9 renal medulla               6
+10 caecum                      1
 # ℹ more rows
 ```
 
@@ -216,19 +216,19 @@ metadata |>
 
 ```{.output}
 # Source:   SQL [?? x 2]
-# Database: DuckDB v0.10.1 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
-   assay                              n
-   <chr>                          <dbl>
- 1 10x 5' v2                          2
- 2 sci-RNA-seq                        1
- 3 10x 3' v1                          1
- 4 Smart-seq2                         1
- 5 10x 3' v3                         21
- 6 Slide-seq                          4
- 7 10x 3' v2                         27
- 8 Visium Spatial Gene Expression     7
- 9 scRNA-seq                          4
-10 Seq-Well                           2
+# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
+   assay           n
+   <chr>       <dbl>
+ 1 10x 3' v3      21
+ 2 Slide-seq       4
+ 3 scRNA-seq       4
+ 4 Seq-Well        2
+ 5 Drop-seq        1
+ 6 10x 5' v2       2
+ 7 10x 3' v1       1
+ 8 Smart-seq2      1
+ 9 sci-RNA-seq     1
+10 10x 3' v2      27
 # ℹ more rows
 ```
 
@@ -243,7 +243,7 @@ metadata |>
 
 ```{.output}
 # Source:   SQL [1 x 2]
-# Database: DuckDB v0.10.1 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
+# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
   organism         n
   <chr>        <dbl>
 1 Homo sapiens    63

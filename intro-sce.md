@@ -360,11 +360,6 @@ The `SingleCellExperiment` function can be used to create a new SingleCellExperi
 
 :::::::::::::::::::::::
 
-:::::::::::::: solution
-
-TODO
-:::::::::::::::::::::::
-
 :::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::: challenge
@@ -373,13 +368,15 @@ TODO
 
 Combining two objects: The `MouseGastrulationData` package contains several datasets. Download sample 6 of the chimera experiment by running `sce6 <- WTChimeraData(sample=6)`. Use the `cbind` function to combine the new data with the `sce` object created before. 
 
-:::::::::::::: solution
-
-TODO
-:::::::::::::::::::::::
-
 :::::::::::::::::::::::::::::::::::::::::::::
 
+:::::::::::::: checklist
+
+# Further Reading
+
+* OSCA book, [Introduction](https://bioconductor.org/books/release/OSCA.intro)
+
+::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
@@ -389,6 +386,4 @@ TODO
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-# Further Reading
 
-* OSCA book, [Introduction](https://bioconductor.org/books/release/OSCA.intro)
