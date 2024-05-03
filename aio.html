@@ -310,7 +310,7 @@
         
 <section id="aio-intro-sce"><p>Content from <a href="intro-sce.html">Introduction to Bioconductor and the SingleCellExperiment class</a></p>
 <hr>
-<p>Last updated on 2024-05-02 |
+<p>Last updated on 2024-05-03 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/intro-sce.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -347,9 +347,9 @@ objects.</li>
 </div>
 </div>
 </div>
-<div class="section level1">
-<h1 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
-</h1>
+<section id="setup"><h2 class="section-heading">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
+</h2>
+<hr class="half-width">
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -359,13 +359,12 @@ objects.</li>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">MouseGastrulationData</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">BiocStyle</span><span class="op">)</span></span></code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="bioconductor">Bioconductor<a class="anchor" aria-label="anchor" href="#bioconductor"></a>
-</h1>
-<div class="section level2">
-<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</section><section id="bioconductor"><h2 class="section-heading">Bioconductor<a class="anchor" aria-label="anchor" href="#bioconductor"></a>
 </h2>
+<hr class="half-width">
+<div class="section level3">
+<h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h3>
 <p>Within the R ecosystem, the Bioconductor project provides tools for
 the analysis and comprehension of high-throughput genomics data. The
 scope of the project covers microarray data, various forms of sequencing
@@ -377,9 +376,9 @@ in different countries) to work together seamlessly in complex analyses.
 By extending R to genomics, Bioconductor serves as a powerful addition
 to the computational biologist’s toolkit.</p>
 </div>
-<div class="section level2">
-<h2 id="installing-bioconductor-packages">Installing Bioconductor Packages<a class="anchor" aria-label="anchor" href="#installing-bioconductor-packages"></a>
-</h2>
+<div class="section level3">
+<h3 id="installing-bioconductor-packages">Installing Bioconductor Packages<a class="anchor" aria-label="anchor" href="#installing-bioconductor-packages"></a>
+</h3>
 <p>The default repository for R packages is the <a href="https://cran.r-project.org/mirrors.html" class="external-link">Comprehensive R Archive
 Network</a> (CRAN), which is home to over 13,000 different R packages.
 We can easily install packages from CRAN - say, the popular <em><a href="https://CRAN.R-project.org/package=ggplot2" class="external-link">ggplot2</a></em>
@@ -431,9 +430,9 @@ instructions:</p>
 for all subsequent uses of a particular R installation. There is no need
 to repeat the installation every time we start R.</p>
 </div>
-<div class="section level2">
-<h2 id="finding-relevant-packages">Finding relevant packages<a class="anchor" aria-label="anchor" href="#finding-relevant-packages"></a>
-</h2>
+<div class="section level3">
+<h3 id="finding-relevant-packages">Finding relevant packages<a class="anchor" aria-label="anchor" href="#finding-relevant-packages"></a>
+</h3>
 <p>To find relevant Bioconductor packages, one useful resource is the <a href="https://bioconductor.org/packages/release/BiocViews.html" class="external-link">BiocViews</a>
 page. This provides a hierarchically organized view of annotations
 associated with each Bioconductor package. For example, under the <a href="https://bioconductor.org/packages/release/BiocViews.html#___Software" class="external-link">“Software”</a>
@@ -447,9 +446,9 @@ the <a href="https://cran.r-project.org/web/views/Cluster.html" class="external-
 task view page</a> lists an assortment of packages that are relevant to
 cluster analyses.</p>
 </div>
-<div class="section level2">
-<h2 id="staying-up-to-date">Staying up to date<a class="anchor" aria-label="anchor" href="#staying-up-to-date"></a>
-</h2>
+<div class="section level3">
+<h3 id="staying-up-to-date">Staying up to date<a class="anchor" aria-label="anchor" href="#staying-up-to-date"></a>
+</h3>
 <p>Updating all R/Bioconductor packages is as simple as running
 <code>BiocManager::install()</code> without any arguments. This will
 check for more recent versions of each package (within a Bioconductor
@@ -461,10 +460,9 @@ release) and prompt the user to update if any are available.</p>
 <code class="sourceCode R"><span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 </div>
-</div>
-<div class="section level1">
-<h1 id="the-singlecellexperiment-class">The <code>SingleCellExperiment</code> class<a class="anchor" aria-label="anchor" href="#the-singlecellexperiment-class"></a>
-</h1>
+</section><section id="the-singlecellexperiment-class"><h2 class="section-heading">The <code>SingleCellExperiment</code> class<a class="anchor" aria-label="anchor" href="#the-singlecellexperiment-class"></a>
+</h2>
+<hr class="half-width">
 <p>One of the main strengths of the Bioconductor project lies in the use
 of a common data infrastructure that powers interoperability across
 packages.</p>
@@ -512,10 +510,10 @@ than directly accessing the slots).</p>
 (e.g., numeric matrices, lists, etc.). We will here review the main
 slots of the SingleCellExperiment class as well as their getter/setter
 methods.</p>
-<div class="section level2">
-<h2 id="the-assays">The <code>assays</code>
+<div class="section level3">
+<h3 id="the-assays">The <code>assays</code>
 <a class="anchor" aria-label="anchor" href="#the-assays"></a>
-</h2>
+</h3>
 <p>This is arguably the most fundamental part of the object that
 contains the count matrix, and potentially other matrices with
 transformed data. We can access the <em>list</em> of matrices with the
@@ -554,10 +552,10 @@ ENSMUSG00000102343         .         .         .</code></pre>
 can be used, e.g., dense matrices or HDF5-backed matrices (see “Working
 with large data”).</p>
 </div>
-<div class="section level2">
-<h2 id="the-coldata-and-rowdata">The <code>colData</code> and <code>rowData</code>
+<div class="section level3">
+<h3 id="the-coldata-and-rowdata">The <code>colData</code> and <code>rowData</code>
 <a class="anchor" aria-label="anchor" href="#the-coldata-and-rowdata"></a>
-</h2>
+</h3>
 <p>Conceptually, these are two data frames that annotate the columns and
 the rows of your assay, respectively.</p>
 <p>One can interact with them as usual, e.g., by extracting columns or
@@ -700,10 +698,10 @@ cell_12178   0.00169483   2.061701     46162
 cell_12179   0.03767894   1.798687     38398</code></pre>
 </div>
 </div>
-<div class="section level2">
-<h2 id="the-reduceddims">The <code>reducedDims</code>
+<div class="section level3">
+<h3 id="the-reduceddims">The <code>reducedDims</code>
 <a class="anchor" aria-label="anchor" href="#the-reduceddims"></a>
-</h2>
+</h3>
 <p>Everything that we have described so far (except for the
 <code>counts</code> getter) is part of the
 <code>SummarizedExperiment</code> class that SingleCellExperiment
@@ -782,7 +780,7 @@ columns as colData.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>The <code>SingleCellExperiment</code> function can be used to create
 a new SingleCellExperiment object</p>
@@ -847,7 +845,7 @@ Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
 </div>
-</div></section><section id="aio-eda_qc"><p>Content from <a href="eda_qc.html">Exploratory data analysis and quality control</a></p>
+</section></section><section id="aio-eda_qc"><p>Content from <a href="eda_qc.html">Exploratory data analysis and quality control</a></p>
 <hr>
 <p>Last updated on 2024-05-02 |
         
@@ -1030,7 +1028,7 @@ contain a cell, while the large majority of droplets are empty.</p>
   <h3 class="accordion-header" id="headingSpoiler1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>Setting the Random Seed</h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
 <div class="accordion-body">
 <p>Whenever your code involves randomness, it’s a good idea to set the
 random seed in R with <code>set.seed()</code> from the base <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link">random</a>
@@ -1839,7 +1837,7 @@ results?</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
 <div class="accordion-body">
 <p>First subset the object to include only highly variable genes
 (<code>sce2 &lt;- sce[hvg.sce.var,]</code>) and then apply the
@@ -1923,7 +1921,7 @@ Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  --></section></section><section id="aio-cell_type_annotation"><p>Content from <a href="cell_type_annotation.html">Cell type annotation</a></p>
 <hr>
-<p>Last updated on 2024-05-02 |
+<p>Last updated on 2024-05-03 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/cell_type_annotation.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1970,9 +1968,9 @@ clusters.</li>
 </div>
 </div>
 </div>
-<div class="section level1">
-<h1 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
-</h1>
+<section id="setup"><h2 class="section-heading">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
+</h2>
+<hr class="half-width">
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1996,10 +1994,9 @@ clusters.</li>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">scater</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">scran</span><span class="op">)</span></span></code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="data-retrieval">Data retrieval<a class="anchor" aria-label="anchor" href="#data-retrieval"></a>
-</h1>
+</section><section id="data-retrieval"><h2 class="section-heading">Data retrieval<a class="anchor" aria-label="anchor" href="#data-retrieval"></a>
+</h2>
+<hr class="half-width">
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -2033,10 +2030,9 @@ cells.</p>
 <span><span class="va">ind</span> <span class="op">&lt;-</span> <span class="fu">sample</span><span class="op">(</span><span class="fu">ncol</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span>, <span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="va">sce</span><span class="op">[</span>,<span class="va">ind</span><span class="op">]</span></span></code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="preprocessing">Preprocessing<a class="anchor" aria-label="anchor" href="#preprocessing"></a>
-</h1>
+</section><section id="preprocessing"><h2 class="section-heading">Preprocessing<a class="anchor" aria-label="anchor" href="#preprocessing"></a>
+</h2>
+<hr class="half-width">
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -2044,10 +2040,9 @@ cells.</p>
 <code class="sourceCode R"><span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">logNormCounts</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span>
 <span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runPCA</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="clustering">Clustering<a class="anchor" aria-label="anchor" href="#clustering"></a>
-</h1>
+</section><section id="clustering"><h2 class="section-heading">Clustering<a class="anchor" aria-label="anchor" href="#clustering"></a>
+</h2>
+<hr class="half-width">
 <p>Clustering is an unsupervised learning procedure that is used to
 empirically define groups of cells with similar expression profiles. Its
 primary purpose is to summarize complex scRNA-seq data into a digestible
@@ -2099,11 +2094,9 @@ distribution of clusters in eg. a <em>t</em>-SNE or a UMAP.</p>
 <code class="sourceCode R"><span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runUMAP</span><span class="op">(</span><span class="va">sce</span>, dimred <span class="op">=</span> <span class="st">"PCA"</span><span class="op">)</span></span>
 <span><span class="fu">plotReducedDim</span><span class="op">(</span><span class="va">sce</span>, <span class="st">"UMAP"</span>, color_by <span class="op">=</span> <span class="st">"label"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/cell_type_annotation-rendered-cluster-viz-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure>
-</div>
-<div class="section level1">
-<h1 id="marker-gene-detection">Marker gene detection<a class="anchor" aria-label="anchor" href="#marker-gene-detection"></a>
-</h1>
+<figure><img src="fig/cell_type_annotation-rendered-cluster-viz-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section id="marker-gene-detection"><h2 class="section-heading">Marker gene detection<a class="anchor" aria-label="anchor" href="#marker-gene-detection"></a>
+</h2>
+<hr class="half-width">
 <p>To interpret clustering results as obtained in the previous section,
 we identify the genes that drive separation between clusters. These
 marker genes allow us to assign biological meaning to each cluster based
@@ -2206,11 +2199,9 @@ the <code>plotExpression</code> function from the <a href="https://bioconductor.
 <code class="sourceCode R"><span><span class="va">top.markers</span> <span class="op">&lt;-</span> <span class="fu">head</span><span class="op">(</span><span class="fu">rownames</span><span class="op">(</span><span class="va">markers</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">plotExpression</span><span class="op">(</span><span class="va">sce</span>, features <span class="op">=</span> <span class="va">top.markers</span>, x <span class="op">=</span> <span class="st">"label"</span>, color_by <span class="op">=</span> <span class="st">"label"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/cell_type_annotation-rendered-plot-markers-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure>
-</div>
-<div class="section level1">
-<h1 id="cell-type-annotation">Cell type annotation<a class="anchor" aria-label="anchor" href="#cell-type-annotation"></a>
-</h1>
+<figure><img src="fig/cell_type_annotation-rendered-plot-markers-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section id="cell-type-annotation"><h2 class="section-heading">Cell type annotation<a class="anchor" aria-label="anchor" href="#cell-type-annotation"></a>
+</h2>
+<hr class="half-width">
 <p>The most challenging task in scRNA-seq data analysis is arguably the
 interpretation of the results. Obtaining clusters of cells is fairly
 straightforward, but it is more difficult to determine what biological
@@ -2232,9 +2223,9 @@ expression profiles to published reference datasets where each sample or
 cell has already been annotated with its putative biological state by
 domain experts. Here, we will demonstrate both approaches on the
 wild-type chimera dataset.</p>
-<div class="section level2">
-<h2 id="assigning-cell-labels-from-reference-data">Assigning cell labels from reference data<a class="anchor" aria-label="anchor" href="#assigning-cell-labels-from-reference-data"></a>
-</h2>
+<div class="section level3">
+<h3 id="assigning-cell-labels-from-reference-data">Assigning cell labels from reference data<a class="anchor" aria-label="anchor" href="#assigning-cell-labels-from-reference-data"></a>
+</h3>
 <p>A conceptually straightforward annotation approach is to compare the
 single-cell expression profiles with previously annotated reference
 datasets. Labels can then be assigned to each cell in our
@@ -2465,9 +2456,9 @@ experts.</p>
 </div>
 <figure><img src="fig/cell_type_annotation-rendered-anno-vs-preanno-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure>
 </div>
-<div class="section level2">
-<h2 id="assigning-cell-labels-from-gene-sets">Assigning cell labels from gene sets<a class="anchor" aria-label="anchor" href="#assigning-cell-labels-from-gene-sets"></a>
-</h2>
+<div class="section level3">
+<h3 id="assigning-cell-labels-from-gene-sets">Assigning cell labels from gene sets<a class="anchor" aria-label="anchor" href="#assigning-cell-labels-from-gene-sets"></a>
+</h3>
 <p>A related strategy is to explicitly identify sets of marker genes
 that are highly expressed in each individual cell. This does not require
 matching of individual cells to the expression values of the reference
@@ -2882,10 +2873,9 @@ mixture, and the grey curve represents a fitted normal distribution.
 Vertical lines represent threshold estimates corresponding to each
 estimate of the distribution.</p>
 </div>
-</div>
-<div class="section level1">
-<h1 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
-</h1>
+</section><section id="session-info"><h2 class="section-heading">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
+</h2>
+<hr class="half-width">
 <div class="codewrapper sourceCode" id="cb44">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -2996,23 +2986,9 @@ loaded via a namespace (and not attached):
 [123] crayon_1.5.2                  rlang_1.1.3                  
 [125] cowplot_1.1.3                 KEGGREST_1.42.0              </code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="further-reading">Further Reading<a class="anchor" aria-label="anchor" href="#further-reading"></a>
-</h1>
-<ul>
-<li>OSCA book, <a href="https://bioconductor.org/books/release/OSCA.basic/clustering.html" class="external-link">Chapters
-5-7</a>
-</li>
-<li>Assigning cell types with SingleR (<a href="https://bioconductor.org/books/release/SingleRBook/" class="external-link">the
-book</a>).</li>
-<li>The <a href="https://bioconductor.org/packages/AUCell" class="external-link">AUCell</a>
-package vignette.</li>
-</ul>
-</div>
-<div class="section level1">
-<h1 id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
-</h1>
+</section><section id="exercises"><h2 class="section-heading">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
+</h2>
+<hr class="half-width">
 <div id="exercise-1-clustering" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -3134,6 +3110,26 @@ and marker gene detection.</p>
 </div>
 </div>
 </div>
+<div id="further-reading" class="callout checklist">
+<div class="callout-square">
+<i class="callout-icon" data-feather="check-square"></i>
+</div>
+<div id="further-reading" class="callout-inner">
+<h3 class="callout-title">Further Reading<a class="anchor" aria-label="anchor" href="#further-reading"></a>
+</h3>
+<div class="callout-content">
+<ul>
+<li>OSCA book, <a href="https://bioconductor.org/books/release/OSCA.basic/clustering.html" class="external-link">Chapters
+5-7</a>
+</li>
+<li>Assigning cell types with SingleR (<a href="https://bioconductor.org/books/release/SingleRBook/" class="external-link">the
+book</a>).</li>
+<li>The <a href="https://bioconductor.org/packages/AUCell" class="external-link">AUCell</a>
+package vignette.</li>
+</ul>
+</div>
+</div>
+</div>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -3152,9 +3148,9 @@ and marker gene detection.</p>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
-</div></section><section id="aio-multi-sample"><p>Content from <a href="multi-sample.html">Multi-sample analyses</a></p>
+</section></section><section id="aio-multi-sample"><p>Content from <a href="multi-sample.html">Multi-sample analyses</a></p>
 <hr>
-<p>Last updated on 2024-05-02 |
+<p>Last updated on 2024-05-03 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/multi-sample.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -3203,9 +3199,9 @@ identification of cell type abundance changes between conditions.</li>
 </div>
 </div>
 </div>
-<div class="section level1">
-<h1 id="setup-and-data-exploration">Setup and data exploration<a class="anchor" aria-label="anchor" href="#setup-and-data-exploration"></a>
-</h1>
+<section id="setup-and-data-exploration"><h2 class="section-heading">Setup and data exploration<a class="anchor" aria-label="anchor" href="#setup-and-data-exploration"></a>
+</h2>
+<hr class="half-width">
 <p>As said, we will use the the wild-type data from the Tal1 chimera
 experiment:</p>
 <ul>
@@ -3383,10 +3379,9 @@ instance, if the goal is to identify cell types with a clustering
 method, one may want to remove the sample effects with “batch effect”
 correction methods.</p>
 <p>For now, let’s assume that we want to remove this effect.</p>
-</div>
-<div class="section level1">
-<h1 id="correcting-batch-effects">Correcting batch effects<a class="anchor" aria-label="anchor" href="#correcting-batch-effects"></a>
-</h1>
+</section><section id="correcting-batch-effects"><h2 class="section-heading">Correcting batch effects<a class="anchor" aria-label="anchor" href="#correcting-batch-effects"></a>
+</h2>
+<hr class="half-width">
 <p>We correct the effect of samples by aid of the
 <code>correctExperiment</code> function in the <code>batchelor</code>
 package and using the <code>sample</code> <code>colData</code> column as
@@ -3413,10 +3408,9 @@ batch.</p>
 </div>
 <figure><img src="fig/multi-sample-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Once we removed the sample batch effect, we can proceed with the
 Differential Expression Analysis.</p>
-</div>
-<div class="section level1">
-<h1 id="differential-expression">Differential Expression<a class="anchor" aria-label="anchor" href="#differential-expression"></a>
-</h1>
+</section><section id="differential-expression"><h2 class="section-heading">Differential Expression<a class="anchor" aria-label="anchor" href="#differential-expression"></a>
+</h2>
+<hr class="half-width">
 <p>In order to perform a Differential Expression Analysis, we need to
 identify groups of cells across samples/conditions (depending on the
 experimental design and the final aim of the experiment).</p>
@@ -3424,9 +3418,9 @@ experimental design and the final aim of the experiment).</p>
 clustering and cell labeling. In our case we will focus on this second
 aspect to group cells according to the already annotated cell types to
 proceed with the computation of the pseudo-bulk samples.</p>
-<div class="section level2">
-<h2 id="pseudo-bulk-samples">Pseudo-bulk samples<a class="anchor" aria-label="anchor" href="#pseudo-bulk-samples"></a>
-</h2>
+<div class="section level3">
+<h3 id="pseudo-bulk-samples">Pseudo-bulk samples<a class="anchor" aria-label="anchor" href="#pseudo-bulk-samples"></a>
+</h3>
 <p>To compute differences between groups of cells, a possible way is to
 compute pseudo-bulk samples, where we mediate the gene signal of all the
 cells for each specific cell type. In this manner, we are then able to
@@ -3468,9 +3462,9 @@ mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
 </div>
-<div class="section level2">
-<h2 id="differential-expression-analysis">Differential Expression Analysis<a class="anchor" aria-label="anchor" href="#differential-expression-analysis"></a>
-</h2>
+<div class="section level3">
+<h3 id="differential-expression-analysis">Differential Expression Analysis<a class="anchor" aria-label="anchor" href="#differential-expression-analysis"></a>
+</h3>
 <p>The main advantage of using pseudo-bulk samples is the possibility to
 use well-tested methods for differential analysis like
 <code>edgeR</code> and <code>DESeq2</code>, we will focus on the former
@@ -3855,10 +3849,9 @@ ENSMUSG00000096730        NA        NA        NA          NA          NA
 ENSMUSG00000095742        NA        NA        NA          NA          NA</code></pre>
 </div>
 </div>
-</div>
-<div class="section level1">
-<h1 id="differential-abundance">Differential Abundance<a class="anchor" aria-label="anchor" href="#differential-abundance"></a>
-</h1>
+</section><section id="differential-abundance"><h2 class="section-heading">Differential Abundance<a class="anchor" aria-label="anchor" href="#differential-abundance"></a>
+</h2>
+<hr class="half-width">
 <p>With DA we test for differences between clusters across conditions,
 to investigate which clusters change accordingly to the treatment (the
 tomato injection in our case).</p>
@@ -3883,9 +3876,9 @@ without normalizing the data with TMM.</p>
 <span><span class="va">y.ab</span> <span class="op">&lt;-</span> <span class="fu">estimateDisp</span><span class="op">(</span><span class="va">y.ab</span>, <span class="va">design</span>, trend<span class="op">=</span><span class="st">"none"</span><span class="op">)</span></span>
 <span><span class="va">fit.ab</span> <span class="op">&lt;-</span> <span class="fu">glmQLFit</span><span class="op">(</span><span class="va">y.ab</span>, <span class="va">design</span>, robust<span class="op">=</span><span class="cn">TRUE</span>, abundance.trend<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="section level2">
-<h2 id="background-on-compositional-effect">Background on compositional effect<a class="anchor" aria-label="anchor" href="#background-on-compositional-effect"></a>
-</h2>
+<div class="section level3">
+<h3 id="background-on-compositional-effect">Background on compositional effect<a class="anchor" aria-label="anchor" href="#background-on-compositional-effect"></a>
+</h3>
 <p>As mentioned before, in DA we don’t normalize our data with
 <code>calcNormFactors</code> function, because this approach considers
 that most of the input features do not vary between conditions. This
@@ -3905,9 +3898,9 @@ biased if we don’t consider this aspect.</p>
 <p>We now look at different approaches for handling the compositional
 effect.</p>
 </div>
-<div class="section level2">
-<h2 id="assuming-most-labels-do-not-change">Assuming most labels do not change<a class="anchor" aria-label="anchor" href="#assuming-most-labels-do-not-change"></a>
-</h2>
+<div class="section level3">
+<h3 id="assuming-most-labels-do-not-change">Assuming most labels do not change<a class="anchor" aria-label="anchor" href="#assuming-most-labels-do-not-change"></a>
+</h3>
 <p>We can use a similar approach used during the DEGs analysis, assuming
 that most labels are not changing, in particular if we think about the
 low number of DEGs resulted from the previous analysis.</p>
@@ -3967,9 +3960,9 @@ Allantois          0.6001360 15.54924  2.085500 1.532954e-01 5.791158e-01
 Erythroid2        -0.5177901 15.97357  1.614924 2.081314e-01 7.076469e-01</code></pre>
 </div>
 </div>
-<div class="section level2">
-<h2 id="testing-against-a-log-fold-change-threshold">Testing against a log-fold change threshold<a class="anchor" aria-label="anchor" href="#testing-against-a-log-fold-change-threshold"></a>
-</h2>
+<div class="section level3">
+<h3 id="testing-against-a-log-fold-change-threshold">Testing against a log-fold change threshold<a class="anchor" aria-label="anchor" href="#testing-against-a-log-fold-change-threshold"></a>
+</h3>
 <p>This other approach assumes that the composition bias introduces a
 spurious log2-fold change of no more than a quantity for a non-DA label.
 In other words, we interpret this as the maximum log-fold change in the
@@ -4030,10 +4023,9 @@ Def. endoderm       0.9906682053</code></pre>
 <p>Addionally, the choice of can be guided by other external
 experimental data, like a previous or a pilot experiment.</p>
 </div>
-</div>
-<div class="section level1">
-<h1 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
-</h1>
+</section><section id="session-info"><h2 class="section-heading">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
+</h2>
+<hr class="half-width">
 <div class="codewrapper sourceCode" id="cb62">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -4134,19 +4126,9 @@ loaded via a namespace (and not attached):
 [109] formatR_1.14                  cowplot_1.1.3                
 [111] KEGGREST_1.42.0              </code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="further-reading">Further Reading<a class="anchor" aria-label="anchor" href="#further-reading"></a>
-</h1>
-<ul>
-<li>OSCA book, Multi-sample analysis, <a href="https://bioconductor.org/books/release/OSCA.multisample" class="external-link">Chapters
-1, 4, and 6</a>
-</li>
-</ul>
-</div>
-<div class="section level1">
-<h1 id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
-</h1>
+</section><section id="exercises"><h2 class="section-heading">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
+</h2>
+<hr class="half-width">
 <div id="exercise-1-replicates" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -4166,7 +4148,7 @@ issues.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
 <div class="accordion-body">
 
 </div>
@@ -4178,7 +4160,7 @@ issues.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -4203,7 +4185,7 @@ package and check for differences in the results.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2">Give me a hint</h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
 <div class="accordion-body">
 
 </div>
@@ -4215,10 +4197,26 @@ package and check for differences in the results.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
+</div>
+</div>
+</div>
+<div id="further-reading" class="callout checklist">
+<div class="callout-square">
+<i class="callout-icon" data-feather="check-square"></i>
+</div>
+<div id="further-reading" class="callout-inner">
+<h3 class="callout-title">Further Reading<a class="anchor" aria-label="anchor" href="#further-reading"></a>
+</h3>
+<div class="callout-content">
+<ul>
+<li>OSCA book, Multi-sample analysis, <a href="https://bioconductor.org/books/release/OSCA.multisample" class="external-link">Chapters
+1, 4, and 6</a>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -4240,9 +4238,9 @@ package and check for differences in the results.</p>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
-</div></section><section id="aio-large_data"><p>Content from <a href="large_data.html">Working with large data</a></p>
+</section></section><section id="aio-large_data"><p>Content from <a href="large_data.html">Working with large data</a></p>
 <hr>
-<p>Last updated on 2024-05-02 |
+<p>Last updated on 2024-05-03 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/large_data.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -4284,9 +4282,9 @@ steps.</li>
 </div>
 </div>
 </div>
-<div class="section level1">
-<h1 id="motivation">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a>
-</h1>
+<section id="motivation"><h2 class="section-heading">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a>
+</h2>
+<hr class="half-width">
 <p>Advances in scRNA-seq technologies have increased the number of cells
 that can be assayed in routine experiments. Public databases such as <a href="https://www.ncbi.nlm.nih.gov/geo/" class="external-link">GEO</a> are continually
 expanding with more scRNA-seq studies, while large-scale projects such
@@ -4296,10 +4294,9 @@ analysis, the computational methods need to scale with the increasing
 size of scRNA-seq data sets. This section discusses how we can use
 various aspects of the Bioconductor ecosystem to tune our analysis
 pipelines for greater speed and efficiency.</p>
-</div>
-<div class="section level1">
-<h1 id="out-of-memory-representations">Out of memory representations<a class="anchor" aria-label="anchor" href="#out-of-memory-representations"></a>
-</h1>
+</section><section id="out-of-memory-representations"><h2 class="section-heading">Out of memory representations<a class="anchor" aria-label="anchor" href="#out-of-memory-representations"></a>
+</h2>
+<hr class="half-width">
 <p>The count matrix is the central structure around which our analyses
 are based. In most of the previous chapters, this has been held fully in
 memory as a dense <code>matrix</code> or as a sparse
@@ -4497,10 +4494,9 @@ usage pattern involves performing the heavy computing quickly with
 in-memory representations on HPC systems with plentiful memory, and then
 distributing file-backed counterparts to individual users for
 exploration and visualization on their personal machines.</p>
-</div>
-<div class="section level1">
-<h1 id="parallelization">Parallelization<a class="anchor" aria-label="anchor" href="#parallelization"></a>
-</h1>
+</section><section id="parallelization"><h2 class="section-heading">Parallelization<a class="anchor" aria-label="anchor" href="#parallelization"></a>
+</h2>
+<hr class="half-width">
 <p>Parallelization of calculations across genes or cells is an obvious
 strategy for speeding up scRNA-seq analysis workflows.</p>
 <p>The <em><a href="https://bioconductor.org/packages/3.18/BiocParallel" class="external-link">BiocParallel</a></em>
@@ -4509,9 +4505,9 @@ the Bioconductor ecosystem, manifesting as a <code>BPPARAM</code>
 argument in compatible functions. We can also use
 <code>BiocParallel</code> with more expressive functions directly
 through the package’s interface.</p>
-<div class="section level3">
-<h3 id="basic-use">Basic use<a class="anchor" aria-label="anchor" href="#basic-use"></a>
-</h3>
+<div class="section level4">
+<h4 id="basic-use">Basic use<a class="anchor" aria-label="anchor" href="#basic-use"></a>
+</h4>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -4632,13 +4628,12 @@ relevant packages and (iii) transmitting the data to that session.
 Depending on the nature and size of the task, this overhead may outweigh
 any benefit from parallel computing.</p>
 </div>
-</div>
-<div class="section level1">
-<h1 id="fast-approximations">Fast approximations<a class="anchor" aria-label="anchor" href="#fast-approximations"></a>
-</h1>
-<div class="section level2">
-<h2 id="nearest-neighbor-searching">Nearest neighbor searching<a class="anchor" aria-label="anchor" href="#nearest-neighbor-searching"></a>
+</section><section id="fast-approximations"><h2 class="section-heading">Fast approximations<a class="anchor" aria-label="anchor" href="#fast-approximations"></a>
 </h2>
+<hr class="half-width">
+<div class="section level3">
+<h3 id="nearest-neighbor-searching">Nearest neighbor searching<a class="anchor" aria-label="anchor" href="#nearest-neighbor-searching"></a>
+</h3>
 <p>Identification of neighbouring cells in PC or expression space is a
 common procedure that is used in many functions, e.g.,
 <code>buildSNNGraph()</code>, <code>doubletCells()</code>. The default
@@ -4688,19 +4683,18 @@ approximation can be largely ignored.</p>
 exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
    1   90   0   0   0   0   0   0   0   1   0   0   0   0   0   0
    2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
-   3    0   0  75   0   0   0   0   0   0   0   0   0   0   0   0
+   3    0   0  77   0   0   0   0   0   0   0   0   0   0   0   0
    4    0   0   0 341   0   0   0   0   0   0   0   0   0   0   0
-   5    0   0   2   0 391   0   0   2   0   0   0   5   0   0   0
+   5    0   0   0   0 392   0   0   0   0   0   0   5   0   0   0
    6    0   0   0   0   0  80 245   0   0   1   0   2   0   0   0
-   7    0   0   0   0   0 129   0   0   0   0   2   0   0   0   0
-   8    0   0   0   0   1   0   0  93   0   0   0   0   0   0   0
+   7    0   0   0   0   0 130   0   0   0   0   0   0   0   0   0
+   8    0   0   0   0   0   0   0  95   0   0   0   0   0   0   0
    9    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
-   10   0   0   0   0   0   0   0   0   0 108   8   5   0   0   0
-   11   0   0   0   0   0   0   0   0   0   0 138   0   0   0   0
-   12   0   0   0   0   5   0   0   0   0   0   0 207   0   0   0
-   13   0   0   0   0   0   0   0   0   0   0   6   0 146   0   0
-   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0
-   15   0   0   0   0   0   0   0   0   0   0   0   0   0   0  56</code></pre>
+   10   0   0   0   0   0   0   0   0   0 107   0  21   0   0   0
+   11   0   0   0   0   0   0   0   0   0   0 153   0   0   0   0
+   12   0   0   0   0   3   0   0   0   0   0   0 193   0   0   0
+   13   0   0   0   0   0   0   0   0   0   1   0   0 146  20   0
+   14   0   0   0   8   0   0   0   0   0   0   0   0   0   0  48</code></pre>
 </div>
 <p>Note that Annoy writes the NN index to disk prior to performing the
 search. Thus, it may not actually be faster than the default exact
@@ -4727,9 +4721,9 @@ appreciable impact on the biological conclusions.</p>
 <pre class="output" tabindex="0"><code>[1] 0.561925</code></pre>
 </div>
 </div>
-<div class="section level2">
-<h2 id="singular-value-decomposition">Singular value decomposition<a class="anchor" aria-label="anchor" href="#singular-value-decomposition"></a>
-</h2>
+<div class="section level3">
+<h3 id="singular-value-decomposition">Singular value decomposition<a class="anchor" aria-label="anchor" href="#singular-value-decomposition"></a>
+</h3>
 <p>The singular value decomposition (SVD) underlies the PCA used
 throughout our analyses, e.g., in <code>denoisePCA()</code>,
 <code>fastMNN()</code>, <code>doubletCells()</code>. (Briefly, the right
@@ -4805,13 +4799,12 @@ between accuracy and speed based on its oversampling parameter
 tend to prefer IRLBA as its default behavior is more accurate, though
 RSVD is much faster for file-backed matrices.</p>
 </div>
-</div>
-<div class="section level1">
-<h1 id="interoperability-with-popular-single-cell-analysis-ecosytems">Interoperability with popular single-cell analysis ecosytems<a class="anchor" aria-label="anchor" href="#interoperability-with-popular-single-cell-analysis-ecosytems"></a>
-</h1>
-<div class="section level2">
-<h2 id="seurat">Seurat<a class="anchor" aria-label="anchor" href="#seurat"></a>
+</section><section id="interoperability-with-popular-single-cell-analysis-ecosytems"><h2 class="section-heading">Interoperability with popular single-cell analysis ecosytems<a class="anchor" aria-label="anchor" href="#interoperability-with-popular-single-cell-analysis-ecosytems"></a>
 </h2>
+<hr class="half-width">
+<div class="section level3">
+<h3 id="seurat">Seurat<a class="anchor" aria-label="anchor" href="#seurat"></a>
+</h3>
 <p><a href="https://satijalab.org/seurat" class="external-link">Seurat</a> is an R package
 designed for QC, analysis, and exploration of single-cell RNA-seq data.
 Seurat can be used to identify and interpret sources of heterogeneity
@@ -4892,9 +4885,9 @@ carried out with the <code>as.Seurat</code> function.</p>
 <span><span class="va">sobj</span></span></code></pre>
 </div>
 </div>
-<div class="section level2">
-<h2 id="scanpy">Scanpy<a class="anchor" aria-label="anchor" href="#scanpy"></a>
-</h2>
+<div class="section level3">
+<h3 id="scanpy">Scanpy<a class="anchor" aria-label="anchor" href="#scanpy"></a>
+</h3>
 <p><a href="https://scanpy.readthedocs.io" class="external-link">Scanpy</a> is a scalable
 toolkit for analyzing single-cell gene expression data built jointly
 with <a href="https://anndata.readthedocs.io/" class="external-link">anndata</a>. It includes
@@ -4964,10 +4957,9 @@ on the wild-type chimera mouse gastrulation dataset.</p>
 function and then directly used in compatible Python-based analysis
 frameworks.</p>
 </div>
-</div>
-<div class="section level1">
-<h1 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
-</h1>
+</section><section id="session-info"><h2 class="section-heading">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
+</h2>
+<hr class="half-width">
 <div class="codewrapper sourceCode" id="cb39">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -5097,20 +5089,9 @@ loaded via a namespace (and not attached):
 [153] ROCR_1.0-11                   igraph_2.0.3                 
 [155] memoise_2.0.1                 bit_4.0.5                    </code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="further-reading">Further Reading<a class="anchor" aria-label="anchor" href="#further-reading"></a>
-</h1>
-<ul>
-<li>OSCA book, <a href="https://bioconductor.org/books/release/OSCA.advanced/dealing-with-big-data.html" class="external-link">Chapter
-14</a>: Dealing with big data</li>
-<li>The <code>BiocParallel</code> <a href="https://bioconductor.org/packages/3.18/BiocParallel/vignettes/Introduction_To_BiocParallel.html" class="external-link">intro
-vignette</a>.</li>
-</ul>
-</div>
-<div class="section level1">
-<h1 id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
-</h1>
+</section><section id="exercises"><h2 class="section-heading">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
+</h2>
+<hr class="half-width">
 <div id="exercise-1-out-of-memory-representation" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -5235,6 +5216,23 @@ with cells colored by a cell metadata column of your choice.</p>
 </div>
 </div>
 </div>
+<div id="further-reading" class="callout checklist">
+<div class="callout-square">
+<i class="callout-icon" data-feather="check-square"></i>
+</div>
+<div id="further-reading" class="callout-inner">
+<h3 class="callout-title">Further Reading<a class="anchor" aria-label="anchor" href="#further-reading"></a>
+</h3>
+<div class="callout-content">
+<ul>
+<li>OSCA book, <a href="https://bioconductor.org/books/release/OSCA.advanced/dealing-with-big-data.html" class="external-link">Chapter
+14</a>: Dealing with big data</li>
+<li>The <code>BiocParallel</code> <a href="https://bioconductor.org/packages/3.18/BiocParallel/vignettes/Introduction_To_BiocParallel.html" class="external-link">intro
+vignette</a>.</li>
+</ul>
+</div>
+</div>
+</div>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -5259,17 +5257,15 @@ poplular single-cell analysis ecosystems</li>
 </div>
 </div>
 </div>
-</div>
-<div class="section level1">
-<h1 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h1>
+</section><section id="references"><h2 class="section-heading">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<hr class="half-width">
 <!-- 
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
- -->
-</div></section><section id="aio-hca"><p>Content from <a href="hca.html">Accessing data from the Human Cell Atlas (HCA)</a></p>
+ --></section></section><section id="aio-hca"><p>Content from <a href="hca.html">Accessing data from the Human Cell Atlas (HCA)</a></p>
 <hr>
-<p>Last updated on 2024-05-02 |
+<p>Last updated on 2024-05-03 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/hca.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -5306,9 +5302,9 @@ into a <code>SingleCellExperiment</code> object.</li>
 </div>
 </div>
 </div>
-<div class="section level1">
-<h1 id="hca-project">HCA Project<a class="anchor" aria-label="anchor" href="#hca-project"></a>
-</h1>
+<section id="hca-project"><h2 class="section-heading">HCA Project<a class="anchor" aria-label="anchor" href="#hca-project"></a>
+</h2>
+<hr class="half-width">
 <p>The Human Cell Atlas (HCA) is a large project that aims to learn from
 and map every cell type in the human body. The project extracts spatial
 and molecular characteristics in order to understand cellular function
@@ -5316,29 +5312,26 @@ and networks. It is an international collaborative that charts healthy
 cells in the human body at all ages. There are about 37.2 trillion cells
 in the human body. To read more about the project, head over to their
 website at <a href="https://www.humancellatlas.org" class="external-link uri">https://www.humancellatlas.org</a>.</p>
-</div>
-<div class="section level1">
-<h1 id="cellxgene">CELLxGENE<a class="anchor" aria-label="anchor" href="#cellxgene"></a>
-</h1>
+</section><section id="cellxgene"><h2 class="section-heading">CELLxGENE<a class="anchor" aria-label="anchor" href="#cellxgene"></a>
+</h2>
+<hr class="half-width">
 <p>CELLxGENE is a database and a suite of tools that help scientists to
 find, download, explore, analyze, annotate, and publish single cell
 data. It includes several analytic and visualization tools to help you
 to discover single cell data patterns. To see the list of tools, browse
 to <a href="https://cellxgene.cziscience.com/" class="external-link uri">https://cellxgene.cziscience.com/</a>.</p>
-</div>
-<div class="section level1">
-<h1 id="cellxgene-census">CELLxGENE | Census<a class="anchor" aria-label="anchor" href="#cellxgene-census"></a>
-</h1>
+</section><section id="cellxgene-census"><h2 class="section-heading">CELLxGENE | Census<a class="anchor" aria-label="anchor" href="#cellxgene-census"></a>
+</h2>
+<hr class="half-width">
 <p>The Census provides efficient computational tooling to access, query,
 and analyze all single-cell RNA data from CZ CELLxGENE Discover. Using a
 new access paradigm of cell-based slicing and querying, you can interact
 with the data through TileDB-SOMA, or get slices in AnnData or Seurat
 objects, thus accelerating your research by significantly minimizing
 data harmonization at <a href="https://chanzuckerberg.github.io/cellxgene-census/" class="external-link uri">https://chanzuckerberg.github.io/cellxgene-census/</a>.</p>
-</div>
-<div class="section level1">
-<h1 id="the-curatedatlasqueryr-project">The CuratedAtlasQueryR Project<a class="anchor" aria-label="anchor" href="#the-curatedatlasqueryr-project"></a>
-</h1>
+</section><section id="the-curatedatlasqueryr-project"><h2 class="section-heading">The CuratedAtlasQueryR Project<a class="anchor" aria-label="anchor" href="#the-curatedatlasqueryr-project"></a>
+</h2>
+<hr class="half-width">
 <p>To systematically characterize the immune system across tissues,
 demographics and multiple studies, single cell transcriptomics data was
 harmonized from the CELLxGENE database. Data from 28,975,366 cells that
@@ -5363,11 +5356,9 @@ counts are also available to facilitate large-scale, summary analyses of
 transcriptional profiles. This platform offers a standardized workflow
 for accessing atlas-level datasets programmatically and
 reproducibly.</p>
-<figure><img src="figures/curatedAtlasQuery.png" class="figure mx-auto d-block"></figure>
-</div>
-<div class="section level1">
-<h1 id="data-sources-in-r-bioconductor">Data Sources in R / Bioconductor<a class="anchor" aria-label="anchor" href="#data-sources-in-r-bioconductor"></a>
-</h1>
+<figure><img src="figures/curatedAtlasQuery.png" class="figure mx-auto d-block"></figure></section><section id="data-sources-in-r-bioconductor"><h2 class="section-heading">Data Sources in R / Bioconductor<a class="anchor" aria-label="anchor" href="#data-sources-in-r-bioconductor"></a>
+</h2>
+<hr class="half-width">
 <p>There are a few options to access single cell data with R /
 Bioconductor.</p>
 <table class="table">
@@ -5399,11 +5390,9 @@ Portal API</a></td>
 <td>fine-grained query capable CELLxGENE data including HCA</td>
 </tr>
 </tbody>
-</table>
-</div>
-<div class="section level1">
-<h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h1>
+</table></section><section id="installation"><h2 class="section-heading">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<hr class="half-width">
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -5413,10 +5402,9 @@ Portal API</a></td>
 <span></span>
 <span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="st">"CuratedAtlasQueryR"</span><span class="op">)</span></span></code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="package-load">Package load<a class="anchor" aria-label="anchor" href="#package-load"></a>
-</h1>
+</section><section id="package-load"><h2 class="section-heading">Package load<a class="anchor" aria-label="anchor" href="#package-load"></a>
+</h2>
+<hr class="half-width">
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -5424,10 +5412,9 @@ Portal API</a></td>
 <code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">CuratedAtlasQueryR</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">dplyr</span><span class="op">)</span></span></code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="hca-metadata">HCA Metadata<a class="anchor" aria-label="anchor" href="#hca-metadata"></a>
-</h1>
+</section><section id="hca-metadata"><h2 class="section-heading">HCA Metadata<a class="anchor" aria-label="anchor" href="#hca-metadata"></a>
+</h2>
+<hr class="half-width">
 <p>The metadata allows the user to get a lay of the land of what is
 available via the package. In this example, we are using the sample
 database URL which allows us to get a small and quick subset of the
@@ -5465,10 +5452,9 @@ $ cell_annotation_monaco_singler    &lt;chr&gt; "natural killer", "effector memo
 $ sample_id_db                      &lt;chr&gt; "0c1d320a7d0cbbc281a535912722d272", …
 $ `_sample_name`                    &lt;chr&gt; "BPH340PrSF_Via___transition zone of…</code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="a-note-on-the-piping-operator">A note on the piping operator<a class="anchor" aria-label="anchor" href="#a-note-on-the-piping-operator"></a>
-</h1>
+</section><section id="a-note-on-the-piping-operator"><h2 class="section-heading">A note on the piping operator<a class="anchor" aria-label="anchor" href="#a-note-on-the-piping-operator"></a>
+</h2>
+<hr class="half-width">
 <p>The vignette materials provided by <code>CuratedAtlasQueryR</code>
 show the use of the ‘native’ R pipe (implemented after R version
 <code>4.1.0</code>). For those not familiar with the pipe operator
@@ -5498,10 +5484,9 @@ each level in the <code>Species</code> variable with a
 2 versicolor     5.997872    2.804255     4.317021   1.3468085
 3  virginica     6.622449    2.983673     5.573469   2.0326531</code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="summarizing-the-metadata">Summarizing the metadata<a class="anchor" aria-label="anchor" href="#summarizing-the-metadata"></a>
-</h1>
+</section><section id="summarizing-the-metadata"><h2 class="section-heading">Summarizing the metadata<a class="anchor" aria-label="anchor" href="#summarizing-the-metadata"></a>
+</h2>
+<hr class="half-width">
 <p>For each distinct tissue and dataset combination, count the number of
 datasets by tissue type.</p>
 <div class="codewrapper sourceCode" id="cb8">
@@ -5517,24 +5502,23 @@ datasets by tissue type.</p>
 </h3>
 <pre class="output" tabindex="0"><code># Source:   SQL [?? x 2]
 # Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
-   tissue                      n
-   &lt;chr&gt;                   &lt;dbl&gt;
- 1 pleural effusion            1
- 2 caudate lobe of liver       1
- 3 cortex of kidney            7
- 4 nose                        1
- 5 thymus                      4
- 6 epithelium of esophagus     1
- 7 transverse colon            1
- 8 liver                       1
- 9 renal medulla               6
-10 caecum                      1
+   tissue                             n
+   &lt;chr&gt;                          &lt;dbl&gt;
+ 1 blood                             17
+ 2 kidney                             8
+ 3 kidney blood vessel                4
+ 4 lung parenchyma                    2
+ 5 respiratory airway                 6
+ 6 dorsolateral prefrontal cortex     1
+ 7 renal pelvis                       4
+ 8 pigment epithelium of eye          1
+ 9 mesenteric lymph node              1
+10 retina                             1
 # ℹ more rows</code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="columns-available-in-the-metadata">Columns available in the metadata<a class="anchor" aria-label="anchor" href="#columns-available-in-the-metadata"></a>
-</h1>
+</section><section id="columns-available-in-the-metadata"><h2 class="section-heading">Columns available in the metadata<a class="anchor" aria-label="anchor" href="#columns-available-in-the-metadata"></a>
+</h2>
+<hr class="half-width">
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -5546,10 +5530,9 @@ datasets by tissue type.</p>
 </h3>
 <pre class="output" tabindex="0"><code>[1] "src"        "lazy_query"</code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="available-assays">Available assays<a class="anchor" aria-label="anchor" href="#available-assays"></a>
-</h1>
+</section><section id="available-assays"><h2 class="section-heading">Available assays<a class="anchor" aria-label="anchor" href="#available-assays"></a>
+</h2>
+<hr class="half-width">
 <div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -5565,22 +5548,21 @@ datasets by tissue type.</p>
 # Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
    assay           n
    &lt;chr&gt;       &lt;dbl&gt;
- 1 10x 3' v3      21
- 2 Slide-seq       4
- 3 scRNA-seq       4
- 4 Seq-Well        2
- 5 Drop-seq        1
- 6 10x 5' v2       2
- 7 10x 3' v1       1
- 8 Smart-seq2      1
- 9 sci-RNA-seq     1
+ 1 10x 5' v2       2
+ 2 10x 3' v1       1
+ 3 Smart-seq2      1
+ 4 sci-RNA-seq     1
+ 5 10x 3' v3      21
+ 6 Slide-seq       4
+ 7 scRNA-seq       4
+ 8 Seq-Well        2
+ 9 Drop-seq        1
 10 10x 3' v2      27
 # ℹ more rows</code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="available-organisms">Available organisms<a class="anchor" aria-label="anchor" href="#available-organisms"></a>
-</h1>
+</section><section id="available-organisms"><h2 class="section-heading">Available organisms<a class="anchor" aria-label="anchor" href="#available-organisms"></a>
+</h2>
+<hr class="half-width">
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -5598,17 +5580,17 @@ datasets by tissue type.</p>
   &lt;chr&gt;        &lt;dbl&gt;
 1 Homo sapiens    63</code></pre>
 </div>
-<div class="section level2">
-<h2 id="download-single-cell-rna-sequencing-counts">Download single-cell RNA sequencing counts<a class="anchor" aria-label="anchor" href="#download-single-cell-rna-sequencing-counts"></a>
-</h2>
+<div class="section level3">
+<h3 id="download-single-cell-rna-sequencing-counts">Download single-cell RNA sequencing counts<a class="anchor" aria-label="anchor" href="#download-single-cell-rna-sequencing-counts"></a>
+</h3>
 <p>The data can be provided as either “counts” or counts per million
 “cpm” as given by the <code>assays</code> argument in the
 <code>get_single_cell_experiment()</code> function. By default, the
 <code>SingleCellExperiment</code> provided will contain only the
 ‘counts’ data.</p>
-<div class="section level3">
-<h3 id="query-raw-counts">Query raw counts<a class="anchor" aria-label="anchor" href="#query-raw-counts"></a>
-</h3>
+<div class="section level4">
+<h4 id="query-raw-counts">Query raw counts<a class="anchor" aria-label="anchor" href="#query-raw-counts"></a>
+</h4>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -5642,9 +5624,9 @@ mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
 </div>
-<div class="section level3">
-<h3 id="query-counts-scaled-per-million">Query counts scaled per million<a class="anchor" aria-label="anchor" href="#query-counts-scaled-per-million"></a>
-</h3>
+<div class="section level4">
+<h4 id="query-counts-scaled-per-million">Query counts scaled per million<a class="anchor" aria-label="anchor" href="#query-counts-scaled-per-million"></a>
+</h4>
 <p>This is helpful if just few genes are of interest, as they can be
 compared across samples.</p>
 <div class="codewrapper sourceCode" id="cb18">
@@ -5677,9 +5659,9 @@ mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
 </div>
-<div class="section level3">
-<h3 id="extract-only-a-subset-of-genes">Extract only a subset of genes<a class="anchor" aria-label="anchor" href="#extract-only-a-subset-of-genes"></a>
-</h3>
+<div class="section level4">
+<h4 id="extract-only-a-subset-of-genes">Extract only a subset of genes<a class="anchor" aria-label="anchor" href="#extract-only-a-subset-of-genes"></a>
+</h4>
 <div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -5713,9 +5695,9 @@ mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
 </div>
-<div class="section level3">
-<h3 id="extracting-counts-as-a-seurat-object">Extracting counts as a Seurat object<a class="anchor" aria-label="anchor" href="#extracting-counts-as-a-seurat-object"></a>
-</h3>
+<div class="section level4">
+<h4 id="extracting-counts-as-a-seurat-object">Extracting counts as a Seurat object<a class="anchor" aria-label="anchor" href="#extracting-counts-as-a-seurat-object"></a>
+</h4>
 <p>If needed, the H5 <code>SingleCellExperiment</code> can be converted
 into a Seurat object. Note that it may take a long time and use a lot of
 memory depending on how many cells you are requesting.</p>
@@ -5737,13 +5719,13 @@ memory depending on how many cells you are requesting.</p>
 </div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="save-your-singlecellexperiment">Save your <code>SingleCellExperiment</code>
-<a class="anchor" aria-label="anchor" href="#save-your-singlecellexperiment"></a>
-</h2>
 <div class="section level3">
-<h3 id="saving-as-hdf5">Saving as HDF5<a class="anchor" aria-label="anchor" href="#saving-as-hdf5"></a>
+<h3 id="save-your-singlecellexperiment">Save your <code>SingleCellExperiment</code>
+<a class="anchor" aria-label="anchor" href="#save-your-singlecellexperiment"></a>
 </h3>
+<div class="section level4">
+<h4 id="saving-as-hdf5">Saving as HDF5<a class="anchor" aria-label="anchor" href="#saving-as-hdf5"></a>
+</h4>
 <p>The recommended way of saving these <code>SingleCellExperiment</code>
 objects, if necessary, is to use
 <code>saveHDF5SummarizedExperiment</code> from the
@@ -5756,10 +5738,9 @@ objects, if necessary, is to use
 </div>
 </div>
 </div>
-</div>
-<div class="section level1">
-<h1 id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
-</h1>
+</section><section id="exercises"><h2 class="section-heading">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
+</h2>
+<hr class="half-width">
 <div id="exercise-1" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -5947,7 +5928,7 @@ object.</li>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
-</div></section>
+</section></section>
 </div>
     </main>
 </div>
@@ -5995,8 +5976,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/aio.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/aio.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-05-02",
-  "datePublished": "2024-05-02"
+  "dateModified": "2024-05-03",
+  "datePublished": "2024-05-03"
 }
 
   </script><script>

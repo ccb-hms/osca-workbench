@@ -1810,7 +1810,7 @@
     },
     "duckdb": {
       "Package": "duckdb",
-      "Version": "0.10.1",
+      "Version": "0.10.2",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -1819,7 +1819,7 @@
         "methods",
         "utils"
       ],
-      "Hash": "af292ac7dd0245e3772fcc358a0db85a"
+      "Hash": "797d264c5dbae66be1fbd0e1e27c459b"
     },
     "edgeR": {
       "Package": "edgeR",

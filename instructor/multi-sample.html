@@ -180,12 +180,24 @@
 <div class="accordion accordion-flush" id="accordionFlushcurrent">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-headingcurrent">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsecurrent" aria-expanded="true" aria-controls="flush-collapsecurrent">
         <span class="visually-hidden">Current Chapter</span>
         <span class="current-chapter">
         4. Multi-sample analyses
         </span>
-      
+      </button>
     </div><!--/div.accordion-header-->
+        
+    <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
+      <div class="accordion-body">
+        <ul><li><a href="#setup-and-data-exploration">Setup and data exploration</a></li>
+<li><a href="#correcting-batch-effects">Correcting batch effects</a></li>
+<li><a href="#differential-expression">Differential Expression</a></li>
+<li><a href="#differential-abundance">Differential Abundance</a></li>
+<li><a href="#session-info">Session Info</a></li>
+<li><a href="#exercises">Exercises</a></li>
+        </ul></div><!--/div.accordion-body-->
+    </div><!--/div.accordion-collapse-->
         
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
@@ -266,7 +278,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Multi-sample analyses</h1>
-        <p>Last updated on 2024-05-02 |
+        <p>Last updated on 2024-05-03 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/multi-sample.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -319,9 +331,9 @@ identification of cell type abundance changes between conditions.</li>
 </div>
 </div>
 </div>
-<div class="section level1">
-<h1 id="setup-and-data-exploration">Setup and data exploration<a class="anchor" aria-label="anchor" href="#setup-and-data-exploration"></a></h1>
-<p>As said, we will use the the wild-type data from the Tal1 chimera
+<section id="setup-and-data-exploration"><h2 class="section-heading">Setup and data exploration<a class="anchor" aria-label="anchor" href="#setup-and-data-exploration"></a>
+</h2>
+<hr class="half-width"><p>As said, we will use the the wild-type data from the Tal1 chimera
 experiment:</p>
 <ul><li>Sample 5: E8.5 injected cells (tomato positive), pool 3</li>
 <li>Sample 6: E8.5 host cells (tomato negative), pool 3</li>
@@ -496,10 +508,9 @@ instance, if the goal is to identify cell types with a clustering
 method, one may want to remove the sample effects with “batch effect”
 correction methods.</p>
 <p>For now, let’s assume that we want to remove this effect.</p>
-</div>
-<div class="section level1">
-<h1 id="correcting-batch-effects">Correcting batch effects<a class="anchor" aria-label="anchor" href="#correcting-batch-effects"></a></h1>
-<p>We correct the effect of samples by aid of the
+</section><section id="correcting-batch-effects"><h2 class="section-heading">Correcting batch effects<a class="anchor" aria-label="anchor" href="#correcting-batch-effects"></a>
+</h2>
+<hr class="half-width"><p>We correct the effect of samples by aid of the
 <code>correctExperiment</code> function in the <code>batchelor</code>
 package and using the <code>sample</code> <code>colData</code> column as
 batch.</p>
@@ -525,18 +536,17 @@ batch.</p>
 </div>
 <figure><img src="../fig/multi-sample-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Once we removed the sample batch effect, we can proceed with the
 Differential Expression Analysis.</p>
-</div>
-<div class="section level1">
-<h1 id="differential-expression">Differential Expression<a class="anchor" aria-label="anchor" href="#differential-expression"></a></h1>
-<p>In order to perform a Differential Expression Analysis, we need to
+</section><section id="differential-expression"><h2 class="section-heading">Differential Expression<a class="anchor" aria-label="anchor" href="#differential-expression"></a>
+</h2>
+<hr class="half-width"><p>In order to perform a Differential Expression Analysis, we need to
 identify groups of cells across samples/conditions (depending on the
 experimental design and the final aim of the experiment).</p>
 <p>As previously seen, we have two ways of grouping cells, cell
 clustering and cell labeling. In our case we will focus on this second
 aspect to group cells according to the already annotated cell types to
 proceed with the computation of the pseudo-bulk samples.</p>
-<div class="section level2">
-<h2 id="pseudo-bulk-samples">Pseudo-bulk samples<a class="anchor" aria-label="anchor" href="#pseudo-bulk-samples"></a></h2>
+<div class="section level3">
+<h3 id="pseudo-bulk-samples">Pseudo-bulk samples<a class="anchor" aria-label="anchor" href="#pseudo-bulk-samples"></a></h3>
 <p>To compute differences between groups of cells, a possible way is to
 compute pseudo-bulk samples, where we mediate the gene signal of all the
 cells for each specific cell type. In this manner, we are then able to
@@ -578,8 +588,8 @@ mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
 </div>
-<div class="section level2">
-<h2 id="differential-expression-analysis">Differential Expression Analysis<a class="anchor" aria-label="anchor" href="#differential-expression-analysis"></a></h2>
+<div class="section level3">
+<h3 id="differential-expression-analysis">Differential Expression Analysis<a class="anchor" aria-label="anchor" href="#differential-expression-analysis"></a></h3>
 <p>The main advantage of using pseudo-bulk samples is the possibility to
 use well-tested methods for differential analysis like
 <code>edgeR</code> and <code>DESeq2</code>, we will focus on the former
@@ -964,10 +974,9 @@ ENSMUSG00000096730        NA        NA        NA          NA          NA
 ENSMUSG00000095742        NA        NA        NA          NA          NA</code></pre>
 </div>
 </div>
-</div>
-<div class="section level1">
-<h1 id="differential-abundance">Differential Abundance<a class="anchor" aria-label="anchor" href="#differential-abundance"></a></h1>
-<p>With DA we test for differences between clusters across conditions,
+</section><section id="differential-abundance"><h2 class="section-heading">Differential Abundance<a class="anchor" aria-label="anchor" href="#differential-abundance"></a>
+</h2>
+<hr class="half-width"><p>With DA we test for differences between clusters across conditions,
 to investigate which clusters change accordingly to the treatment (the
 tomato injection in our case).</p>
 <p>We first setup some code and variables for further analysis, like
@@ -991,8 +1000,8 @@ without normalizing the data with TMM.</p>
 <span><span class="va">y.ab</span> <span class="op">&lt;-</span> <span class="fu">estimateDisp</span><span class="op">(</span><span class="va">y.ab</span>, <span class="va">design</span>, trend<span class="op">=</span><span class="st">"none"</span><span class="op">)</span></span>
 <span><span class="va">fit.ab</span> <span class="op">&lt;-</span> <span class="fu">glmQLFit</span><span class="op">(</span><span class="va">y.ab</span>, <span class="va">design</span>, robust<span class="op">=</span><span class="cn">TRUE</span>, abundance.trend<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="section level2">
-<h2 id="background-on-compositional-effect">Background on compositional effect<a class="anchor" aria-label="anchor" href="#background-on-compositional-effect"></a></h2>
+<div class="section level3">
+<h3 id="background-on-compositional-effect">Background on compositional effect<a class="anchor" aria-label="anchor" href="#background-on-compositional-effect"></a></h3>
 <p>As mentioned before, in DA we don’t normalize our data with
 <code>calcNormFactors</code> function, because this approach considers
 that most of the input features do not vary between conditions. This
@@ -1012,8 +1021,8 @@ biased if we don’t consider this aspect.</p>
 <p>We now look at different approaches for handling the compositional
 effect.</p>
 </div>
-<div class="section level2">
-<h2 id="assuming-most-labels-do-not-change">Assuming most labels do not change<a class="anchor" aria-label="anchor" href="#assuming-most-labels-do-not-change"></a></h2>
+<div class="section level3">
+<h3 id="assuming-most-labels-do-not-change">Assuming most labels do not change<a class="anchor" aria-label="anchor" href="#assuming-most-labels-do-not-change"></a></h3>
 <p>We can use a similar approach used during the DEGs analysis, assuming
 that most labels are not changing, in particular if we think about the
 low number of DEGs resulted from the previous analysis.</p>
@@ -1073,8 +1082,8 @@ Allantois          0.6001360 15.54924  2.085500 1.532954e-01 5.791158e-01
 Erythroid2        -0.5177901 15.97357  1.614924 2.081314e-01 7.076469e-01</code></pre>
 </div>
 </div>
-<div class="section level2">
-<h2 id="testing-against-a-log-fold-change-threshold">Testing against a log-fold change threshold<a class="anchor" aria-label="anchor" href="#testing-against-a-log-fold-change-threshold"></a></h2>
+<div class="section level3">
+<h3 id="testing-against-a-log-fold-change-threshold">Testing against a log-fold change threshold<a class="anchor" aria-label="anchor" href="#testing-against-a-log-fold-change-threshold"></a></h3>
 <p>This other approach assumes that the composition bias introduces a
 spurious log2-fold change of no more than a quantity for a non-DA label.
 In other words, we interpret this as the maximum log-fold change in the
@@ -1135,10 +1144,9 @@ Def. endoderm       0.9906682053</code></pre>
 <p>Addionally, the choice of can be guided by other external
 experimental data, like a previous or a pilot experiment.</p>
 </div>
-</div>
-<div class="section level1">
-<h1 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a></h1>
-<div class="codewrapper sourceCode" id="cb62">
+</section><section id="session-info"><h2 class="section-heading">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
+</h2>
+<hr class="half-width"><div class="codewrapper sourceCode" id="cb62">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1238,16 +1246,9 @@ loaded via a namespace (and not attached):
 [109] formatR_1.14                  cowplot_1.1.3                
 [111] KEGGREST_1.42.0              </code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="further-reading">Further Reading<a class="anchor" aria-label="anchor" href="#further-reading"></a></h1>
-<ul><li>OSCA book, Multi-sample analysis, <a href="https://bioconductor.org/books/release/OSCA.multisample" class="external-link">Chapters
-1, 4, and 6</a>
-</li>
-</ul></div>
-<div class="section level1">
-<h1 id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a></h1>
-<div id="exercise-1-replicates" class="callout challenge">
+</section><section id="exercises"><h2 class="section-heading">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
+</h2>
+<hr class="half-width"><div id="exercise-1-replicates" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
@@ -1266,7 +1267,7 @@ issues.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
 <div class="accordion-body">
 
 </div>
@@ -1278,7 +1279,7 @@ issues.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -1303,7 +1304,7 @@ package and check for differences in the results.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2">Give me a hint</h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
 <div class="accordion-body">
 
 </div>
@@ -1315,11 +1316,25 @@ package and check for differences in the results.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
 </div>
+</div>
+</div>
+<div id="further-reading" class="callout checklist">
+<div class="callout-square">
+<i class="callout-icon" data-feather="check-square"></i>
+</div>
+<div id="further-reading" class="callout-inner">
+<h3 class="callout-title">Further Reading<a class="anchor" aria-label="anchor" href="#further-reading"></a>
+</h3>
+<div class="callout-content">
+<ul><li>OSCA book, Multi-sample analysis, <a href="https://bioconductor.org/books/release/OSCA.multisample" class="external-link">Chapters
+1, 4, and 6</a>
+</li>
+</ul></div>
 </div>
 </div>
 <div id="keypoints1" class="callout keypoints">
@@ -1338,11 +1353,7 @@ package and check for differences in the results.</p>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
-</div>
-
-
-
-      </div> <!-- / div.lesson-content -->
+</section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="../instructor/cell_type_annotation.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="../instructor/large_data.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
@@ -1400,8 +1411,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/instructor/multi-sample.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/instructor/multi-sample.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-05-02",
-  "datePublished": "2024-05-02"
+  "dateModified": "2024-05-03",
+  "datePublished": "2024-05-03"
 }
 
   </script><script>

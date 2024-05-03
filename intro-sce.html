@@ -153,12 +153,21 @@
 <div class="accordion accordion-flush" id="accordionFlushcurrent">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-headingcurrent">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsecurrent" aria-expanded="true" aria-controls="flush-collapsecurrent">
         <span class="visually-hidden">Current Chapter</span>
         <span class="current-chapter">
         1. Introduction to Bioconductor and the SingleCellExperiment class
         </span>
-      
+      </button>
     </div><!--/div.accordion-header-->
+        
+    <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
+      <div class="accordion-body">
+        <ul><li><a href="#setup">Setup</a></li>
+<li><a href="#bioconductor">Bioconductor</a></li>
+<li><a href="#the-singlecellexperiment-class">The <code>SingleCellExperiment</code> class</a></li>
+        </ul></div><!--/div.accordion-body-->
+    </div><!--/div.accordion-collapse-->
         
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
@@ -266,7 +275,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Introduction to Bioconductor and the SingleCellExperiment class</h1>
-        <p>Last updated on 2024-05-02 |
+        <p>Last updated on 2024-05-03 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/intro-sce.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -305,9 +314,9 @@ objects.</li>
 </div>
 </div>
 </div>
-<div class="section level1">
-<h1 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a></h1>
-<div class="codewrapper sourceCode" id="cb1">
+<section id="setup"><h2 class="section-heading">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
+</h2>
+<hr class="half-width"><div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -316,11 +325,10 @@ objects.</li>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">MouseGastrulationData</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">BiocStyle</span><span class="op">)</span></span></code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="bioconductor">Bioconductor<a class="anchor" aria-label="anchor" href="#bioconductor"></a></h1>
-<div class="section level2">
-<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a></h2>
+</section><section id="bioconductor"><h2 class="section-heading">Bioconductor<a class="anchor" aria-label="anchor" href="#bioconductor"></a>
+</h2>
+<hr class="half-width"><div class="section level3">
+<h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a></h3>
 <p>Within the R ecosystem, the Bioconductor project provides tools for
 the analysis and comprehension of high-throughput genomics data. The
 scope of the project covers microarray data, various forms of sequencing
@@ -332,8 +340,8 @@ in different countries) to work together seamlessly in complex analyses.
 By extending R to genomics, Bioconductor serves as a powerful addition
 to the computational biologist’s toolkit.</p>
 </div>
-<div class="section level2">
-<h2 id="installing-bioconductor-packages">Installing Bioconductor Packages<a class="anchor" aria-label="anchor" href="#installing-bioconductor-packages"></a></h2>
+<div class="section level3">
+<h3 id="installing-bioconductor-packages">Installing Bioconductor Packages<a class="anchor" aria-label="anchor" href="#installing-bioconductor-packages"></a></h3>
 <p>The default repository for R packages is the <a href="https://cran.r-project.org/mirrors.html" class="external-link">Comprehensive R Archive
 Network</a> (CRAN), which is home to over 13,000 different R packages.
 We can easily install packages from CRAN - say, the popular <em><a href="https://CRAN.R-project.org/package=ggplot2" class="external-link">ggplot2</a></em>
@@ -385,8 +393,8 @@ instructions:</p>
 for all subsequent uses of a particular R installation. There is no need
 to repeat the installation every time we start R.</p>
 </div>
-<div class="section level2">
-<h2 id="finding-relevant-packages">Finding relevant packages<a class="anchor" aria-label="anchor" href="#finding-relevant-packages"></a></h2>
+<div class="section level3">
+<h3 id="finding-relevant-packages">Finding relevant packages<a class="anchor" aria-label="anchor" href="#finding-relevant-packages"></a></h3>
 <p>To find relevant Bioconductor packages, one useful resource is the <a href="https://bioconductor.org/packages/release/BiocViews.html" class="external-link">BiocViews</a>
 page. This provides a hierarchically organized view of annotations
 associated with each Bioconductor package. For example, under the <a href="https://bioconductor.org/packages/release/BiocViews.html#___Software" class="external-link">“Software”</a>
@@ -400,8 +408,8 @@ the <a href="https://cran.r-project.org/web/views/Cluster.html" class="external-
 task view page</a> lists an assortment of packages that are relevant to
 cluster analyses.</p>
 </div>
-<div class="section level2">
-<h2 id="staying-up-to-date">Staying up to date<a class="anchor" aria-label="anchor" href="#staying-up-to-date"></a></h2>
+<div class="section level3">
+<h3 id="staying-up-to-date">Staying up to date<a class="anchor" aria-label="anchor" href="#staying-up-to-date"></a></h3>
 <p>Updating all R/Bioconductor packages is as simple as running
 <code>BiocManager::install()</code> without any arguments. This will
 check for more recent versions of each package (within a Bioconductor
@@ -413,10 +421,9 @@ release) and prompt the user to update if any are available.</p>
 <code class="sourceCode R"><span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 </div>
-</div>
-<div class="section level1">
-<h1 id="the-singlecellexperiment-class">The <code>SingleCellExperiment</code> class<a class="anchor" aria-label="anchor" href="#the-singlecellexperiment-class"></a></h1>
-<p>One of the main strengths of the Bioconductor project lies in the use
+</section><section id="the-singlecellexperiment-class"><h2 class="section-heading">The <code>SingleCellExperiment</code> class<a class="anchor" aria-label="anchor" href="#the-singlecellexperiment-class"></a>
+</h2>
+<hr class="half-width"><p>One of the main strengths of the Bioconductor project lies in the use
 of a common data infrastructure that powers interoperability across
 packages.</p>
 <p>Users should be able to analyze their data using functions from
@@ -463,9 +470,9 @@ than directly accessing the slots).</p>
 (e.g., numeric matrices, lists, etc.). We will here review the main
 slots of the SingleCellExperiment class as well as their getter/setter
 methods.</p>
-<div class="section level2">
-<h2 id="the-assays">The <code>assays</code>
-<a class="anchor" aria-label="anchor" href="#the-assays"></a></h2>
+<div class="section level3">
+<h3 id="the-assays">The <code>assays</code>
+<a class="anchor" aria-label="anchor" href="#the-assays"></a></h3>
 <p>This is arguably the most fundamental part of the object that
 contains the count matrix, and potentially other matrices with
 transformed data. We can access the <em>list</em> of matrices with the
@@ -504,9 +511,9 @@ ENSMUSG00000102343         .         .         .</code></pre>
 can be used, e.g., dense matrices or HDF5-backed matrices (see “Working
 with large data”).</p>
 </div>
-<div class="section level2">
-<h2 id="the-coldata-and-rowdata">The <code>colData</code> and <code>rowData</code>
-<a class="anchor" aria-label="anchor" href="#the-coldata-and-rowdata"></a></h2>
+<div class="section level3">
+<h3 id="the-coldata-and-rowdata">The <code>colData</code> and <code>rowData</code>
+<a class="anchor" aria-label="anchor" href="#the-coldata-and-rowdata"></a></h3>
 <p>Conceptually, these are two data frames that annotate the columns and
 the rows of your assay, respectively.</p>
 <p>One can interact with them as usual, e.g., by extracting columns or
@@ -649,9 +656,9 @@ cell_12178   0.00169483   2.061701     46162
 cell_12179   0.03767894   1.798687     38398</code></pre>
 </div>
 </div>
-<div class="section level2">
-<h2 id="the-reduceddims">The <code>reducedDims</code>
-<a class="anchor" aria-label="anchor" href="#the-reduceddims"></a></h2>
+<div class="section level3">
+<h3 id="the-reduceddims">The <code>reducedDims</code>
+<a class="anchor" aria-label="anchor" href="#the-reduceddims"></a></h3>
 <p>Everything that we have described so far (except for the
 <code>counts</code> getter) is part of the
 <code>SummarizedExperiment</code> class that SingleCellExperiment
@@ -730,7 +737,7 @@ columns as colData.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>The <code>SingleCellExperiment</code> function can be used to create
 a new SingleCellExperiment object</p>
@@ -791,11 +798,7 @@ Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
 </div>
-</div>
-
-
-
-      </div> <!-- / div.lesson-content -->
+</section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="index.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="eda_qc.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
@@ -853,8 +856,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/intro-sce.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/intro-sce.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-05-02",
-  "datePublished": "2024-05-02"
+  "dateModified": "2024-05-03",
+  "datePublished": "2024-05-03"
 }
 
   </script><script>

@@ -189,12 +189,26 @@
 <div class="accordion accordion-flush" id="accordionFlushcurrent">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-headingcurrent">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsecurrent" aria-expanded="true" aria-controls="flush-collapsecurrent">
         <span class="visually-hidden">Current Chapter</span>
         <span class="current-chapter">
         5. Working with large data
         </span>
-      
+      </button>
     </div><!--/div.accordion-header-->
+        
+    <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
+      <div class="accordion-body">
+        <ul><li><a href="#motivation">Motivation</a></li>
+<li><a href="#out-of-memory-representations">Out of memory representations</a></li>
+<li><a href="#parallelization">Parallelization</a></li>
+<li><a href="#fast-approximations">Fast approximations</a></li>
+<li><a href="#interoperability-with-popular-single-cell-analysis-ecosytems">Interoperability with popular single-cell analysis ecosytems</a></li>
+<li><a href="#session-info">Session Info</a></li>
+<li><a href="#exercises">Exercises</a></li>
+<li><a href="#references">References</a></li>
+        </ul></div><!--/div.accordion-body-->
+    </div><!--/div.accordion-collapse-->
         
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
@@ -266,7 +280,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Working with large data</h1>
-        <p>Last updated on 2024-05-02 |
+        <p>Last updated on 2024-05-03 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/large_data.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -312,9 +326,9 @@ steps.</li>
 </div>
 </div>
 </div>
-<div class="section level1">
-<h1 id="motivation">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a></h1>
-<p>Advances in scRNA-seq technologies have increased the number of cells
+<section id="motivation"><h2 class="section-heading">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a>
+</h2>
+<hr class="half-width"><p>Advances in scRNA-seq technologies have increased the number of cells
 that can be assayed in routine experiments. Public databases such as <a href="https://www.ncbi.nlm.nih.gov/geo/" class="external-link">GEO</a> are continually
 expanding with more scRNA-seq studies, while large-scale projects such
 as the <a href="https://www.humancellatlas.org/" class="external-link">Human Cell Atlas</a>
@@ -323,10 +337,9 @@ analysis, the computational methods need to scale with the increasing
 size of scRNA-seq data sets. This section discusses how we can use
 various aspects of the Bioconductor ecosystem to tune our analysis
 pipelines for greater speed and efficiency.</p>
-</div>
-<div class="section level1">
-<h1 id="out-of-memory-representations">Out of memory representations<a class="anchor" aria-label="anchor" href="#out-of-memory-representations"></a></h1>
-<p>The count matrix is the central structure around which our analyses
+</section><section id="out-of-memory-representations"><h2 class="section-heading">Out of memory representations<a class="anchor" aria-label="anchor" href="#out-of-memory-representations"></a>
+</h2>
+<hr class="half-width"><p>The count matrix is the central structure around which our analyses
 are based. In most of the previous chapters, this has been held fully in
 memory as a dense <code>matrix</code> or as a sparse
 <code>dgCMatrix</code>. Howevever, in-memory representations may not be
@@ -523,10 +536,9 @@ usage pattern involves performing the heavy computing quickly with
 in-memory representations on HPC systems with plentiful memory, and then
 distributing file-backed counterparts to individual users for
 exploration and visualization on their personal machines.</p>
-</div>
-<div class="section level1">
-<h1 id="parallelization">Parallelization<a class="anchor" aria-label="anchor" href="#parallelization"></a></h1>
-<p>Parallelization of calculations across genes or cells is an obvious
+</section><section id="parallelization"><h2 class="section-heading">Parallelization<a class="anchor" aria-label="anchor" href="#parallelization"></a>
+</h2>
+<hr class="half-width"><p>Parallelization of calculations across genes or cells is an obvious
 strategy for speeding up scRNA-seq analysis workflows.</p>
 <p>The <em><a href="https://bioconductor.org/packages/3.18/BiocParallel" class="external-link">BiocParallel</a></em>
 package provides a common interface for parallel computing throughout
@@ -534,8 +546,8 @@ the Bioconductor ecosystem, manifesting as a <code>BPPARAM</code>
 argument in compatible functions. We can also use
 <code>BiocParallel</code> with more expressive functions directly
 through the package’s interface.</p>
-<div class="section level3">
-<h3 id="basic-use">Basic use<a class="anchor" aria-label="anchor" href="#basic-use"></a></h3>
+<div class="section level4">
+<h4 id="basic-use">Basic use<a class="anchor" aria-label="anchor" href="#basic-use"></a></h4>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -656,11 +668,10 @@ relevant packages and (iii) transmitting the data to that session.
 Depending on the nature and size of the task, this overhead may outweigh
 any benefit from parallel computing.</p>
 </div>
-</div>
-<div class="section level1">
-<h1 id="fast-approximations">Fast approximations<a class="anchor" aria-label="anchor" href="#fast-approximations"></a></h1>
-<div class="section level2">
-<h2 id="nearest-neighbor-searching">Nearest neighbor searching<a class="anchor" aria-label="anchor" href="#nearest-neighbor-searching"></a></h2>
+</section><section id="fast-approximations"><h2 class="section-heading">Fast approximations<a class="anchor" aria-label="anchor" href="#fast-approximations"></a>
+</h2>
+<hr class="half-width"><div class="section level3">
+<h3 id="nearest-neighbor-searching">Nearest neighbor searching<a class="anchor" aria-label="anchor" href="#nearest-neighbor-searching"></a></h3>
 <p>Identification of neighbouring cells in PC or expression space is a
 common procedure that is used in many functions, e.g.,
 <code>buildSNNGraph()</code>, <code>doubletCells()</code>. The default
@@ -710,19 +721,18 @@ approximation can be largely ignored.</p>
 exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
    1   90   0   0   0   0   0   0   0   1   0   0   0   0   0   0
    2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
-   3    0   0  75   0   0   0   0   0   0   0   0   0   0   0   0
+   3    0   0  77   0   0   0   0   0   0   0   0   0   0   0   0
    4    0   0   0 341   0   0   0   0   0   0   0   0   0   0   0
-   5    0   0   2   0 391   0   0   2   0   0   0   5   0   0   0
+   5    0   0   0   0 392   0   0   0   0   0   0   5   0   0   0
    6    0   0   0   0   0  80 245   0   0   1   0   2   0   0   0
-   7    0   0   0   0   0 129   0   0   0   0   2   0   0   0   0
-   8    0   0   0   0   1   0   0  93   0   0   0   0   0   0   0
+   7    0   0   0   0   0 130   0   0   0   0   0   0   0   0   0
+   8    0   0   0   0   0   0   0  95   0   0   0   0   0   0   0
    9    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
-   10   0   0   0   0   0   0   0   0   0 108   8   5   0   0   0
-   11   0   0   0   0   0   0   0   0   0   0 138   0   0   0   0
-   12   0   0   0   0   5   0   0   0   0   0   0 207   0   0   0
-   13   0   0   0   0   0   0   0   0   0   0   6   0 146   0   0
-   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0
-   15   0   0   0   0   0   0   0   0   0   0   0   0   0   0  56</code></pre>
+   10   0   0   0   0   0   0   0   0   0 107   0  21   0   0   0
+   11   0   0   0   0   0   0   0   0   0   0 153   0   0   0   0
+   12   0   0   0   0   3   0   0   0   0   0   0 193   0   0   0
+   13   0   0   0   0   0   0   0   0   0   1   0   0 146  20   0
+   14   0   0   0   8   0   0   0   0   0   0   0   0   0   0  48</code></pre>
 </div>
 <p>Note that Annoy writes the NN index to disk prior to performing the
 search. Thus, it may not actually be faster than the default exact
@@ -749,8 +759,8 @@ appreciable impact on the biological conclusions.</p>
 <pre class="output" tabindex="0"><code>[1] 0.561925</code></pre>
 </div>
 </div>
-<div class="section level2">
-<h2 id="singular-value-decomposition">Singular value decomposition<a class="anchor" aria-label="anchor" href="#singular-value-decomposition"></a></h2>
+<div class="section level3">
+<h3 id="singular-value-decomposition">Singular value decomposition<a class="anchor" aria-label="anchor" href="#singular-value-decomposition"></a></h3>
 <p>The singular value decomposition (SVD) underlies the PCA used
 throughout our analyses, e.g., in <code>denoisePCA()</code>,
 <code>fastMNN()</code>, <code>doubletCells()</code>. (Briefly, the right
@@ -826,11 +836,10 @@ between accuracy and speed based on its oversampling parameter
 tend to prefer IRLBA as its default behavior is more accurate, though
 RSVD is much faster for file-backed matrices.</p>
 </div>
-</div>
-<div class="section level1">
-<h1 id="interoperability-with-popular-single-cell-analysis-ecosytems">Interoperability with popular single-cell analysis ecosytems<a class="anchor" aria-label="anchor" href="#interoperability-with-popular-single-cell-analysis-ecosytems"></a></h1>
-<div class="section level2">
-<h2 id="seurat">Seurat<a class="anchor" aria-label="anchor" href="#seurat"></a></h2>
+</section><section id="interoperability-with-popular-single-cell-analysis-ecosytems"><h2 class="section-heading">Interoperability with popular single-cell analysis ecosytems<a class="anchor" aria-label="anchor" href="#interoperability-with-popular-single-cell-analysis-ecosytems"></a>
+</h2>
+<hr class="half-width"><div class="section level3">
+<h3 id="seurat">Seurat<a class="anchor" aria-label="anchor" href="#seurat"></a></h3>
 <p><a href="https://satijalab.org/seurat" class="external-link">Seurat</a> is an R package
 designed for QC, analysis, and exploration of single-cell RNA-seq data.
 Seurat can be used to identify and interpret sources of heterogeneity
@@ -911,8 +920,8 @@ carried out with the <code>as.Seurat</code> function.</p>
 <span><span class="va">sobj</span></span></code></pre>
 </div>
 </div>
-<div class="section level2">
-<h2 id="scanpy">Scanpy<a class="anchor" aria-label="anchor" href="#scanpy"></a></h2>
+<div class="section level3">
+<h3 id="scanpy">Scanpy<a class="anchor" aria-label="anchor" href="#scanpy"></a></h3>
 <p><a href="https://scanpy.readthedocs.io" class="external-link">Scanpy</a> is a scalable
 toolkit for analyzing single-cell gene expression data built jointly
 with <a href="https://anndata.readthedocs.io/" class="external-link">anndata</a>. It includes
@@ -982,10 +991,9 @@ on the wild-type chimera mouse gastrulation dataset.</p>
 function and then directly used in compatible Python-based analysis
 frameworks.</p>
 </div>
-</div>
-<div class="section level1">
-<h1 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a></h1>
-<div class="codewrapper sourceCode" id="cb39">
+</section><section id="session-info"><h2 class="section-heading">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
+</h2>
+<hr class="half-width"><div class="codewrapper sourceCode" id="cb39">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1114,17 +1122,9 @@ loaded via a namespace (and not attached):
 [153] ROCR_1.0-11                   igraph_2.0.3                 
 [155] memoise_2.0.1                 bit_4.0.5                    </code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="further-reading">Further Reading<a class="anchor" aria-label="anchor" href="#further-reading"></a></h1>
-<ul><li>OSCA book, <a href="https://bioconductor.org/books/release/OSCA.advanced/dealing-with-big-data.html" class="external-link">Chapter
-14</a>: Dealing with big data</li>
-<li>The <code>BiocParallel</code> <a href="https://bioconductor.org/packages/3.18/BiocParallel/vignettes/Introduction_To_BiocParallel.html" class="external-link">intro
-vignette</a>.</li>
-</ul></div>
-<div class="section level1">
-<h1 id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a></h1>
-<div id="exercise-1-out-of-memory-representation" class="callout challenge">
+</section><section id="exercises"><h2 class="section-heading">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
+</h2>
+<hr class="half-width"><div id="exercise-1-out-of-memory-representation" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
@@ -1248,6 +1248,21 @@ with cells colored by a cell metadata column of your choice.</p>
 </div>
 </div>
 </div>
+<div id="further-reading" class="callout checklist">
+<div class="callout-square">
+<i class="callout-icon" data-feather="check-square"></i>
+</div>
+<div id="further-reading" class="callout-inner">
+<h3 class="callout-title">Further Reading<a class="anchor" aria-label="anchor" href="#further-reading"></a>
+</h3>
+<div class="callout-content">
+<ul><li>OSCA book, <a href="https://bioconductor.org/books/release/OSCA.advanced/dealing-with-big-data.html" class="external-link">Chapter
+14</a>: Dealing with big data</li>
+<li>The <code>BiocParallel</code> <a href="https://bioconductor.org/packages/3.18/BiocParallel/vignettes/Introduction_To_BiocParallel.html" class="external-link">intro
+vignette</a>.</li>
+</ul></div>
+</div>
+</div>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -1270,18 +1285,12 @@ poplular single-cell analysis ecosystems</li>
 </ul></div>
 </div>
 </div>
-</div>
-<div class="section level1">
-<h1 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h1>
-<!-- 
+</section><section id="references"><h2 class="section-heading">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<hr class="half-width"><!-- 
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
- -->
-</div>
-
-
-
-      </div> <!-- / div.lesson-content -->
+ --></section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="../instructor/multi-sample.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="../instructor/hca.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
@@ -1339,8 +1348,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/instructor/large_data.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/instructor/large_data.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-05-02",
-  "datePublished": "2024-05-02"
+  "dateModified": "2024-05-03",
+  "datePublished": "2024-05-03"
 }
 
   </script><script>

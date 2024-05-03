@@ -171,12 +171,26 @@
 <div class="accordion accordion-flush" id="accordionFlushcurrent">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-headingcurrent">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsecurrent" aria-expanded="true" aria-controls="flush-collapsecurrent">
         <span class="visually-hidden">Current Chapter</span>
         <span class="current-chapter">
         3. Cell type annotation
         </span>
-      
+      </button>
     </div><!--/div.accordion-header-->
+        
+    <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
+      <div class="accordion-body">
+        <ul><li><a href="#setup">Setup</a></li>
+<li><a href="#data-retrieval">Data retrieval</a></li>
+<li><a href="#preprocessing">Preprocessing</a></li>
+<li><a href="#clustering">Clustering</a></li>
+<li><a href="#marker-gene-detection">Marker gene detection</a></li>
+<li><a href="#cell-type-annotation">Cell type annotation</a></li>
+<li><a href="#session-info">Session Info</a></li>
+<li><a href="#exercises">Exercises</a></li>
+        </ul></div><!--/div.accordion-body-->
+    </div><!--/div.accordion-collapse-->
         
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
@@ -266,7 +280,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Cell type annotation</h1>
-        <p>Last updated on 2024-05-02 |
+        <p>Last updated on 2024-05-03 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/cell_type_annotation.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -315,9 +329,9 @@ clusters.</li>
 </div>
 </div>
 </div>
-<div class="section level1">
-<h1 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a></h1>
-<div class="codewrapper sourceCode" id="cb1">
+<section id="setup"><h2 class="section-heading">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
+</h2>
+<hr class="half-width"><div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -340,10 +354,9 @@ clusters.</li>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">scater</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">scran</span><span class="op">)</span></span></code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="data-retrieval">Data retrieval<a class="anchor" aria-label="anchor" href="#data-retrieval"></a></h1>
-<div class="codewrapper sourceCode" id="cb4">
+</section><section id="data-retrieval"><h2 class="section-heading">Data retrieval<a class="anchor" aria-label="anchor" href="#data-retrieval"></a>
+</h2>
+<hr class="half-width"><div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -376,20 +389,18 @@ cells.</p>
 <span><span class="va">ind</span> <span class="op">&lt;-</span> <span class="fu">sample</span><span class="op">(</span><span class="fu">ncol</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span>, <span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="va">sce</span><span class="op">[</span>,<span class="va">ind</span><span class="op">]</span></span></code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="preprocessing">Preprocessing<a class="anchor" aria-label="anchor" href="#preprocessing"></a></h1>
-<div class="codewrapper sourceCode" id="cb7">
+</section><section id="preprocessing"><h2 class="section-heading">Preprocessing<a class="anchor" aria-label="anchor" href="#preprocessing"></a>
+</h2>
+<hr class="half-width"><div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">logNormCounts</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span>
 <span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runPCA</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="clustering">Clustering<a class="anchor" aria-label="anchor" href="#clustering"></a></h1>
-<p>Clustering is an unsupervised learning procedure that is used to
+</section><section id="clustering"><h2 class="section-heading">Clustering<a class="anchor" aria-label="anchor" href="#clustering"></a>
+</h2>
+<hr class="half-width"><p>Clustering is an unsupervised learning procedure that is used to
 empirically define groups of cells with similar expression profiles. Its
 primary purpose is to summarize complex scRNA-seq data into a digestible
 format for human interpretation. This allows us to describe population
@@ -440,10 +451,9 @@ distribution of clusters in eg. a <em>t</em>-SNE or a UMAP.</p>
 <code class="sourceCode R"><span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runUMAP</span><span class="op">(</span><span class="va">sce</span>, dimred <span class="op">=</span> <span class="st">"PCA"</span><span class="op">)</span></span>
 <span><span class="fu">plotReducedDim</span><span class="op">(</span><span class="va">sce</span>, <span class="st">"UMAP"</span>, color_by <span class="op">=</span> <span class="st">"label"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/cell_type_annotation-rendered-cluster-viz-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></div>
-<div class="section level1">
-<h1 id="marker-gene-detection">Marker gene detection<a class="anchor" aria-label="anchor" href="#marker-gene-detection"></a></h1>
-<p>To interpret clustering results as obtained in the previous section,
+<figure><img src="fig/cell_type_annotation-rendered-cluster-viz-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section id="marker-gene-detection"><h2 class="section-heading">Marker gene detection<a class="anchor" aria-label="anchor" href="#marker-gene-detection"></a>
+</h2>
+<hr class="half-width"><p>To interpret clustering results as obtained in the previous section,
 we identify the genes that drive separation between clusters. These
 marker genes allow us to assign biological meaning to each cluster based
 on their functional annotation. In the simplest case, we have <em>a
@@ -545,10 +555,9 @@ the <code>plotExpression</code> function from the <a href="https://bioconductor.
 <code class="sourceCode R"><span><span class="va">top.markers</span> <span class="op">&lt;-</span> <span class="fu">head</span><span class="op">(</span><span class="fu">rownames</span><span class="op">(</span><span class="va">markers</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">plotExpression</span><span class="op">(</span><span class="va">sce</span>, features <span class="op">=</span> <span class="va">top.markers</span>, x <span class="op">=</span> <span class="st">"label"</span>, color_by <span class="op">=</span> <span class="st">"label"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/cell_type_annotation-rendered-plot-markers-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></div>
-<div class="section level1">
-<h1 id="cell-type-annotation">Cell type annotation<a class="anchor" aria-label="anchor" href="#cell-type-annotation"></a></h1>
-<p>The most challenging task in scRNA-seq data analysis is arguably the
+<figure><img src="fig/cell_type_annotation-rendered-plot-markers-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section id="cell-type-annotation"><h2 class="section-heading">Cell type annotation<a class="anchor" aria-label="anchor" href="#cell-type-annotation"></a>
+</h2>
+<hr class="half-width"><p>The most challenging task in scRNA-seq data analysis is arguably the
 interpretation of the results. Obtaining clusters of cells is fairly
 straightforward, but it is more difficult to determine what biological
 state is represented by each of those clusters. Doing so requires us to
@@ -569,8 +578,8 @@ expression profiles to published reference datasets where each sample or
 cell has already been annotated with its putative biological state by
 domain experts. Here, we will demonstrate both approaches on the
 wild-type chimera dataset.</p>
-<div class="section level2">
-<h2 id="assigning-cell-labels-from-reference-data">Assigning cell labels from reference data<a class="anchor" aria-label="anchor" href="#assigning-cell-labels-from-reference-data"></a></h2>
+<div class="section level3">
+<h3 id="assigning-cell-labels-from-reference-data">Assigning cell labels from reference data<a class="anchor" aria-label="anchor" href="#assigning-cell-labels-from-reference-data"></a></h3>
 <p>A conceptually straightforward annotation approach is to compare the
 single-cell expression profiles with previously annotated reference
 datasets. Labels can then be assigned to each cell in our
@@ -800,8 +809,8 @@ experts.</p>
 <span><span class="fu">pheatmap</span><span class="op">(</span><span class="fu">log2</span><span class="op">(</span><span class="va">tab</span> <span class="op">+</span> <span class="fl">10</span><span class="op">)</span>, color <span class="op">=</span> <span class="fu">colorRampPalette</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"blue"</span><span class="op">)</span><span class="op">)</span><span class="op">(</span><span class="fl">101</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/cell_type_annotation-rendered-anno-vs-preanno-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></div>
-<div class="section level2">
-<h2 id="assigning-cell-labels-from-gene-sets">Assigning cell labels from gene sets<a class="anchor" aria-label="anchor" href="#assigning-cell-labels-from-gene-sets"></a></h2>
+<div class="section level3">
+<h3 id="assigning-cell-labels-from-gene-sets">Assigning cell labels from gene sets<a class="anchor" aria-label="anchor" href="#assigning-cell-labels-from-gene-sets"></a></h3>
 <p>A related strategy is to explicitly identify sets of marker genes
 that are highly expressed in each individual cell. This does not require
 matching of individual cells to the expression values of the reference
@@ -1216,10 +1225,9 @@ mixture, and the grey curve represents a fitted normal distribution.
 Vertical lines represent threshold estimates corresponding to each
 estimate of the distribution.</p>
 </div>
-</div>
-<div class="section level1">
-<h1 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a></h1>
-<div class="codewrapper sourceCode" id="cb44">
+</section><section id="session-info"><h2 class="section-heading">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
+</h2>
+<hr class="half-width"><div class="codewrapper sourceCode" id="cb44">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1329,20 +1337,9 @@ loaded via a namespace (and not attached):
 [123] crayon_1.5.2                  rlang_1.1.3                  
 [125] cowplot_1.1.3                 KEGGREST_1.42.0              </code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="further-reading">Further Reading<a class="anchor" aria-label="anchor" href="#further-reading"></a></h1>
-<ul><li>OSCA book, <a href="https://bioconductor.org/books/release/OSCA.basic/clustering.html" class="external-link">Chapters
-5-7</a>
-</li>
-<li>Assigning cell types with SingleR (<a href="https://bioconductor.org/books/release/SingleRBook/" class="external-link">the
-book</a>).</li>
-<li>The <a href="https://bioconductor.org/packages/AUCell" class="external-link">AUCell</a>
-package vignette.</li>
-</ul></div>
-<div class="section level1">
-<h1 id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a></h1>
-<div id="exercise-1-clustering" class="callout challenge">
+</section><section id="exercises"><h2 class="section-heading">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
+</h2>
+<hr class="half-width"><div id="exercise-1-clustering" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
@@ -1463,6 +1460,24 @@ and marker gene detection.</p>
 </div>
 </div>
 </div>
+<div id="further-reading" class="callout checklist">
+<div class="callout-square">
+<i class="callout-icon" data-feather="check-square"></i>
+</div>
+<div id="further-reading" class="callout-inner">
+<h3 class="callout-title">Further Reading<a class="anchor" aria-label="anchor" href="#further-reading"></a>
+</h3>
+<div class="callout-content">
+<ul><li>OSCA book, <a href="https://bioconductor.org/books/release/OSCA.basic/clustering.html" class="external-link">Chapters
+5-7</a>
+</li>
+<li>Assigning cell types with SingleR (<a href="https://bioconductor.org/books/release/SingleRBook/" class="external-link">the
+book</a>).</li>
+<li>The <a href="https://bioconductor.org/packages/AUCell" class="external-link">AUCell</a>
+package vignette.</li>
+</ul></div>
+</div>
+</div>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -1479,11 +1494,7 @@ and marker gene detection.</p>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
-</div>
-
-
-
-      </div> <!-- / div.lesson-content -->
+</section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="eda_qc.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="multi-sample.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
@@ -1541,8 +1552,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/cell_type_annotation.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/cell_type_annotation.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-05-02",
-  "datePublished": "2024-05-02"
+  "dateModified": "2024-05-03",
+  "datePublished": "2024-05-03"
 }
 
   </script><script>
