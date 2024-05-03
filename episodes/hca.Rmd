@@ -13,8 +13,8 @@ exercises: 10 # Minutes of exercises in the lesson
 ::::::::::::::::::::::::::::::::::::: objectives
 
 - Learn about different resources for public single-cell RNA-seq data.
-- Learn how to access data from the Human Cell Atlas using the `CuratedAtlasQueryR` package.
-- Learn how to query for cells of interest and how to download them into a `SingleCellExperiment` object. 
+- Access data from the Human Cell Atlas using the `CuratedAtlasQueryR` package.
+- Query for cells of interest and download them into a `SingleCellExperiment` object. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 

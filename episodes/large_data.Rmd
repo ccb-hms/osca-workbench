@@ -14,10 +14,10 @@ exercises: 2 # Minutes of exercises in the lesson
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Learn how to work with out-of-memory data representations such as HDF5.
-- Learn how to speed up single-cell analysis with parallel computation.
-- Learn how to invoke fast approximations for essential analysis steps.
-- Learn how to convert `SingleCellExperiment` objects to `SeuratObject`s and `AnnData` objects.
+- Work with out-of-memory data representations such as HDF5.
+- Speed up single-cell analysis with parallel computation.
+- Invoke fast approximations for essential analysis steps.
+- Convert `SingleCellExperiment` objects to `SeuratObject`s and `AnnData` objects.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
