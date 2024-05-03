@@ -20,7 +20,7 @@ exercises: 10 # Minutes of exercises in the lesson
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-# Setup
+## Setup
 
 ```{r setup, message = FALSE, warning=FALSE}
 library(SummarizedExperiment)
@@ -29,9 +29,9 @@ library(MouseGastrulationData)
 library(BiocStyle)
 ```
 
-# Bioconductor
+## Bioconductor
 
-## Overview 
+### Overview 
 
 Within the R ecosystem, the Bioconductor project provides tools for the analysis and comprehension of high-throughput genomics data.
 The scope of the project covers microarray data, various forms of sequencing (RNA-seq, ChIP-seq, bisulfite, genotyping, etc.), proteomics, flow cytometry and more.
@@ -39,7 +39,7 @@ One of Bioconductor's main selling points is the use of common data structures t
 allowing code written by different people (from different organizations, in different countries) to work together seamlessly in complex analyses. 
 By extending R to genomics, Bioconductor serves as a powerful addition to the computational biologist's toolkit.
 
-## Installing Bioconductor Packages
+### Installing Bioconductor Packages
 
 The default repository for R packages is the [Comprehensive R Archive Network](https://cran.r-project.org/mirrors.html) (CRAN), which is home to over 13,000 different R packages. 
 We can easily install packages from CRAN - say, the popular `r CRANpkg("ggplot2")` package for data visualization - by opening up R and typing in:
@@ -78,7 +78,7 @@ BiocManager::install("scater")
 Packages only need to be installed once, and then they are available for all subsequent uses of a particular R installation.
 There is no need to repeat the installation every time we start R.
 
-## Finding relevant packages
+### Finding relevant packages
 
 To find relevant Bioconductor packages, one useful resource is the [BiocViews](https://bioconductor.org/packages/release/BiocViews.html) page.
 This provides a hierarchically organized view of annotations associated with each Bioconductor package.
@@ -87,7 +87,7 @@ This gives us a listing of all Bioconductor packages that might be useful for ou
 CRAN uses the similar concept of ["Task views"](https://cran.r-project.org/web/views/), though this is understandably more general than genomics.
 For example, the [Cluster task view page](https://cran.r-project.org/web/views/Cluster.html) lists an assortment of packages that are relevant to cluster analyses.
 
-## Staying up to date
+### Staying up to date
 
 Updating all R/Bioconductor packages is as simple as running `BiocManager::install()` without any arguments.
 This will check for more recent versions of each package (within a Bioconductor release) and prompt the user to update if any are available.
@@ -96,7 +96,7 @@ This will check for more recent versions of each package (within a Bioconductor 
 BiocManager::install()
 ```
 
-# The `SingleCellExperiment` class
+## The `SingleCellExperiment` class
 
 One of the main strengths of the Bioconductor project lies in the use of a common data infrastructure that powers interoperability across packages. 
 
@@ -110,7 +110,7 @@ knitr::include_graphics("http://bioconductor.org/books/3.17/OSCA.intro/images/Si
 
 Let's start with an example dataset.
 
-```{r, message = FALSE}
+```{r, message = FALSE, warning=FALSE}
 sce <- WTChimeraData(samples=5)
 sce
 ```
@@ -121,7 +121,7 @@ The _getter_ methods are used to extract information from the slots and the _set
 
 Depending on the object, slots can contain different types of data (e.g., numeric matrices, lists, etc.). We will here review the main slots of the SingleCellExperiment class as well as their getter/setter methods.
 
-## The `assays`
+### The `assays`
 
 This is arguably the most fundamental part of the object that contains the count matrix, and potentially other matrices with transformed data. We can access the _list_ of matrices with the `assays` function and individual matrices with the `assay` function. If one of these matrices is called "counts", we can use the special `counts` getter (and the analogous `logcounts`).
 
@@ -132,7 +132,7 @@ counts(sce)[1:3, 1:3]
 
 You will notice that in this case we have a sparse matrix of class "dgTMatrix" inside the object. More generally, any "matrix-like" object can be used, e.g., dense matrices or HDF5-backed matrices (see "Working with large data").
 
-## The `colData` and `rowData`
+### The `colData` and `rowData`
 
 Conceptually, these are two data frames that annotate the columns and the rows of your assay, respectively.
 
@@ -151,7 +151,7 @@ sce$my_sum <- colSums(counts(sce))
 colData(sce)
 ```
 
-## The `reducedDims`
+### The `reducedDims`
 
 Everything that we have described so far (except for the `counts` getter) is part of the `SummarizedExperiment` class that SingleCellExperiment extends. You can find a complete lesson on the `SummarizedExperiment` class [here](https://carpentries-incubator.github.io/bioc-intro/60-next-steps.html).
 
@@ -196,7 +196,7 @@ Combining two objects: The `MouseGastrulationData` package contains several data
 
 :::::::::::::: checklist
 
-# Further Reading
+## Further Reading
 
 * OSCA book, [Introduction](https://bioconductor.org/books/release/OSCA.intro)
 
