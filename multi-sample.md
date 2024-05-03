@@ -21,7 +21,7 @@ exercises: 15 # Minutes of exercises in the lesson
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 
-# Setup and data exploration
+## Setup and data exploration
 
 As said, we will use the the wild-type data from the Tal1 chimera experiment:
 
@@ -184,7 +184,7 @@ There are evident sample effects. Depending on the analysis that you want to per
 
 For now, let's assume that we want to remove this effect.
 
-# Correcting batch effects
+## Correcting batch effects
 
 We correct the effect of samples by aid of the `correctExperiment` function
 in the `batchelor` package and using the `sample` `colData` column as batch.
@@ -215,7 +215,7 @@ Once we removed the sample batch effect, we can proceed with the Differential
 Expression Analysis.
 
 
-# Differential Expression
+## Differential Expression
 
 In order to perform a Differential Expression Analysis, we need to identify 
 groups of cells across samples/conditions (depending on the experimental 
@@ -227,7 +227,7 @@ In our case we will focus on this second aspect to group cells according to the
 already annotated cell types to proceed with the computation of the 
 pseudo-bulk samples.
 
-## Pseudo-bulk samples
+### Pseudo-bulk samples
 
 To compute differences between groups of cells, a possible way is to 
 compute pseudo-bulk samples, where we mediate the gene signal of all the cells
@@ -267,7 +267,7 @@ mainExpName: NULL
 altExpNames(0):
 ```
 
-## Differential Expression Analysis
+### Differential Expression Analysis
 
 The main advantage of using pseudo-bulk samples is the possibility to use 
 well-tested methods for differential analysis like `edgeR` and `DESeq2`, we will
@@ -623,7 +623,7 @@ ENSMUSG00000095742        NA        NA        NA          NA          NA
 ```
 
 
-# Differential Abundance
+## Differential Abundance
 
 With DA we test for differences between clusters across conditions, to investigate
 which clusters change accordingly to the treatment (the tomato injection in our case).
@@ -650,7 +650,7 @@ y.ab <- estimateDisp(y.ab, design, trend="none")
 fit.ab <- glmQLFit(y.ab, design, robust=TRUE, abundance.trend=FALSE)
 ```
 
-## Background on compositional effect
+### Background on compositional effect
 
 As mentioned before, in DA we don't normalize our data with `calcNormFactors` 
 function, because this approach considers that most of the input features do not vary between conditions.
@@ -672,7 +672,7 @@ consider this aspect.
 
 We now look at different approaches for handling the compositional effect.
 
-## Assuming most labels do not change
+### Assuming most labels do not change
 
 We can use a similar approach used during the DEGs analysis, assuming that most
 labels are not changing, in particular if we think about the low number of DEGs 
@@ -727,7 +727,7 @@ Allantois          0.6001360 15.54924  2.085500 1.532954e-01 5.791158e-01
 Erythroid2        -0.5177901 15.97357  1.614924 2.081314e-01 7.076469e-01
 ```
 
-##  Testing against a log-fold change threshold
+###  Testing against a log-fold change threshold
 
 This other approach assumes that the composition bias introduces a spurious log2-fold change of no more than a \tau quantity for a non-DA label. 
 In other words, we interpret this as the maximum log-fold change in the total number of cells given by DA in other labels.
@@ -779,7 +779,7 @@ Def. endoderm       0.9906682053
 
 Addionally, the choice of \tau can be guided by other external experimental data, like a previous or a pilot experiment.
 
-# Session Info
+## Session Info
 
 
 ```r
@@ -879,12 +879,7 @@ loaded via a namespace (and not attached):
 [111] KEGGREST_1.42.0              
 ```
 
-
-# Further Reading
-
-* OSCA book, Multi-sample analysis, [Chapters 1, 4, and 6](https://bioconductor.org/books/release/OSCA.multisample)
-
-# Exercises
+## Exercises
 
 :::::::::::::::::::::::::::::::::: challenge
 
@@ -922,6 +917,13 @@ TODO
 :::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::: checklist
+## Further Reading
+
+* OSCA book, Multi-sample analysis, [Chapters 1, 4, and 6](https://bioconductor.org/books/release/OSCA.multisample)
+
+::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 

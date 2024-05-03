@@ -23,7 +23,7 @@ exercises: 15 # Minutes of exercises in the lesson
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 
-# Setup
+## Setup
 
 
 ```r
@@ -44,7 +44,7 @@ library(scater)
 library(scran)
 ```
 
-# Data retrieval
+## Data retrieval
 
 
 ```r
@@ -76,7 +76,7 @@ ind <- sample(ncol(sce), 1000)
 sce <- sce[,ind]
 ```
 
-# Preprocessing
+## Preprocessing
 
 
 ```r
@@ -84,7 +84,7 @@ sce <- logNormCounts(sce)
 sce <- runPCA(sce)
 ```
 
-# Clustering
+## Clustering
 
 Clustering is an unsupervised learning procedure that is used to empirically 
 define groups of cells with similar expression profiles. 
@@ -141,7 +141,7 @@ plotReducedDim(sce, "UMAP", color_by = "label")
 
 <img src="fig/cell_type_annotation-rendered-cluster-viz-1.png" style="display: block; margin: auto;" />
 
-# Marker gene detection
+## Marker gene detection
 
 To interpret clustering results as obtained in the previous section, we identify
 the genes that drive separation between clusters. These marker genes allow us to 
@@ -246,7 +246,7 @@ plotExpression(sce, features = top.markers, x = "label", color_by = "label")
 
 <img src="fig/cell_type_annotation-rendered-plot-markers-1.png" style="display: block; margin: auto;" />
 
-# Cell type annotation
+## Cell type annotation
 
 The most challenging task in scRNA-seq data analysis is arguably the
 interpretation of the results.
@@ -272,7 +272,7 @@ reference datasets where each sample or cell has already been annotated with its
 putative biological state by domain experts.
 Here, we will demonstrate both approaches on the wild-type chimera dataset.
 
-## Assigning cell labels from reference data
+### Assigning cell labels from reference data
 
 A conceptually straightforward annotation approach is to compare the single-cell
 expression profiles with previously annotated reference datasets.
@@ -495,7 +495,7 @@ pheatmap(log2(tab + 10), color = colorRampPalette(c("white", "blue"))(101))
 
 <img src="fig/cell_type_annotation-rendered-anno-vs-preanno-1.png" style="display: block; margin: auto;" />
 
-## Assigning cell labels from gene sets
+### Assigning cell labels from gene sets
 
 A related strategy is to explicitly identify sets of marker genes that are highly
 expressed in each individual cell.
@@ -909,7 +909,7 @@ a fitted three-component mixture, and the grey curve represents a fitted normal
 distribution. Vertical lines represent threshold estimates corresponding to each
 estimate of the distribution. 
 
-# Session Info
+## Session Info
 
 
 ```r
@@ -1019,13 +1019,9 @@ loaded via a namespace (and not attached):
 [125] cowplot_1.1.3                 KEGGREST_1.42.0              
 ```
 
-# Further Reading
 
-* OSCA book, [Chapters 5-7](https://bioconductor.org/books/release/OSCA.basic/clustering.html)
-* Assigning cell types with SingleR ([the book](https://bioconductor.org/books/release/SingleRBook/)).
-* The [AUCell](https://bioconductor.org/packages/AUCell) package vignette.
 
-# Exercises
+## Exercises
 
 :::::::::::::::::::::::::::::::::: challenge
 
@@ -1099,6 +1095,15 @@ TODO
 :::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::: checklist
+## Further Reading
+
+* OSCA book, [Chapters 5-7](https://bioconductor.org/books/release/OSCA.basic/clustering.html)
+* Assigning cell types with SingleR ([the book](https://bioconductor.org/books/release/SingleRBook/)).
+* The [AUCell](https://bioconductor.org/packages/AUCell) package vignette.
+
+::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 

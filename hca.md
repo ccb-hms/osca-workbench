@@ -18,7 +18,7 @@ exercises: 10 # Minutes of exercises in the lesson
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-# HCA Project
+## HCA Project
 
 The Human Cell Atlas (HCA) is a large project that aims to learn from and map
 every cell type in the human body. The project extracts spatial and molecular
@@ -27,7 +27,7 @@ international collaborative that charts healthy cells in the human body at all
 ages. There are about 37.2 trillion cells in the human body. To read more about
 the project, head over to their website at https://www.humancellatlas.org.
 
-# CELLxGENE
+## CELLxGENE
 
 CELLxGENE is a database and a suite of tools that help scientists to find,
 download, explore, analyze, annotate, and publish single cell data. It includes
@@ -35,7 +35,7 @@ several analytic and visualization tools to help you to discover single cell
 data patterns. To see the list of tools, browse to
 https://cellxgene.cziscience.com/.
 
-# CELLxGENE | Census
+## CELLxGENE | Census
 
 The Census provides efficient computational tooling to access, query, and
 analyze all single-cell RNA data from CZ CELLxGENE Discover. Using a new access
@@ -44,7 +44,7 @@ through TileDB-SOMA, or get slices in AnnData or Seurat objects, thus
 accelerating your research by significantly minimizing data harmonization at
 https://chanzuckerberg.github.io/cellxgene-census/.
 
-# The CuratedAtlasQueryR Project
+## The CuratedAtlasQueryR Project
 
 To systematically characterize the immune system across tissues, demographics
 and multiple studies, single cell transcriptomics data was harmonized from the
@@ -71,7 +71,7 @@ accessing atlas-level datasets programmatically and reproducibly.
 
 ![](figures/curatedAtlasQuery.png)
 
-# Data Sources in R / Bioconductor
+## Data Sources in R / Bioconductor
 
 There are a few options to access single cell data with R / Bioconductor.
 
@@ -81,7 +81,7 @@ There are a few options to access single cell data with R / Bioconductor.
 | [cellxgenedp](https://bioconductor.org/packages/cellxgenedp) | [CellxGene](https://cellxgene.cziscience.com/) | Human and mouse SC data including HCA |
 | [CuratedAtlasQueryR](https://stemangiola.github.io/CuratedAtlasQueryR/) | [CellxGene](https://cellxgene.cziscience.com/) | fine-grained query capable CELLxGENE data including HCA |
 
-# Installation
+## Installation
 
 
 ```r
@@ -91,7 +91,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 BiocManager::install("CuratedAtlasQueryR")
 ```
 
-# Package load 
+## Package load 
 
 
 ```r
@@ -99,7 +99,7 @@ library(CuratedAtlasQueryR)
 library(dplyr)
 ```
 
-# HCA Metadata
+## HCA Metadata
 
 The metadata allows the user to get a lay of the land of what is available
 via the package. In this example, we are using the sample database URL which
@@ -135,7 +135,7 @@ $ sample_id_db                      <chr> "0c1d320a7d0cbbc281a535912722d272", �
 $ `_sample_name`                    <chr> "BPH340PrSF_Via___transition zone of…
 ```
 
-# A note on the piping operator
+## A note on the piping operator
 
 The vignette materials provided by `CuratedAtlasQueryR` show the use of the
 'native' R pipe (implemented after R version `4.1.0`). For those not familiar
@@ -164,7 +164,7 @@ iris |>
 3  virginica     6.622449    2.983673     5.573469   2.0326531
 ```
 
-# Summarizing the metadata
+## Summarizing the metadata
 
 For each distinct tissue and dataset combination, count the number of datasets
 by tissue type. 
@@ -179,22 +179,22 @@ metadata |>
 ```{.output}
 # Source:   SQL [?? x 2]
 # Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
-   tissue                      n
-   <chr>                   <dbl>
- 1 pleural effusion            1
- 2 caudate lobe of liver       1
- 3 cortex of kidney            7
- 4 nose                        1
- 5 thymus                      4
- 6 epithelium of esophagus     1
- 7 transverse colon            1
- 8 liver                       1
- 9 renal medulla               6
-10 caecum                      1
+   tissue                             n
+   <chr>                          <dbl>
+ 1 blood                             17
+ 2 kidney                             8
+ 3 kidney blood vessel                4
+ 4 lung parenchyma                    2
+ 5 respiratory airway                 6
+ 6 dorsolateral prefrontal cortex     1
+ 7 renal pelvis                       4
+ 8 pigment epithelium of eye          1
+ 9 mesenteric lymph node              1
+10 retina                             1
 # ℹ more rows
 ```
 
-# Columns available in the metadata
+## Columns available in the metadata
 
 
 ```r
@@ -205,7 +205,7 @@ head(names(metadata), 10)
 [1] "src"        "lazy_query"
 ```
 
-# Available assays
+## Available assays
 
 
 ```r
@@ -219,20 +219,20 @@ metadata |>
 # Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
    assay           n
    <chr>       <dbl>
- 1 10x 3' v3      21
- 2 Slide-seq       4
- 3 scRNA-seq       4
- 4 Seq-Well        2
- 5 Drop-seq        1
- 6 10x 5' v2       2
- 7 10x 3' v1       1
- 8 Smart-seq2      1
- 9 sci-RNA-seq     1
+ 1 10x 5' v2       2
+ 2 10x 3' v1       1
+ 3 Smart-seq2      1
+ 4 sci-RNA-seq     1
+ 5 10x 3' v3      21
+ 6 Slide-seq       4
+ 7 scRNA-seq       4
+ 8 Seq-Well        2
+ 9 Drop-seq        1
 10 10x 3' v2      27
 # ℹ more rows
 ```
 
-# Available organisms
+## Available organisms
 
 
 ```r
@@ -249,14 +249,14 @@ metadata |>
 1 Homo sapiens    63
 ```
 
-## Download single-cell RNA sequencing counts 
+### Download single-cell RNA sequencing counts 
 
 The data can be provided as either "counts" or counts per million "cpm" as given
 by the `assays` argument in the `get_single_cell_experiment()` function. By
 default, the `SingleCellExperiment` provided will contain only the 'counts'
 data.
 
-### Query raw counts
+#### Query raw counts
 
 
 ```r
@@ -288,7 +288,7 @@ mainExpName: NULL
 altExpNames(0):
 ```
 
-### Query counts scaled per million
+#### Query counts scaled per million
 
 This is helpful if just few genes are of interest, as they can be compared
 across samples.
@@ -320,7 +320,7 @@ mainExpName: NULL
 altExpNames(0):
 ```
 
-### Extract only a subset of genes
+#### Extract only a subset of genes
 
 
 ```r
@@ -352,7 +352,7 @@ mainExpName: NULL
 altExpNames(0):
 ```
 
-### Extracting counts as a Seurat object
+#### Extracting counts as a Seurat object
 
 If needed, the H5 `SingleCellExperiment` can be converted into a Seurat object.
 Note that it may take a long time and use a lot of memory depending on how many
@@ -373,9 +373,9 @@ single_cell_counts <-
 single_cell_counts
 ```
 
-## Save your `SingleCellExperiment`
+### Save your `SingleCellExperiment`
 
-### Saving as HDF5 
+#### Saving as HDF5 
 
 The recommended way of saving these `SingleCellExperiment` objects, if
 necessary, is to use `saveHDF5SummarizedExperiment` from the `HDF5Array`
@@ -386,7 +386,7 @@ package.
 single_cell_counts |> saveHDF5SummarizedExperiment("single_cell_counts")
 ```
 
-# Exercises
+## Exercises
 
 :::::::::::::::::::::::::::::::::: challenge
 

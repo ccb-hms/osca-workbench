@@ -23,7 +23,7 @@ exercises: 2 # Minutes of exercises in the lesson
 
 
 
-# Motivation 
+## Motivation 
 
 Advances in scRNA-seq technologies have increased the number of cells that can 
 be assayed in routine experiments.
@@ -37,7 +37,7 @@ increasing size of scRNA-seq data sets.
 This section discusses how we can use various aspects of the Bioconductor 
 ecosystem to tune our analysis pipelines for greater speed and efficiency.
 
-# Out of memory representations
+## Out of memory representations
 
 The count matrix is the central structure around which our analyses are based.
 In most of the previous chapters, this has been held fully in memory as a dense 
@@ -230,7 +230,7 @@ in-memory representations on HPC systems with plentiful memory, and then
 distributing file-backed counterparts to individual users for exploration and 
 visualization on their personal machines.
 
-# Parallelization
+## Parallelization
 
 Parallelization of calculations across genes or cells is an obvious strategy for
 speeding up scRNA-seq analysis workflows.
@@ -240,7 +240,7 @@ computing throughout the Bioconductor ecosystem, manifesting as a `BPPARAM`
 argument in compatible functions. We can also use `BiocParallel` with more
 expressive functions directly through the package's interface.
 
-### Basic use
+#### Basic use
 
 
 ```r
@@ -359,9 +359,9 @@ parallelization backends involve (i) setting up one or more separate R sessions,
 session. Depending on the nature and size of the task, this overhead may
 outweigh any benefit from parallel computing.
 
-# Fast approximations
+## Fast approximations
 
-## Nearest neighbor searching
+### Nearest neighbor searching
 
 Identification of neighbouring cells in PC or expression space is a common procedure
 that is used in many functions, e.g., `buildSNNGraph()`, `doubletCells()`.
@@ -408,19 +408,18 @@ table(exact = colLabels(sce), approx = clusters)
 exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
    1   90   0   0   0   0   0   0   0   1   0   0   0   0   0   0
    2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
-   3    0   0  75   0   0   0   0   0   0   0   0   0   0   0   0
+   3    0   0  77   0   0   0   0   0   0   0   0   0   0   0   0
    4    0   0   0 341   0   0   0   0   0   0   0   0   0   0   0
-   5    0   0   2   0 391   0   0   2   0   0   0   5   0   0   0
+   5    0   0   0   0 392   0   0   0   0   0   0   5   0   0   0
    6    0   0   0   0   0  80 245   0   0   1   0   2   0   0   0
-   7    0   0   0   0   0 129   0   0   0   0   2   0   0   0   0
-   8    0   0   0   0   1   0   0  93   0   0   0   0   0   0   0
+   7    0   0   0   0   0 130   0   0   0   0   0   0   0   0   0
+   8    0   0   0   0   0   0   0  95   0   0   0   0   0   0   0
    9    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
-   10   0   0   0   0   0   0   0   0   0 108   8   5   0   0   0
-   11   0   0   0   0   0   0   0   0   0   0 138   0   0   0   0
-   12   0   0   0   0   5   0   0   0   0   0   0 207   0   0   0
-   13   0   0   0   0   0   0   0   0   0   0   6   0 146   0   0
-   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0
-   15   0   0   0   0   0   0   0   0   0   0   0   0   0   0  56
+   10   0   0   0   0   0   0   0   0   0 107   0  21   0   0   0
+   11   0   0   0   0   0   0   0   0   0   0 153   0   0   0   0
+   12   0   0   0   0   3   0   0   0   0   0   0 193   0   0   0
+   13   0   0   0   0   0   0   0   0   0   1   0   0 146  20   0
+   14   0   0   0   8   0   0   0   0   0   0   0   0   0   0  48
 ```
 
 
@@ -448,7 +447,7 @@ mean(exact$index != approx$index)
 [1] 0.561925
 ```
 
-## Singular value decomposition 
+### Singular value decomposition 
 
 The singular value decomposition (SVD) underlies the PCA used throughout our
 analyses, e.g., in `denoisePCA()`, `fastMNN()`, `doubletCells()`.
@@ -517,9 +516,9 @@ of power iterations (`q=`).
 We tend to prefer IRLBA as its default behavior is more accurate, though RSVD is
 much faster for file-backed matrices.
 
-# Interoperability with popular single-cell analysis ecosytems
+## Interoperability with popular single-cell analysis ecosytems
 
-## Seurat
+### Seurat
 
 [Seurat](https://satijalab.org/seurat) is an R package designed for QC, analysis,
 and exploration of single-cell RNA-seq data. Seurat can be used to identify and
@@ -600,7 +599,7 @@ Idents(sobj) <- "celltype.mapped"
 sobj
 ```
 
-## Scanpy
+### Scanpy
 
 [Scanpy](https://scanpy.readthedocs.io) is a scalable toolkit for analyzing
 single-cell gene expression data built jointly with
@@ -667,7 +666,7 @@ The resulting H5AD file can then be read into Python using scanpy's
 [read_h5ad](https://scanpy.readthedocs.io/en/stable/generated/scanpy.read_h5ad.html)
 function and then directly used in compatible Python-based analysis frameworks.
 
-# Session Info
+## Session Info
 
 
 ```r
@@ -796,12 +795,8 @@ loaded via a namespace (and not attached):
 [155] memoise_2.0.1                 bit_4.0.5                    
 ```
 
-# Further Reading
 
-* OSCA book, [Chapter 14](https://bioconductor.org/books/release/OSCA.advanced/dealing-with-big-data.html): Dealing with big data 
-* The `BiocParallel` [intro vignette](https://bioconductor.org/packages/3.18/BiocParallel/vignettes/Introduction_To_BiocParallel.html). 
-
-# Exercises
+## Exercises
 
 :::::::::::::::::::::::::::::::::: challenge
 
@@ -874,6 +869,14 @@ Use Seurat's `DimPlot` function.
 
 :::::::::::::::::::::::
 
+:::::::::::::: checklist
+## Further Reading
+
+* OSCA book, [Chapter 14](https://bioconductor.org/books/release/OSCA.advanced/dealing-with-big-data.html): Dealing with big data 
+* The `BiocParallel` [intro vignette](https://bioconductor.org/packages/3.18/BiocParallel/vignettes/Introduction_To_BiocParallel.html). 
+
+::::::::::::::
+
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
 - Out-of-memory representations can be used to work with single-cell datasets that are too large to fit in memory
@@ -883,4 +886,4 @@ Use Seurat's `DimPlot` function.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-# References
+## References
