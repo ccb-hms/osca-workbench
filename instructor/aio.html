@@ -312,7 +312,7 @@
         
 <section id="aio-intro-sce"><p>Content from <a href="intro-sce.html">Introduction to Bioconductor and the SingleCellExperiment class</a></p>
 <hr>
-<p>Last updated on 2024-05-03 |
+<p>Last updated on 2024-05-05 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/intro-sce.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 30 minutes</p>
@@ -340,9 +340,9 @@
 <h3 class="card-title">Objectives</h3>
 <ul>
 <li>Install and update packages from Bioconductor.</li>
-<li>Load data from common single-cell data formats as
+<li>Load data generated with common single-cell technologies as
 <code>SingleCellExperiment</code> objects.</li>
-<li>Inspect, extract, and manipulate <code>SingleCellExperiment</code>
+<li>Inspect and manipulate <code>SingleCellExperiment</code>
 objects.</li>
 </ul>
 </div>
@@ -357,8 +357,7 @@ objects.</li>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">SummarizedExperiment</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">SingleCellExperiment</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">SingleCellExperiment</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">MouseGastrulationData</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">BiocStyle</span><span class="op">)</span></span></code></pre>
 </div>
@@ -739,23 +738,8 @@ same results (somewhat less efficiently) by extracting the corresponding
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">scater</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Loading required package: scuttle</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Loading required package: ggplot2</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb26">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">plotReducedDim</span><span class="op">(</span><span class="va">sce</span>, <span class="st">"pca.corrected.E8.5"</span>, colour_by <span class="op">=</span> <span class="st">"celltype.mapped"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">scater</span><span class="op">)</span></span>
+<span><span class="fu">plotReducedDim</span><span class="op">(</span><span class="va">sce</span>, <span class="st">"pca.corrected.E8.5"</span>, colour_by <span class="op">=</span> <span class="st">"celltype.mapped"</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -772,9 +756,9 @@ same results (somewhat less efficiently) by extracting the corresponding
 </h3>
 <div class="callout-content">
 <p>Create a <code>SingleCellExperiment</code> object: Try and create a
-SingleCellExperiment object “from scratch”. Start from a matrix (either
-randomly generated or with some fake data in it) and add one or more
-columns as colData.</p>
+<code>SingleCellExperiment</code> object “from scratch”. Start from a
+<code>matrix</code> (either randomly generated or with some fake data in
+it) and add one or more columns as <code>colData</code>.</p>
 </div>
 </div>
 </div>
@@ -785,8 +769,8 @@ columns as colData.</p>
 </button>
 <div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
-<p>The <code>SingleCellExperiment</code> function can be used to create
-a new SingleCellExperiment object</p>
+<p>The <code>SingleCellExperiment</code> constructor function can be
+used to create a new <code>SingleCellExperiment</code> object.</p>
 </div>
 </div>
 </div>
@@ -832,7 +816,7 @@ by running <code>sce6 &lt;- WTChimeraData(sample=6)</code>. Use the
 <div class="callout-content">
 <ul>
 <li>Bioconductor is a project that provides open-source software
-packages for the comprehension of high-throughput biology data.</li>
+packages for the comprehension of high-throughput biological data.</li>
 <li>A <code>SingleCellExperiment</code> object is an extension of the
 <code>SummarizedExperiment</code> object.</li>
 <li>
@@ -850,7 +834,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-eda_qc"><p>Content from <a href="eda_qc.html">Exploratory data analysis and quality control</a></p>
 <hr>
-<p>Last updated on 2024-05-02 |
+<p>Last updated on 2024-05-05 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/eda_qc.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 45 minutes</p>
@@ -880,9 +864,8 @@ single-cell analysis?</li>
 <ul>
 <li>Determine and communicate the quality of single-cell data.</li>
 <li>Identify and filter empty droplets and doublets.</li>
-<li>Perform normalization, highly-variable gene selection, and
-dimensionality reduction as parts of a single-cell analysis
-pipeline.</li>
+<li>Perform normalization, feature selection, and dimensionality
+reduction as parts of a typical single-cell analysis pipeline.</li>
 </ul>
 </div>
 </div>
@@ -1024,8 +1007,8 @@ reducedDimNames(0):
 mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
-<p>The end result confirms our prior expectation: only 3131 droplets
-contain a cell, while the large majority of droplets are empty.</p>
+<p>The result confirms our expectation: only 3,131 droplets contain a
+cell, while the large majority of droplets are empty.</p>
 <div id="accordionSpoiler1" class="accordion spoiler-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
@@ -1034,15 +1017,14 @@ contain a cell, while the large majority of droplets are empty.</p>
 </button>
 <div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
 <div class="accordion-body">
-<p>Whenever your code involves randomness, it’s a good idea to set the
-random seed in R with <code>set.seed()</code> from the base <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link">random</a>
-package.</p>
-<p>A pseudo-random number generator, such as the one used by
-<code>random</code>, will always return the same pseudo-random numbers
-in the same order after the seed is set to a value.</p>
-<p>This allows us to write code which is fully reproducible and will
-always give identical results, despite technically involving inherent
-randomness.</p>
+<p>Whenever your code involves the generation of random numbers, it’s a
+good practice to set the random seed in R with
+<code>set.seed()</code>.</p>
+<p>Setting the seed to a specific value (in the above example to 100)
+will cause the pseudo-random number generator to return the same
+pseudo-random numbers in the same order.</p>
+<p>This allows us to write code with reproducible results, despite
+technically involving the generation of (pseudo-)random numbers.</p>
 </div>
 </div>
 </div>
@@ -1875,25 +1857,36 @@ Repeat the analysis of this vignette using those data.</p>
 </h3>
 <div class="callout-content">
 <ul>
-<li>Remove empty droplets using a chosen FDR cutoff and the
-<code>emptyDrops</code> function.</li>
-<li>Choose metrics such as mitochondrial read proportion, library size,
-and the number of expressed features to filter out low-quality
-samples.</li>
-<li>Always visualize your chosen QC metrics to identify possible
-issues.</li>
-<li>Normalization of single-cell counts is complex compared to bulk
-data. Use methods such as normalization by deconvolution.</li>
-<li>Calculate per-gene variance with the <code>modelGeneVar</code>
-function and select highly-variable genes with
-<code>getTopHVGs</code>.</li>
-<li>Use PCA to perform dimensionality reduction for downstream analyses.
-UMAP and t-SNE are useful visualization tools, but should not be used
-for further analysis.<br>
-</li>
-<li>Identify possible doublets with the
+<li>Empty droplets, i.e. droplets that do not contain intact cells and
+capture only ambient or background RNA, should be removed prior to an
+analysis. The <code>emptyDrops</code> function from the <a href="https://bioconductor.org/packages/DropletUtils" class="external-link">DropletUtils</a>
+package can be used to identify empty droplets.</li>
+<li>Doublets, i.e. instances where two cells are captured in the same
+droplet, should also be removed prior to an analysis. The
 <code>computeDoubletDensity</code> and <code>doubletThresholding</code>
-functions.</li>
+functions from the <a href="https://bioconductor.org/packages/scDblFinder" class="external-link">scDblFinder</a>
+package can be used to identify and filter out doublets.</li>
+<li>Quality control (QC) uses metrics such as library size, number of
+expressed features, and mitochondrial read proportion, based on which
+low-quality cells can be detected and filtered out. Diagnostic plots of
+the chosen QC metrics are important to identify possible issues.</li>
+<li>Normalization is required to account for systematic differences in
+sequencing coverage between libraries and to make measurements
+comparable between cells. Library size normalization is the most
+commonly used normalization strategy, and involves dividing all counts
+for each cell by a cell-specific scaling factor.</li>
+<li>Feature selection aims at selecting genes that contain useful
+information about the biology of the system while removing genes that
+contain only random noise. Calculate per-gene variance with the
+<code>modelGeneVar</code> function and select highly-variable genes with
+<code>getTopHVGs</code>.</li>
+<li>Dimensionality reduction aims at reducing the computational work and
+at obtaining less noisy and more interpretable results. PCA is a simple
+and effective linear dimensionality reduction technique that provide
+interpretable results for further analysis such as clustering of cells.
+Non-linear approaches such as UMAP and t-SNE can be useful for
+visualization, but the resulting representations should not be used in
+downstream analysis.</li>
 </ul>
 </div>
 </div>
@@ -3016,7 +3009,7 @@ UMAP plot.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>The <code>NNGraphParam</code> constructor has an argument
 <code>cluster.args</code>. This allows to specify arguments passed on to
@@ -3033,7 +3026,7 @@ parameter of 0.5.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -3063,7 +3056,7 @@ process (BP) gene sets from the Gene Ontology (GO).</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2">Give me a hint</h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
 <div class="accordion-body">
 <p>Use the <code>goana()</code> function from the <em><a href="https://bioconductor.org/packages/3.18/limma" class="external-link">limma</a></em>
 package to identify GO BP terms that are overrepresented in the list of
@@ -3077,7 +3070,7 @@ marker genes.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -3108,7 +3101,7 @@ and marker gene detection.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -4154,7 +4147,7 @@ issues.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 
 </div>
@@ -4166,7 +4159,7 @@ issues.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -4191,7 +4184,7 @@ package and check for differences in the results.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2">Give me a hint</h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
 <div class="accordion-body">
 
 </div>
@@ -4203,7 +4196,7 @@ package and check for differences in the results.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -4246,7 +4239,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-large_data"><p>Content from <a href="large_data.html">Working with large data</a></p>
 <hr>
-<p>Last updated on 2024-05-03 |
+<p>Last updated on 2024-05-05 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/large_data.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -4275,13 +4268,10 @@ datasets?</li>
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
 <ul>
-<li>Learn how to work with out-of-memory data representations such as
-HDF5.</li>
-<li>Learn how to speed up single-cell analysis with parallel
-computation.</li>
-<li>Learn how to invoke fast approximations for essential analysis
-steps.</li>
-<li>Learn how to convert <code>SingleCellExperiment</code> objects to
+<li>Work with out-of-memory data representations such as HDF5.</li>
+<li>Speed up single-cell analysis with parallel computation.</li>
+<li>Invoke fast approximations for essential analysis steps.</li>
+<li>Convert <code>SingleCellExperiment</code> objects to
 <code>SeuratObject</code>s and <code>AnnData</code> objects.</li>
 </ul>
 </div>
@@ -4688,20 +4678,21 @@ approximation can be largely ignored.</p>
 </h3>
 <pre class="output" tabindex="0"><code>     approx
 exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
-   1   90   0   0   0   0   0   0   0   1   0   0   0   0   0   0
-   2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
-   3    0   0  77   0   0   0   0   0   0   0   0   0   0   0   0
-   4    0   0   0 341   0   0   0   0   0   0   0   0   0   0   0
-   5    0   0   0   0 392   0   0   0   0   0   0   5   0   0   0
-   6    0   0   0   0   0  80 245   0   0   1   0   2   0   0   0
-   7    0   0   0   0   0 130   0   0   0   0   0   0   0   0   0
-   8    0   0   0   0   0   0   0  95   0   0   0   0   0   0   0
+   1   89   0   0   0   1   0   0   0   1   0   0   0   0   0   0
+   2    0 143   0   1   0   0   0   0   0   0   0   0   0   0   0
+   3    0   0  75   0   2   0   0   0   0   0   0   0   0   0   0
+   4    0   0   0 197   0   0   0   0   0   0   0   0 144   0   0
+   5    1   0   0   0 392   0   0   2   0   1   0   0   0   0   0
+   6    0   0   0   0   0 209   0   0   0   0   0   0   0   0   0
+   7    0   0   0   0   0   0 245   0   0   1   0   0   0   0   0
+   8    0   0   0   0   0   0   0  93   0   0   0   0   0   0   0
    9    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
-   10   0   0   0   0   0   0   0   0   0 107   0  21   0   0   0
-   11   0   0   0   0   0   0   0   0   0   0 153   0   0   0   0
-   12   0   0   0   0   3   0   0   0   0   0   0 193   0   0   0
-   13   0   0   0   0   0   0   0   0   0   1   0   0 146  20   0
-   14   0   0   0   8   0   0   0   0   0   0   0   0   0   0  48</code></pre>
+   10   0   0   0   0   0   0   0   0   0 113   0   0   0   0   0
+   11   0   0   0   0   0   1   0   0   0   0 153   0   0   0   0
+   12   0   0   0   0   3   0   0   0   0  15   0 199   0   0   0
+   13   0   0   0   0   0   0   0   0   0   0   0   0   0 146   0
+   14   0   0   0   0   0   0   0   0   0   0   0   0   0   0  20
+   15   0   0   0  56   0   0   0   0   0   0   0   0   0   0   0</code></pre>
 </div>
 <p>Note that Annoy writes the NN index to disk prior to performing the
 search. Thus, it may not actually be faster than the default exact
@@ -5119,7 +5110,7 @@ matrix in memory as opposed to holding the data out of memory.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>See the <code>HDF5Array</code> function for reading from HDF5 and the
 <code>writeHDF5Array</code> function for writing to HDF5 from the <em><a href="https://bioconductor.org/packages/3.18/HDF5Array" class="external-link">HDF5Array</a></em>
@@ -5133,7 +5124,7 @@ package.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -5161,7 +5152,7 @@ with 3 workers.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2">Give me a hint</h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
 <div class="accordion-body">
 <p>Use the function <code>system.time</code> to obtain the runtime of
 each job.</p>
@@ -5174,7 +5165,7 @@ each job.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -5204,7 +5195,7 @@ with cells colored by a cell metadata column of your choice.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint3" aria-expanded="false" aria-controls="collapseHint3">
   <h4 class="accordion-header" id="headingHint3">Give me a hint</h4>
 </button>
-<div id="collapseHint3" class="accordion-collapse collapse" aria-labelledby="headingHint3" data-bs-parent="#accordionHint3">
+<div id="collapseHint3" class="accordion-collapse collapse" data-bs-parent="#accordionHint3" aria-labelledby="headingHint3">
 <div class="accordion-body">
 <p>Use Seurat’s <code>DimPlot</code> function.</p>
 </div>
@@ -5216,7 +5207,7 @@ with cells colored by a cell metadata column of your choice.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>Use Seurat’s <code>DimPlot</code> function.</p>
 </div>
@@ -5272,7 +5263,7 @@ Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  --></section></section><section id="aio-hca"><p>Content from <a href="hca.html">Accessing data from the Human Cell Atlas (HCA)</a></p>
 <hr>
-<p>Last updated on 2024-05-03 |
+<p>Last updated on 2024-05-05 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/hca.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 30 minutes</p>
@@ -5300,10 +5291,10 @@ Atlas?</li>
 <ul>
 <li>Learn about different resources for public single-cell RNA-seq
 data.</li>
-<li>Learn how to access data from the Human Cell Atlas using the
+<li>Access data from the Human Cell Atlas using the
 <code>CuratedAtlasQueryR</code> package.</li>
-<li>Learn how to query for cells of interest and how to download them
-into a <code>SingleCellExperiment</code> object.</li>
+<li>Query for cells of interest and download them into a
+<code>SingleCellExperiment</code> object.</li>
 </ul>
 </div>
 </div>
@@ -5510,18 +5501,18 @@ datasets by tissue type.</p>
 </h3>
 <pre class="output" tabindex="0"><code># Source:   SQL [?? x 2]
 # Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
-   tissue                             n
-   &lt;chr&gt;                          &lt;dbl&gt;
- 1 blood                             17
- 2 kidney                             8
- 3 kidney blood vessel                4
- 4 lung parenchyma                    2
- 5 respiratory airway                 6
- 6 dorsolateral prefrontal cortex     1
- 7 renal pelvis                       4
- 8 pigment epithelium of eye          1
- 9 mesenteric lymph node              1
-10 retina                             1
+   tissue                          n
+   &lt;chr&gt;                       &lt;dbl&gt;
+ 1 renal medulla                   6
+ 2 caecum                          1
+ 3 ileum                           1
+ 4 transition zone of prostate     2
+ 5 peripheral zone of prostate     2
+ 6 lymph node                      2
+ 7 fovea centralis                 1
+ 8 adrenal gland                   1
+ 9 heart left ventricle            7
+10 bone marrow                     4
 # ℹ more rows</code></pre>
 </div>
 </section><section id="columns-available-in-the-metadata"><h2 class="section-heading">Columns available in the metadata<a class="anchor" aria-label="anchor" href="#columns-available-in-the-metadata"></a>
@@ -5556,15 +5547,15 @@ datasets by tissue type.</p>
 # Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
    assay           n
    &lt;chr&gt;       &lt;dbl&gt;
- 1 10x 5' v2       2
- 2 10x 3' v1       1
- 3 Smart-seq2      1
- 4 sci-RNA-seq     1
- 5 10x 3' v3      21
- 6 Slide-seq       4
- 7 scRNA-seq       4
- 8 Seq-Well        2
- 9 Drop-seq        1
+ 1 scRNA-seq       4
+ 2 Seq-Well        2
+ 3 Drop-seq        1
+ 4 10x 3' v1       1
+ 5 Smart-seq2      1
+ 6 sci-RNA-seq     1
+ 7 10x 5' v2       2
+ 8 10x 3' v3      21
+ 9 Slide-seq       4
 10 10x 3' v2      27
 # ℹ more rows</code></pre>
 </div>
@@ -5767,7 +5758,7 @@ cells per tissue in descending order.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5801,7 +5792,7 @@ cells?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5835,7 +5826,7 @@ summarise.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5877,7 +5868,7 @@ columns, where possible.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4">Show me the solution</h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5984,8 +5975,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/instructor/aio.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/instructor/aio.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-05-03",
-  "datePublished": "2024-05-03"
+  "dateModified": "2024-05-05",
+  "datePublished": "2024-05-05"
 }
 
   </script><script>

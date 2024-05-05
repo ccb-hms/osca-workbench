@@ -312,7 +312,7 @@
 <hr class="half-width">
 <ul>
 <li>Bioconductor is a project that provides open-source software
-packages for the comprehension of high-throughput biology data.</li>
+packages for the comprehension of high-throughput biological data.</li>
 <li>A <code>SingleCellExperiment</code> object is an extension of the
 <code>SummarizedExperiment</code> object.</li>
 <li>
@@ -322,25 +322,36 @@ fields for storing data unique to single-cell analyses, such as the
 </ul></section><section id="eda_qc"><h2 class="section-heading"><a href="eda_qc.html">Exploratory data analysis and quality control</a></h2>
 <hr class="half-width">
 <ul>
-<li>Remove empty droplets using a chosen FDR cutoff and the
-<code>emptyDrops</code> function.</li>
-<li>Choose metrics such as mitochondrial read proportion, library size,
-and the number of expressed features to filter out low-quality
-samples.</li>
-<li>Always visualize your chosen QC metrics to identify possible
-issues.</li>
-<li>Normalization of single-cell counts is complex compared to bulk
-data. Use methods such as normalization by deconvolution.</li>
-<li>Calculate per-gene variance with the <code>modelGeneVar</code>
-function and select highly-variable genes with
-<code>getTopHVGs</code>.</li>
-<li>Use PCA to perform dimensionality reduction for downstream analyses.
-UMAP and t-SNE are useful visualization tools, but should not be used
-for further analysis.<br>
-</li>
-<li>Identify possible doublets with the
+<li>Empty droplets, i.e. droplets that do not contain intact cells and
+capture only ambient or background RNA, should be removed prior to an
+analysis. The <code>emptyDrops</code> function from the <a href="https://bioconductor.org/packages/DropletUtils" class="external-link">DropletUtils</a>
+package can be used to identify empty droplets.</li>
+<li>Doublets, i.e. instances where two cells are captured in the same
+droplet, should also be removed prior to an analysis. The
 <code>computeDoubletDensity</code> and <code>doubletThresholding</code>
-functions.</li>
+functions from the <a href="https://bioconductor.org/packages/scDblFinder" class="external-link">scDblFinder</a>
+package can be used to identify and filter out doublets.</li>
+<li>Quality control (QC) uses metrics such as library size, number of
+expressed features, and mitochondrial read proportion, based on which
+low-quality cells can be detected and filtered out. Diagnostic plots of
+the chosen QC metrics are important to identify possible issues.</li>
+<li>Normalization is required to account for systematic differences in
+sequencing coverage between libraries and to make measurements
+comparable between cells. Library size normalization is the most
+commonly used normalization strategy, and involves dividing all counts
+for each cell by a cell-specific scaling factor.</li>
+<li>Feature selection aims at selecting genes that contain useful
+information about the biology of the system while removing genes that
+contain only random noise. Calculate per-gene variance with the
+<code>modelGeneVar</code> function and select highly-variable genes with
+<code>getTopHVGs</code>.</li>
+<li>Dimensionality reduction aims at reducing the computational work and
+at obtaining less noisy and more interpretable results. PCA is a simple
+and effective linear dimensionality reduction technique that provide
+interpretable results for further analysis such as clustering of cells.
+Non-linear approaches such as UMAP and t-SNE can be useful for
+visualization, but the resulting representations should not be used in
+downstream analysis.</li>
 </ul></section><section id="cell_type_annotation"><h2 class="section-heading"><a href="cell_type_annotation.html">Cell type annotation</a></h2>
 <hr class="half-width">
 <ul>
@@ -419,8 +430,8 @@ object.</li>
   "url": "https://ccb-hms.github.io/osca-carpentries/key-points.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/key-points.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-05-03",
-  "datePublished": "2024-05-03"
+  "dateModified": "2024-05-05",
+  "datePublished": "2024-05-05"
 }
 
   </script><script>
