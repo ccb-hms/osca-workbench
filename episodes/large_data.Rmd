@@ -530,10 +530,10 @@ Use Seurat's `DimPlot` function.
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Out-of-memory representations can be used to work with single-cell datasets that are too large to fit in memory
-- Parallelization of calculations across genes or cells is an effective strategy for speeding up analysis of large single-cell datasets
-- Fast approximations for nearest neighbor search and singular value composition can speed up essential steps of single-cell analysis with minimal loss of accuracy
-- Converter functions between existing single-cell data formats enable analysis workflows that leverage complementary functionality from poplular single-cell analysis ecosystems 
+- Out-of-memory representations can be used to work with single-cell datasets that are too large to fit in memory.
+- Parallelization of calculations across genes or cells is an effective strategy for speeding up analysis of large single-cell datasets.
+- Fast approximations for nearest neighbor search and singular value composition can speed up essential steps of single-cell analysis with minimal loss of accuracy.
+- Converter functions between existing single-cell data formats enable analysis workflows that leverage complementary functionality from poplular single-cell analysis ecosystems.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
