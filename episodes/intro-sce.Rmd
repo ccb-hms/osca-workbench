@@ -23,7 +23,9 @@ exercises: 10 # Minutes of exercises in the lesson
 ## Setup
 
 ```{r setup, message = FALSE, warning=FALSE}
+library(SingleCellExperiment)
 library(MouseGastrulationData)
+library(BiocStyle)
 ```
 
 ## Bioconductor
