@@ -16,7 +16,7 @@ exercises: 15 # Minutes of exercises in the lesson
 
 - Determine and communicate the quality of single-cell data.
 - Identify and filter empty droplets and doublets.
-- Perform normalization, highly-variable gene selection, and dimensionality reduction as parts of a single-cell analysis pipeline. 
+- Perform normalization, feature selection, and dimensionality reduction as parts of a typical single-cell analysis pipeline. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -136,17 +136,17 @@ mainExpName: NULL
 altExpNames(0):
 ```
 
-The end result confirms our prior expectation: only 3131 droplets contain a cell, while the large majority of droplets are empty.
+The result confirms our expectation: only 3,131 droplets contain a cell, while the large majority of droplets are empty.
 
 ::::::::: spoiler
 
 #### Setting the Random Seed
 
-Whenever your code involves randomness, it's a good idea to set the random seed in R with `set.seed()` from the base [random](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html) package. 
+Whenever your code involves the generation of random numbers, it's a good practice to set the random seed in R with `set.seed()`. 
 
-A pseudo-random number generator, such as the one used by `random`, will always return the same pseudo-random numbers in the same order after the seed is set to a value. 
+Setting the seed to a specific value (in the above example to 100) will cause the pseudo-random number generator to return the same pseudo-random numbers in the same order. 
 
-This allows us to write code which is fully reproducible and will always give identical results, despite technically involving inherent randomness. 
+This allows us to write code with reproducible results, despite technically involving the generation of (pseudo-)random numbers. 
 
 :::::::::
 
@@ -743,13 +743,12 @@ The package `DropletTestFiles` includes the raw output from Cell Ranger of the p
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Remove empty droplets using a chosen FDR cutoff and the `emptyDrops` function. 
-- Choose metrics such as mitochondrial read proportion, library size, and the number of expressed features to filter out low-quality samples. 
-- Always visualize your chosen QC metrics to identify possible issues. 
-- Normalization of single-cell counts is complex compared to bulk data. Use methods such as normalization by deconvolution.
-- Calculate per-gene variance with the `modelGeneVar` function and select highly-variable genes with `getTopHVGs`.
-- Use PCA to perform dimensionality reduction for downstream analyses. UMAP and t-SNE are useful visualization tools, but should not be used for further analysis.  
-- Identify possible doublets with the `computeDoubletDensity` and `doubletThresholding` functions. 
+- Empty droplets, i.e. droplets that do not contain intact cells and capture only ambient or background RNA, should be removed prior to an analysis. The `emptyDrops` function from the [DropletUtils](https://bioconductor.org/packages/DropletUtils) package can be used to identify empty droplets. 
+- Doublets, i.e. instances where two cells are captured in the same droplet, should also be removed prior to an analysis. The `computeDoubletDensity` and `doubletThresholding` functions from the [scDblFinder](https://bioconductor.org/packages/scDblFinder) package can be used to identify and filter out doublets. 
+- Quality control (QC) uses metrics such as library size, number of expressed features, and mitochondrial read proportion, based on which low-quality cells can be detected and filtered out. Diagnostic plots of the chosen QC metrics are important to identify possible issues. 
+- Normalization is required to account for systematic differences in sequencing coverage between libraries and to make measurements comparable between cells. Library size normalization is the most commonly used normalization strategy, and involves dividing all counts for each cell by a cell-specific scaling factor.
+- Feature selection aims at selecting genes that contain useful information about the biology of the system while removing genes that contain only random noise. Calculate per-gene variance with the `modelGeneVar` function and select highly-variable genes with `getTopHVGs`.
+- Dimensionality reduction aims at reducing the computational work and at obtaining less noisy and more interpretable results. PCA is a simple and effective linear dimensionality reduction technique that provide interpretable results for further analysis such as clustering of cells. Non-linear approaches such as UMAP and t-SNE can be useful for visualization, but the resulting representations should not be used in downstream analysis.  
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 

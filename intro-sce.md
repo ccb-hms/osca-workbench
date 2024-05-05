@@ -15,8 +15,8 @@ exercises: 10 # Minutes of exercises in the lesson
 ::::::::::::::::::::::::::::::::::::: objectives
 
 - Install and update packages from Bioconductor. 
-- Load data from common single-cell data formats as `SingleCellExperiment` objects. 
-- Inspect, extract, and manipulate `SingleCellExperiment` objects. 
+- Load data generated with common single-cell technologies as `SingleCellExperiment` objects. 
+- Inspect and manipulate `SingleCellExperiment` objects. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -24,7 +24,6 @@ exercises: 10 # Minutes of exercises in the lesson
 
 
 ```r
-library(SummarizedExperiment)
 library(SingleCellExperiment)
 library(MouseGastrulationData)
 library(BiocStyle)
@@ -327,17 +326,6 @@ Here, we use `scater`'s `plotReducedDim` function as an example of how to extrac
 
 ```r
 library(scater)
-```
-
-```{.output}
-Loading required package: scuttle
-```
-
-```{.output}
-Loading required package: ggplot2
-```
-
-```r
 plotReducedDim(sce, "pca.corrected.E8.5", colour_by = "celltype.mapped")
 ```
 
@@ -352,11 +340,11 @@ Warning: Removed 131 rows containing missing values or values outside the scale 
 
 #### Exercise 1
 
-Create a `SingleCellExperiment` object: Try and create a SingleCellExperiment object "from scratch". Start from a matrix (either randomly generated or with some fake data in it) and add one or more columns as colData.
+Create a `SingleCellExperiment` object: Try and create a `SingleCellExperiment` object "from scratch". Start from a `matrix` (either randomly generated or with some fake data in it) and add one or more columns as `colData`.
 
 :::::::::::::: hint
 
-The `SingleCellExperiment` function can be used to create a new SingleCellExperiment object
+The `SingleCellExperiment` constructor function can be used to create a new `SingleCellExperiment` object.
 
 :::::::::::::::::::::::
 
@@ -380,7 +368,7 @@ Combining two objects: The `MouseGastrulationData` package contains several data
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Bioconductor is a project that provides open-source software packages for the comprehension of high-throughput biology data.
+- Bioconductor is a project that provides open-source software packages for the comprehension of high-throughput biological data.
 - A `SingleCellExperiment` object is an extension of the `SummarizedExperiment` object.
 - `SingleCellExperiment` objects contain specialized data fields for storing data unique to single-cell analyses, such as the `reducedDims` field. 
 

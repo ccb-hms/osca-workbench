@@ -13,8 +13,8 @@ exercises: 10 # Minutes of exercises in the lesson
 ::::::::::::::::::::::::::::::::::::: objectives
 
 - Learn about different resources for public single-cell RNA-seq data.
-- Learn how to access data from the Human Cell Atlas using the `CuratedAtlasQueryR` package.
-- Learn how to query for cells of interest and how to download them into a `SingleCellExperiment` object. 
+- Access data from the Human Cell Atlas using the `CuratedAtlasQueryR` package.
+- Query for cells of interest and download them into a `SingleCellExperiment` object. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -179,18 +179,18 @@ metadata |>
 ```{.output}
 # Source:   SQL [?? x 2]
 # Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
-   tissue                             n
-   <chr>                          <dbl>
- 1 blood                             17
- 2 kidney                             8
- 3 kidney blood vessel                4
- 4 lung parenchyma                    2
- 5 respiratory airway                 6
- 6 dorsolateral prefrontal cortex     1
- 7 renal pelvis                       4
- 8 pigment epithelium of eye          1
- 9 mesenteric lymph node              1
-10 retina                             1
+   tissue                          n
+   <chr>                       <dbl>
+ 1 renal medulla                   6
+ 2 caecum                          1
+ 3 ileum                           1
+ 4 transition zone of prostate     2
+ 5 peripheral zone of prostate     2
+ 6 lymph node                      2
+ 7 fovea centralis                 1
+ 8 adrenal gland                   1
+ 9 heart left ventricle            7
+10 bone marrow                     4
 # ℹ more rows
 ```
 
@@ -219,15 +219,15 @@ metadata |>
 # Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
    assay           n
    <chr>       <dbl>
- 1 10x 5' v2       2
- 2 10x 3' v1       1
- 3 Smart-seq2      1
- 4 sci-RNA-seq     1
- 5 10x 3' v3      21
- 6 Slide-seq       4
- 7 scRNA-seq       4
- 8 Seq-Well        2
- 9 Drop-seq        1
+ 1 scRNA-seq       4
+ 2 Seq-Well        2
+ 3 Drop-seq        1
+ 4 10x 3' v1       1
+ 5 Smart-seq2      1
+ 6 sci-RNA-seq     1
+ 7 10x 5' v2       2
+ 8 10x 3' v3      21
+ 9 Slide-seq       4
 10 10x 3' v2      27
 # ℹ more rows
 ```
