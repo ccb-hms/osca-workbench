@@ -311,8 +311,8 @@
 <section id="intro-sce"><h2 class="section-heading"><a href="intro-sce.html">Introduction to Bioconductor and the SingleCellExperiment class</a></h2>
 <hr class="half-width">
 <ul>
-<li>Bioconductor is a project that provides open-source software
-packages for the comprehension of high-throughput biological data.</li>
+<li>The Bioconductor project provides open-source software packages for
+the comprehension of high-throughput biological data.</li>
 <li>A <code>SingleCellExperiment</code> object is an extension of the
 <code>SummarizedExperiment</code> object.</li>
 <li>
@@ -323,14 +323,14 @@ fields for storing data unique to single-cell analyses, such as the
 <hr class="half-width">
 <ul>
 <li>Empty droplets, i.e. droplets that do not contain intact cells and
-capture only ambient or background RNA, should be removed prior to an
-analysis. The <code>emptyDrops</code> function from the <a href="https://bioconductor.org/packages/DropletUtils" class="external-link">DropletUtils</a>
+that capture only ambient or background RNA, should be removed prior to
+an analysis. The <code>emptyDrops</code> function from the <a href="https://bioconductor.org/packages/DropletUtils" class="external-link">DropletUtils</a>
 package can be used to identify empty droplets.</li>
 <li>Doublets, i.e. instances where two cells are captured in the same
 droplet, should also be removed prior to an analysis. The
 <code>computeDoubletDensity</code> and <code>doubletThresholding</code>
 functions from the <a href="https://bioconductor.org/packages/scDblFinder" class="external-link">scDblFinder</a>
-package can be used to identify and filter out doublets.</li>
+package can be used to identify doublets.</li>
 <li>Quality control (QC) uses metrics such as library size, number of
 expressed features, and mitochondrial read proportion, based on which
 low-quality cells can be detected and filtered out. Diagnostic plots of
@@ -347,7 +347,7 @@ contain only random noise. Calculate per-gene variance with the
 <code>getTopHVGs</code>.</li>
 <li>Dimensionality reduction aims at reducing the computational work and
 at obtaining less noisy and more interpretable results. PCA is a simple
-and effective linear dimensionality reduction technique that provide
+and effective linear dimensionality reduction technique that provides
 interpretable results for further analysis such as clustering of cells.
 Non-linear approaches such as UMAP and t-SNE can be useful for
 visualization, but the resulting representations should not be used in
@@ -364,16 +364,16 @@ downstream analysis.</li>
 <hr class="half-width">
 <ul>
 <li>Out-of-memory representations can be used to work with single-cell
-datasets that are too large to fit in memory</li>
+datasets that are too large to fit in memory.</li>
 <li>Parallelization of calculations across genes or cells is an
 effective strategy for speeding up analysis of large single-cell
-datasets</li>
+datasets.</li>
 <li>Fast approximations for nearest neighbor search and singular value
 composition can speed up essential steps of single-cell analysis with
-minimal loss of accuracy</li>
+minimal loss of accuracy.</li>
 <li>Converter functions between existing single-cell data formats enable
 analysis workflows that leverage complementary functionality from
-poplular single-cell analysis ecosystems</li>
+poplular single-cell analysis ecosystems.</li>
 </ul></section><section id="hca"><h2 class="section-heading"><a href="hca.html">Accessing data from the Human Cell Atlas (HCA)</a></h2>
 <hr class="half-width">
 <ul>
@@ -430,8 +430,8 @@ object.</li>
   "url": "https://ccb-hms.github.io/osca-carpentries/key-points.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/key-points.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-05-05",
-  "datePublished": "2024-05-05"
+  "dateModified": "2024-05-06",
+  "datePublished": "2024-05-06"
 }
 
   </script><script>

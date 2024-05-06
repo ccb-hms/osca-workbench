@@ -281,7 +281,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Exploratory data analysis and quality control</h1>
-        <p>Last updated on 2024-05-05 |
+        <p>Last updated on 2024-05-06 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/eda_qc.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -460,7 +460,7 @@ cell, while the large majority of droplets are empty.</p>
   <h3 class="accordion-header" id="headingSpoiler1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>Setting the Random Seed</h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
 <div class="accordion-body">
 <p>Whenever your code involves the generation of random numbers, it’s a
 good practice to set the random seed in R with
@@ -1247,7 +1247,7 @@ results?</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>First subset the object to include only highly variable genes
 (<code>sce2 &lt;- sce[hvg.sce.var,]</code>) and then apply the
@@ -1281,14 +1281,14 @@ Repeat the analysis of this vignette using those data.</p>
 </h3>
 <div class="callout-content">
 <ul><li>Empty droplets, i.e. droplets that do not contain intact cells and
-capture only ambient or background RNA, should be removed prior to an
-analysis. The <code>emptyDrops</code> function from the <a href="https://bioconductor.org/packages/DropletUtils" class="external-link">DropletUtils</a>
+that capture only ambient or background RNA, should be removed prior to
+an analysis. The <code>emptyDrops</code> function from the <a href="https://bioconductor.org/packages/DropletUtils" class="external-link">DropletUtils</a>
 package can be used to identify empty droplets.</li>
 <li>Doublets, i.e. instances where two cells are captured in the same
 droplet, should also be removed prior to an analysis. The
 <code>computeDoubletDensity</code> and <code>doubletThresholding</code>
 functions from the <a href="https://bioconductor.org/packages/scDblFinder" class="external-link">scDblFinder</a>
-package can be used to identify and filter out doublets.</li>
+package can be used to identify doublets.</li>
 <li>Quality control (QC) uses metrics such as library size, number of
 expressed features, and mitochondrial read proportion, based on which
 low-quality cells can be detected and filtered out. Diagnostic plots of
@@ -1305,7 +1305,7 @@ contain only random noise. Calculate per-gene variance with the
 <code>getTopHVGs</code>.</li>
 <li>Dimensionality reduction aims at reducing the computational work and
 at obtaining less noisy and more interpretable results. PCA is a simple
-and effective linear dimensionality reduction technique that provide
+and effective linear dimensionality reduction technique that provides
 interpretable results for further analysis such as clustering of cells.
 Non-linear approaches such as UMAP and t-SNE can be useful for
 visualization, but the resulting representations should not be used in
@@ -1393,8 +1393,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/instructor/eda_qc.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/instructor/eda_qc.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-05-05",
-  "datePublished": "2024-05-05"
+  "dateModified": "2024-05-06",
+  "datePublished": "2024-05-06"
 }
 
   </script><script>
