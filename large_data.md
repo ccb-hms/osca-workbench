@@ -406,21 +406,21 @@ table(exact = colLabels(sce), approx = clusters)
 ```{.output}
      approx
 exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
-   1   89   0   0   0   1   0   0   0   1   0   0   0   0   0   0
-   2    0 143   0   1   0   0   0   0   0   0   0   0   0   0   0
+   1   88   0   0   0   1   0   0   0   2   0   0   0   0   0   0
+   2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
    3    0   0  75   0   2   0   0   0   0   0   0   0   0   0   0
-   4    0   0   0 197   0   0   0   0   0   0   0   0 144   0   0
-   5    1   0   0   0 392   0   0   2   0   1   0   0   0   0   0
-   6    0   0   0   0   0 209   0   0   0   0   0   0   0   0   0
-   7    0   0   0   0   0   0 245   0   0   1   0   0   0   0   0
-   8    0   0   0   0   0   0   0  93   0   0   0   0   0   0   0
+   4    0   0   0 341   0   0   0   0   0   0   0   0   0   0   1
+   5    0   0   0   0 391   0   0   0   0   1   0   2   0   0   0
+   6    0   0   0   0   0  80 245   0   0   1   0   2   0   0   0
+   7    0   0   0   0   0 130   0   0   0   0   1   0   0   0   0
+   8    0   0   0   0   0   0   0  95   0   0   0   0   0   0   0
    9    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
-   10   0   0   0   0   0   0   0   0   0 113   0   0   0   0   0
-   11   0   0   0   0   0   1   0   0   0   0 153   0   0   0   0
-   12   0   0   0   0   3   0   0   0   0  15   0 199   0   0   0
-   13   0   0   0   0   0   0   0   0   0   0   0   0   0 146   0
-   14   0   0   0   0   0   0   0   0   0   0   0   0   0   0  20
-   15   0   0   0  56   0   0   0   0   0   0   0   0   0   0   0
+   10   0   0   0   0   0   0   0   0   0 113   8   0   0   0   0
+   11   0   0   0   0   0   0   0   0   0   0 138   0   0   0   0
+   12   0   0   0   0   5   0   0   0   0   0   0 210   0   0   0
+   13   0   0   0   0   0   0   0   0   0   0   6   0 146   0   0
+   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0
+   15   0   0   0   0   0   0   0   0   0   0   0   0   0   0  55
 ```
 
 
@@ -880,10 +880,10 @@ Use Seurat's `DimPlot` function.
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Out-of-memory representations can be used to work with single-cell datasets that are too large to fit in memory
-- Parallelization of calculations across genes or cells is an effective strategy for speeding up analysis of large single-cell datasets
-- Fast approximations for nearest neighbor search and singular value composition can speed up essential steps of single-cell analysis with minimal loss of accuracy
-- Converter functions between existing single-cell data formats enable analysis workflows that leverage complementary functionality from poplular single-cell analysis ecosystems 
+- Out-of-memory representations can be used to work with single-cell datasets that are too large to fit in memory.
+- Parallelization of calculations across genes or cells is an effective strategy for speeding up analysis of large single-cell datasets.
+- Fast approximations for nearest neighbor search and singular value composition can speed up essential steps of single-cell analysis with minimal loss of accuracy.
+- Converter functions between existing single-cell data formats enable analysis workflows that leverage complementary functionality from poplular single-cell analysis ecosystems.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 

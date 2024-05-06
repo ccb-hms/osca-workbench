@@ -14,7 +14,7 @@ exercises: 10 # Minutes of exercises in the lesson
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Install and update packages from Bioconductor. 
+- Install and update Bioconductor packages. 
 - Load data generated with common single-cell technologies as `SingleCellExperiment` objects. 
 - Inspect and manipulate `SingleCellExperiment` objects. 
 
@@ -329,11 +329,6 @@ library(scater)
 plotReducedDim(sce, "pca.corrected.E8.5", colour_by = "celltype.mapped")
 ```
 
-```{.warning}
-Warning: Removed 131 rows containing missing values or values outside the scale range
-(`geom_point()`).
-```
-
 <img src="fig/intro-sce-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 
 :::::::::::::::::::::::::::::::::: challenge
@@ -368,7 +363,7 @@ Combining two objects: The `MouseGastrulationData` package contains several data
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Bioconductor is a project that provides open-source software packages for the comprehension of high-throughput biological data.
+- The Bioconductor project provides open-source software packages for the comprehension of high-throughput biological data.
 - A `SingleCellExperiment` object is an extension of the `SummarizedExperiment` object.
 - `SingleCellExperiment` objects contain specialized data fields for storing data unique to single-cell analyses, such as the `reducedDims` field. 
 
