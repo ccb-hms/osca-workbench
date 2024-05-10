@@ -259,8 +259,39 @@
       <hr></nav><main id="main-content" class="main-content"><h1 class="schedule-heading">Summary and Schedule</h1>
       
 
+<p>In the last few years, the profiling of a large number of genome-wide
+features in individual cells has become routine. Consequently, a
+plethora of tools for the analysis of single-cell data has been
+developed, making it hard to understand the critical steps in the
+analysis workflow and the best methods for each objective of one’s
+study.</p>
+<p>This tutorial aims to provide a solid foundation in using <a href="https://bioconductor.org" class="external-link">Bioconductor</a> tools for single-cell
+RNA-seq (scRNA-seq) analysis by walking through various steps of typical
+workflows using example datasets.</p>
+<p>This tutorial is based on the the online book “Orchestrating
+Single-Cell Analysis with Bioconductor” (<a href="https://bioconductor.org/books/release/OSCA/" class="external-link">OSCA</a>), started
+in 2018 and continuously updated by many contributors from the
+Bioconductor community. Like the book, this tutorial strives to be of
+interest to the experimental biologists wanting to analyze their data
+and to the bioinformaticians approaching single-cell data.</p>
 <p>This is a new lesson built with <a href="https://carpentries.github.io/sandpaper-docs" class="external-link">The Carpentries
 Workbench</a>.</p>
+<div id="prerequisites" class="callout prereq">
+<div class="callout-square">
+<i class="callout-icon" data-feather="check"></i>
+</div>
+<div id="prerequisites" class="callout-inner">
+<h3 class="callout-title">Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"></a>
+</h3>
+<div class="callout-content">
+<ul><li>Familiarity with R/Bioconductor, such as the <a href="https://carpentries-incubator.github.io/bioc-intro/" class="external-link">Introduction
+to data analysis with R and Bioconductor</a> lesson.</li>
+<li>Familiarity with the biology of gene expression and scRNA-seq, such
+as the review article <a href="https://doi.org/10.1186/s13073-017-0467-4" class="external-link">A practical guide to
+single-cell RNA-sequencing</a> by Haque et.al.</li>
+</ul></div>
+</div>
+</div>
 <!-- 
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
@@ -516,11 +547,10 @@ commands. For now, simply follow the instructions below:</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">install.packages</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="st">"BiocManager"</span>, <span class="st">"remotes"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="st">"tidyverse"</span>, <span class="st">"SummarizedExperiment"</span>, <span class="st">"hexbin"</span>,</span>
-<span>                       <span class="st">"patchwork"</span>, <span class="st">"gridExtra"</span>, <span class="st">"lubridate"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="st">"AUCell"</span>, <span class="st">"CuratedAtlasQueryR"</span>, <span class="st">"DropletUtils"</span>,</span>
+<span>                       <span class="st">"MouseGastrulationData"</span>, <span class="st">"Seurat"</span>, <span class="st">"SingleR"</span>, <span class="st">"TENxBrainData"</span>,</span>
+<span>                       <span class="st">"scDblFinder"</span>, <span class="st">"scater"</span>, <span class="st">"scran"</span>, <span class="st">"zellkonverter"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
-<p>This page adapted from <a href="https://carpentries-incubator.github.io/bioc-intro/" class="external-link">Introduction
-to data analysis with R and Bioconductor</a>.</p>
 <!-- 
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 

@@ -329,20 +329,9 @@ distribution within clusters.</li>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">BiocStyle</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">AUCell</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
-'DelayedArray::makeNindexFromArrayViewport' when loading 'SummarizedExperiment'</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb3">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">MouseGastrulationData</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">AUCell</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">BiocStyle</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">MouseGastrulationData</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">SingleR</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">bluster</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">scater</span><span class="op">)</span></span>
@@ -350,7 +339,7 @@ distribution within clusters.</li>
 </div>
 </section><section id="data-retrieval"><h2 class="section-heading">Data retrieval<a class="anchor" aria-label="anchor" href="#data-retrieval"></a>
 </h2>
-<hr class="half-width"><div class="codewrapper sourceCode" id="cb4">
+<hr class="half-width"><div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -375,7 +364,7 @@ altExpNames(0):</code></pre>
 </div>
 <p>To speed up the computations, we subsample the dataset to 1,000
 cells.</p>
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -385,7 +374,7 @@ cells.</p>
 </div>
 </section><section id="preprocessing"><h2 class="section-heading">Preprocessing<a class="anchor" aria-label="anchor" href="#preprocessing"></a>
 </h2>
-<hr class="half-width"><div class="codewrapper sourceCode" id="cb7">
+<hr class="half-width"><div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -419,7 +408,7 @@ algorithm</a> for community detection. All calculations are performed
 using the top PCs to take advantage of data compression and denoising.
 This function returns a vector containing cluster assignments for each
 cell in our <code>SingleCellExperiment</code> object.</p>
-<div class="codewrapper sourceCode" id="cb8">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -438,7 +427,7 @@ cell in our <code>SingleCellExperiment</code> object.</p>
 <code>SingleCellExperiment</code> object as a <code>factor</code> in the
 column metadata. This allows us to conveniently visualize the
 distribution of clusters in eg. a <em>t</em>-SNE or a UMAP.</p>
-<div class="codewrapper sourceCode" id="cb10">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -461,7 +450,7 @@ of cells in the clustering algorithm.</p>
 <p>Here, we perform a Wilcoxon rank sum test against a log2 fold change
 threshold of 1, focusing on up-regulated (positive) markers in one
 cluster when compared to another cluster.</p>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -480,7 +469,7 @@ cluster, in which the top genes are those that contribute the most to
 the separation of that cluster from mall other clusters.</p>
 <p>Here, we inspect the ranked marker gene list for the first
 cluster.</p>
-<div class="codewrapper sourceCode" id="cb13">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -542,7 +531,7 @@ cell in cluster <em>A</em> has a greater expression of gene <em>X</em>
 than a randomly selected cell in <em>B</em>.</p>
 <p>We can then inspect the top marker genes for the first cluster using
 the <code>plotExpression</code> function from the <a href="https://bioconductor.org/packages/scater" class="external-link">scater</a> package.</p>
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -596,7 +585,7 @@ genes for the top-scoring labels. This aims to resolve any ambiguity
 between those labels by removing noise from irrelevant markers for other
 labels. Further details can be found in the <a href="https://bioconductor.org/books/release/SingleRBook" class="external-link"><em>SingleR</em>
 book</a> from which most of the examples here are derived.</p>
-<div class="codewrapper sourceCode" id="cb16">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -619,7 +608,7 @@ reducedDimNames(2): pca.corrected umap
 mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb18">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -634,7 +623,7 @@ altExpNames(0):</code></pre>
 </div>
 <p>To speed up the computations, we subsample the dataset to 1,000
 cells.</p>
-<div class="codewrapper sourceCode" id="cb20">
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -642,7 +631,7 @@ cells.</p>
 <span><span class="va">ind</span> <span class="op">&lt;-</span> <span class="fu">sample</span><span class="op">(</span><span class="fu">ncol</span><span class="op">(</span><span class="va">ref</span><span class="op">)</span>, <span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="va">ref</span> <span class="op">&lt;-</span> <span class="va">ref</span><span class="op">[</span>,<span class="va">ind</span><span class="op">]</span></span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb21">
+<div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -680,7 +669,7 @@ cells.</p>
                            PGC 
                              1 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb23">
+<div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -688,7 +677,7 @@ cells.</p>
 </div>
 <p>Some cleaning - remove cells of the reference dataset for which the
 cell type annotation is missing.</p>
-<div class="codewrapper sourceCode" id="cb24">
+<div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -697,7 +686,7 @@ cell type annotation is missing.</p>
 </div>
 <p>Also remove cell types of very low abundance (here less than 10
 cells) to remove noise prior to subsequent annotation tasks.</p>
-<div class="codewrapper sourceCode" id="cb25">
+<div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -706,7 +695,7 @@ cells) to remove noise prior to subsequent annotation tasks.</p>
 <span><span class="va">ref</span> <span class="op">&lt;-</span> <span class="va">ref</span><span class="op">[</span>,<span class="va">ind</span><span class="op">]</span> </span></code></pre>
 </div>
 <p>Restrict to genes shared between query and reference dataset.</p>
-<div class="codewrapper sourceCode" id="cb26">
+<div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -717,14 +706,14 @@ cells) to remove noise prior to subsequent annotation tasks.</p>
 </div>
 <p>Convert sparse assay matrices to regular dense matrices for input to
 SingleR.</p>
-<div class="codewrapper sourceCode" id="cb27">
+<div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sce.mat</span> <span class="op">&lt;-</span> <span class="fu">as.matrix</span><span class="op">(</span><span class="fu">assay</span><span class="op">(</span><span class="va">sce</span>, <span class="st">"logcounts"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">ref.mat</span> <span class="op">&lt;-</span> <span class="fu">as.matrix</span><span class="op">(</span><span class="fu">assay</span><span class="op">(</span><span class="va">ref</span>, <span class="st">"logcounts"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb28">
+<div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -768,7 +757,7 @@ relative to all of the others, indicating that the assignment to that
 label was unambiguous. This is largely the case for mesenchyme and
 endothelial cells, whereas we see expectedly more ambiguity between the
 two erythroid cell populations.</p>
-<div class="codewrapper sourceCode" id="cb30">
+<div class="codewrapper sourceCode" id="cb28">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -782,7 +771,7 @@ populations (such as cluster 4 and 6). On the other hand, there are also
 instances where we have several clusters for the same cell type,
 indicating that the clustering represents finer subdivisions within
 these cell types.</p>
-<div class="codewrapper sourceCode" id="cb31">
+<div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -795,7 +784,7 @@ dataset also contains independently defined labels. We see strong
 consistency between the two sets of labels, indicating that our
 automatic annotation is comparable to that generated manually by domain
 experts.</p>
-<div class="codewrapper sourceCode" id="cb32">
+<div class="codewrapper sourceCode" id="cb30">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -811,7 +800,7 @@ matching of individual cells to the expression values of the reference
 dataset, which is faster and more convenient when only the identities of
 the markers are available. We demonstrate this approach using cell type
 markers derived from the mouse embryo atlas dataset.</p>
-<div class="codewrapper sourceCode" id="cb33">
+<div class="codewrapper sourceCode" id="cb31">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -846,7 +835,7 @@ markers derived from the mouse embryo atlas dataset.</p>
                             92 </code></pre>
 </div>
 <p>Our test dataset will be as before the wild-type chimera dataset.</p>
-<div class="codewrapper sourceCode" id="cb35">
+<div class="codewrapper sourceCode" id="cb33">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -877,7 +866,7 @@ markers among the most highly expressed genes in that cell. This is
 roughly similar to performing a Wilcoxon rank sum test between genes in
 and outside of the set, but involving only the top ranking genes by
 expression in each cell.</p>
-<div class="codewrapper sourceCode" id="cb37">
+<div class="codewrapper sourceCode" id="cb35">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -897,7 +886,7 @@ expression in each cell.</p>
     geneIdType: NullIdentifier (1 total)
     collectionType: NullCollection (1 total)</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb39">
+<div class="codewrapper sourceCode" id="cb37">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -962,7 +951,7 @@ a more general diagnostic check is to compare the assigned labels to
 cluster identities, under the expectation that most cells of a single
 cluster would have the same label (or, if multiple labels are present,
 they should at least represent closely related cell states).</p>
-<div class="codewrapper sourceCode" id="cb41">
+<div class="codewrapper sourceCode" id="cb39">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1204,7 +1193,7 @@ simply take the single highest-scoring label per cell as the labels
 should be mutually exclusive.) In populations where a particular cell
 type is expected, lack of clear bimodality for the corresponding label
 may indicate that its gene set is not sufficiently informative.</p>
-<div class="codewrapper sourceCode" id="cb43">
+<div class="codewrapper sourceCode" id="cb41">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1221,7 +1210,7 @@ estimate of the distribution.</p>
 </div>
 </section><section id="session-info"><h2 class="section-heading">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<hr class="half-width"><div class="codewrapper sourceCode" id="cb44">
+<hr class="half-width"><div class="codewrapper sourceCode" id="cb42">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1264,7 +1253,7 @@ other attached packages:
 [19] GenomeInfoDb_1.38.8          IRanges_2.36.0              
 [21] S4Vectors_0.40.2             BiocGenerics_0.48.1         
 [23] MatrixGenerics_1.14.0        matrixStats_1.2.0           
-[25] AUCell_1.24.0                BiocStyle_2.30.0            
+[25] BiocStyle_2.30.0             AUCell_1.24.0               
 
 loaded via a namespace (and not attached):
   [1] RColorBrewer_1.1-3            jsonlite_1.8.8               
