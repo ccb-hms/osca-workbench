@@ -758,7 +758,7 @@ it) and add one or more columns as <code>colData</code>.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
 <div class="accordion-body">
 <p>The <code>SingleCellExperiment</code> constructor function can be
 used to create a new <code>SingleCellExperiment</code> object.</p>
@@ -1005,7 +1005,7 @@ cell, while the large majority of droplets are empty.</p>
   <h3 class="accordion-header" id="headingSpoiler1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>Setting the Random Seed</h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
 <div class="accordion-body">
 <p>Whenever your code involves the generation of random numbers, it’s a
 good practice to set the random seed in R with
@@ -1813,7 +1813,7 @@ results?</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>First subset the object to include only highly variable genes
 (<code>sce2 &lt;- sce[hvg.sce.var,]</code>) and then apply the
@@ -1908,7 +1908,7 @@ Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  --></section></section><section id="aio-cell_type_annotation"><p>Content from <a href="cell_type_annotation.html">Cell type annotation</a></p>
 <hr>
-<p>Last updated on 2024-05-03 |
+<p>Last updated on 2024-05-10 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/cell_type_annotation.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1922,12 +1922,11 @@ any links that you are not going to use.
 <div class="inner">
 <h3 class="card-title">Questions</h3>
 <ul>
-<li>How is clustering used in scRNA-seq data analysis?</li>
-<li>How are marker genes used to interpret clustering results?</li>
-<li>What are the challenges and common approaches for assigning cell
-type labels in scRNA-seq data?</li>
-<li>How can we further validate and refine cell type annotations from
-scRNA-seq data?</li>
+<li>ScRNA-seq: Can clustering group cells by type?</li>
+<li>Marker genes: Key to identifying cell types in scRNA-seq
+clusters?</li>
+<li>What’s tricky about labeling cell types in scRNA-seq data?</li>
+<li>How to confirm and improve cell type labels from scRNA-seq?</li>
 </ul>
 </div>
 </div>
@@ -1937,18 +1936,13 @@ scRNA-seq data?</li>
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
 <ul>
-<li>Understand that clustering is an unsupervised learning technique
-that groups cells with similar expression profiles.</li>
-<li>Learn how to identify genes that differentiate clusters and assign
-potential biological meaning to each cluster based on marker gene
-function.</li>
-<li>Understand two strategies for cell type annotation: 1. comparing to
-reference datasets with known cell type labels and 2. Identifying cell
-type marker genes and assigning labels based on marker set
-enrichment.</li>
-<li>Explore additional methods to assess the quality of assigned labels,
-such as examining the distribution of marker gene expression within
-clusters.</li>
+<li>Identify cell types in scRNA-seq data by clustering cells based on
+gene expression patterns.</li>
+<li>Define cell types within scRNA-seq clusters using marker genes.</li>
+<li>Compare methods for assigning cell type labels in scRNA-seq data:
+reference datasets vs. marker genes.</li>
+<li>Evaluate scRNA-seq cell type labels by analyzing marker gene
+distribution within clusters.</li>
 </ul>
 </div>
 </div>
@@ -3137,7 +3131,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-multi-sample"><p>Content from <a href="multi-sample.html">Multi-sample analyses</a></p>
 <hr>
-<p>Last updated on 2024-05-03 |
+<p>Last updated on 2024-05-10 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/multi-sample.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -3151,16 +3145,12 @@ any links that you are not going to use.
 <div class="inner">
 <h3 class="card-title">Questions</h3>
 <ul>
-<li>How can we identify and remove unwanted variation introduced by
-processing differences between samples (batch effects) in scRNA-seq
-data?</li>
-<li>How can we identify genes that are expressed differently between
-groups of cells in scRNA-seq data (e.g., different cell types or
-conditions)?</li>
-<li>How can we identify cell types (clusters) that show significant
-changes in abundance between conditions in scRNA-seq data? How can we
-address potential biases caused by differences in cell numbers per
-type?</li>
+<li>How to remove technical variations (batch effects) for reliable
+scRNA-seq analysis?</li>
+<li>How to identify genes differentially expressed between cell types in
+scRNA-seq?</li>
+<li>How to track changes in cell type abundance across conditions in
+scRNA-seq, accounting for cell number bias?</li>
 </ul>
 </div>
 </div>
@@ -3170,16 +3160,12 @@ type?</li>
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
 <ul>
-<li>Understand the concept of batch effects and their impact on data
-analysis. Learn how to utilize tools like correctExperiment from the
-batchelor package to correct for batch effects based on sample
-information.</li>
-<li>Master the workflow for differential expression analysis (DEA),
-including grouping cells, creating pseudo-bulk samples, normalization,
-and differential expression testing with tools like edgeR.</li>
-<li>Understand differential abundance (DA) analysis, considering
-compositional effects and strategies to address them, for robust
-identification of cell type abundance changes between conditions.</li>
+<li>Correct batch effects (technical variations) in scRNA-seq data (use
+tools like correctExperiment).</li>
+<li>Master scRNA-seq DEA workflow (grouping, normalization, testing with
+edgeR).</li>
+<li>Analyze scRNA-seq DA (consider compositional effects) for robust
+cell type changes.</li>
 </ul>
 </div>
 </div>
@@ -5097,7 +5083,7 @@ matrix in memory as opposed to holding the data out of memory.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>See the <code>HDF5Array</code> function for reading from HDF5 and the
 <code>writeHDF5Array</code> function for writing to HDF5 from the <em><a href="https://bioconductor.org/packages/3.18/HDF5Array" class="external-link">HDF5Array</a></em>
@@ -5111,7 +5097,7 @@ package.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -5139,7 +5125,7 @@ with 3 workers.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2">Give me a hint</h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
 <div class="accordion-body">
 <p>Use the function <code>system.time</code> to obtain the runtime of
 each job.</p>
@@ -5152,7 +5138,7 @@ each job.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -5182,7 +5168,7 @@ with cells colored by a cell metadata column of your choice.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint3" aria-expanded="false" aria-controls="collapseHint3">
   <h4 class="accordion-header" id="headingHint3">Give me a hint</h4>
 </button>
-<div id="collapseHint3" class="accordion-collapse collapse" aria-labelledby="headingHint3" data-bs-parent="#accordionHint3">
+<div id="collapseHint3" class="accordion-collapse collapse" data-bs-parent="#accordionHint3" aria-labelledby="headingHint3">
 <div class="accordion-body">
 <p>Use Seurat’s <code>DimPlot</code> function.</p>
 </div>
@@ -5194,7 +5180,7 @@ with cells colored by a cell metadata column of your choice.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>Use Seurat’s <code>DimPlot</code> function.</p>
 </div>
@@ -5961,8 +5947,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/aio.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/aio.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-05-07",
-  "datePublished": "2024-05-07"
+  "dateModified": "2024-05-10",
+  "datePublished": "2024-05-10"
 }
 
   </script><script>
