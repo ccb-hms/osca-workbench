@@ -69,7 +69,7 @@ bulk counts are also available to facilitate large-scale, summary analyses of
 transcriptional profiles. This platform offers a standardized workflow for
 accessing atlas-level datasets programmatically and reproducibly.
 
-![](figures/curatedAtlasQuery.png)
+<img src="https://raw.githubusercontent.com/ccb-hms/osca-workbench/main/episodes/figures/curatedAtlasQuery.png" style="display: block; margin: auto;" />
 
 ## Data Sources in R / Bioconductor
 
@@ -181,16 +181,16 @@ metadata |>
 # Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
    tissue                          n
    <chr>                       <dbl>
- 1 renal medulla                   6
- 2 caecum                          1
- 3 ileum                           1
- 4 transition zone of prostate     2
- 5 peripheral zone of prostate     2
- 6 lymph node                      2
- 7 fovea centralis                 1
- 8 adrenal gland                   1
- 9 heart left ventricle            7
-10 bone marrow                     4
+ 1 heart left ventricle            7
+ 2 bone marrow                     4
+ 3 lung                            4
+ 4 renal medulla                   6
+ 5 caecum                          1
+ 6 ileum                           1
+ 7 lymph node                      2
+ 8 transition zone of prostate     2
+ 9 peripheral zone of prostate     2
+10 fovea centralis                 1
 # ℹ more rows
 ```
 
@@ -222,10 +222,10 @@ metadata |>
  1 scRNA-seq       4
  2 Seq-Well        2
  3 Drop-seq        1
- 4 10x 3' v1       1
- 5 Smart-seq2      1
- 6 sci-RNA-seq     1
- 7 10x 5' v2       2
+ 4 10x 5' v2       2
+ 5 10x 3' v1       1
+ 6 Smart-seq2      1
+ 7 sci-RNA-seq     1
  8 10x 3' v3      21
  9 Slide-seq       4
 10 10x 3' v2      27

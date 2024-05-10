@@ -109,7 +109,7 @@ Users should be able to analyze their data using functions from different Biocon
 
 This class implements a data structure that stores all aspects of our single-cell data - gene-by-cell expression data, per-cell metadata and per-gene annotation - and manipulate them in a synchronized manner.
 
-<img src="http://bioconductor.org/books/3.17/OSCA.intro/images/SingleCellExperiment.png" style="display: block; margin: auto;" />
+<img src="http://bioconductor.org/books/release/OSCA.intro/images/SingleCellExperiment.png" style="display: block; margin: auto;" />
 
 Let's start with an example dataset.
 
