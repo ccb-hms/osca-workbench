@@ -155,8 +155,8 @@ commands. For now, simply follow the instructions below:
 
 ```r
 install.packages(c("BiocManager", "remotes"))
-BiocManager::install(c("tidyverse", "SummarizedExperiment", "hexbin",
-                       "patchwork", "gridExtra", "lubridate"))
+BiocManager::install(c("AUCell", "CuratedAtlasQueryR", "DropletUtils",
+                       "MouseGastrulationData", "Seurat", "SingleR", "TENxBrainData",
+                       "scDblFinder", "scater", "scran", "zellkonverter"))
 ```
 
-This page adapted from [Introduction to data analysis with R and Bioconductor](https://carpentries-incubator.github.io/bioc-intro/).

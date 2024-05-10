@@ -36,7 +36,7 @@ Note that this is a paired design in which for each biological replicate (pool 3
 
 We start by loading the data and doing a quick exploratory analysis, essentially applying the normalization and visualization techniques that we have seen in the previous lectures to all samples.
 
-```{r setup, message = FALSE}
+```{r setup, message = FALSE, warning = FALSE}
 library(BiocStyle)
 library(MouseGastrulationData)
 sce <- WTChimeraData(samples=5:10, type = "processed")
