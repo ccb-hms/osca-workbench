@@ -2,26 +2,24 @@
 title: Cell type annotation
 teaching: 30 # Minutes of teaching in the lesson
 exercises: 15 # Minutes of exercises in the lesson
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
-:::::::::::::::::::::::::::::::::::::: questions 
+::: questions
+-   ScRNA-seq: Can clustering group cells by type?
+-   Marker genes: Key to identifying cell types in scRNA-seq clusters?
+-   What's tricky about labeling cell types in scRNA-seq data?
+-   How to confirm and improve cell type labels from scRNA-seq?
+:::
 
-- How is clustering used in scRNA-seq data analysis?
-- How are marker genes used to interpret clustering results?
-- What are the challenges and common approaches for assigning cell type labels in scRNA-seq data?
-- How can we further validate and refine cell type annotations from scRNA-seq data?
-
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::: objectives
-
-- Understand that clustering is an unsupervised learning technique that groups cells with similar expression profiles.
-- Learn how to identify genes that differentiate clusters and assign potential biological meaning to each cluster based on marker gene function.
-- Understand two strategies for cell type annotation: 1. comparing to reference datasets with known cell type labels and 2. Identifying cell type marker genes and assigning labels based on marker set enrichment.
-- Explore additional methods to assess the quality of assigned labels, such as examining the distribution of marker gene expression within clusters.
-
-::::::::::::::::::::::::::::::::::::::::::::::::
-
+::: objectives
+-   Identify cell types in scRNA-seq data by clustering cells based on gene expression patterns.
+-   Define cell types within scRNA-seq clusters using marker genes.
+-   Compare methods for assigning cell type labels in scRNA-seq data: reference datasets vs. marker genes.
+-   Evaluate scRNA-seq cell type labels by analyzing marker gene distribution within clusters.
+:::
 
 ## Setup
 
@@ -86,35 +84,36 @@ sce <- runPCA(sce)
 
 ## Clustering
 
-Clustering is an unsupervised learning procedure that is used to empirically 
-define groups of cells with similar expression profiles. 
-Its primary purpose is to summarize complex scRNA-seq data into a digestible 
-format for human interpretation. 
-This allows us to describe population heterogeneity in terms of discrete labels 
-that are easily understood, rather than attempting to comprehend the 
-high-dimensional manifold on which the cells truly reside. After annotation 
-based on marker genes, the clusters can be treated as proxies for more abstract 
-biological concepts such as cell types or states.
+Clustering is an unsupervised learning procedure that is used to
+empirically define groups of cells with similar expression profiles. Its
+primary purpose is to summarize complex scRNA-seq data into a digestible
+format for human interpretation. This allows us to describe population
+heterogeneity in terms of discrete labels that are easily understood,
+rather than attempting to comprehend the high-dimensional manifold on
+which the cells truly reside. After annotation based on marker genes,
+the clusters can be treated as proxies for more abstract biological
+concepts such as cell types or states.
 
 Popularized by its use in
-[Seurat](https://cran.r-project.org/web/packages/Seurat/index.html), 
-graph-based clustering is a flexible and
-scalable technique for clustering large scRNA-seq datasets. We first build a 
-graph where each node is a cell that is connected to its nearest neighbors in
-the high-dimensional space. Edges are weighted based on the similarity between 
-the cells involved, with higher weight given to cells that are more closely 
-related. We then apply algorithms to identify "communities" of cells that are 
-more connected to cells in the same community than they are to cells of
-different communities. Each community represents a cluster that we can use for 
-downstream interpretation.
+[Seurat](https://cran.r-project.org/web/packages/Seurat/index.html),
+graph-based clustering is a flexible and scalable technique for
+clustering large scRNA-seq datasets. We first build a graph where each
+node is a cell that is connected to its nearest neighbors in the
+high-dimensional space. Edges are weighted based on the similarity
+between the cells involved, with higher weight given to cells that are
+more closely related. We then apply algorithms to identify "communities"
+of cells that are more connected to cells in the same community than
+they are to cells of different communities. Each community represents a
+cluster that we can use for downstream interpretation.
 
-Here, we use the `clusterCells()` function from the 
-[scran](https://bioconductor.org/packages/scran) package to perform graph-based
-clustering using the 
-[Louvain algorithm](https://doi.org/10.1088/1742-5468/2008/10/P10008)
-for community detection. All calculations are performed using the top PCs to 
-take advantage of data compression and denoising. This function returns a vector
-containing cluster assignments for each cell in our `SingleCellExperiment` object.
+Here, we use the `clusterCells()` function from the
+[scran](https://bioconductor.org/packages/scran) package to perform
+graph-based clustering using the [Louvain
+algorithm](https://doi.org/10.1088/1742-5468/2008/10/P10008) for
+community detection. All calculations are performed using the top PCs to
+take advantage of data compression and denoising. This function returns
+a vector containing cluster assignments for each cell in our
+`SingleCellExperiment` object.
 
 
 ```r
@@ -129,9 +128,10 @@ table(colLabels(sce))
 100 160  99 141  63  93  60 108  44  91  41 
 ```
 
-We assign the cluster assignments back into our `SingleCellExperiment` object as
-a `factor` in the column metadata. This allows us to conveniently visualize the
-distribution of clusters in eg. a *t*-SNE or a UMAP.
+We assign the cluster assignments back into our `SingleCellExperiment`
+object as a `factor` in the column metadata. This allows us to
+conveniently visualize the distribution of clusters in eg. a *t*-SNE or
+a UMAP.
 
 
 ```r
@@ -143,21 +143,21 @@ plotReducedDim(sce, "UMAP", color_by = "label")
 
 ## Marker gene detection
 
-To interpret clustering results as obtained in the previous section, we identify
-the genes that drive separation between clusters. These marker genes allow us to 
-assign biological meaning to each cluster based on their functional annotation. 
-In the simplest case, we have *a priori* knowledge of the marker genes associated 
-with particular cell types, allowing us to treat the clustering as a proxy for 
-cell type identity.
- 
-The most straightforward approach to marker gene detection involves testing for 
-differential expression between clusters. If a gene is strongly DE between 
-clusters, it is likely to have driven the separation of cells in the clustering 
-algorithm.
+To interpret clustering results as obtained in the previous section, we
+identify the genes that drive separation between clusters. These marker
+genes allow us to assign biological meaning to each cluster based on
+their functional annotation. In the simplest case, we have *a priori*
+knowledge of the marker genes associated with particular cell types,
+allowing us to treat the clustering as a proxy for cell type identity.
 
-Here, we perform a Wilcoxon rank sum test against a log2 fold change threshold
-of 1, focusing on up-regulated (positive) markers in one cluster when compared
-to another cluster. 
+The most straightforward approach to marker gene detection involves
+testing for differential expression between clusters. If a gene is
+strongly DE between clusters, it is likely to have driven the separation
+of cells in the clustering algorithm.
+
+Here, we perform a Wilcoxon rank sum test against a log2 fold change
+threshold of 1, focusing on up-regulated (positive) markers in one
+cluster when compared to another cluster.
 
 
 ```r
@@ -171,9 +171,9 @@ List of length 11
 names(11): 1 2 3 4 5 6 7 8 9 10 11
 ```
 
-The resulting object contains a sorted marker gene list for each cluster,
-in which the top genes are those that contribute the most to the separation of
-that cluster from mall other clusters. 
+The resulting object contains a sorted marker gene list for each
+cluster, in which the top genes are those that contribute the most to
+the separation of that cluster from mall other clusters.
 
 Here, we inspect the ranked marker gene list for the first cluster.
 
@@ -225,17 +225,17 @@ AC168977.2         0         0
 Vmn2r122           0         0
 ```
 
-The `Top` field provides the the minimum rank across all pairwise comparisons.
-The `p.value` field provides the combined *p*-value across all comparisons, and 
-the `FDR` field the BH-adjusted *p*-value for each gene.
-The `summary.AUC` provides area under the curve (here the concordance probability)
-from the comparison with the lowest *p*-value, the `AUC.n` fields provide the
-AUC for each pairwise comparison. The AUC is the probability that a randomly
-selected cell in cluster *A* has a greater expression of gene *X* than a randomly
-selected cell in *B*.
+The `Top` field provides the the minimum rank across all pairwise
+comparisons. The `p.value` field provides the combined *p*-value across
+all comparisons, and the `FDR` field the BH-adjusted *p*-value for each
+gene. The `summary.AUC` provides area under the curve (here the
+concordance probability) from the comparison with the lowest *p*-value,
+the `AUC.n` fields provide the AUC for each pairwise comparison. The AUC
+is the probability that a randomly selected cell in cluster *A* has a
+greater expression of gene *X* than a randomly selected cell in *B*.
 
-We can then inspect the top marker genes for the first cluster using the 
-`plotExpression` function from the 
+We can then inspect the top marker genes for the first cluster using the
+`plotExpression` function from the
 [scater](https://bioconductor.org/packages/scater) package.
 
 
@@ -249,53 +249,55 @@ plotExpression(sce, features = top.markers, x = "label", color_by = "label")
 ## Cell type annotation
 
 The most challenging task in scRNA-seq data analysis is arguably the
-interpretation of the results.
-Obtaining clusters of cells is fairly straightforward, but it is more difficult
-to determine what biological state is represented by each of those clusters. 
-Doing so requires us to bridge the gap between the current dataset and prior 
-biological knowledge, and the latter is not always available in a consistent 
-and quantitative manner.
-Indeed, even the concept of a "cell type" is
-[not clearly defined](https://doi.org/10.1016/j.cels.2017.03.006), with most
-practitioners possessing a "I'll know it when I see it" intuition that is not
-amenable to computational analysis.
-As such, interpretation of scRNA-seq data is often manual and a common
-bottleneck in the analysis workflow.
+interpretation of the results. Obtaining clusters of cells is fairly
+straightforward, but it is more difficult to determine what biological
+state is represented by each of those clusters. Doing so requires us to
+bridge the gap between the current dataset and prior biological
+knowledge, and the latter is not always available in a consistent and
+quantitative manner. Indeed, even the concept of a "cell type" is [not
+clearly defined](https://doi.org/10.1016/j.cels.2017.03.006), with most
+practitioners possessing a "I'll know it when I see it" intuition that
+is not amenable to computational analysis. As such, interpretation of
+scRNA-seq data is often manual and a common bottleneck in the analysis
+workflow.
 
-To expedite this step, we can use various computational approaches that exploit
-prior information to assign meaning to an uncharacterized scRNA-seq dataset.
-The most obvious sources of prior information are the curated gene sets associated
-with particular biological processes, e.g., from the Gene Ontology (GO) or the
-Kyoto Encyclopedia of Genes and Genomes (KEGG) collections.
-Alternatively, we can directly compare our expression profiles to published
-reference datasets where each sample or cell has already been annotated with its
-putative biological state by domain experts.
-Here, we will demonstrate both approaches on the wild-type chimera dataset.
+To expedite this step, we can use various computational approaches that
+exploit prior information to assign meaning to an uncharacterized
+scRNA-seq dataset. The most obvious sources of prior information are the
+curated gene sets associated with particular biological processes, e.g.,
+from the Gene Ontology (GO) or the Kyoto Encyclopedia of Genes and
+Genomes (KEGG) collections. Alternatively, we can directly compare our
+expression profiles to published reference datasets where each sample or
+cell has already been annotated with its putative biological state by
+domain experts. Here, we will demonstrate both approaches on the
+wild-type chimera dataset.
 
 ### Assigning cell labels from reference data
 
-A conceptually straightforward annotation approach is to compare the single-cell
-expression profiles with previously annotated reference datasets.
-Labels can then be assigned to each cell in our uncharacterized test dataset
-based on the most similar reference sample(s), for some definition of "similar".
-This is a standard classification challenge that can be tackled by standard
-machine learning techniques such as random forests and support vector machines.
-Any published and labelled RNA-seq dataset (bulk or single-cell) can be used as
-a reference, though its reliability depends greatly on the expertise of the
-original authors who assigned the labels in the first place. 
+A conceptually straightforward annotation approach is to compare the
+single-cell expression profiles with previously annotated reference
+datasets. Labels can then be assigned to each cell in our
+uncharacterized test dataset based on the most similar reference
+sample(s), for some definition of "similar". This is a standard
+classification challenge that can be tackled by standard machine
+learning techniques such as random forests and support vector machines.
+Any published and labelled RNA-seq dataset (bulk or single-cell) can be
+used as a reference, though its reliability depends greatly on the
+expertise of the original authors who assigned the labels in the first
+place.
 
-In this section, we will demonstrate the use of the *[SingleR](https://bioconductor.org/packages/3.18/SingleR)*
-method for cell type annotation
-[Aran et al., 2019](https://www.nature.com/articles/s41590-018-0276-y).
-This method assigns labels to cells based on the reference samples with the
-highest Spearman rank correlations, using only the marker genes between pairs of
-labels to focus on the relevant differences between cell types.
-It also performs a fine-tuning step for each cell where the correlations are
-recomputed with just the marker genes for the top-scoring labels.
-This aims to resolve any ambiguity between those labels by removing noise from
-irrelevant markers for other labels.
-Further details can be found in the
-[_SingleR_ book](https://bioconductor.org/books/release/SingleRBook) from which
+In this section, we will demonstrate the use of the
+*[SingleR](https://bioconductor.org/packages/3.18/SingleR)* method for cell type annotation [Aran et al.,
+2019](https://www.nature.com/articles/s41590-018-0276-y). This method
+assigns labels to cells based on the reference samples with the highest
+Spearman rank correlations, using only the marker genes between pairs of
+labels to focus on the relevant differences between cell types. It also
+performs a fine-tuning step for each cell where the correlations are
+recomputed with just the marker genes for the top-scoring labels. This
+aims to resolve any ambiguity between those labels by removing noise
+from irrelevant markers for other labels. Further details can be found
+in the [*SingleR*
+book](https://bioconductor.org/books/release/SingleRBook) from which
 most of the examples here are derived.
 
 
@@ -379,8 +381,8 @@ tab
 ref <- logNormCounts(ref)
 ```
 
-Some cleaning - remove cells of the reference dataset for which the cell type
-annotation is missing.
+Some cleaning - remove cells of the reference dataset for which the cell
+type annotation is missing.
 
 
 ```r
@@ -388,8 +390,8 @@ nna <- !is.na(ref$celltype)
 ref <- ref[,nna]
 ```
 
-Also remove cell types of very low abundance (here less than 10 cells) to remove
-noise prior to subsequent annotation tasks.
+Also remove cell types of very low abundance (here less than 10 cells)
+to remove noise prior to subsequent annotation tasks.
 
 
 ```r
@@ -408,7 +410,8 @@ sce <- sce[isect,]
 ref <- ref[isect,]
 ```
 
-Convert sparse assay matrices to regular dense matrices for input to SingleR. 
+Convert sparse assay matrices to regular dense matrices for input to
+SingleR.
 
 
 ```r
@@ -453,10 +456,11 @@ cell_11860 Forebrain/Midbrain/H..
 ```
 
 We inspect the results using a heatmap of the per-cell and label scores.
-Ideally, each cell should exhibit a high score in one label relative to all of
-the others, indicating that the assignment to that label was unambiguous. 
-This is largely the case for mesenchyme and endothelial cells, whereas we see
-expectedly more ambiguity between the two erythroid cell populations.
+Ideally, each cell should exhibit a high score in one label relative to
+all of the others, indicating that the assignment to that label was
+unambiguous. This is largely the case for mesenchyme and endothelial
+cells, whereas we see expectedly more ambiguity between the two
+erythroid cell populations.
 
 
 ```r
@@ -465,13 +469,13 @@ plotScoreHeatmap(res)
 
 <img src="fig/cell_type_annotation-rendered-score-heat-1.png" style="display: block; margin: auto;" />
 
-We also compare the cell type assignments with the clustering results to determine
-the identity of each cluster. Here, several cell type classes are nested within
-the same cluster, indicating that these clusters are composed of several 
-transcriptomically similar cell populations (such as cluster 4 and 6).
-On the other hand, there are also instances where we have several clusters for
-the same cell type, indicating that the clustering represents finer subdivisions
-within these cell types. 
+We also compare the cell type assignments with the clustering results to
+determine the identity of each cluster. Here, several cell type classes
+are nested within the same cluster, indicating that these clusters are
+composed of several transcriptomically similar cell populations (such as
+cluster 4 and 6). On the other hand, there are also instances where we
+have several clusters for the same cell type, indicating that the
+clustering represents finer subdivisions within these cell types.
 
 
 ```r
@@ -482,10 +486,11 @@ pheatmap(log2(tab + 10), color = colorRampPalette(c("white", "blue"))(101))
 
 <img src="fig/cell_type_annotation-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
 
-As it so happens, we are in the fortunate position where our test dataset also
-contains independently defined labels. We see strong consistency between the two
-sets of labels, indicating that our automatic annotation is comparable to that
-generated manually by domain experts.
+As it so happens, we are in the fortunate position where our test
+dataset also contains independently defined labels. We see strong
+consistency between the two sets of labels, indicating that our
+automatic annotation is comparable to that generated manually by domain
+experts.
 
 
 ```r
@@ -497,13 +502,12 @@ pheatmap(log2(tab + 10), color = colorRampPalette(c("white", "blue"))(101))
 
 ### Assigning cell labels from gene sets
 
-A related strategy is to explicitly identify sets of marker genes that are highly
-expressed in each individual cell.
-This does not require matching of individual cells to the expression values of
-the reference dataset, which is faster and more convenient when only the
-identities of the markers are available.
-We demonstrate this approach using cell type markers derived from the
-mouse embryo atlas dataset.
+A related strategy is to explicitly identify sets of marker genes that
+are highly expressed in each individual cell. This does not require
+matching of individual cells to the expression values of the reference
+dataset, which is faster and more convenient when only the identities of
+the markers are available. We demonstrate this approach using cell type
+markers derived from the mouse embryo atlas dataset.
 
 
 ```r
@@ -558,16 +562,16 @@ mainExpName: NULL
 altExpNames(0):
 ```
 
-We use the *[AUCell](https://bioconductor.org/packages/3.18/AUCell)* package to identify marker sets that are highly
-expressed in each cell.
-This method ranks genes by their expression values within each cell and constructs
-a response curve of the number of genes from each marker set that are present
-with increasing rank.
-It then computes the area under the curve (AUC) for each marker set, quantifying
-the enrichment of those markers among the most highly expressed genes in that cell.
-This is roughly similar to performing a Wilcoxon rank sum test between genes in
-and outside of the set, but involving only the top ranking genes by expression
-in each cell.
+We use the *[AUCell](https://bioconductor.org/packages/3.18/AUCell)* package to identify marker sets that
+are highly expressed in each cell. This method ranks genes by their
+expression values within each cell and constructs a response curve of
+the number of genes from each marker set that are present with
+increasing rank. It then computes the area under the curve (AUC) for
+each marker set, quantifying the enrichment of those markers among the
+most highly expressed genes in that cell. This is roughly similar to
+performing a Wilcoxon rank sum test between genes in and outside of the
+set, but involving only the top ranking genes by expression in each
+cell.
 
 
 ```r
@@ -640,15 +644,15 @@ cells        Somitic mesoderm Spinal cord Surface ectoderm
   cell_11021        0.5186006   0.5526277        0.5052879
 ```
 
-We assign cell type identity to each cell in the test dataset by taking the
-marker set with the top AUC as the label for that cell.
-Our new labels mostly agree with the original annotation (and, thus, also with
-the reference-based annotation).
-Instances where the original annotation is divided into several new label groups
-typically points to large overlaps in their marker sets.
-In the absence of prior annotation, a more general diagnostic check is to compare
-the assigned labels to cluster identities, under the expectation that most cells
-of a single cluster would have the same label (or, if multiple labels are present,
+We assign cell type identity to each cell in the test dataset by taking
+the marker set with the top AUC as the label for that cell. Our new
+labels mostly agree with the original annotation (and, thus, also with
+the reference-based annotation). Instances where the original annotation
+is divided into several new label groups typically points to large
+overlaps in their marker sets. In the absence of prior annotation, a
+more general diagnostic check is to compare the assigned labels to
+cluster identities, under the expectation that most cells of a single
+cluster would have the same label (or, if multiple labels are present,
 they should at least represent closely related cell states).
 
 
@@ -881,18 +885,16 @@ new.labels                       Spinal cord Stripped Surface ectoderm
   Surface ectoderm                         0        0               20
 ```
 
-As a diagnostic measure, we examine the distribution of AUCs across cells for
-each label.
-In heterogeneous populations, the distribution for each label should be bimodal
-with one high-scoring peak containing cells of that cell type and a low-scoring
-peak containing cells of other types.
-The gap between these two peaks can be used to derive a threshold for whether a
-label is "active" for a particular cell.
-(In this case, we simply take the single highest-scoring label per cell as the
-labels should be mutually exclusive.)
-In populations where a particular cell type is expected, lack of clear bimodality
-for the corresponding label may indicate that its gene set is not sufficiently
-informative.
+As a diagnostic measure, we examine the distribution of AUCs across
+cells for each label. In heterogeneous populations, the distribution for
+each label should be bimodal with one high-scoring peak containing cells
+of that cell type and a low-scoring peak containing cells of other
+types. The gap between these two peaks can be used to derive a threshold
+for whether a label is "active" for a particular cell. (In this case, we
+simply take the single highest-scoring label per cell as the labels
+should be mutually exclusive.) In populations where a particular cell
+type is expected, lack of clear bimodality for the corresponding label
+may indicate that its gene set is not sufficiently informative.
 
 
 ```r
@@ -902,12 +904,13 @@ AUCell_exploreThresholds(cell.aucs[1:9], plotHist = TRUE, assign = TRUE)
 
 <img src="fig/cell_type_annotation-rendered-auc-dist-1.png" style="display: block; margin: auto;" />
 
-Shown is the distribution of AUCs in the wild-type chimera dataset for each label in
-the embryo atlas dataset. The blue curve represents the density estimate, the red curve
-represents a fitted two-component mixture of normals, the pink curve represents
-a fitted three-component mixture, and the grey curve represents a fitted normal
-distribution. Vertical lines represent threshold estimates corresponding to each
-estimate of the distribution. 
+Shown is the distribution of AUCs in the wild-type chimera dataset for
+each label in the embryo atlas dataset. The blue curve represents the
+density estimate, the red curve represents a fitted two-component
+mixture of normals, the pink curve represents a fitted three-component
+mixture, and the grey curve represents a fitted normal distribution.
+Vertical lines represent threshold estimates corresponding to each
+estimate of the distribution.
 
 ## Session Info
 
@@ -1019,94 +1022,84 @@ loaded via a namespace (and not attached):
 [125] cowplot_1.1.3                 KEGGREST_1.42.0              
 ```
 
-
-
 ## Exercises
 
-:::::::::::::::::::::::::::::::::: challenge
-
+::: challenge
 #### Exercise 1: Clustering
 
-The [Leiden algorithm](https://www.nature.com/articles/s41598-019-41695-z)
-is similar to the Louvain algorithm, but it is faster and has been shown to result
-in better connected communities. Modify the above call to `clusterCells` to
-carry out the community detection with the Leiden algorithm instead. Visualize
-the results in a UMAP plot.
+The [Leiden
+algorithm](https://www.nature.com/articles/s41598-019-41695-z) is
+similar to the Louvain algorithm, but it is faster and has been shown to
+result in better connected communities. Modify the above call to
+`clusterCells` to carry out the community detection with the Leiden
+algorithm instead. Visualize the results in a UMAP plot.
 
-:::::::::::::: hint
+::: hint
+The `NNGraphParam` constructor has an argument `cluster.args`. This
+allows to specify arguments passed on to the `cluster_leiden` function
+from the
+[igraph](https://cran.r-project.org/web/packages/igraph/index.html)
+package. Use the `cluster.args` argument to parameterize the clustering
+to use modularity as the objective function and a resolution parameter
+of 0.5.
+:::
 
-The `NNGraphParam` constructor has an argument `cluster.args`. This allows
-to specify arguments passed on to the `cluster_leiden` function from the 
-[igraph](https://cran.r-project.org/web/packages/igraph/index.html) package.
-Use the `cluster.args` argument to parameterize the clustering to use modularity
-as the objective function and a resolution parameter of 0.5.
-
-:::::::::::::::::::::::
-
-:::::::::::::: solution
-
+::: solution
 TODO
-:::::::::::::::::::::::
+:::
+:::
 
-:::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::: challenge
-
+::: challenge
 #### Exercise 2: Cluster annotation
 
-Another strategy for annotating the clusters is to perform
-a gene set enrichment analysis on the marker genes defining each cluster. This
-identifies the pathways and processes that are (relatively) active in each cluster based on upregulation of the associated genes compared to other clusters.
-Focus on the top 100 up-regulated genes in a cluster of your choice and perform
-a gene set enrichment analysis of biological process (BP) gene sets from the Gene
-Ontology (GO).
+Another strategy for annotating the clusters is to perform a gene set
+enrichment analysis on the marker genes defining each cluster. This
+identifies the pathways and processes that are (relatively) active in
+each cluster based on upregulation of the associated genes compared to
+other clusters. Focus on the top 100 up-regulated genes in a cluster of
+your choice and perform a gene set enrichment analysis of biological
+process (BP) gene sets from the Gene Ontology (GO).
 
-:::::::::::::: hint
+::: hint
+Use the `goana()` function from the *[limma](https://bioconductor.org/packages/3.18/limma)* package to
+identify GO BP terms that are overrepresented in the list of marker
+genes.
+:::
 
-Use the `goana()` function from the *[limma](https://bioconductor.org/packages/3.18/limma)* package to 
-identify GO BP terms that are overrepresented in the list of marker genes.
-
-:::::::::::::::::::::::
-
-:::::::::::::: solution
-
+::: solution
 TODO
-:::::::::::::::::::::::
+:::
+:::
 
-:::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::: challenge
-
+::: challenge
 #### Exercise 3: Workflow
 
-The [scRNAseq](https://bioconductor.org/packages/scRNAseq) package provides
-gene-level counts for a collection of public scRNA-seq datasets, stored as 
-`SingleCellExperiment` objects with annotated cell- and gene-level metadata.
-Consult the vignette of the 
-[scRNAseq](https://bioconductor.org/packages/scRNAseq) package to inspect all
-available datasets and select a dataset of your choice. Perform a typical
-scRNA-seq analysis on this dataset including QC, normalization, feature selection,
-dimensionality reduction, clustering, and marker gene detection.  
+The [scRNAseq](https://bioconductor.org/packages/scRNAseq) package
+provides gene-level counts for a collection of public scRNA-seq
+datasets, stored as `SingleCellExperiment` objects with annotated cell-
+and gene-level metadata. Consult the vignette of the
+[scRNAseq](https://bioconductor.org/packages/scRNAseq) package to
+inspect all available datasets and select a dataset of your choice.
+Perform a typical scRNA-seq analysis on this dataset including QC,
+normalization, feature selection, dimensionality reduction, clustering,
+and marker gene detection.
 
-
-:::::::::::::: solution
-
+::: solution
 TODO
-:::::::::::::::::::::::
+:::
+:::
 
-:::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::: checklist
+::: checklist
 ## Further Reading
 
-* OSCA book, [Chapters 5-7](https://bioconductor.org/books/release/OSCA.basic/clustering.html)
-* Assigning cell types with SingleR ([the book](https://bioconductor.org/books/release/SingleRBook/)).
-* The [AUCell](https://bioconductor.org/packages/AUCell) package vignette.
+-   OSCA book, [Chapters
+    5-7](https://bioconductor.org/books/release/OSCA.basic/clustering.html)
+-   Assigning cell types with SingleR ([the
+    book](https://bioconductor.org/books/release/SingleRBook/)).
+-   The [AUCell](https://bioconductor.org/packages/AUCell) package
+    vignette.
+:::
 
-::::::::::::::
-
-::::::::::::::::::::::::::::::::::::: keypoints 
-
-- TODO
-
-::::::::::::::::::::::::::::::::::::::::::::::::
+::: keypoints
+-   TODO
+:::

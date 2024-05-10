@@ -6,17 +6,17 @@ exercises: 15 # Minutes of exercises in the lesson
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How can we identify and remove unwanted variation introduced by processing differences between samples (batch effects) in scRNA-seq data?
-- How can we identify genes that are expressed differently between groups of cells in scRNA-seq data (e.g., different cell types or conditions)? 
-- How can we identify cell types (clusters) that show significant changes in abundance between conditions in scRNA-seq data? How can we address potential biases caused by differences in cell numbers per type?
+- How to remove technical variations (batch effects) for reliable scRNA-seq analysis?
+- How to identify genes differentially expressed between cell types in scRNA-seq?
+- How to track changes in cell type abundance across conditions in scRNA-seq, accounting for cell number bias?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Understand the concept of batch effects and their impact on data analysis. Learn how to utilize tools like correctExperiment from the batchelor package to correct for batch effects based on sample information.
-- Master the workflow for differential expression analysis (DEA), including grouping cells, creating pseudo-bulk samples, normalization, and differential expression testing with tools like edgeR.
-- Understand differential abundance (DA) analysis, considering compositional effects and strategies to address them, for robust identification of cell type abundance changes between conditions.
+- Correct batch effects (technical variations) in scRNA-seq data (use tools like correctExperiment).
+- Master scRNA-seq DEA workflow (grouping, normalization, testing with edgeR).
+- Analyze scRNA-seq DA (consider compositional effects) for robust cell type changes.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
