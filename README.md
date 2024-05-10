@@ -1,11 +1,5 @@
 # Orchestrating Single-Cell Analysis with Bioconductor
 
-This is a pre-alpha adaptation of the 2023 ISMB OSCA tutorial using The Carpentries Workbench lesson template. 
-
-### Vignettes converted
-
-As individual vignettes are converted into lessons, they can be added to `config.yaml` to be rendered and shown in the final Github Pages lesson.  
-
 ## Description
 
 In the last few years, the profiling of a large number of genome-wide features
@@ -44,5 +38,8 @@ In particular, participants will learn:
 
 ## Source
 
-This lesson is a template lesson that uses [The Carpentries Workbench](https://carpentries.github.io/sandpaper-docs/) and is based on materials from the [OSCA tutorial at the ISMB 2023](https://bioconductor.github.io/ISMB.OSCA/).
+This lesson uses [The Carpentries Workbench](https://carpentries.github.io/sandpaper-docs/) and is based on materials from the [OSCA tutorial at the ISMB 2023](https://bioconductor.github.io/ISMB.OSCA/).
+
+As individual vignettes are converted into lessons, they can be added to `config.yaml` to be rendered and shown in the final Github Pages lesson.  
+
 
