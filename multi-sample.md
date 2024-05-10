@@ -40,14 +40,6 @@ We start by loading the data and doing a quick exploratory analysis, essentially
 ```r
 library(BiocStyle)
 library(MouseGastrulationData)
-```
-
-```{.warning}
-Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
-'DelayedArray::makeNindexFromArrayViewport' when loading 'SummarizedExperiment'
-```
-
-```r
 sce <- WTChimeraData(samples=5:10, type = "processed")
 sce
 ```

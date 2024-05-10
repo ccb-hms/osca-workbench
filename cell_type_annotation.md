@@ -25,16 +25,8 @@ editor_options:
 
 
 ```r
-library(BiocStyle)
 library(AUCell)
-```
-
-```{.warning}
-Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
-'DelayedArray::makeNindexFromArrayViewport' when loading 'SummarizedExperiment'
-```
-
-```r
+library(BiocStyle)
 library(MouseGastrulationData)
 library(SingleR)
 library(bluster)
@@ -954,7 +946,7 @@ other attached packages:
 [19] GenomeInfoDb_1.38.8          IRanges_2.36.0              
 [21] S4Vectors_0.40.2             BiocGenerics_0.48.1         
 [23] MatrixGenerics_1.14.0        matrixStats_1.2.0           
-[25] AUCell_1.24.0                BiocStyle_2.30.0            
+[25] BiocStyle_2.30.0             AUCell_1.24.0               
 
 loaded via a namespace (and not attached):
   [1] RColorBrewer_1.1-3            jsonlite_1.8.8               
