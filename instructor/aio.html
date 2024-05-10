@@ -312,7 +312,7 @@
         
 <section id="aio-intro-sce"><p>Content from <a href="intro-sce.html">Introduction to Bioconductor and the SingleCellExperiment class</a></p>
 <hr>
-<p>Last updated on 2024-05-06 |
+<p>Last updated on 2024-05-10 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/intro-sce.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 30 minutes</p>
@@ -477,7 +477,7 @@ packages.</p>
 <p>This class implements a data structure that stores all aspects of our
 single-cell data - gene-by-cell expression data, per-cell metadata and
 per-gene annotation - and manipulate them in a synchronized manner.</p>
-<figure><img src="http://bioconductor.org/books/3.17/OSCA.intro/images/SingleCellExperiment.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Let’s start with an example dataset.</p>
+<figure><img src="http://bioconductor.org/books/release/OSCA.intro/images/SingleCellExperiment.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Let’s start with an example dataset.</p>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1009,7 +1009,7 @@ cell, while the large majority of droplets are empty.</p>
   <h3 class="accordion-header" id="headingSpoiler1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>Setting the Random Seed</h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
 <div class="accordion-body">
 <p>Whenever your code involves the generation of random numbers, it’s a
 good practice to set the random seed in R with
@@ -1817,7 +1817,7 @@ results?</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
 <div class="accordion-body">
 <p>First subset the object to include only highly variable genes
 (<code>sce2 &lt;- sce[hvg.sce.var,]</code>) and then apply the
@@ -2986,7 +2986,7 @@ UMAP plot.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>The <code>NNGraphParam</code> constructor has an argument
 <code>cluster.args</code>. This allows to specify arguments passed on to
@@ -3003,7 +3003,7 @@ parameter of 0.5.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -3033,7 +3033,7 @@ process (BP) gene sets from the Gene Ontology (GO).</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2">Give me a hint</h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
 <div class="accordion-body">
 <p>Use the <code>goana()</code> function from the <em><a href="https://bioconductor.org/packages/3.18/limma" class="external-link">limma</a></em>
 package to identify GO BP terms that are overrepresented in the list of
@@ -3047,7 +3047,7 @@ marker genes.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -3078,7 +3078,7 @@ and marker gene detection.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -4105,7 +4105,7 @@ issues.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 
 </div>
@@ -4117,7 +4117,7 @@ issues.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -4142,7 +4142,7 @@ package and check for differences in the results.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2">Give me a hint</h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
 <div class="accordion-body">
 
 </div>
@@ -4154,7 +4154,7 @@ package and check for differences in the results.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -5068,7 +5068,7 @@ matrix in memory as opposed to holding the data out of memory.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>See the <code>HDF5Array</code> function for reading from HDF5 and the
 <code>writeHDF5Array</code> function for writing to HDF5 from the <em><a href="https://bioconductor.org/packages/3.18/HDF5Array" class="external-link">HDF5Array</a></em>
@@ -5082,7 +5082,7 @@ package.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -5110,7 +5110,7 @@ with 3 workers.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2">Give me a hint</h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
 <div class="accordion-body">
 <p>Use the function <code>system.time</code> to obtain the runtime of
 each job.</p>
@@ -5123,7 +5123,7 @@ each job.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -5153,7 +5153,7 @@ with cells colored by a cell metadata column of your choice.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint3" aria-expanded="false" aria-controls="collapseHint3">
   <h4 class="accordion-header" id="headingHint3">Give me a hint</h4>
 </button>
-<div id="collapseHint3" class="accordion-collapse collapse" aria-labelledby="headingHint3" data-bs-parent="#accordionHint3">
+<div id="collapseHint3" class="accordion-collapse collapse" data-bs-parent="#accordionHint3" aria-labelledby="headingHint3">
 <div class="accordion-body">
 <p>Use Seurat’s <code>DimPlot</code> function.</p>
 </div>
@@ -5165,7 +5165,7 @@ with cells colored by a cell metadata column of your choice.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>Use Seurat’s <code>DimPlot</code> function.</p>
 </div>
@@ -5221,7 +5221,7 @@ Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  --></section></section><section id="aio-hca"><p>Content from <a href="hca.html">Accessing data from the Human Cell Atlas (HCA)</a></p>
 <hr>
-<p>Last updated on 2024-05-05 |
+<p>Last updated on 2024-05-10 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/hca.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 30 minutes</p>
@@ -5313,7 +5313,7 @@ counts are also available to facilitate large-scale, summary analyses of
 transcriptional profiles. This platform offers a standardized workflow
 for accessing atlas-level datasets programmatically and
 reproducibly.</p>
-<figure><img src="../figures/curatedAtlasQuery.png" class="figure mx-auto d-block"></figure></section><section id="data-sources-in-r-bioconductor"><h2 class="section-heading">Data Sources in R / Bioconductor<a class="anchor" aria-label="anchor" href="#data-sources-in-r-bioconductor"></a>
+<figure><img src="https://raw.githubusercontent.com/ccb-hms/osca-workbench/main/episodes/figures/curatedAtlasQuery.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section id="data-sources-in-r-bioconductor"><h2 class="section-heading">Data Sources in R / Bioconductor<a class="anchor" aria-label="anchor" href="#data-sources-in-r-bioconductor"></a>
 </h2>
 <hr class="half-width">
 <p>There are a few options to access single cell data with R /
@@ -5461,16 +5461,16 @@ datasets by tissue type.</p>
 # Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
    tissue                          n
    &lt;chr&gt;                       &lt;dbl&gt;
- 1 renal medulla                   6
- 2 caecum                          1
- 3 ileum                           1
- 4 transition zone of prostate     2
- 5 peripheral zone of prostate     2
- 6 lymph node                      2
- 7 fovea centralis                 1
- 8 adrenal gland                   1
- 9 heart left ventricle            7
-10 bone marrow                     4
+ 1 heart left ventricle            7
+ 2 bone marrow                     4
+ 3 lung                            4
+ 4 renal medulla                   6
+ 5 caecum                          1
+ 6 ileum                           1
+ 7 lymph node                      2
+ 8 transition zone of prostate     2
+ 9 peripheral zone of prostate     2
+10 fovea centralis                 1
 # ℹ more rows</code></pre>
 </div>
 </section><section id="columns-available-in-the-metadata"><h2 class="section-heading">Columns available in the metadata<a class="anchor" aria-label="anchor" href="#columns-available-in-the-metadata"></a>
@@ -5508,10 +5508,10 @@ datasets by tissue type.</p>
  1 scRNA-seq       4
  2 Seq-Well        2
  3 Drop-seq        1
- 4 10x 3' v1       1
- 5 Smart-seq2      1
- 6 sci-RNA-seq     1
- 7 10x 5' v2       2
+ 4 10x 5' v2       2
+ 5 10x 3' v1       1
+ 6 Smart-seq2      1
+ 7 sci-RNA-seq     1
  8 10x 3' v3      21
  9 Slide-seq       4
 10 10x 3' v2      27
