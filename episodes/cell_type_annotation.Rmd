@@ -8,24 +8,27 @@ editor_options:
 ---
 
 ::: questions
--   ScRNA-seq: Can clustering group cells by type?
--   Marker genes: Key to identifying cell types in scRNA-seq clusters?
--   What's tricky about labeling cell types in scRNA-seq data?
--   How to confirm and improve cell type labels from scRNA-seq?
+-   How to identify groups of cells with similar expression profiles?
+-   How to identify genes that drive separation between these groups of cells?
+-   How to leverage reference datasets and known marker genes for the cell type annotation of new datasets?
 :::
 
 ::: objectives
--   Identify cell types in scRNA-seq data by clustering cells based on gene expression patterns.
--   Define cell types within scRNA-seq clusters using marker genes.
--   Compare methods for assigning cell type labels in scRNA-seq data: reference datasets vs. marker genes.
--   Evaluate scRNA-seq cell type labels by analyzing marker gene distribution within clusters.
+-   Identify groups of cells by clustering cells based on gene expression patterns.
+-   Identify marker genes through testing for differential expression between clusters.
+-   Annotate cell types through annotation transfer from reference datasets.
+-   Annotate cell types through marker gene set enrichment testing.
 :::
 
 ## Setup
 
-```{r setup, message = FALSE, warning = FALSE}
-library(AUCell)
+```{r chunk-opts, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE, message = FALSE, warning = FALSE)
 library(BiocStyle)
+```
+
+```{r setup}
+library(AUCell)
 library(MouseGastrulationData)
 library(SingleR)
 library(bluster)

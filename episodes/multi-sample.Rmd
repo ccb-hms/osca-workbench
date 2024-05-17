@@ -36,8 +36,12 @@ Note that this is a paired design in which for each biological replicate (pool 3
 
 We start by loading the data and doing a quick exploratory analysis, essentially applying the normalization and visualization techniques that we have seen in the previous lectures to all samples.
 
-```{r setup, message = FALSE, warning = FALSE}
+```{r chunk-opts, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE, message = FALSE, warning = FALSE)
 library(BiocStyle)
+```
+
+```{r setup}
 library(MouseGastrulationData)
 sce <- WTChimeraData(samples=5:10, type = "processed")
 sce

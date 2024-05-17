@@ -94,7 +94,12 @@ BiocManager::install("CuratedAtlasQueryR")
 
 ## Package load 
 
-```{r, include = TRUE, results = "hide", message = FALSE, warning = FALSE}
+```{r chunk-opts, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE, message = FALSE, warning = FALSE)
+library(BiocStyle)
+```
+
+```{r}
 library(CuratedAtlasQueryR)
 library(dplyr)
 ```
