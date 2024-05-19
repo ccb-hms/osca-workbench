@@ -6,17 +6,17 @@ exercises: 15 # Minutes of exercises in the lesson
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How to remove technical variations (batch effects) for reliable scRNA-seq analysis?
-- How to identify genes differentially expressed between cell types in scRNA-seq?
-- How to track changes in cell type abundance across conditions in scRNA-seq, accounting for cell number bias?
+- How to integrate data from multiple batches, samples, and studies?
+- How to identify differentially expressed genes between experimental conditions for each cell type?
+- How to identify changes in cell type abundance between experimental conditions?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Correct batch effects (technical variations) in scRNA-seq data (use tools like correctExperiment).
-- Master scRNA-seq DEA workflow (grouping, normalization, testing with edgeR).
-- Analyze scRNA-seq DA (consider compositional effects) for robust cell type changes.
+- Correct batch effects and diagnose potential problems such as over-correction.
+- Perform differential expression comparisons between conditions based on pseudo-bulk samples.
+- Perform differential abundance comparisons between conditions.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
