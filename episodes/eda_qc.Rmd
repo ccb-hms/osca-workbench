@@ -201,7 +201,7 @@ While the univariate distribution of QC metrics can give some insight on the qua
 plotColData(sce, x="sum", y="subsets_Mito_percent", colour_by="discard")
 ```
 
-It could also be a good idea to perform a differential expression analysis between retained and discarded cells to check wether we are removing an unusual cell population rather than low-quality libraries (see [Section 1.5 of OSCA advanced](http://bioconductor.org/books/3.17/OSCA.advanced/quality-control-redux.html#qc-discard-cell-types)).
+It could also be a good idea to perform a differential expression analysis between retained and discarded cells to check wether we are removing an unusual cell population rather than low-quality libraries (see [Section 1.5 of OSCA advanced](https://bioconductor.org/books/release/OSCA.advanced/quality-control-redux.html#qc-discard-cell-types)).
 
 Once we are happy with the results, we can discard the low-quality cells by subsetting the original object.
 

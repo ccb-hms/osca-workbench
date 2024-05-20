@@ -156,7 +156,7 @@ colData(sce)
 
 ### The `reducedDims`
 
-Everything that we have described so far (except for the `counts` getter) is part of the `SummarizedExperiment` class that SingleCellExperiment extends. You can find a complete lesson on the `SummarizedExperiment` class [here](https://carpentries-incubator.github.io/bioc-intro/60-next-steps.html).
+Everything that we have described so far (except for the `counts` getter) is part of the `SummarizedExperiment` class that SingleCellExperiment extends. You can find a complete lesson on the `SummarizedExperiment` class in [Introduction to data analysis with R and Bioconductor](https://carpentries-incubator.github.io/bioc-intro/60-next-steps.html) course.
 
 One of the peculiarity of SingleCellExperiment is its ability to store reduced dimension matrices within the object. These may include PCA, t-SNE, UMAP, etc.
 
