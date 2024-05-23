@@ -22,7 +22,7 @@ exercises: 2 # Minutes of exercises in the lesson
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ```{r chunk-opts, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, cache = TRUE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 library(BiocStyle)
 ```
 

@@ -37,7 +37,7 @@ Note that this is a paired design in which for each biological replicate (pool 3
 We start by loading the data and doing a quick exploratory analysis, essentially applying the normalization and visualization techniques that we have seen in the previous lectures to all samples.
 
 ```{r chunk-opts, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, cache = TRUE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 library(BiocStyle)
 ```
 
