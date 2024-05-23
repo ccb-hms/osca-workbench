@@ -84,7 +84,7 @@ There are a few options to access single cell data with R / Bioconductor.
 ## Installation
 
 
-```r
+``` r
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
@@ -94,7 +94,9 @@ BiocManager::install("CuratedAtlasQueryR")
 ## Package load 
 
 
-```r
+
+
+``` r
 library(CuratedAtlasQueryR)
 library(dplyr)
 ```
@@ -106,23 +108,23 @@ via the package. In this example, we are using the sample database URL which
 allows us to get a small and quick subset of the available metadata.
 
 
-```r
+``` r
 metadata <- get_metadata(remote_url = CuratedAtlasQueryR::SAMPLE_DATABASE_URL)
 ```
 
 Get a view of the first 10 columns in the metadata with `glimpse`
 
 
-```r
+``` r
 metadata |>
   select(1:10) |>
   glimpse()
 ```
 
-```{.output}
+``` output
 Rows: ??
 Columns: 10
-Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
+Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1021-azure:R 4.4.0/:memory:]
 $ cell_                             <chr> "TTATGCTAGGGTGTTG_12", "GCTTGAACATGG…
 $ sample_                           <chr> "039c558ca1c43dc74c563b58fe0d6289", …
 $ cell_type                         <chr> "mature NK T cell", "mature NK T cel…
@@ -149,7 +151,7 @@ and 'then' summarizing the data for each level in the `Species` variable with a
 `mean`. The pipe operator can be read as 'then'.
 
 
-```r
+``` r
 data("iris", package = "datasets")
 
 iris |>
@@ -157,7 +159,7 @@ iris |>
   aggregate(. ~ Species, data = _, mean)
 ```
 
-```{.output}
+``` output
      Species Sepal.Length Sepal.Width Petal.Length Petal.Width
 1     setosa     5.313636    3.713636     1.509091   0.2772727
 2 versicolor     5.997872    2.804255     4.317021   1.3468085
@@ -170,15 +172,15 @@ For each distinct tissue and dataset combination, count the number of datasets
 by tissue type. 
 
 
-```r
+``` r
 metadata |>
   distinct(tissue, dataset_id) |> 
   count(tissue)
 ```
 
-```{.output}
+``` output
 # Source:   SQL [?? x 2]
-# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
+# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1021-azure:R 4.4.0/:memory:]
    tissue                          n
    <chr>                       <dbl>
  1 heart left ventricle            7
@@ -197,37 +199,37 @@ metadata |>
 ## Columns available in the metadata
 
 
-```r
+``` r
 head(names(metadata), 10)
 ```
 
-```{.output}
+``` output
 [1] "src"        "lazy_query"
 ```
 
 ## Available assays
 
 
-```r
+``` r
 metadata |>
     distinct(assay, dataset_id) |>
     count(assay)
 ```
 
-```{.output}
+``` output
 # Source:   SQL [?? x 2]
-# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
+# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1021-azure:R 4.4.0/:memory:]
    assay           n
    <chr>       <dbl>
- 1 scRNA-seq       4
- 2 Seq-Well        2
- 3 Drop-seq        1
- 4 10x 5' v2       2
- 5 10x 3' v1       1
- 6 Smart-seq2      1
- 7 sci-RNA-seq     1
- 8 10x 3' v3      21
- 9 Slide-seq       4
+ 1 10x 3' v3      21
+ 2 Slide-seq       4
+ 3 sci-RNA-seq     1
+ 4 10x 3' v1       1
+ 5 Smart-seq2      1
+ 6 10x 5' v2       2
+ 7 scRNA-seq       4
+ 8 Seq-Well        2
+ 9 Drop-seq        1
 10 10x 3' v2      27
 # ℹ more rows
 ```
@@ -235,15 +237,15 @@ metadata |>
 ## Available organisms
 
 
-```r
+``` r
 metadata |>
     distinct(organism, dataset_id) |>
     count(organism)
 ```
 
-```{.output}
+``` output
 # Source:   SQL [1 x 2]
-# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
+# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1021-azure:R 4.4.0/:memory:]
   organism         n
   <chr>        <dbl>
 1 Homo sapiens    63
@@ -259,7 +261,7 @@ data.
 #### Query raw counts
 
 
-```r
+``` r
 single_cell_counts <- 
     metadata |>
     dplyr::filter(
@@ -273,7 +275,7 @@ single_cell_counts <-
 single_cell_counts
 ```
 
-```{.output}
+``` output
 class: SingleCellExperiment 
 dim: 36229 1571 
 metadata(0):
@@ -294,7 +296,7 @@ This is helpful if just few genes are of interest, as they can be compared
 across samples.
 
 
-```r
+``` r
 metadata |>
   dplyr::filter(
       ethnicity == "African" &
@@ -305,7 +307,7 @@ metadata |>
   get_single_cell_experiment(assays = "cpm")
 ```
 
-```{.output}
+``` output
 class: SingleCellExperiment 
 dim: 36229 1571 
 metadata(0):
@@ -323,7 +325,7 @@ altExpNames(0):
 #### Extract only a subset of genes
 
 
-```r
+``` r
 single_cell_counts <-
     metadata |>
     dplyr::filter(
@@ -337,7 +339,7 @@ single_cell_counts <-
 single_cell_counts
 ```
 
-```{.output}
+``` output
 class: SingleCellExperiment 
 dim: 1 1571 
 metadata(0):
@@ -359,7 +361,7 @@ Note that it may take a long time and use a lot of memory depending on how many
 cells you are requesting.
 
 
-```r
+``` r
 single_cell_counts <-
     metadata |>
     dplyr::filter(
@@ -382,7 +384,7 @@ necessary, is to use `saveHDF5SummarizedExperiment` from the `HDF5Array`
 package.
 
 
-```r
+``` r
 single_cell_counts |> saveHDF5SummarizedExperiment("single_cell_counts")
 ```
 
@@ -398,7 +400,7 @@ order.
 :::::::::::::: solution
 
 
-```r
+``` r
 metadata |>
     count(tissue) |>
     arrange(-n)
@@ -418,7 +420,7 @@ numerous type of cells?
 :::::::::::::: solution
 
 
-```r
+``` r
 metadata |>
     group_by(tissue, cell_type) |>
     count() |>
@@ -438,7 +440,7 @@ Use `count` to summarise.
 :::::::::::::: solution
 
 
-```r
+``` r
 metadata |>
     count(tissue) |>
     arrange(-n)
@@ -466,7 +468,7 @@ possible.
 :::::::::::::: solution
 
 
-```r
+``` r
 metadata |> 
     dplyr::filter(
         sex == "female" &
@@ -479,7 +481,7 @@ metadata |>
     get_single_cell_experiment()
 ```
 
-```{.output}
+``` output
 class: SingleCellExperiment 
 dim: 36229 12 
 metadata(0):

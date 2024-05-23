@@ -23,10 +23,11 @@ exercises: 10 # Minutes of exercises in the lesson
 ## Setup
 
 
-```r
+
+
+``` r
 library(SingleCellExperiment)
 library(MouseGastrulationData)
-library(BiocStyle)
 ```
 
 ## Bioconductor
@@ -45,7 +46,7 @@ The default repository for R packages is the [Comprehensive R Archive Network](h
 We can easily install packages from CRAN - say, the popular *[ggplot2](https://CRAN.R-project.org/package=ggplot2)* package for data visualization - by opening up R and typing in:
 
 
-```r
+``` r
 install.packages("ggplot2")
 ```
 
@@ -53,15 +54,15 @@ In our case, however, we want to install Bioconductor packages.
 These packages are located in a separate repository (see comments below) so we first install the *[BiocManager](https://CRAN.R-project.org/package=BiocManager)* package to easily connect to the Bioconductor servers.
 
 
-```r
+``` r
 install.packages("BiocManager")
 ```
 
 After that, we can use *[BiocManager](https://CRAN.R-project.org/package=BiocManager)*'s `install()` function to install any package from Bioconductor.
-For example, the code chunk below uses this approach to install the *[SingleCellExperiment](https://bioconductor.org/packages/3.18/SingleCellExperiment)* package.
+For example, the code chunk below uses this approach to install the *[SingleCellExperiment](https://bioconductor.org/packages/3.19/SingleCellExperiment)* package.
 
 
-```r
+``` r
 ## The command below is a one-line shortcut for:
 ## library(BiocManager)
 ## install("SingleCellExperiment")
@@ -72,7 +73,7 @@ Should we forget, the same instructions are present on the landing page of any B
 For example, looking at the [`scater`](https://bioconductor.org/packages/release/bioc/html/scater.html) package page on Bioconductor, we can see the following copy-pasteable instructions:
 
 
-```r
+``` r
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
@@ -97,7 +98,7 @@ Updating all R/Bioconductor packages is as simple as running `BiocManager::insta
 This will check for more recent versions of each package (within a Bioconductor release) and prompt the user to update if any are available.
 
 
-```r
+``` r
 BiocManager::install()
 ```
 
@@ -114,12 +115,12 @@ This class implements a data structure that stores all aspects of our single-cel
 Let's start with an example dataset.
 
 
-```r
+``` r
 sce <- WTChimeraData(samples=5)
 sce
 ```
 
-```{.output}
+``` output
 class: SingleCellExperiment 
 dim: 29453 2411 
 metadata(0):
@@ -145,20 +146,20 @@ Depending on the object, slots can contain different types of data (e.g., numeri
 This is arguably the most fundamental part of the object that contains the count matrix, and potentially other matrices with transformed data. We can access the _list_ of matrices with the `assays` function and individual matrices with the `assay` function. If one of these matrices is called "counts", we can use the special `counts` getter (and the analogous `logcounts`).
 
 
-```r
+``` r
 identical(assay(sce), counts(sce))
 ```
 
-```{.output}
+``` output
 [1] TRUE
 ```
 
-```r
+``` r
 counts(sce)[1:3, 1:3]
 ```
 
-```{.output}
-3 x 3 sparse Matrix of class "dgTMatrix"
+``` output
+3 x 3 sparse Matrix of class "dgCMatrix"
                    cell_9769 cell_9770 cell_9771
 ENSMUSG00000051951         .         .         .
 ENSMUSG00000089699         .         .         .
@@ -174,11 +175,11 @@ Conceptually, these are two data frames that annotate the columns and the rows o
 One can interact with them as usual, e.g., by extracting columns or adding additional variables as columns.
 
 
-```r
+``` r
 colData(sce)
 ```
 
-```{.output}
+``` output
 DataFrame with 2411 rows and 11 columns
                   cell          barcode    sample       stage    tomato
            <character>      <character> <integer> <character> <logical>
@@ -221,11 +222,11 @@ cell_12178   0.00169483   2.061701
 cell_12179   0.03767894   1.798687
 ```
 
-```r
+``` r
 rowData(sce)
 ```
 
-```{.output}
+``` output
 DataFrame with 29453 rows and 2 columns
                               ENSEMBL         SYMBOL
                           <character>    <character>
@@ -245,20 +246,20 @@ tomato-td                   tomato-td      tomato-td
 Note the `$` short cut.
 
 
-```r
+``` r
 identical(colData(sce)$sum, sce$sum)
 ```
 
-```{.output}
+``` output
 [1] TRUE
 ```
 
-```r
+``` r
 sce$my_sum <- colSums(counts(sce))
 colData(sce)
 ```
 
-```{.output}
+``` output
 DataFrame with 2411 rows and 12 columns
                   cell          barcode    sample       stage    tomato
            <character>      <character> <integer> <character> <logical>
@@ -303,16 +304,16 @@ cell_12179   0.03767894   1.798687     38398
 
 ### The `reducedDims`
 
-Everything that we have described so far (except for the `counts` getter) is part of the `SummarizedExperiment` class that SingleCellExperiment extends. You can find a complete lesson on the `SummarizedExperiment` class [here](https://carpentries-incubator.github.io/bioc-intro/60-next-steps.html).
+Everything that we have described so far (except for the `counts` getter) is part of the `SummarizedExperiment` class that SingleCellExperiment extends. You can find a complete lesson on the `SummarizedExperiment` class in [Introduction to data analysis with R and Bioconductor](https://carpentries-incubator.github.io/bioc-intro/60-next-steps.html) course.
 
 One of the peculiarity of SingleCellExperiment is its ability to store reduced dimension matrices within the object. These may include PCA, t-SNE, UMAP, etc.
 
 
-```r
+``` r
 reducedDims(sce)
 ```
 
-```{.output}
+``` output
 List of length 2
 names(2): pca.corrected.E7.5 pca.corrected.E8.5
 ```
@@ -324,7 +325,7 @@ It is more common for other functions to _store_ this information in the object,
 Here, we use `scater`'s `plotReducedDim` function as an example of how to extract this information _indirectly_ from the objects. Note that one could obtain the same results (somewhat less efficiently) by extracting the corresponding `reducedDim` matrix and `ggplot`.
 
 
-```r
+``` r
 library(scater)
 plotReducedDim(sce, "pca.corrected.E8.5", colour_by = "celltype.mapped")
 ```

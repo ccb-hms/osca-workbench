@@ -64,13 +64,13 @@ data set, as provided by the
 [TENxBrainData](https://bioconductor.org/packages/TENxBrainData) package.
 
 
-```r
+``` r
 library(TENxBrainData)
 sce.brain <- TENxBrainData20k() 
 sce.brain
 ```
 
-```{.output}
+``` output
 class: SingleCellExperiment 
 dim: 27998 20000 
 metadata(0):
@@ -92,11 +92,11 @@ the data.
 This avoids the need for large RAM availability during analyses.
 
 
-```r
+``` r
 counts(sce.brain)
 ```
 
-```{.output}
+``` output
 <27998 x 20000> HDF5Matrix object of type "integer":
              [,1]     [,2]     [,3]     [,4] ... [,19997] [,19998] [,19999]
     [1,]        0        0        0        0   .        0        0        0
@@ -124,19 +124,19 @@ counts(sce.brain)
 [27998,]        0
 ```
 
-```r
+``` r
 object.size(counts(sce.brain))
 ```
 
-```{.output}
+``` output
 2496 bytes
 ```
 
-```r
+``` r
 file.info(path(counts(sce.brain)))$size
 ```
 
-```{.output}
+``` output
 [1] 76264332
 ```
 
@@ -150,13 +150,13 @@ The use of delayed operations avoids the need to write the modified values to a
 new file at every operation, which would unnecessarily require time-consuming disk I/O.
 
 
-```r
+``` r
 tmp <- counts(sce.brain)
 tmp <- log2(tmp + 1)
 tmp
 ```
 
-```{.output}
+``` output
 <27998 x 20000> DelayedMatrix object of type "double":
              [,1]     [,2]     [,3] ... [,19999] [,20000]
     [1,]        0        0        0   .        0        0
@@ -183,14 +183,14 @@ For example, we compute QC metrics below with the same `calculateQCMetrics()`
 function that we used in the other workflows.
 
 
-```r
+``` r
 library(scater)
 is.mito <- grepl("^mt-", rowData(sce.brain)$Symbol)
 qcstats <- perCellQCMetrics(sce.brain, subsets = list(Mt = is.mito))
 qcstats
 ```
 
-```{.output}
+``` output
 DataFrame with 20000 rows and 6 columns
             sum  detected subsets_Mt_sum subsets_Mt_detected subsets_Mt_percent
       <numeric> <numeric>      <numeric>           <numeric>          <numeric>
@@ -235,7 +235,7 @@ visualization on their personal machines.
 Parallelization of calculations across genes or cells is an obvious strategy for
 speeding up scRNA-seq analysis workflows.
 
-The *[BiocParallel](https://bioconductor.org/packages/3.18/BiocParallel)* package provides a common interface for parallel
+The *[BiocParallel](https://bioconductor.org/packages/3.19/BiocParallel)* package provides a common interface for parallel
 computing throughout the Bioconductor ecosystem, manifesting as a `BPPARAM`
 argument in compatible functions. We can also use `BiocParallel` with more
 expressive functions directly through the package's interface.
@@ -243,7 +243,7 @@ expressive functions directly through the package's interface.
 #### Basic use
 
 
-```r
+``` r
 library(BiocParallel)
 ```
 
@@ -255,7 +255,7 @@ In this example, we find the square root of a vector of numbers in parallel
 by indicating the `BPPARAM` argument in `bplapply`.
 
 
-```r
+``` r
 param <- MulticoreParam(workers = 1)
 bplapply(
     X = c(4, 9, 16, 25),
@@ -264,7 +264,7 @@ bplapply(
 )
 ```
 
-```{.output}
+``` output
 [[1]]
 [1] 2
 
@@ -288,7 +288,7 @@ For example, we might use forking across two cores to parallelize the variance
 calculations on a Unix system:
 
 
-```r
+``` r
 library(MouseGastrulationData)
 library(scran)
 sce <- WTChimeraData(samples = 5, type = "processed")
@@ -297,41 +297,41 @@ dec.mc <- modelGeneVar(sce, BPPARAM = MulticoreParam(2))
 dec.mc
 ```
 
-```{.output}
+``` output
 DataFrame with 29453 rows and 6 columns
-                          mean       total        tech          bio     p.value
-                     <numeric>   <numeric>   <numeric>    <numeric>   <numeric>
-ENSMUSG00000051951 0.002800256 0.003504940 0.002856726  6.48214e-04 1.20918e-01
-ENSMUSG00000089699 0.000000000 0.000000000 0.000000000  0.00000e+00         NaN
-ENSMUSG00000102343 0.000000000 0.000000000 0.000000000  0.00000e+00         NaN
-ENSMUSG00000025900 0.000794995 0.000863633 0.000811027  5.26059e-05 3.68975e-01
-ENSMUSG00000025902 0.170777718 0.388633677 0.170893240  2.17740e-01 2.48097e-11
-...                        ...         ...         ...          ...         ...
-ENSMUSG00000095041  0.35571083  0.34572194   0.3364126  0.009309343    0.443249
-ENSMUSG00000063897  0.49007956  0.41924282   0.4407846 -0.021541821    0.599512
-ENSMUSG00000096730  0.00000000  0.00000000   0.0000000  0.000000000         NaN
-ENSMUSG00000095742  0.00177158  0.00211619   0.0018073  0.000308881    0.189009
-tomato-td           0.57257331  0.47487832   0.4971974 -0.022319130    0.591555
+                          mean       total        tech         bio     p.value
+                     <numeric>   <numeric>   <numeric>   <numeric>   <numeric>
+ENSMUSG00000051951 0.002800256 0.003504940 0.002856697 6.48243e-04 1.20905e-01
+ENSMUSG00000089699 0.000000000 0.000000000 0.000000000 0.00000e+00         NaN
+ENSMUSG00000102343 0.000000000 0.000000000 0.000000000 0.00000e+00         NaN
+ENSMUSG00000025900 0.000794995 0.000863633 0.000811019 5.26143e-05 3.68953e-01
+ENSMUSG00000025902 0.170777718 0.388633677 0.170891603 2.17742e-01 2.47893e-11
+...                        ...         ...         ...         ...         ...
+ENSMUSG00000095041  0.35571083  0.34572194  0.33640994  0.00931199    0.443233
+ENSMUSG00000063897  0.49007956  0.41924282  0.44078158 -0.02153876    0.599499
+ENSMUSG00000096730  0.00000000  0.00000000  0.00000000  0.00000000         NaN
+ENSMUSG00000095742  0.00177158  0.00211619  0.00180729  0.00030890    0.188992
+tomato-td           0.57257331  0.47487832  0.49719425 -0.02231593    0.591542
                            FDR
                      <numeric>
-ENSMUSG00000051951 6.76330e-01
+ENSMUSG00000051951 6.76255e-01
 ENSMUSG00000089699         NaN
 ENSMUSG00000102343         NaN
-ENSMUSG00000025900 7.56203e-01
-ENSMUSG00000025902 1.35619e-09
+ENSMUSG00000025900 7.56202e-01
+ENSMUSG00000025902 1.35508e-09
 ...                        ...
-ENSMUSG00000095041    0.756203
-ENSMUSG00000063897    0.756203
+ENSMUSG00000095041    0.756202
+ENSMUSG00000063897    0.756202
 ENSMUSG00000096730         NaN
-ENSMUSG00000095742    0.756203
-tomato-td             0.756203
+ENSMUSG00000095742    0.756202
+tomato-td             0.756202
 ```
 
 Another approach would be to distribute jobs across a network of computers,
 which yields the same result:
 
 
-```r
+``` r
 dec.snow <- modelGeneVar(sce, BPPARAM = SnowParam(2))
 ```
 
@@ -339,11 +339,11 @@ For high-performance computing (HPC) systems with a cluster of compute nodes,
 we can distribute jobs via the job scheduler using the `BatchtoolsParam` class.
 The example below assumes a SLURM cluster, though the settings can be easily 
 configured for a particular system 
-(see [here](https://bioconductor.org/packages/3.18/BiocParallel/vignettes/BiocParallel_BatchtoolsParam.pdf) for
+(see [here](https://bioconductor.org/packages/3.19/BiocParallel/vignettes/BiocParallel_BatchtoolsParam.pdf) for
 details).
 
 
-```r
+``` r
 # 2 hours, 8 GB, 1 CPU per task, for 10 tasks.
 rs <- list(walltime = 7200, memory = 8000, ncpus = 1)
 bpp <- BatchtoolsParam(10, cluster = "slurm", resources = rs)
@@ -370,13 +370,13 @@ The default is to favour accuracy over speed by using an exact nearest neighbour
 However, for large data sets, it may be preferable to use a faster approximate 
 approach.
 
-The *[BiocNeighbors](https://bioconductor.org/packages/3.18/BiocNeighbors)* framework makes it easy to switch between search
+The *[BiocNeighbors](https://bioconductor.org/packages/3.19/BiocNeighbors)* framework makes it easy to switch between search
 options by simply changing the `BNPARAM` argument in compatible functions.
 To demonstrate, we will use the wild-type chimera data for which we had applied
 graph-based clustering using the Louvain algorithm for community detection:
 
 
-```r
+``` r
 library(bluster)
 sce <- runPCA(sce)
 colLabels(sce) <- clusterCells(sce, use.dimred = "PCA",
@@ -394,7 +394,7 @@ clusters from the former re-appearing in the latter.
 This suggests that the inaccuracy from the approximation can be largely ignored.
 
 
-```r
+``` r
 library(scran)
 library(BiocNeighbors)
 clusters <- clusterCells(sce, use.dimred = "PCA",
@@ -403,22 +403,22 @@ clusters <- clusterCells(sce, use.dimred = "PCA",
 table(exact = colLabels(sce), approx = clusters)
 ```
 
-```{.output}
+``` output
      approx
 exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
-   1   88   0   0   0   1   0   0   0   2   0   0   0   0   0   0
+   1   91   0   0   0   0   0   0   0   0   0   0   0   0   0   0
    2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
-   3    0   0  75   0   2   0   0   0   0   0   0   0   0   0   0
+   3    0   0  77   0   0   0   0   0   0   0   0   0   0   0   0
    4    0   0   0 341   0   0   0   0   0   0   0   0   0   0   1
-   5    0   0   0   0 391   0   0   0   0   1   0   2   0   0   0
-   6    0   0   0   0   0  80 245   0   0   1   0   2   0   0   0
-   7    0   0   0   0   0 130   0   0   0   0   1   0   0   0   0
+   5    2   0   0   0 391   0   0   0   0   1   0   0   0   0   0
+   6    0   0   0   0   0 208   1   0   0   0   1   0   0   0   0
+   7    0   0   0   0   0   1 244   0   0   1   0   0   0   0   0
    8    0   0   0   0   0   0   0  95   0   0   0   0   0   0   0
    9    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
-   10   0   0   0   0   0   0   0   0   0 113   8   0   0   0   0
-   11   0   0   0   0   0   0   0   0   0   0 138   0   0   0   0
-   12   0   0   0   0   5   0   0   0   0   0   0 210   0   0   0
-   13   0   0   0   0   0   0   0   0   0   0   6   0 146   0   0
+   10   0   0   0   0   0   0   0   0   0 113   0   0   0   0   0
+   11   0   0   0   0   0   0   0   0   0   0 153   0   0   0   0
+   12   0   0   0   0   3   0   0   0   0   0   0 214   0   0   0
+   13   0   0   0   0   0   0   0   0   0   0   0   0 146   0   0
    14   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0
    15   0   0   0   0   0   0   0   0   0   0   0   0   0   0  55
 ```
@@ -434,7 +434,7 @@ especially at high dimensions, though this may not have an appreciable impact on
 the biological conclusions.
 
 
-```r
+``` r
 set.seed(1000)
 y1 <- matrix(rnorm(50000), nrow = 1000)
 y2 <- matrix(rnorm(50000), nrow = 1000)
@@ -444,7 +444,7 @@ approx <- findKNN(Y, k = 20, BNPARAM = AnnoyParam())
 mean(exact$index != approx$index)
 ```
 
-```{.output}
+``` output
 [1] 0.561925
 ```
 
@@ -459,12 +459,12 @@ The default `base::svd()` function performs an exact SVD that is not performant
 for large datasets.
 Instead, we use fast approximate methods from the *[irlba](https://CRAN.R-project.org/package=irlba)* and
 *[rsvd](https://CRAN.R-project.org/package=rsvd)* packages, conveniently wrapped into the 
-*[BiocSingular](https://bioconductor.org/packages/3.18/BiocSingular)* package for ease of use and package development.
+*[BiocSingular](https://bioconductor.org/packages/3.19/BiocSingular)* package for ease of use and package development.
 Specifically, we can change the SVD algorithm used in any of these functions by
 simply specifying an alternative value for the `BSPARAM` argument.
 
 
-```r
+``` r
 library(scater)
 library(BiocSingular)
 
@@ -474,7 +474,7 @@ r.out <- runPCA(sce, ncomponents = 20, BSPARAM = RandomParam())
 str(reducedDim(r.out, "PCA"))
 ```
 
-```{.output}
+``` output
  num [1:2411, 1:20] 14.79 5.79 13.07 -32.19 -26.45 ...
  - attr(*, "dimnames")=List of 2
   ..$ : chr [1:2411] "cell_9769" "cell_9770" "cell_9771" "cell_9772" ...
@@ -487,13 +487,13 @@ str(reducedDim(r.out, "PCA"))
   .. ..$ : chr [1:20] "PC1" "PC2" "PC3" "PC4" ...
 ```
 
-```r
+``` r
 set.seed(101001)
 i.out <- runPCA(sce, ncomponents = 20, BSPARAM = IrlbaParam())
 str(reducedDim(i.out, "PCA"))
 ```
 
-```{.output}
+``` output
  num [1:2411, 1:20] -14.79 -5.79 -13.07 32.19 26.45 ...
  - attr(*, "dimnames")=List of 2
   ..$ : chr [1:2411] "cell_9769" "cell_9770" "cell_9771" "cell_9772" ...
@@ -508,7 +508,7 @@ str(reducedDim(i.out, "PCA"))
 
 Both IRLBA and randomized SVD (RSVD) are much faster than the exact SVD with
 negligible loss of accuracy.
-This motivates their default use in many *[scran](https://bioconductor.org/packages/3.18/scran)* and *[scater](https://bioconductor.org/packages/3.18/scater)*
+This motivates their default use in many *[scran](https://bioconductor.org/packages/3.19/scran)* and *[scater](https://bioconductor.org/packages/3.19/scater)*
 functions, at the cost of requiring users to set the seed to guarantee reproducibility.
 IRLBA can occasionally fail to converge and require more iterations
 (passed via `maxit=` in `IrlbaParam()`), while RSVD involves an explicit trade-off
@@ -529,7 +529,7 @@ maintained by the [Satija lab](https://satijalab.org/seurat/authors.html)
 and is released under the [MIT license](https://opensource.org/license/mit/).
 
 
-```r
+``` r
 library(Seurat)
 ```
 
@@ -554,14 +554,14 @@ We therefore need to first install the
 from GitHub only. 
 
 
-```r
+``` r
 BiocManager::install("satijalab/seurat-data")
 ```
 
 We then proceed by loading all required packages and installing the PBMC dataset:
 
 
-```r
+``` r
 library(SeuratData)
 InstallData("pbmc3k")
 ```
@@ -570,7 +570,7 @@ We then load the dataset as an `SeuratObject` and convert it to a
 `SingleCellExperiment`.
 
 
-```r
+``` r
 # Use PBMC3K from SeuratData
 pbmc <- LoadData(ds = "pbmc3k", type = "pbmc3k.final")
 pbmc <- UpdateSeuratObject(pbmc)
@@ -583,7 +583,7 @@ Seurat also allows conversion from `SingleCellExperiment` objects to Seurat obje
 we demonstrate this here on the wild-type chimera mouse gastrulation dataset. 
 
 
-```r
+``` r
 sce <- WTChimeraData(samples = 5, type = "processed")
 assay(sce) <- as.matrix(assay(sce))
 sce <- logNormCounts(sce)
@@ -594,7 +594,7 @@ After some processing of the dataset, the actual conversion is carried out with
 the `as.Seurat` function.
 
 
-```r
+``` r
 sobj <- as.Seurat(sce)
 Idents(sobj) <- "celltype.mapped"
 sobj
@@ -617,29 +617,29 @@ At the core of scanpy's single-cell functionality is the `anndata` data structur
 scanpy's integrated single-cell data container, which is conceptually very similar
 to Bioconductor's `SingleCellExperiment` class.
 
-Bioconductor's *[zellkonverter](https://bioconductor.org/packages/3.18/zellkonverter)* package provides a lightweight
+Bioconductor's *[zellkonverter](https://bioconductor.org/packages/3.19/zellkonverter)* package provides a lightweight
 interface between the Bioconductor `SingleCellExperiment` data structure and the
 Python `AnnData`-based single-cell analysis environment. The idea is to enable
 users and developers to easily move data between these frameworks to construct a
 multi-language analysis pipeline across R/Bioconductor and Python.
 
 
-```r
+``` r
 library(zellkonverter)
 ```
 
 The `readH5AD()` function can be used to read a `SingleCellExperiment` from an
-H5AD file. Here, we use an example H5AD file contained in the  *[zellkonverter](https://bioconductor.org/packages/3.18/zellkonverter)*
+H5AD file. Here, we use an example H5AD file contained in the  *[zellkonverter](https://bioconductor.org/packages/3.19/zellkonverter)*
 package.
 
 
-```r
+``` r
 example_h5ad <- system.file("extdata", "krumsiek11.h5ad",
                             package = "zellkonverter")
 readH5AD(example_h5ad)
 ```
 
-```{.output}
+``` output
 class: SingleCellExperiment 
 dim: 11 640 
 metadata(2): highlights iroot
@@ -658,7 +658,7 @@ We can also write a `SingleCellExperiment` to an H5AD file with the
 chimera mouse gastrulation dataset. 
 
 
-```r
+``` r
 out.file <- tempfile(pattern = ".h5ad")
 writeH5AD(sce, file = out.file)
 ```
@@ -670,13 +670,13 @@ function and then directly used in compatible Python-based analysis frameworks.
 ## Session Info
 
 
-```r
+``` r
 sessionInfo()
 ```
 
-```{.output}
-R version 4.3.3 (2024-02-29)
-Platform: x86_64-pc-linux-gnu (64-bit)
+``` output
+R version 4.4.0 (2024-04-24)
+Platform: x86_64-pc-linux-gnu
 Running under: Ubuntu 22.04.4 LTS
 
 Matrix products: default
@@ -697,103 +697,102 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] zellkonverter_1.12.1         Seurat_5.0.3                
- [3] SeuratObject_5.0.1           sp_2.1-3                    
- [5] BiocSingular_1.18.0          BiocNeighbors_1.20.2        
- [7] bluster_1.12.0               scran_1.30.2                
- [9] MouseGastrulationData_1.16.0 SpatialExperiment_1.12.0    
-[11] BiocParallel_1.36.0          scater_1.30.1               
-[13] ggplot2_3.5.0                scuttle_1.12.0              
-[15] TENxBrainData_1.22.0         HDF5Array_1.30.1            
-[17] rhdf5_2.46.1                 DelayedArray_0.28.0         
-[19] SparseArray_1.2.4            S4Arrays_1.2.1              
-[21] abind_1.4-5                  Matrix_1.6-5                
-[23] SingleCellExperiment_1.24.0  SummarizedExperiment_1.32.0 
-[25] Biobase_2.62.0               GenomicRanges_1.54.1        
-[27] GenomeInfoDb_1.38.8          IRanges_2.36.0              
-[29] S4Vectors_0.40.2             BiocGenerics_0.48.1         
-[31] MatrixGenerics_1.14.0        matrixStats_1.2.0           
-[33] BiocStyle_2.30.0            
+ [1] zellkonverter_1.14.0         Seurat_5.1.0                
+ [3] SeuratObject_5.0.2           sp_2.1-4                    
+ [5] BiocSingular_1.20.0          BiocNeighbors_1.22.0        
+ [7] bluster_1.14.0               scran_1.32.0                
+ [9] MouseGastrulationData_1.18.0 SpatialExperiment_1.14.0    
+[11] BiocParallel_1.38.0          scater_1.32.0               
+[13] ggplot2_3.5.1                scuttle_1.14.0              
+[15] TENxBrainData_1.24.0         HDF5Array_1.32.0            
+[17] rhdf5_2.48.0                 DelayedArray_0.30.1         
+[19] SparseArray_1.4.3            S4Arrays_1.4.0              
+[21] abind_1.4-5                  Matrix_1.7-0                
+[23] SingleCellExperiment_1.26.0  SummarizedExperiment_1.34.0 
+[25] Biobase_2.64.0               GenomicRanges_1.56.0        
+[27] GenomeInfoDb_1.40.0          IRanges_2.38.0              
+[29] S4Vectors_0.42.0             BiocGenerics_0.50.0         
+[31] MatrixGenerics_1.16.0        matrixStats_1.3.0           
+[33] BiocStyle_2.32.0            
 
 loaded via a namespace (and not attached):
-  [1] RcppAnnoy_0.0.22              splines_4.3.3                
-  [3] later_1.3.2                   bitops_1.0-7                 
-  [5] filelock_1.0.3                tibble_3.2.1                 
-  [7] polyclip_1.10-6               basilisk.utils_1.14.1        
-  [9] fastDummies_1.7.3             lifecycle_1.0.4              
- [11] edgeR_4.0.16                  globals_0.16.3               
- [13] lattice_0.22-6                MASS_7.3-60.0.1              
- [15] magrittr_2.0.3                plotly_4.10.4                
- [17] limma_3.58.1                  rmarkdown_2.26               
- [19] yaml_2.3.8                    metapod_1.10.1               
- [21] httpuv_1.6.14                 sctransform_0.4.1            
- [23] spam_2.10-0                   spatstat.sparse_3.0-3        
- [25] reticulate_1.35.0             pbapply_1.7-2                
- [27] cowplot_1.1.3                 DBI_1.2.2                    
- [29] RColorBrewer_1.1-3            zlibbioc_1.48.2              
- [31] Rtsne_0.17                    purrr_1.0.2                  
- [33] BumpyMatrix_1.10.0            RCurl_1.98-1.14              
- [35] rappdirs_0.3.3                GenomeInfoDbData_1.2.11      
- [37] ggrepel_0.9.5                 irlba_2.3.5.1                
- [39] spatstat.utils_3.0-4          listenv_0.9.1                
- [41] goftest_1.2-3                 RSpectra_0.16-1              
- [43] spatstat.random_3.2-3         dqrng_0.3.2                  
- [45] fitdistrplus_1.1-11           parallelly_1.37.1            
- [47] DelayedMatrixStats_1.24.0     leiden_0.4.3.1               
- [49] codetools_0.2-19              tidyselect_1.2.1             
- [51] ScaledMatrix_1.10.0           viridis_0.6.5                
- [53] spatstat.explore_3.2-7        BiocFileCache_2.10.1         
- [55] jsonlite_1.8.8                ellipsis_0.3.2               
- [57] progressr_0.14.0              ggridges_0.5.6               
- [59] survival_3.5-8                tools_4.3.3                  
- [61] ica_1.0-3                     Rcpp_1.0.12                  
- [63] glue_1.7.0                    gridExtra_2.3                
- [65] xfun_0.42                     dplyr_1.1.4                  
- [67] withr_3.0.0                   BiocManager_1.30.22          
- [69] fastmap_1.1.1                 basilisk_1.14.3              
- [71] rhdf5filters_1.14.1           fansi_1.0.6                  
- [73] digest_0.6.35                 rsvd_1.0.5                   
- [75] R6_2.5.1                      mime_0.12                    
- [77] colorspace_2.1-0              scattermore_1.2              
- [79] tensor_1.5                    spatstat.data_3.0-4          
- [81] RSQLite_2.3.5                 tidyr_1.3.1                  
- [83] utf8_1.2.4                    generics_0.1.3               
- [85] data.table_1.15.2             renv_1.0.7                   
- [87] htmlwidgets_1.6.4             httr_1.4.7                   
- [89] uwot_0.1.16                   pkgconfig_2.0.3              
- [91] gtable_0.3.4                  blob_1.2.4                   
- [93] lmtest_0.9-40                 XVector_0.42.0               
- [95] htmltools_0.5.7               dotCall64_1.1-1              
- [97] scales_1.3.0                  png_0.1-8                    
- [99] knitr_1.45                    reshape2_1.4.4               
-[101] rjson_0.2.21                  nlme_3.1-164                 
-[103] curl_5.2.1                    zoo_1.8-12                   
-[105] cachem_1.0.8                  stringr_1.5.1                
-[107] BiocVersion_3.18.1            KernSmooth_2.23-22           
-[109] miniUI_0.1.1.1                parallel_4.3.3               
-[111] vipor_0.4.7                   AnnotationDbi_1.64.1         
-[113] pillar_1.9.0                  grid_4.3.3                   
-[115] vctrs_0.6.5                   RANN_2.6.1                   
-[117] promises_1.2.1                dbplyr_2.5.0                 
-[119] beachmat_2.18.1               xtable_1.8-4                 
-[121] cluster_2.1.6                 beeswarm_0.4.0               
-[123] evaluate_0.23                 magick_2.8.3                 
-[125] cli_3.6.2                     locfit_1.5-9.9               
-[127] compiler_4.3.3                rlang_1.1.3                  
-[129] crayon_1.5.2                  future.apply_1.11.1          
-[131] plyr_1.8.9                    ggbeeswarm_0.7.2             
-[133] stringi_1.8.3                 deldir_2.0-4                 
-[135] viridisLite_0.4.2             munsell_0.5.0                
-[137] Biostrings_2.70.3             lazyeval_0.2.2               
-[139] spatstat.geom_3.2-9           dir.expiry_1.10.0            
-[141] ExperimentHub_2.10.0          RcppHNSW_0.6.0               
-[143] patchwork_1.2.0               sparseMatrixStats_1.14.0     
-[145] bit64_4.0.5                   future_1.33.1                
-[147] Rhdf5lib_1.24.2               KEGGREST_1.42.0              
-[149] statmod_1.5.0                 shiny_1.8.0                  
-[151] interactiveDisplayBase_1.40.0 AnnotationHub_3.10.0         
-[153] ROCR_1.0-11                   igraph_2.0.3                 
-[155] memoise_2.0.1                 bit_4.0.5                    
+  [1] RcppAnnoy_0.0.22          later_1.3.2              
+  [3] splines_4.4.0             filelock_1.0.3           
+  [5] tibble_3.2.1              polyclip_1.10-6          
+  [7] basilisk.utils_1.16.0     fastDummies_1.7.3        
+  [9] lifecycle_1.0.4           edgeR_4.2.0              
+ [11] globals_0.16.3            lattice_0.22-6           
+ [13] MASS_7.3-60.2             magrittr_2.0.3           
+ [15] plotly_4.10.4             limma_3.60.2             
+ [17] rmarkdown_2.27            yaml_2.3.8               
+ [19] metapod_1.12.0            httpuv_1.6.15            
+ [21] sctransform_0.4.1         spam_2.10-0              
+ [23] spatstat.sparse_3.0-3     reticulate_1.36.1        
+ [25] pbapply_1.7-2             cowplot_1.1.3            
+ [27] DBI_1.2.2                 RColorBrewer_1.1-3       
+ [29] zlibbioc_1.50.0           Rtsne_0.17               
+ [31] purrr_1.0.2               BumpyMatrix_1.12.0       
+ [33] rappdirs_0.3.3            GenomeInfoDbData_1.2.12  
+ [35] ggrepel_0.9.5             irlba_2.3.5.1            
+ [37] spatstat.utils_3.0-4      listenv_0.9.1            
+ [39] goftest_1.2-3             RSpectra_0.16-1          
+ [41] spatstat.random_3.2-3     dqrng_0.4.0              
+ [43] fitdistrplus_1.1-11       parallelly_1.37.1        
+ [45] DelayedMatrixStats_1.26.0 leiden_0.4.3.1           
+ [47] codetools_0.2-20          tidyselect_1.2.1         
+ [49] UCSC.utils_1.0.0          ScaledMatrix_1.12.0      
+ [51] viridis_0.6.5             spatstat.explore_3.2-7   
+ [53] BiocFileCache_2.12.0      jsonlite_1.8.8           
+ [55] progressr_0.14.0          ggridges_0.5.6           
+ [57] survival_3.6-4            tools_4.4.0              
+ [59] ica_1.0-3                 Rcpp_1.0.12              
+ [61] glue_1.7.0                gridExtra_2.3            
+ [63] xfun_0.44                 dplyr_1.1.4              
+ [65] withr_3.0.0               BiocManager_1.30.23      
+ [67] fastmap_1.2.0             basilisk_1.16.0          
+ [69] rhdf5filters_1.16.0       fansi_1.0.6              
+ [71] digest_0.6.35             rsvd_1.0.5               
+ [73] R6_2.5.1                  mime_0.12                
+ [75] colorspace_2.1-0          scattermore_1.2          
+ [77] tensor_1.5                spatstat.data_3.0-4      
+ [79] RSQLite_2.3.6             tidyr_1.3.1              
+ [81] utf8_1.2.4                generics_0.1.3           
+ [83] data.table_1.15.4         renv_1.0.7               
+ [85] htmlwidgets_1.6.4         httr_1.4.7               
+ [87] uwot_0.2.2                pkgconfig_2.0.3          
+ [89] gtable_0.3.5              blob_1.2.4               
+ [91] lmtest_0.9-40             XVector_0.44.0           
+ [93] htmltools_0.5.8.1         dotCall64_1.1-1          
+ [95] scales_1.3.0              png_0.1-8                
+ [97] knitr_1.46                reshape2_1.4.4           
+ [99] rjson_0.2.21              nlme_3.1-164             
+[101] curl_5.2.1                cachem_1.1.0             
+[103] zoo_1.8-12                stringr_1.5.1            
+[105] BiocVersion_3.19.1        KernSmooth_2.23-24       
+[107] parallel_4.4.0            miniUI_0.1.1.1           
+[109] vipor_0.4.7               AnnotationDbi_1.66.0     
+[111] pillar_1.9.0              grid_4.4.0               
+[113] vctrs_0.6.5               RANN_2.6.1               
+[115] promises_1.3.0            dbplyr_2.5.0             
+[117] beachmat_2.20.0           xtable_1.8-4             
+[119] cluster_2.1.6             beeswarm_0.4.0           
+[121] evaluate_0.23             magick_2.8.3             
+[123] cli_3.6.2                 locfit_1.5-9.9           
+[125] compiler_4.4.0            rlang_1.1.3              
+[127] crayon_1.5.2              future.apply_1.11.2      
+[129] plyr_1.8.9                ggbeeswarm_0.7.2         
+[131] stringi_1.8.4             deldir_2.0-4             
+[133] viridisLite_0.4.2         munsell_0.5.1            
+[135] Biostrings_2.72.0         lazyeval_0.2.2           
+[137] spatstat.geom_3.2-9       dir.expiry_1.12.0        
+[139] ExperimentHub_2.12.0      RcppHNSW_0.6.0           
+[141] patchwork_1.2.0           sparseMatrixStats_1.16.0 
+[143] bit64_4.0.5               future_1.33.2            
+[145] Rhdf5lib_1.26.0           KEGGREST_1.44.0          
+[147] statmod_1.5.0             shiny_1.8.1.1            
+[149] AnnotationHub_3.12.0      ROCR_1.0-11              
+[151] igraph_2.0.3              memoise_2.0.1            
+[153] bit_4.0.5                
 ```
 
 
@@ -811,7 +810,7 @@ matrix in memory as opposed to holding the data out of memory.
 :::::::::::::: hint
 
 See the `HDF5Array` function for reading from HDF5 and the `writeHDF5Array`
-function for writing to HDF5 from the *[HDF5Array](https://bioconductor.org/packages/3.18/HDF5Array)* package.
+function for writing to HDF5 from the *[HDF5Array](https://bioconductor.org/packages/3.19/HDF5Array)* package.
 
 :::::::::::::::::::::::
 
@@ -874,7 +873,7 @@ Use Seurat's `DimPlot` function.
 ## Further Reading
 
 * OSCA book, [Chapter 14](https://bioconductor.org/books/release/OSCA.advanced/dealing-with-big-data.html): Dealing with big data 
-* The `BiocParallel` [intro vignette](https://bioconductor.org/packages/3.18/BiocParallel/vignettes/Introduction_To_BiocParallel.html). 
+* The `BiocParallel` [intro vignette](https://bioconductor.org/packages/3.19/BiocParallel/vignettes/Introduction_To_BiocParallel.html). 
 
 ::::::::::::::
 

@@ -6,17 +6,17 @@ exercises: 15 # Minutes of exercises in the lesson
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How to remove technical variations (batch effects) for reliable scRNA-seq analysis?
-- How to identify genes differentially expressed between cell types in scRNA-seq?
-- How to track changes in cell type abundance across conditions in scRNA-seq, accounting for cell number bias?
+- How to integrate data from multiple batches, samples, and studies?
+- How to identify differentially expressed genes between experimental conditions for each cell type?
+- How to identify changes in cell type abundance between experimental conditions?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Correct batch effects (technical variations) in scRNA-seq data (use tools like correctExperiment).
-- Master scRNA-seq DEA workflow (grouping, normalization, testing with edgeR).
-- Analyze scRNA-seq DA (consider compositional effects) for robust cell type changes.
+- Correct batch effects and diagnose potential problems such as over-correction.
+- Perform differential expression comparisons between conditions based on pseudo-bulk samples.
+- Perform differential abundance comparisons between conditions.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -37,14 +37,15 @@ Note that this is a paired design in which for each biological replicate (pool 3
 We start by loading the data and doing a quick exploratory analysis, essentially applying the normalization and visualization techniques that we have seen in the previous lectures to all samples.
 
 
-```r
-library(BiocStyle)
+
+
+``` r
 library(MouseGastrulationData)
 sce <- WTChimeraData(samples=5:10, type = "processed")
 sce
 ```
 
-```{.output}
+``` output
 class: SingleCellExperiment 
 dim: 29453 20935 
 metadata(0):
@@ -59,11 +60,11 @@ mainExpName: NULL
 altExpNames(0):
 ```
 
-```r
+``` r
 colData(sce)
 ```
 
-```{.output}
+``` output
 DataFrame with 20935 rows and 11 columns
                   cell          barcode    sample       stage    tomato
            <character>      <character> <integer> <character> <logical>
@@ -109,19 +110,8 @@ cell_30703   0.82369305   1.184919
 To speed up computations, after removing doublets, we randomly select 50% cells per sample.
 
 
-```r
+``` r
 library(scater)
-```
-
-```{.output}
-Loading required package: scuttle
-```
-
-```{.output}
-Loading required package: ggplot2
-```
-
-```r
 library(ggplot2)
 library(scran)
 
@@ -141,7 +131,7 @@ sce <- sce[,idx]
 We now normalize the data and visualize them in a tSNE plot.
 
 
-```r
+``` r
 # normalization
 sce <- logNormCounts(sce)
 
@@ -159,15 +149,10 @@ plotTSNE(sce, colour_by = "sample")
 
 <img src="fig/multi-sample-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
 
-```r
+``` r
 plotTSNE(sce, colour_by = "celltype.mapped") +
     scale_color_discrete() +
     theme(legend.position = "bottom")
-```
-
-```{.output}
-Scale for colour is already present.
-Adding another scale for colour, which will replace the existing scale.
 ```
 
 <img src="fig/multi-sample-rendered-unnamed-chunk-2-2.png" style="display: block; margin: auto;" />
@@ -183,7 +168,7 @@ in the `batchelor` package and using the `sample` `colData` column as batch.
 
 
 
-```r
+``` r
 library(batchelor)
 set.seed(10102)
 merged <- correctExperiments(sce, 
@@ -234,7 +219,7 @@ In our case, we use as id not just the cell type, but also the sample, because
 we want be able to discern between replicates and conditions during further steps.
 
 
-```r
+``` r
 # Using 'label' and 'sample' as our two factors; each column of the output
 # corresponds to one unique combination of these two factors.
 library(scuttle)
@@ -243,7 +228,7 @@ summed <- aggregateAcrossCells(merged,
 summed
 ```
 
-```{.output}
+``` output
 class: SingleCellExperiment 
 dim: 13641 179 
 metadata(2): merge.info pca.info
@@ -269,52 +254,17 @@ focus on the former for this analysis.
 First, let's start with a specific cell type, for instance the "Mesenchymal stem cells", and look into differences between this cell type across conditions.
 
 
-```r
+``` r
 label <- "Mesenchyme"
 current <- summed[,label==summed$celltype.mapped]
 
 # Creating up a DGEList object for use in edgeR:
 library(edgeR)
-```
-
-```{.output}
-Loading required package: limma
-```
-
-```{.output}
-
-Attaching package: 'limma'
-```
-
-```{.output}
-The following object is masked from 'package:scater':
-
-    plotMDS
-```
-
-```{.output}
-The following object is masked from 'package:BiocGenerics':
-
-    plotMA
-```
-
-```{.output}
-
-Attaching package: 'edgeR'
-```
-
-```{.output}
-The following object is masked from 'package:SingleCellExperiment':
-
-    cpm
-```
-
-```r
 y <- DGEList(counts(current), samples=colData(current))
 y
 ```
 
-```{.output}
+``` output
 An object of class "DGEList"
 $counts
                    Sample1 Sample2 Sample3 Sample4 Sample5 Sample6
@@ -357,13 +307,13 @@ We can see that in our case we don't have low quality samples and we don't need
 to filter out any of them.
 
 
-```r
+``` r
 discarded <- current$ncells < 10
 y <- y[,!discarded]
 summary(discarded)
 ```
 
-```{.output}
+``` output
    Mode   FALSE 
 logical       6 
 ```
@@ -372,13 +322,13 @@ The same idea is typically applied to the genes, indeed we need to discard low
 expressed genes to improve accuracy for the DEGs modeling.
 
 
-```r
+``` r
 keep <- filterByExpr(y, group=current$tomato)
 y <- y[keep,]
 summary(keep)
 ```
 
-```{.output}
+``` output
    Mode   FALSE    TRUE 
 logical    9121    4520 
 ```
@@ -390,12 +340,12 @@ Keep in mind that because we are going to normalize the pseudo-bulk counts,
 we don't need to normalize the data in "single cell form".
 
 
-```r
+``` r
 y <- calcNormFactors(y)
 y$samples
 ```
 
-```{.output}
+``` output
         group lib.size norm.factors batch cell barcode sample stage tomato pool
 Sample1     1  2478901    1.0506857     5 <NA>    <NA>      5  E8.5   TRUE    3
 Sample2     1   548407    1.0399112     6 <NA>    <NA>      6  E8.5  FALSE    3
@@ -427,7 +377,7 @@ a trumpet shape, as expected.
 
 
 
-```r
+``` r
 par(mfrow=c(2,3))
 for (i in seq_len(ncol(y))) {
     plotMD(y, column=i)
@@ -442,7 +392,7 @@ on their known factors (like the tomato injection in this case).
 To do so, we use the MDS plot, which is very close to a PCA representation.
     
 
-```r
+``` r
 limma::plotMDS(cpm(y, log=TRUE), 
     col=ifelse(y$samples$tomato, "red", "blue"))
 ```
@@ -454,12 +404,12 @@ This design indicates which samples belong to which pool and condition, so we ca
 use it in the next step of the analysis.
 
 
-```r
+``` r
 design <- model.matrix(~factor(pool) + factor(tomato), y$samples)
 design
 ```
 
-```{.output}
+``` output
         (Intercept) factor(pool)4 factor(pool)5 factor(tomato)TRUE
 Sample1           1             0             0                  1
 Sample2           1             0             0                  0
@@ -481,12 +431,12 @@ Now we can estimate the Negative Binomial (NB) overdispersion parameter, to mode
 the mean-variance trend.
 
 
-```r
+``` r
 y <- estimateDisp(y, design)
 summary(y$trended.dispersion)
 ```
 
-```{.output}
+``` output
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
 0.009325 0.016271 0.024233 0.021603 0.026868 0.027993 
 ```
@@ -496,7 +446,7 @@ of Variation and the Average log CPM for each gene.
 Additionally, the Common and Trend BCV are shown in `red` and `blue`.
 
 
-```r
+``` r
 plotBCV(y)
 ```
 
@@ -508,29 +458,29 @@ The `robust=TRUE` parameter avoids distorsions from highly variable clusters.
 The QL method includes an additional dispersion parameter, useful to handle the uncertainty and variability of the per-gene variance, which is not well estimated by the NB dispersions, so the two dispersion types complement each other in the final analysis.
 
 
-```r
+``` r
 fit <- glmQLFit(y, design, robust=TRUE)
 summary(fit$var.prior)
 ```
 
-```{.output}
+``` output
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.2977  0.6640  0.8275  0.7637  0.8798  0.9670 
+ 0.3189  0.9705  1.0901  1.0251  1.1486  1.2151 
 ```
 
-```r
+``` r
 summary(fit$df.prior)
 ```
 
-```{.output}
+``` output
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  0.323   8.177   8.177   8.111   8.177   8.177 
+ 0.3046  8.7242  8.7242  8.6466  8.7242  8.7242 
 ```
 
 QL dispersion estimates for each gene as a function of abundance. Raw estimates (black) are shrunk towards the trend (blue) to yield squeezed estimates (red).
 
 
-```r
+``` r
 plotQLDisp(fit)
 ```
 
@@ -541,42 +491,42 @@ The low amount of DGEs highlights that the tomato injection effect has a low
 influence on the mesenchyme cells.
 
 
-```r
+``` r
 res <- glmQLFTest(fit, coef=ncol(design))
 summary(decideTests(res))
 ```
 
-```{.output}
+``` output
        factor(tomato)TRUE
 Down                    5
 NotSig               4510
 Up                      5
 ```
 
-```r
+``` r
 topTags(res)
 ```
 
-```{.output}
+``` output
 Coefficient:  factor(tomato)TRUE 
                         logFC   logCPM          F       PValue          FDR
-ENSMUSG00000010760 -4.1551264 9.973704 1112.14948 9.905998e-12 4.477511e-08
-ENSMUSG00000096768  1.9992920 8.844258  403.85294 1.594095e-09 3.602655e-06
-ENSMUSG00000035299  1.8001627 6.904163  123.52980 5.130084e-07 7.729327e-04
-ENSMUSG00000101609  1.3708397 7.310009   80.58075 3.745290e-06 4.232177e-03
-ENSMUSG00000019188 -1.0195649 7.545530   61.65538 1.248303e-05 1.128466e-02
-ENSMUSG00000024423  0.9946833 7.391075   58.34967 1.591674e-05 1.199061e-02
-ENSMUSG00000086503 -6.5155131 7.411257  159.33690 2.625600e-05 1.695388e-02
-ENSMUSG00000042607 -0.9567347 7.468203   45.42154 4.690293e-05 2.650016e-02
-ENSMUSG00000036446 -0.8305889 9.401028   42.72058 6.071290e-05 3.049137e-02
-ENSMUSG00000027520  1.5814592 6.952923   40.94715 7.775888e-05 3.514702e-02
+ENSMUSG00000010760 -4.1515323 9.973704 1118.17411 3.424939e-12 1.548073e-08
+ENSMUSG00000096768  1.9987246 8.844258  375.41194 1.087431e-09 2.457594e-06
+ENSMUSG00000035299  1.7963926 6.904163  119.08173 3.853318e-07 5.805666e-04
+ENSMUSG00000086503 -6.4701526 7.411257  238.72531 1.114877e-06 1.259812e-03
+ENSMUSG00000101609  1.3784805 7.310009   79.94279 2.682051e-06 2.424574e-03
+ENSMUSG00000019188 -1.0191494 7.545530   62.01494 8.860823e-06 6.675153e-03
+ENSMUSG00000024423  0.9940616 7.391075   56.84876 1.322645e-05 8.540506e-03
+ENSMUSG00000042607 -0.9508732 7.468203   45.43086 3.625976e-05 2.048676e-02
+ENSMUSG00000036446 -0.8280894 9.401028   43.03008 4.822988e-05 2.293136e-02
+ENSMUSG00000027520  1.5929714 6.952923   42.86686 5.073310e-05 2.293136e-02
 ```
 
 All the previous steps can be easily performed with the following function 
 for each cell type, thanks to the `pseudoBulkDGE` function in the `scran` package.
 
 
-```r
+``` r
 library(scran)
 summed.filt <- summed[,summed$ncells >= 10]
 
@@ -592,20 +542,20 @@ The returned object is a list of `DataFrame`s each with the results for a cell t
 Each of these contains also the intermediate results in `edgeR` format to perform any intermediate plot or diagnostic.
 
 
-```r
+``` r
 cur.results <- de.results[["Allantois"]]
 cur.results[order(cur.results$PValue),]
 ```
 
-```{.output}
+``` output
 DataFrame with 13641 rows and 5 columns
                        logFC    logCPM         F      PValue         FDR
                    <numeric> <numeric> <numeric>   <numeric>   <numeric>
-ENSMUSG00000037664 -7.995130  11.55290  3180.990 7.35933e-22 3.09165e-18
-ENSMUSG00000010760 -2.574762  12.40592  1114.529 9.22901e-18 1.93855e-14
-ENSMUSG00000086503 -7.015319   7.49749   703.373 5.57372e-16 7.80507e-13
-ENSMUSG00000096768  1.828480   9.33239   304.769 8.39747e-13 8.81944e-10
-ENSMUSG00000022464  0.969837  10.28302   118.697 2.12502e-09 1.78544e-06
+ENSMUSG00000037664 -7.993129  11.55290  2730.230 1.05747e-13 4.44242e-10
+ENSMUSG00000010760 -2.575007  12.40592  1049.284 1.33098e-11 2.79572e-08
+ENSMUSG00000086503 -7.015618   7.49749   788.150 5.88102e-11 8.23539e-08
+ENSMUSG00000096768  1.828366   9.33239   343.044 3.58836e-09 3.76868e-06
+ENSMUSG00000022464  0.970431  10.28302   126.467 4.59369e-07 3.85961e-04
 ...                      ...       ...       ...         ...         ...
 ENSMUSG00000095247        NA        NA        NA          NA          NA
 ENSMUSG00000096808        NA        NA        NA          NA          NA
@@ -629,7 +579,7 @@ we start our analysis on the computed abundances and without normalizing the
 data with TMM.
 
 
-```r
+``` r
 library(edgeR)
 abundances <- table(merged$celltype.mapped, merged$sample) 
 abundances <- unclass(abundances) 
@@ -674,49 +624,49 @@ To do so, we first normalize the data with `calcNormFactors` and then we fit and
 estimate a QL-model for our abundance data.
 
 
-```r
+``` r
 y.ab2 <- calcNormFactors(y.ab)
 y.ab2$samples$norm.factors
 ```
 
-```{.output}
+``` output
 [1] 1.1029040 1.0228173 1.0695358 0.7686501 1.0402941 1.0365354
 ```
 
 We then follow the already seen edgeR analysis steps. 
 
 
-```r
+``` r
 y.ab2 <- estimateDisp(y.ab2, design, trend="none")
 fit.ab2 <- glmQLFit(y.ab2, design, robust=TRUE, abundance.trend=FALSE)
 res2 <- glmQLFTest(fit.ab2, coef=ncol(design))
 summary(decideTests(res2))
 ```
 
-```{.output}
+``` output
        factor(tomato)TRUE
-Down                    2
-NotSig                 32
-Up                      0
+Down                    4
+NotSig                 29
+Up                      1
 ```
 
-```r
+``` r
 topTags(res2, n=10)
 ```
 
-```{.output}
+``` output
 Coefficient:  factor(tomato)TRUE 
                        logFC   logCPM         F       PValue          FDR
-ExE ectoderm      -5.7452733 13.13490 37.367234 5.393309e-08 1.833725e-06
-Parietal endoderm -6.9016375 12.36649 25.884039 3.062123e-06 5.205609e-05
-Mesenchyme         0.9656118 16.32654  6.139328 1.570983e-02 1.495573e-01
-Erythroid3        -0.9192068 17.34677  5.921070 1.759497e-02 1.495573e-01
-Neural crest      -1.0200609 14.83912  5.276218 2.470370e-02 1.679851e-01
-ExE endoderm      -3.9992127 10.75172  4.673383 3.415631e-02 1.935524e-01
-Endothelium        0.8666732 14.12195  3.307087 7.338557e-02 3.564442e-01
-Cardiomyocytes     0.6956771 14.93321  2.592279 1.120186e-01 4.760789e-01
-Allantois          0.6001360 15.54924  2.085500 1.532954e-01 5.791158e-01
-Erythroid2        -0.5177901 15.97357  1.614924 2.081314e-01 7.076469e-01
+ExE ectoderm      -5.7983253 13.13490 34.326044 1.497957e-07 5.093053e-06
+Parietal endoderm -6.9219242 12.36649 21.805721 1.468320e-05 2.496144e-04
+Erythroid3        -0.9115099 17.34677 12.478845 7.446554e-04 8.439428e-03
+Mesenchyme         0.9796446 16.32654 11.692412 1.064808e-03 9.050865e-03
+Neural crest      -1.0469872 14.83912  7.956363 6.274678e-03 4.266781e-02
+Endothelium        0.9241543 14.12195  4.437179 3.885736e-02 2.201917e-01
+Erythroid2        -0.6029365 15.97357  3.737927 5.735479e-02 2.682206e-01
+Cardiomyocytes     0.6789803 14.93321  3.569604 6.311073e-02 2.682206e-01
+ExE endoderm      -3.9996258 10.75172  3.086597 8.344133e-02 3.125815e-01
+Allantois          0.5462287 15.54924  2.922074 9.193574e-02 3.125815e-01
 ```
 
 ###  Testing against a log-fold change threshold
@@ -727,46 +677,46 @@ On the other hand, when choosing \tau, we should not consider fold-differences i
 We then mitigate the effect of composition biases by testing each label for changes in abundance beyond \tau.
 
 
-```r
+``` r
 res.lfc <- glmTreat(fit.ab, coef=ncol(design), lfc=1)
 summary(decideTests(res.lfc))
 ```
 
-```{.output}
+``` output
        factor(tomato)TRUE
 Down                    2
 NotSig                 32
 Up                      0
 ```
 
-```r
+``` r
 topTags(res.lfc)
 ```
 
-```{.output}
+``` output
 Coefficient:  factor(tomato)TRUE 
                          logFC unshrunk.logFC   logCPM       PValue
-ExE ectoderm        -5.4835385     -5.9123463 13.06465 4.691927e-06
-Parietal endoderm   -6.5773855    -27.4596643 12.30091 8.041229e-05
-ExE endoderm        -3.9301490    -23.9290916 10.76159 5.050518e-02
-Mesenchyme           1.1597987      1.1610214 16.35239 1.509665e-01
-Endothelium          1.0396400      1.0450849 14.14422 2.268038e-01
-Caudal neurectoderm -1.4805723     -1.6367540 11.09613 2.934582e-01
-Cardiomyocytes       0.8713101      0.8740177 14.96579 3.377083e-01
-Neural crest        -0.8238482     -0.8264411 14.83184 3.713878e-01
-Allantois            0.8033893      0.8048744 15.54528 3.952001e-01
-Def. endoderm        0.7098640      0.7228811 12.50001 4.365468e-01
+ExE ectoderm        -5.5156915     -5.9427658 13.06465 5.730409e-06
+Parietal endoderm   -6.5897795    -27.4235942 12.30091 1.215896e-04
+ExE endoderm        -3.9307381    -23.9369433 10.76159 7.352966e-02
+Mesenchyme           1.1615857      1.1628182 16.35239 1.335104e-01
+Endothelium          1.0564619      1.0620564 14.14422 2.136590e-01
+Caudal neurectoderm -1.4588627     -1.6095620 11.09613 3.257325e-01
+Cardiomyocytes       0.8521199      0.8545967 14.96579 3.649535e-01
+Neural crest        -0.8366836     -0.8392250 14.83184 3.750471e-01
+Def. endoderm        0.7335519      0.7467590 12.50001 4.219471e-01
+Allantois            0.7637525      0.7650565 15.54528 4.594987e-01
                              FDR
-ExE ectoderm        0.0001595255
-Parietal endoderm   0.0013670090
-ExE endoderm        0.5723920586
-Mesenchyme          0.9906682053
-Endothelium         0.9906682053
-Caudal neurectoderm 0.9906682053
-Cardiomyocytes      0.9906682053
-Neural crest        0.9906682053
-Allantois           0.9906682053
-Def. endoderm       0.9906682053
+ExE ectoderm        0.0001948339
+Parietal endoderm   0.0020670230
+ExE endoderm        0.8333361231
+Mesenchyme          0.9866105512
+Endothelium         0.9866105512
+Caudal neurectoderm 0.9866105512
+Cardiomyocytes      0.9866105512
+Neural crest        0.9866105512
+Def. endoderm       0.9866105512
+Allantois           0.9866105512
 ```
 
 Addionally, the choice of \tau can be guided by other external experimental data, like a previous or a pilot experiment.
@@ -774,13 +724,13 @@ Addionally, the choice of \tau can be guided by other external experimental data
 ## Session Info
 
 
-```r
+``` r
 sessionInfo()
 ```
 
-```{.output}
-R version 4.3.3 (2024-02-29)
-Platform: x86_64-pc-linux-gnu (64-bit)
+``` output
+R version 4.4.0 (2024-04-24)
+Platform: x86_64-pc-linux-gnu
 Running under: Ubuntu 22.04.4 LTS
 
 Matrix products: default
@@ -801,74 +751,70 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] edgeR_4.0.16                 limma_3.58.1                
- [3] batchelor_1.18.1             scran_1.30.2                
- [5] scater_1.30.1                ggplot2_3.5.0               
- [7] scuttle_1.12.0               MouseGastrulationData_1.16.0
- [9] SpatialExperiment_1.12.0     SingleCellExperiment_1.24.0 
-[11] SummarizedExperiment_1.32.0  Biobase_2.62.0              
-[13] GenomicRanges_1.54.1         GenomeInfoDb_1.38.8         
-[15] IRanges_2.36.0               S4Vectors_0.40.2            
-[17] BiocGenerics_0.48.1          MatrixGenerics_1.14.0       
-[19] matrixStats_1.2.0            BiocStyle_2.30.0            
+ [1] edgeR_4.2.0                  limma_3.60.2                
+ [3] batchelor_1.20.0             scran_1.32.0                
+ [5] scater_1.32.0                ggplot2_3.5.1               
+ [7] scuttle_1.14.0               MouseGastrulationData_1.18.0
+ [9] SpatialExperiment_1.14.0     SingleCellExperiment_1.26.0 
+[11] SummarizedExperiment_1.34.0  Biobase_2.64.0              
+[13] GenomicRanges_1.56.0         GenomeInfoDb_1.40.0         
+[15] IRanges_2.38.0               S4Vectors_0.42.0            
+[17] BiocGenerics_0.50.0          MatrixGenerics_1.16.0       
+[19] matrixStats_1.3.0            BiocStyle_2.32.0            
 
 loaded via a namespace (and not attached):
-  [1] magrittr_2.0.3                ggbeeswarm_0.7.2             
-  [3] magick_2.8.3                  farver_2.1.1                 
-  [5] rmarkdown_2.26                zlibbioc_1.48.2              
-  [7] vctrs_0.6.5                   memoise_2.0.1                
-  [9] DelayedMatrixStats_1.24.0     RCurl_1.98-1.14              
- [11] htmltools_0.5.7               S4Arrays_1.2.1               
- [13] AnnotationHub_3.10.0          curl_5.2.1                   
- [15] BiocNeighbors_1.20.2          SparseArray_1.2.4            
- [17] cachem_1.0.8                  ResidualMatrix_1.12.0        
- [19] igraph_2.0.3                  mime_0.12                    
- [21] lifecycle_1.0.4               pkgconfig_2.0.3              
- [23] rsvd_1.0.5                    Matrix_1.6-5                 
- [25] R6_2.5.1                      fastmap_1.1.1                
- [27] GenomeInfoDbData_1.2.11       shiny_1.8.0                  
- [29] digest_0.6.35                 colorspace_2.1-0             
- [31] AnnotationDbi_1.64.1          dqrng_0.3.2                  
- [33] irlba_2.3.5.1                 ExperimentHub_2.10.0         
- [35] RSQLite_2.3.5                 beachmat_2.18.1              
- [37] filelock_1.0.3                labeling_0.4.3               
- [39] fansi_1.0.6                   httr_1.4.7                   
- [41] abind_1.4-5                   compiler_4.3.3               
- [43] bit64_4.0.5                   withr_3.0.0                  
- [45] BiocParallel_1.36.0           viridis_0.6.5                
- [47] DBI_1.2.2                     highr_0.10                   
- [49] rappdirs_0.3.3                DelayedArray_0.28.0          
- [51] rjson_0.2.21                  bluster_1.12.0               
- [53] tools_4.3.3                   vipor_0.4.7                  
- [55] beeswarm_0.4.0                interactiveDisplayBase_1.40.0
- [57] httpuv_1.6.14                 glue_1.7.0                   
- [59] promises_1.2.1                grid_4.3.3                   
- [61] Rtsne_0.17                    cluster_2.1.6                
- [63] generics_0.1.3                gtable_0.3.4                 
- [65] BiocSingular_1.18.0           ScaledMatrix_1.10.0          
- [67] metapod_1.10.1                utf8_1.2.4                   
- [69] XVector_0.42.0                ggrepel_0.9.5                
- [71] BiocVersion_3.18.1            pillar_1.9.0                 
- [73] BumpyMatrix_1.10.0            later_1.3.2                  
- [75] splines_4.3.3                 dplyr_1.1.4                  
- [77] BiocFileCache_2.10.1          lattice_0.22-6               
- [79] renv_1.0.7                    bit_4.0.5                    
- [81] tidyselect_1.2.1              locfit_1.5-9.9               
- [83] Biostrings_2.70.3             knitr_1.45                   
- [85] gridExtra_2.3                 xfun_0.42                    
- [87] statmod_1.5.0                 yaml_2.3.8                   
- [89] evaluate_0.23                 codetools_0.2-19             
- [91] tibble_3.2.1                  BiocManager_1.30.22          
- [93] cli_3.6.2                     xtable_1.8-4                 
- [95] munsell_0.5.0                 Rcpp_1.0.12                  
- [97] dbplyr_2.5.0                  png_0.1-8                    
- [99] parallel_4.3.3                ellipsis_0.3.2               
-[101] blob_1.2.4                    sparseMatrixStats_1.14.0     
-[103] bitops_1.0-7                  viridisLite_0.4.2            
-[105] scales_1.3.0                  purrr_1.0.2                  
-[107] crayon_1.5.2                  rlang_1.1.3                  
-[109] formatR_1.14                  cowplot_1.1.3                
-[111] KEGGREST_1.42.0              
+  [1] DBI_1.2.2                 formatR_1.14             
+  [3] gridExtra_2.3             rlang_1.1.3              
+  [5] magrittr_2.0.3            compiler_4.4.0           
+  [7] RSQLite_2.3.6             DelayedMatrixStats_1.26.0
+  [9] png_0.1-8                 vctrs_0.6.5              
+ [11] pkgconfig_2.0.3           crayon_1.5.2             
+ [13] fastmap_1.2.0             dbplyr_2.5.0             
+ [15] magick_2.8.3              XVector_0.44.0           
+ [17] labeling_0.4.3            utf8_1.2.4               
+ [19] rmarkdown_2.27            UCSC.utils_1.0.0         
+ [21] ggbeeswarm_0.7.2          purrr_1.0.2              
+ [23] bit_4.0.5                 bluster_1.14.0           
+ [25] xfun_0.44                 zlibbioc_1.50.0          
+ [27] cachem_1.1.0              beachmat_2.20.0          
+ [29] jsonlite_1.8.8            blob_1.2.4               
+ [31] highr_0.10                DelayedArray_0.30.1      
+ [33] BiocParallel_1.38.0       cluster_2.1.6            
+ [35] irlba_2.3.5.1             parallel_4.4.0           
+ [37] R6_2.5.1                  Rcpp_1.0.12              
+ [39] knitr_1.46                splines_4.4.0            
+ [41] igraph_2.0.3              Matrix_1.7-0             
+ [43] tidyselect_1.2.1          viridis_0.6.5            
+ [45] abind_1.4-5               yaml_2.3.8               
+ [47] codetools_0.2-20          curl_5.2.1               
+ [49] lattice_0.22-6            tibble_3.2.1             
+ [51] withr_3.0.0               KEGGREST_1.44.0          
+ [53] BumpyMatrix_1.12.0        Rtsne_0.17               
+ [55] evaluate_0.23             BiocFileCache_2.12.0     
+ [57] ExperimentHub_2.12.0      Biostrings_2.72.0        
+ [59] pillar_1.9.0              BiocManager_1.30.23      
+ [61] filelock_1.0.3            renv_1.0.7               
+ [63] generics_0.1.3            BiocVersion_3.19.1       
+ [65] sparseMatrixStats_1.16.0  munsell_0.5.1            
+ [67] scales_1.3.0              glue_1.7.0               
+ [69] metapod_1.12.0            tools_4.4.0              
+ [71] AnnotationHub_3.12.0      BiocNeighbors_1.22.0     
+ [73] ScaledMatrix_1.12.0       locfit_1.5-9.9           
+ [75] cowplot_1.1.3             grid_4.4.0               
+ [77] AnnotationDbi_1.66.0      colorspace_2.1-0         
+ [79] GenomeInfoDbData_1.2.12   beeswarm_0.4.0           
+ [81] BiocSingular_1.20.0       vipor_0.4.7              
+ [83] cli_3.6.2                 rsvd_1.0.5               
+ [85] rappdirs_0.3.3            fansi_1.0.6              
+ [87] viridisLite_0.4.2         S4Arrays_1.4.0           
+ [89] dplyr_1.1.4               ResidualMatrix_1.14.0    
+ [91] gtable_0.3.5              digest_0.6.35            
+ [93] dqrng_0.4.0               SparseArray_1.4.3        
+ [95] ggrepel_0.9.5             farver_2.1.2             
+ [97] rjson_0.2.21              memoise_2.0.1            
+ [99] htmltools_0.5.8.1         lifecycle_1.0.4          
+[101] httr_1.4.7                statmod_1.5.0            
+[103] mime_0.12                 bit64_4.0.5              
 ```
 
 ## Exercises
@@ -918,7 +864,23 @@ TODO
 ::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
-
-- TODO
-
+-   Batch effects are systematic technical differences in the observed expression
+    in cells measured in different experimental batches.
+-   Computational removal of batch-to-batch variation with the `correctExperiment`
+    function from the *[batchelor](https://bioconductor.org/packages/3.19/batchelor)* package allows us to combine data
+    across multiple batches for a consolidated downstream analysis.
+-   Differential expression (DE) analysis of replicated multi-condition scRNA-seq experiments
+    is typically based on pseudo-bulk expression profiles, generated by summing
+    counts for all cells with the same combination of label and sample.
+-   The `aggregateAcrossCells` function from the *[scater](https://bioconductor.org/packages/3.19/scater)* package
+    facilitates the creation of pseudo-bulk samples.   
+-   The `pseudoBulkDGE` function from the *[scran](https://bioconductor.org/packages/3.19/scran)* package can be used
+    to detect significant changes in expression between conditions for pseudo-bulk samples
+    consisting of cells of the same type.
+-   Differential abundance (DA) analysis aims at identifying significant changes in
+    cell type abundance across conditions.
+-   DA analysis uses bulk DE methods such as *[edgeR](https://bioconductor.org/packages/3.19/edgeR)* and *[DESeq2](https://bioconductor.org/packages/3.19/DESeq2)*,
+    which provide suitable statistical models for count data in the presence of
+    limited replication - except that the counts are not of reads per gene, but
+    of cells per label.
 ::::::::::::::::::::::::::::::::::::::::::::::::

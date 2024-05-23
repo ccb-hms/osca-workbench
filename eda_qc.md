@@ -39,14 +39,14 @@ In particular, the package contains the following samples that we will use for t
 We start our analysis by selecting only sample 5, which contains the injected cells in one biological replicate. We download the "raw" data that contains all the droplets for which we have sequenced reads.
 
 
-```r
+``` r
 library(MouseGastrulationData)
 sce <- WTChimeraData(samples=5, type="raw")
 sce <- sce[[1]]
 sce
 ```
 
-```{.output}
+``` output
 class: SingleCellExperiment 
 dim: 29453 522554 
 metadata(0):
@@ -70,7 +70,7 @@ From the experiment, we expect to have only a few thousand cells, while we can s
 
 
 
-```r
+``` r
 library(DropletUtils)
 bcrank <- barcodeRanks(counts(sce))
 
@@ -99,7 +99,7 @@ A better approach is to test whether the expression profile for each cell barcod
 We call cells at a false discovery rate (FDR) of 0.1%, meaning that no more than 0.1% of our called barcodes should be empty droplets on average.
 
 
-```r
+``` r
 # emptyDrops performs Monte Carlo simulations to compute p-values,
 # so we need to set the seed to obtain reproducible results.
 set.seed(100)
@@ -110,17 +110,17 @@ e.out <- emptyDrops(counts(sce))
 summary(e.out$FDR <= 0.001)
 ```
 
-```{.output}
+``` output
    Mode   FALSE    TRUE    NA's 
 logical    6184    3131  513239 
 ```
 
-```r
+``` r
 sce <- sce[,which(e.out$FDR <= 0.001)]
 sce
 ```
 
-```{.output}
+``` output
 class: SingleCellExperiment 
 dim: 29453 3131 
 metadata(0):
@@ -176,12 +176,12 @@ In particular, high proportions of mitochondrial genes are indicative of poor-qu
 First, we need to identify mitochondrial genes. We use the available `EnsDb` mouse package available in Bioconductor, but a more updated version of Ensembl can be used through the `AnnotationHub` or `biomaRt` packages.
 
 
-```r
+``` r
 library(EnsDb.Mmusculus.v79)
 ```
 
 
-```r
+``` r
 chr.loc <- mapIds(EnsDb.Mmusculus.v79, keys=rownames(sce),
     keytype="GENEID", column="SEQNAME")
 is.mito <- which(chr.loc=="MT")
@@ -190,7 +190,7 @@ is.mito <- which(chr.loc=="MT")
 We can use the `scuttle` package to compute a set of quality-control metrics, specifying that we want to use the mitochondrial genes as a special set of features.
 
 
-```r
+``` r
 library(scuttle)
 df <- perCellQCMetrics(sce, subsets=list(Mito=is.mito))
 
@@ -199,10 +199,10 @@ colData(sce) <- cbind(colData(sce), df)
 colData(sce)
 ```
 
-```{.output}
+``` output
 DataFrame with 3131 rows and 6 columns
                        sum  detected subsets_Mito_sum subsets_Mito_detected
-                 <numeric> <numeric>        <numeric>             <numeric>
+                 <numeric> <integer>        <numeric>             <integer>
 AAACCTGAGACTGTAA     27577      5418              471                    10
 AAACCTGAGATGCCTT     29309      5405              679                    10
 AAACCTGAGCAGCCTC     28795      5218              480                    12
@@ -232,21 +232,21 @@ TTTGTCATCTGAGTGT             5.992509       267
 Now that we have computed the metrics, we have to decide on thresholds to define high- and low-quality samples. We could check how many cells are above/below a certain fixed threshold. For instance,
 
 
-```r
+``` r
 table(df$sum < 10000)
 ```
 
-```{.output}
+``` output
 
 FALSE  TRUE 
  2477   654 
 ```
 
-```r
+``` r
 table(df$subsets_Mito_percent > 10)
 ```
 
-```{.output}
+``` output
 
 FALSE  TRUE 
  2761   370 
@@ -255,20 +255,20 @@ FALSE  TRUE
 or we could look at the distribution of such metrics and use a data adaptive threshold.
 
 
-```r
+``` r
 summary(df$detected)
 ```
 
-```{.output}
+``` output
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
      98    4126    5168    4455    5670    7908 
 ```
 
-```r
+``` r
 summary(df$subsets_Mito_percent)
 ```
 
-```{.output}
+``` output
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
   0.000   1.155   1.608   5.079   2.182  66.968 
 ```
@@ -276,28 +276,28 @@ summary(df$subsets_Mito_percent)
 This can be achieved with the `perCellQCFilters` function. By default, we consider a value to be an outlier if it is more than 3 median absolute deviations (MADs) from the median in the "problematic" direction. This is loosely motivated by the fact that such a filter will retain 99% of non-outlier values that follow a normal distribution.
 
 
-```r
+``` r
 reasons <- perCellQCFilters(df, sub.fields="subsets_Mito_percent")
 colSums(as.matrix(reasons))
 ```
 
-```{.output}
+``` output
              low_lib_size            low_n_features high_subsets_Mito_percent 
                       601                       654                       484 
                   discard 
                       694 
 ```
 
-```r
+``` r
 summary(reasons$discard)
 ```
 
-```{.output}
+``` output
    Mode   FALSE    TRUE 
 logical    2437     694 
 ```
 
-```r
+``` r
 # include in object
 sce$discard <- reasons$discard
 ```
@@ -308,7 +308,7 @@ It is always a good idea to check the distribution of the QC metrics and to visu
 In particular, we expect to have few outliers and with a marked difference from "regular" cells (e.g., a bimodal distribution or a long tail). Moreover, if there are too many discarded cells, further exploration might be needed.
 
 
-```r
+``` r
 library(scater)
 
 plotColData(sce, y = "sum", colour_by = "discard") + ggtitle("Total count")
@@ -316,13 +316,13 @@ plotColData(sce, y = "sum", colour_by = "discard") + ggtitle("Total count")
 
 <img src="fig/eda_qc-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
 
-```r
+``` r
 plotColData(sce, y = "detected", colour_by = "discard") + ggtitle("Detected features")
 ```
 
 <img src="fig/eda_qc-rendered-unnamed-chunk-10-2.png" style="display: block; margin: auto;" />
 
-```r
+``` r
 plotColData(sce, y = "subsets_Mito_percent", colour_by = "discard") + ggtitle("Mito percent")
 ```
 
@@ -331,23 +331,23 @@ plotColData(sce, y = "subsets_Mito_percent", colour_by = "discard") + ggtitle("M
 While the univariate distribution of QC metrics can give some insight on the quality of the sample, often looking at the bivariate distribution of QC metrics is useful, e.g., to confirm that there are no cells with both large total counts and large mitochondrial counts, to ensure that we are not inadvertently removing high-quality cells that happen to be highly metabolically active.
 
 
-```r
+``` r
 plotColData(sce, x="sum", y="subsets_Mito_percent", colour_by="discard")
 ```
 
 <img src="fig/eda_qc-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
-It could also be a good idea to perform a differential expression analysis between retained and discarded cells to check wether we are removing an unusual cell population rather than low-quality libraries (see [Section 1.5 of OSCA advanced](http://bioconductor.org/books/3.17/OSCA.advanced/quality-control-redux.html#qc-discard-cell-types)).
+It could also be a good idea to perform a differential expression analysis between retained and discarded cells to check wether we are removing an unusual cell population rather than low-quality libraries (see [Section 1.5 of OSCA advanced](https://bioconductor.org/books/release/OSCA.advanced/quality-control-redux.html#qc-discard-cell-types)).
 
 Once we are happy with the results, we can discard the low-quality cells by subsetting the original object.
 
 
-```r
+``` r
 sce <- sce[,!sce$discard]
 sce
 ```
 
-```{.output}
+``` output
 class: SingleCellExperiment 
 dim: 29453 2437 
 metadata(0):
@@ -375,17 +375,17 @@ The simplest and most natural strategy would be to normalize by the total sum of
 The _library size factor_ for each cell is directly proportional to its library size where the proportionality constant is defined such that the mean size factor across all cells is equal to 1. This ensures that the normalized expression values are on the same scale as the original counts.
 
 
-```r
+``` r
 lib.sf <- librarySizeFactors(sce)
 summary(lib.sf)
 ```
 
-```{.output}
+``` output
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
  0.2730  0.7879  0.9600  1.0000  1.1730  2.5598 
 ```
 
-```r
+``` r
 hist(log10(lib.sf), xlab="Log10[Size factor]", col='grey80', breaks = 30)
 ```
 
@@ -404,31 +404,31 @@ We use a pre-clustering step: cells in each cluster are normalized separately an
 Note that while we focus on normalization by deconvolution here, many other methods have been proposed and lead to similar performance (see @borella2022psinorm for a comparative review).
 
 
-```r
+``` r
 library(scran)
 set.seed(100)
 clust <- quickCluster(sce) 
 table(clust)
 ```
 
-```{.output}
+``` output
 clust
   1   2   3   4   5   6   7   8   9  10  11  12  13 
 273 159 250 122 187 201 154 252 152 169 199 215 104 
 ```
 
 
-```r
+``` r
 deconv.sf <- calculateSumFactors(sce, cluster=clust)
 summary(deconv.sf)
 ```
 
-```{.output}
+``` output
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
  0.3100  0.8028  0.9626  1.0000  1.1736  2.7858 
 ```
 
-```r
+``` r
 plot(lib.sf, deconv.sf, xlab="Library size factor",
     ylab="Deconvolution size factor", log='xy', pch=16,
     col=as.integer(clust))
@@ -440,13 +440,13 @@ abline(a=0, b=1, col="red")
 Once we have computed the size factors, we compute the normalized expression values for each cell by dividing the count for each gene with the appropriate size factor for that cell. Since we are typically going to work with log-transformed counts, the function `logNormCounts` also log-transforms the normalized values, creating a new assay called `logcounts`.
 
 
-```r
+``` r
 sizeFactors(sce) <- deconv.sf
 sce <- logNormCounts(sce)
 sce
 ```
 
-```{.output}
+``` output
 class: SingleCellExperiment 
 dim: 29453 2437 
 metadata(0):
@@ -475,7 +475,7 @@ The simplest approach to feature selection is to select the most variable genes 
 Calculation of the per-gene variance is simple but feature selection requires modelling of the mean-variance relationship. The log-transformation is not a variance stabilizing transformation in most cases, which means that the total variance of a gene is driven more by its abundance than its underlying biological heterogeneity. To account for this, the `modelGeneVar` function fits a trend to the variance with respect to abundance across all genes.
 
 
-```r
+``` r
 dec.sce <- modelGeneVar(sce)
 fit.sce <- metadata(dec.sce)
 
@@ -493,12 +493,12 @@ The blue line represents the uninteresting "technical" variance for any given ge
 The next step is to select the subset of HVGs to use in downstream analyses. A larger set will assure that we do not remove important genes, at the cost of potentially increasing noise. Typically, we restrict ourselves to the top $n$ genes, here we chose $n=1000$, but this choice should be guided by prior biological knowledge; for instance, we may expect that only about 10% of genes to be differentially expressed across our cell populations and hence select 10% of genes as higly variable (e.g., by setting `prop=0.1`).
 
 
-```r
+``` r
 hvg.sce.var <- getTopHVGs(dec.sce, n=1000)
 head(hvg.sce.var)
 ```
 
-```{.output}
+``` output
 [1] "ENSMUSG00000055609" "ENSMUSG00000052217" "ENSMUSG00000069919"
 [4] "ENSMUSG00000052187" "ENSMUSG00000048583" "ENSMUSG00000051855"
 ```
@@ -519,12 +519,12 @@ Without getting into the technical details, one nice feature of PCA is that the 
 One simple way to maximize our chance of capturing biological variation is by computing the PCs starting from the highly variable genes identified before.
 
 
-```r
+``` r
 sce <- runPCA(sce, subset_row=hvg.sce.var)
 sce
 ```
 
-```{.output}
+``` output
 class: SingleCellExperiment 
 dim: 29453 2437 
 metadata(0):
@@ -543,7 +543,7 @@ altExpNames(0):
 By default, `runPCA` computes the first 50 principal components. We can check how much original variability they explain.
 
 
-```r
+``` r
 percent.var <- attr(reducedDim(sce), "percentVar")
 plot(percent.var, log="y", xlab="PC", ylab="Variance explained (%)")
 ```
@@ -553,13 +553,13 @@ plot(percent.var, log="y", xlab="PC", ylab="Variance explained (%)")
 And we can of course visualize the first 2-3 components, perhaps color-coding each point by an interesting feature, in this case the total number of UMIs per cell.
 
 
-```r
+``` r
 plotPCA(sce, colour_by="sum")
 ```
 
 <img src="fig/eda_qc-rendered-unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
 
-```r
+``` r
 plotReducedDim(sce, dimred="PCA", ncomponents=3)
 ```
 
@@ -572,7 +572,7 @@ While PCA is a simple and effective way to visualize (and interpret!) scRNA-seq 
 These methods attempt to find a low-dimensional representation of the data that preserves the distances between each point and its neighbors in the high-dimensional space.
 
 
-```r
+``` r
 set.seed(100)
 sce <- runTSNE(sce, dimred="PCA")
 plotTSNE(sce)
@@ -581,7 +581,7 @@ plotTSNE(sce)
 <img src="fig/eda_qc-rendered-unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
 
 
-```r
+``` r
 set.seed(111)
 sce <- runUMAP(sce, dimred="PCA")
 plotUMAP(sce)
@@ -596,11 +596,11 @@ In addition, these methods are not guaranteed to preserve the global structure o
 Note that the `sce` object now includes all the computed dimensionality reduced representations of the data for ease of reusing and replotting without the need for recomputing.
 
 
-```r
+``` r
 sce
 ```
 
-```{.output}
+``` output
 class: SingleCellExperiment 
 dim: 29453 2437 
 metadata(0):
@@ -643,7 +643,7 @@ Intuitively, if a "cell" is surrounded only by simulated doublets is very likely
 This approach is implemented below, where we visualize the scores in a t-SNE plot.
 
 
-```r
+``` r
 library(scDblFinder)
 set.seed(100)
 
@@ -652,12 +652,12 @@ dbl.dens <- computeDoubletDensity(sce, subset.row=hvg.sce.var,
 summary(dbl.dens)
 ```
 
-```{.output}
+``` output
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-0.000000 0.000000 0.000000 0.002014 0.000000 1.886238 
+ 0.04874  0.28757  0.46790  0.65614  0.82371 14.88032 
 ```
 
-```r
+``` r
 sce$DoubletScore <- dbl.dens
 
 plotTSNE(sce, colour_by="DoubletScore")
@@ -668,25 +668,25 @@ plotTSNE(sce, colour_by="DoubletScore")
 We can explicitly convert this into doublet calls by identifying large outliers for the score within each sample. Here we use the "griffiths" method to do so.
 
 
-```r
+``` r
 dbl.calls <- doubletThresholding(data.frame(score=dbl.dens),
                                  method="griffiths", returnType="call")
 summary(dbl.calls)
 ```
 
-```{.output}
+``` output
 singlet doublet 
-   2407      30 
+   2124     313 
 ```
 
-```r
+``` r
 sce$doublet <- dbl.calls
 plotColData(sce, y="DoubletScore", colour_by="doublet")
 ```
 
 <img src="fig/eda_qc-rendered-unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
 
-```r
+``` r
 plotTSNE(sce, colour_by="doublet")
 ```
 
@@ -695,13 +695,13 @@ plotTSNE(sce, colour_by="doublet")
 One way to determine whether a cell is in a real transient state or it is a doublet is to check the number of detected genes and total UMI counts.
 
 
-```r
+``` r
 plotColData(sce, "detected", "sum", colour_by = "DoubletScore")
 ```
 
 <img src="fig/eda_qc-rendered-unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
 
-```r
+``` r
 plotColData(sce, "detected", "sum", colour_by = "doublet")
 ```
 
