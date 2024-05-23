@@ -281,7 +281,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Exploratory data analysis and quality control</h1>
-        <p>Last updated on 2024-05-06 |
+        <p>Last updated on 2024-05-23 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/eda_qc.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -545,7 +545,7 @@ mitochondrial genes as a special set of features.</p>
 </h3>
 <pre class="output" tabindex="0"><code>DataFrame with 3131 rows and 6 columns
                        sum  detected subsets_Mito_sum subsets_Mito_detected
-                 &lt;numeric&gt; &lt;numeric&gt;        &lt;numeric&gt;             &lt;numeric&gt;
+                 &lt;numeric&gt; &lt;integer&gt;        &lt;numeric&gt;             &lt;integer&gt;
 AAACCTGAGACTGTAA     27577      5418              471                    10
 AAACCTGAGATGCCTT     29309      5405              679                    10
 AAACCTGAGCAGCCTC     28795      5218              480                    12
@@ -709,7 +709,7 @@ happen to be highly metabolically active.</p>
 <figure><img src="fig/eda_qc-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>It could also be a good idea to perform a differential expression
 analysis between retained and discarded cells to check wether we are
 removing an unusual cell population rather than low-quality libraries
-(see <a href="http://bioconductor.org/books/3.17/OSCA.advanced/quality-control-redux.html#qc-discard-cell-types" class="external-link">Section
+(see <a href="https://bioconductor.org/books/release/OSCA.advanced/quality-control-redux.html#qc-discard-cell-types" class="external-link">Section
 1.5 of OSCA advanced</a>).</p>
 <p>Once we are happy with the results, we can discard the low-quality
 cells by subsetting the original object.</p>
@@ -1145,7 +1145,7 @@ a t-SNE plot.</p>
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-0.000000 0.000000 0.000000 0.002014 0.000000 1.886238 </code></pre>
+ 0.04874  0.28757  0.46790  0.65614  0.82371 14.88032 </code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb55">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1170,7 +1170,7 @@ large outliers for the score within each sample. Here we use the
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>singlet doublet 
-   2407      30 </code></pre>
+   2124     313 </code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb58">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1391,8 +1391,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/eda_qc.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/eda_qc.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-05-06",
-  "datePublished": "2024-05-14"
+  "dateModified": "2024-05-23",
+  "datePublished": "2024-05-23"
 }
 
   </script><script>

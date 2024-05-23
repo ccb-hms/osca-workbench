@@ -286,7 +286,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Accessing data from the Human Cell Atlas (HCA)</h1>
-        <p>Last updated on 2024-05-10 |
+        <p>Last updated on 2024-05-23 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/hca.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -441,7 +441,7 @@ available metadata.</p>
 </h3>
 <pre class="output" tabindex="0"><code>Rows: ??
 Columns: 10
-Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
+Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1021-azure:R 4.4.0/:memory:]
 $ cell_                             &lt;chr&gt; "TTATGCTAGGGTGTTG_12", "GCTTGAACATGG…
 $ sample_                           &lt;chr&gt; "039c558ca1c43dc74c563b58fe0d6289", …
 $ cell_type                         &lt;chr&gt; "mature NK T cell", "mature NK T cel…
@@ -500,7 +500,7 @@ datasets by tissue type.</p>
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code># Source:   SQL [?? x 2]
-# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
+# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1021-azure:R 4.4.0/:memory:]
    tissue                          n
    &lt;chr&gt;                       &lt;dbl&gt;
  1 heart left ventricle            7
@@ -542,18 +542,18 @@ datasets by tissue type.</p>
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code># Source:   SQL [?? x 2]
-# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
+# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1021-azure:R 4.4.0/:memory:]
    assay           n
    &lt;chr&gt;       &lt;dbl&gt;
- 1 scRNA-seq       4
- 2 Seq-Well        2
- 3 Drop-seq        1
- 4 10x 5' v2       2
- 5 10x 3' v1       1
- 6 Smart-seq2      1
- 7 sci-RNA-seq     1
- 8 10x 3' v3      21
- 9 Slide-seq       4
+ 1 10x 3' v3      21
+ 2 Slide-seq       4
+ 3 sci-RNA-seq     1
+ 4 10x 3' v1       1
+ 5 Smart-seq2      1
+ 6 10x 5' v2       2
+ 7 scRNA-seq       4
+ 8 Seq-Well        2
+ 9 Drop-seq        1
 10 10x 3' v2      27
 # ℹ more rows</code></pre>
 </div>
@@ -571,7 +571,7 @@ datasets by tissue type.</p>
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code># Source:   SQL [1 x 2]
-# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1018-azure:R 4.3.3/:memory:]
+# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1021-azure:R 4.4.0/:memory:]
   organism         n
   &lt;chr&gt;        &lt;dbl&gt;
 1 Homo sapiens    63</code></pre>
@@ -972,8 +972,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/instructor/hca.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/instructor/hca.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-05-10",
-  "datePublished": "2024-05-14"
+  "dateModified": "2024-05-23",
+  "datePublished": "2024-05-23"
 }
 
   </script><script>

@@ -22,3 +22,5 @@ ggplot2
 scater
 scran
 scDblFinder
+CuratedAtlasQueryR
+dplyr

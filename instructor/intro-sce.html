@@ -275,7 +275,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Introduction to Bioconductor and the SingleCellExperiment class</h1>
-        <p>Last updated on 2024-05-10 |
+        <p>Last updated on 2024-05-23 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/intro-sce.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -323,8 +323,7 @@ objects.</li>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">SingleCellExperiment</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">MouseGastrulationData</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">BiocStyle</span><span class="op">)</span></span></code></pre>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">MouseGastrulationData</span><span class="op">)</span></span></code></pre>
 </div>
 </section><section id="bioconductor"><h2 class="section-heading">Bioconductor<a class="anchor" aria-label="anchor" href="#bioconductor"></a>
 </h2>
@@ -366,7 +365,7 @@ package to easily connect to the Bioconductor servers.</p>
 <p>After that, we can use <em><a href="https://CRAN.R-project.org/package=BiocManager" class="external-link">BiocManager</a></em>’s
 <code>install()</code> function to install any package from
 Bioconductor. For example, the code chunk below uses this approach to
-install the <em><a href="https://bioconductor.org/packages/3.18/SingleCellExperiment" class="external-link">SingleCellExperiment</a></em>
+install the <em><a href="https://bioconductor.org/packages/3.19/SingleCellExperiment" class="external-link">SingleCellExperiment</a></em>
 package.</p>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -501,7 +500,7 @@ analogous <code>logcounts</code>).</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>3 x 3 sparse Matrix of class "dgTMatrix"
+<pre class="output" tabindex="0"><code>3 x 3 sparse Matrix of class "dgCMatrix"
                    cell_9769 cell_9770 cell_9771
 ENSMUSG00000051951         .         .         .
 ENSMUSG00000089699         .         .         .
@@ -664,7 +663,8 @@ cell_12179   0.03767894   1.798687     38398</code></pre>
 <code>counts</code> getter) is part of the
 <code>SummarizedExperiment</code> class that SingleCellExperiment
 extends. You can find a complete lesson on the
-<code>SummarizedExperiment</code> class <a href="https://carpentries-incubator.github.io/bioc-intro/60-next-steps.html" class="external-link">here</a>.</p>
+<code>SummarizedExperiment</code> class in <a href="https://carpentries-incubator.github.io/bioc-intro/60-next-steps.html" class="external-link">Introduction
+to data analysis with R and Bioconductor</a> course.</p>
 <p>One of the peculiarity of SingleCellExperiment is its ability to
 store reduced dimension matrices within the object. These may include
 PCA, t-SNE, UMAP, etc.</p>
@@ -717,7 +717,7 @@ it) and add one or more columns as <code>colData</code>.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>The <code>SingleCellExperiment</code> constructor function can be
 used to create a new <code>SingleCellExperiment</code> object.</p>
@@ -836,8 +836,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/instructor/intro-sce.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/instructor/intro-sce.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-05-10",
-  "datePublished": "2024-05-14"
+  "dateModified": "2024-05-23",
+  "datePublished": "2024-05-23"
 }
 
   </script><script>
