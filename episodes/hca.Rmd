@@ -56,8 +56,8 @@ putting values on the positive natural scale (i.e. non-logarithmic).
 
 To model the immune system across studies, we adopted a consistent immune
 cell-type ontology appropriate for lymphoid and non-lymphoid tissues. We applied
-a consensus cell labeling strategy between the Seurat blueprint and Monaco
-[-@Monaco2019] to minimize biases in immune cell classification from
+a consensus cell labeling strategy between the Seurat blueprint and Monaco[^1]
+to minimize biases in immune cell classification from
 study-specific standards.
 
 `CuratedAtlasQueryR` supports data access and programmatic exploration of the
@@ -362,3 +362,4 @@ metadata |>
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+[^1]: [Monaco 2019](learners/reference.md#litref)
