@@ -828,7 +828,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-eda_qc"><p>Content from <a href="eda_qc.html">Exploratory data analysis and quality control</a></p>
 <hr>
-<p>Last updated on 2024-05-23 |
+<p>Last updated on 2024-05-29 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/eda_qc.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 45 minutes</p>
@@ -950,11 +950,11 @@ content.</p>
 <h3 id="testing-for-empty-droplets">Testing for empty droplets<a class="anchor" aria-label="anchor" href="#testing-for-empty-droplets"></a>
 </h3>
 <p>A better approach is to test whether the expression profile for each
-cell barcode is significantly different from the ambient RNA pool <span class="citation">[@lun2019emptydrops]</span>. Any significant deviation
-indicates that the barcode corresponds to a cell-containing droplet.
-This allows us to discriminate between well-sequenced empty droplets and
-droplets derived from cells with little RNA, both of which would have
-similar total counts.</p>
+cell barcode is significantly different from the ambient RNA pool<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. Any
+significant deviation indicates that the barcode corresponds to a
+cell-containing droplet. This allows us to discriminate between
+well-sequenced empty droplets and droplets derived from cells with
+little RNA, both of which would have similar total counts.</p>
 <p>We call cells at a false discovery rate (FDR) of 0.1%, meaning that
 no more than 0.1% of our called barcodes should be empty droplets on
 average.</p>
@@ -1009,7 +1009,7 @@ cell, while the large majority of droplets are empty.</p>
   <h3 class="accordion-header" id="headingSpoiler1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>Setting the Random Seed</h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
 <div class="accordion-body">
 <p>Whenever your code involves the generation of random numbers, it’s a
 good practice to set the random seed in R with
@@ -1046,8 +1046,8 @@ metrics and, if needed, remove low-quality samples.</p>
 <h3 id="choice-of-quality-control-metrics">Choice of quality-control metrics<a class="anchor" aria-label="anchor" href="#choice-of-quality-control-metrics"></a>
 </h3>
 <p>There are many possible ways to define a set of quality-control
-metrics, see for instance <span class="citation">@cole2019performance</span>. Here, we keep it simple
-and consider only:</p>
+metrics, see for instance <a href="reference.html#litref">Cole 2019</a>.
+Here, we keep it simple and consider only:</p>
 <ul>
 <li>the <em>library size</em>, defined as the total sum of counts across
 all relevant features for each cell;</li>
@@ -1303,11 +1303,12 @@ altExpNames(0):</code></pre>
 often observed in single-cell RNA sequencing data. They typically arise
 from technical differences in cDNA capture or PCR amplification
 efficiency across cells, attributable to the difficulty of achieving
-consistent library preparation with minimal starting material <span class="citation">[@vallejos2017normalizing]</span>. Normalization aims
-to remove these differences such that they do not interfere with
-comparisons of the expression profiles between cells. The hope is that
-the observed heterogeneity or differential expression within the cell
-population are driven by biology and not technical biases.</p>
+consistent library preparation with minimal starting material<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.
+Normalization aims to remove these differences such that they do not
+interfere with comparisons of the expression profiles between cells. The
+hope is that the observed heterogeneity or differential expression
+within the cell population are driven by biology and not technical
+biases.</p>
 <p>We will mostly focus our attention on scaling normalization, which is
 the simplest and most commonly used class of normalization strategies.
 This involves dividing all counts for each cell by a cell-specific
@@ -1357,9 +1358,9 @@ genes is differentially expressed between cells or cell types.</p>
 RNA-seq. However, these methods may underperform in single-cell data due
 to the dominance of low and zero counts. To overcome this, one solution
 is to <em>pool</em> counts from many cells to increase the size of the
-counts for accurate size factor estimation <span class="citation">[@l2016pooling]</span>. Pool-based size factors are
-then <em>deconvolved</em> into cell-based factors for normalization of
-each cell’s expression profile.</p>
+counts for accurate size factor estimation<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>. Pool-based size
+factors are then <em>deconvolved</em> into cell-based factors for
+normalization of each cell’s expression profile.</p>
 <p>We use a pre-clustering step: cells in each cluster are normalized
 separately and the size factors are rescaled to be comparable across
 clusters. This avoids the assumption that most genes are non-DE across
@@ -1367,8 +1368,7 @@ the entire population – only a non-DE majority is required between pairs
 of clusters, which is a weaker assumption for highly heterogeneous
 populations.</p>
 <p>Note that while we focus on normalization by deconvolution here, many
-other methods have been proposed and lead to similar performance (see
-<span class="citation">@borella2022psinorm</span> for a comparative
+other methods have been proposed and lead to similar performance (see <a href="reference.html#litref">Borella 2022</a> for a comparative
 review).</p>
 <div class="codewrapper sourceCode" id="cb34">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1817,7 +1817,7 @@ results?</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1">Give me a hint</h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
 <div class="accordion-body">
 <p>First subset the object to include only highly variable genes
 (<code>sce2 &lt;- sce[hvg.sce.var,]</code>) and then apply the
@@ -1904,13 +1904,18 @@ downstream analysis.</li>
 </div>
 </div>
 </div>
-</section><section id="references"><h2 class="section-heading">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h2>
-<hr class="half-width">
 <!-- 
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
- --></section></section><section id="aio-cell_type_annotation"><p>Content from <a href="cell_type_annotation.html">Cell type annotation</a></p>
+ -->
+</section><div class="footnotes footnotes-end-of-document">
+<hr>
+<ol>
+<li id="fn1"><p><a href="reference.html#litref">Lun (2019)</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p><a href="reference.html#litref">Vallejos (2017)</a><a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p><a href="reference.html#litref">Lun (2016)</a><a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div></section><section id="aio-cell_type_annotation"><p>Content from <a href="cell_type_annotation.html">Cell type annotation</a></p>
 <hr>
 <p>Last updated on 2024-05-23 |
         
@@ -5197,7 +5202,7 @@ Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  --></section></section><section id="aio-hca"><p>Content from <a href="hca.html">Accessing data from the Human Cell Atlas (HCA)</a></p>
 <hr>
-<p>Last updated on 2024-05-23 |
+<p>Last updated on 2024-05-29 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/hca.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 30 minutes</p>
@@ -5276,9 +5281,8 @@ values on the positive natural scale (i.e. non-logarithmic).</p>
 <p>To model the immune system across studies, we adopted a consistent
 immune cell-type ontology appropriate for lymphoid and non-lymphoid
 tissues. We applied a consensus cell labeling strategy between the
-Seurat blueprint and Monaco <span class="citation">[-@Monaco2019]</span>
-to minimize biases in immune cell classification from study-specific
-standards.</p>
+Seurat blueprint and Monaco<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> to minimize biases in immune cell
+classification from study-specific standards.</p>
 <p><code>CuratedAtlasQueryR</code> supports data access and programmatic
 exploration of the harmonized atlas. Cells of interest can be selected
 based on ontology, tissue of origin, demographics, and disease. For
@@ -5861,7 +5865,12 @@ object.</li>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
-</section></section>
+</section><div class="footnotes footnotes-end-of-document">
+<hr>
+<ol>
+<li id="fn1"><p><a href="reference.html#litref">Monaco 2019</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div></section>
 </div>
     </main>
 </div>
@@ -5909,8 +5918,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/instructor/aio.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/instructor/aio.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-05-28",
-  "datePublished": "2024-05-28"
+  "dateModified": "2024-05-29",
+  "datePublished": "2024-05-29"
 }
 
   </script><script>
