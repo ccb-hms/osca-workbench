@@ -94,7 +94,7 @@ A simple approach would be to apply a threshold on the total count to only retai
 
 ### Testing for empty droplets
 
-A better approach is to test whether the expression profile for each cell barcode is significantly different from the ambient RNA pool [@lun2019emptydrops]. Any significant deviation indicates that the barcode corresponds to a cell-containing droplet. This allows us to discriminate between well-sequenced empty droplets and droplets derived from cells with little RNA, both of which would have similar total counts. 
+A better approach is to test whether the expression profile for each cell barcode is significantly different from the ambient RNA pool[^1]. Any significant deviation indicates that the barcode corresponds to a cell-containing droplet. This allows us to discriminate between well-sequenced empty droplets and droplets derived from cells with little RNA, both of which would have similar total counts. 
 
 We call cells at a false discovery rate (FDR) of 0.1%, meaning that no more than 0.1% of our called barcodes should be empty droplets on average.
 
@@ -165,7 +165,7 @@ To mitigate these problems, we can check a few quality-control metrics and, if n
 
 ### Choice of quality-control metrics
 
-There are many possible ways to define a set of quality-control metrics, see for instance @cole2019performance. Here, we keep it simple and consider only:
+There are many possible ways to define a set of quality-control metrics, see for instance [Cole 2019](learners/reference.md#litref). Here, we keep it simple and consider only:
 
 - the _library size_, defined as the total sum of counts across all relevant features for each cell;
 - the number of expressed features in each cell, defined as the number of endogenous genes with non-zero counts for that cell;
@@ -365,7 +365,7 @@ altExpNames(0):
 
 ## Normalization
 
-Systematic differences in sequencing coverage between libraries are often observed in single-cell RNA sequencing data. They typically arise from technical differences in cDNA capture or PCR amplification efficiency across cells, attributable to the difficulty of achieving consistent library preparation with minimal starting material [@vallejos2017normalizing]. Normalization aims to remove these differences such that they do not interfere with comparisons of the expression profiles between cells. The hope is that the observed heterogeneity or differential expression within the cell population are driven by biology and not technical biases.
+Systematic differences in sequencing coverage between libraries are often observed in single-cell RNA sequencing data. They typically arise from technical differences in cDNA capture or PCR amplification efficiency across cells, attributable to the difficulty of achieving consistent library preparation with minimal starting material[^2]. Normalization aims to remove these differences such that they do not interfere with comparisons of the expression profiles between cells. The hope is that the observed heterogeneity or differential expression within the cell population are driven by biology and not technical biases.
 
 We will mostly focus our attention on scaling normalization, which is the simplest and most commonly used class of normalization strategies. This involves dividing all counts for each cell by a cell-specific scaling factor, often called a _size factor_.
 The assumption here is that any cell-specific bias (e.g., in capture or amplification efficiency) affects all genes equally via scaling of the expected mean count for that cell. The size factor for each cell represents the estimate of the relative bias in that cell, so division of its counts by its size factor should remove that bias. The resulting “normalized expression values” can then be used for downstream analyses such as clustering and dimensionality reduction.
@@ -397,11 +397,11 @@ hist(log10(lib.sf), xlab="Log10[Size factor]", col='grey80', breaks = 30)
 Library size normalization is not optimal, as it assumes that the total sum of UMI counts differ between cells only for technical and not biological reason. This can be a problem if a highly-expressed subset of genes is differentially expressed between cells or cell types.
 
 Several robust normalization methods have been proposed for bulk RNA-seq. However, these methods may underperform in single-cell data due to the dominance of low and zero counts. 
-To overcome this, one solution is to _pool_ counts from many cells to increase the size of the counts for accurate size factor estimation [@l2016pooling]. Pool-based size factors are then _deconvolved_ into cell-based factors for normalization of each cell's expression profile.
+To overcome this, one solution is to _pool_ counts from many cells to increase the size of the counts for accurate size factor estimation[^3]. Pool-based size factors are then _deconvolved_ into cell-based factors for normalization of each cell's expression profile.
 
 We use a pre-clustering step: cells in each cluster are normalized separately and the size factors are rescaled to be comparable across clusters. This avoids the assumption that most genes are non-DE across the entire population -- only a non-DE majority is required between pairs of clusters, which is a weaker assumption for highly heterogeneous populations.
 
-Note that while we focus on normalization by deconvolution here, many other methods have been proposed and lead to similar performance (see @borella2022psinorm for a comparative review).
+Note that while we focus on normalization by deconvolution here, many other methods have been proposed and lead to similar performance (see [Borella 2022](learners/reference.md#litref) for a comparative review).
 
 
 ``` r
@@ -761,4 +761,8 @@ The package `DropletTestFiles` includes the raw output from Cell Ranger of the p
 
 :::::::::::::::
 
-## References
+
+[^1]: [Lun (2019)](learners/reference.md#litref)
+[^2]: [Vallejos (2017)](learners/reference.md#litref)
+[^3]: [Lun (2016)](learners/reference.md#litref)
+
