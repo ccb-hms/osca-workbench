@@ -943,7 +943,7 @@ other attached packages:
 [13] MouseGastrulationData_1.18.0 SpatialExperiment_1.14.0    
 [15] SingleCellExperiment_1.26.0  SummarizedExperiment_1.34.0 
 [17] Biobase_2.64.0               GenomicRanges_1.56.0        
-[19] GenomeInfoDb_1.40.0          IRanges_2.38.0              
+[19] GenomeInfoDb_1.40.1          IRanges_2.38.0              
 [21] S4Vectors_0.42.0             BiocGenerics_0.50.0         
 [23] MatrixGenerics_1.16.0        matrixStats_1.3.0           
 [25] AUCell_1.26.0                BiocStyle_2.32.0            
@@ -955,24 +955,24 @@ loaded via a namespace (and not attached):
   [7] rmarkdown_2.27            zlibbioc_1.50.0          
   [9] vctrs_0.6.5               memoise_2.0.1            
  [11] DelayedMatrixStats_1.26.0 htmltools_0.5.8.1        
- [13] S4Arrays_1.4.0            AnnotationHub_3.12.0     
+ [13] S4Arrays_1.4.1            AnnotationHub_3.12.0     
  [15] curl_5.2.1                BiocNeighbors_1.22.0     
- [17] SparseArray_1.4.3         htmlwidgets_1.6.4        
+ [17] SparseArray_1.4.8         htmlwidgets_1.6.4        
  [19] plotly_4.10.4             cachem_1.1.0             
  [21] igraph_2.0.3              mime_0.12                
  [23] lifecycle_1.0.4           pkgconfig_2.0.3          
  [25] rsvd_1.0.5                Matrix_1.7-0             
  [27] R6_2.5.1                  fastmap_1.2.0            
  [29] GenomeInfoDbData_1.2.12   digest_0.6.35            
- [31] colorspace_2.1-0          dqrng_0.4.0              
+ [31] colorspace_2.1-0          dqrng_0.4.1              
  [33] irlba_2.3.5.1             ExperimentHub_2.12.0     
- [35] RSQLite_2.3.6             beachmat_2.20.0          
+ [35] RSQLite_2.3.7             beachmat_2.20.0          
  [37] labeling_0.4.3            filelock_1.0.3           
  [39] fansi_1.0.6               httr_1.4.7               
  [41] abind_1.4-5               compiler_4.4.0           
  [43] bit64_4.0.5               withr_3.0.0              
  [45] BiocParallel_1.38.0       viridis_0.6.5            
- [47] DBI_1.2.2                 highr_0.10               
+ [47] DBI_1.2.3                 highr_0.11               
  [49] R.utils_2.12.3            MASS_7.3-60.2            
  [51] rappdirs_0.3.3            DelayedArray_0.30.1      
  [53] rjson_0.2.21              tools_4.4.0              
@@ -992,7 +992,7 @@ loaded via a namespace (and not attached):
  [81] survival_3.6-4            FNN_1.1.4                
  [83] renv_1.0.7                bit_4.0.5                
  [85] tidyselect_1.2.1          locfit_1.5-9.9           
- [87] Biostrings_2.72.0         knitr_1.46               
+ [87] Biostrings_2.72.1         knitr_1.47               
  [89] gridExtra_2.3             edgeR_4.2.0              
  [91] xfun_0.44                 mixtools_2.0.0           
  [93] statmod_1.5.0             UCSC.utils_1.0.0         

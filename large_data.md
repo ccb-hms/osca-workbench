@@ -406,24 +406,27 @@ table(exact = colLabels(sce), approx = clusters)
 ``` output
      approx
 exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
-   1   91   0   0   0   0   0   0   0   0   0   0   0   0   0   0
-   2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
-   3    0   0  77   0   0   0   0   0   0   0   0   0   0   0   0
-   4    0   0   0 341   0   0   0   0   0   0   0   0   0   0   1
-   5    2   0   0   0 391   0   0   0   0   1   0   0   0   0   0
-   6    0   0   0   0   0 208   1   0   0   0   1   0   0   0   0
-   7    0   0   0   0   0   1 244   0   0   1   0   0   0   0   0
+   1   90   0   0   0   0   0   0   0   1   0   0   0   0   0   0
+   2    0 143   0   1   0   0   0   0   0   0   0   0   0   0   0
+   3    0   0  75   0   2   0   0   0   0   0   0   0   0   0   0
+   4    0   0   0 203   0   0   0   0   0   0   0   0 143   0   0
+   5    0   0   0   0 395   0   1   0   0   1   0   1   0   0   0
+   6    0   0   0   0   0  81 127   0   0   0   1   0   0   0   0
+   7    0   0   0   0   0 245   0   0   0   1   0   0   0   0   0
    8    0   0   0   0   0   0   0  95   0   0   0   0   0   0   0
    9    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
-   10   0   0   0   0   0   0   0   0   0 113   0   0   0   0   0
-   11   0   0   0   0   0   0   0   0   0   0 153   0   0   0   0
-   12   0   0   0   0   3   0   0   0   0   0   0 214   0   0   0
-   13   0   0   0   0   0   0   0   0   0   0   0   0 146   0   0
-   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0
-   15   0   0   0   0   0   0   0   0   0   0   0   0   0   0  55
+   10   0   0   0   0   0   0   0   0   0 113   4  10   0   0   0
+   11   0   0   0   0   0   0   0   0   0   0 143   0   0   0   0
+   12   0   0   0   0   1   0   0   0   0   0   0 203   0   0   0
+   13   0   0   0   0   0   0   0   0   0   0   6   0   0 146   0
+   14   0   0   0   0   0   0   0   0   0   0   0   0   0   0  20
+   15   0   0   0  51   0   0   0   0   0   0   0   0   0   0   0
 ```
 
 
+``` error
+Error: rand > 0.85 is not TRUE
+```
 
 Note that Annoy writes the NN index to disk prior to performing the search.
 Thus, it may not actually be faster than the default exact algorithm for small
@@ -706,11 +709,11 @@ other attached packages:
 [13] ggplot2_3.5.1                scuttle_1.14.0              
 [15] TENxBrainData_1.24.0         HDF5Array_1.32.0            
 [17] rhdf5_2.48.0                 DelayedArray_0.30.1         
-[19] SparseArray_1.4.3            S4Arrays_1.4.0              
+[19] SparseArray_1.4.8            S4Arrays_1.4.1              
 [21] abind_1.4-5                  Matrix_1.7-0                
 [23] SingleCellExperiment_1.26.0  SummarizedExperiment_1.34.0 
 [25] Biobase_2.64.0               GenomicRanges_1.56.0        
-[27] GenomeInfoDb_1.40.0          IRanges_2.38.0              
+[27] GenomeInfoDb_1.40.1          IRanges_2.38.0              
 [29] S4Vectors_0.42.0             BiocGenerics_0.50.0         
 [31] MatrixGenerics_1.16.0        matrixStats_1.3.0           
 [33] BiocStyle_2.32.0            
@@ -727,16 +730,16 @@ loaded via a namespace (and not attached):
  [17] rmarkdown_2.27            yaml_2.3.8               
  [19] metapod_1.12.0            httpuv_1.6.15            
  [21] sctransform_0.4.1         spam_2.10-0              
- [23] spatstat.sparse_3.0-3     reticulate_1.36.1        
+ [23] spatstat.sparse_3.0-3     reticulate_1.37.0        
  [25] pbapply_1.7-2             cowplot_1.1.3            
- [27] DBI_1.2.2                 RColorBrewer_1.1-3       
+ [27] DBI_1.2.3                 RColorBrewer_1.1-3       
  [29] zlibbioc_1.50.0           Rtsne_0.17               
  [31] purrr_1.0.2               BumpyMatrix_1.12.0       
  [33] rappdirs_0.3.3            GenomeInfoDbData_1.2.12  
  [35] ggrepel_0.9.5             irlba_2.3.5.1            
  [37] spatstat.utils_3.0-4      listenv_0.9.1            
  [39] goftest_1.2-3             RSpectra_0.16-1          
- [41] spatstat.random_3.2-3     dqrng_0.4.0              
+ [41] spatstat.random_3.2-3     dqrng_0.4.1              
  [43] fitdistrplus_1.1-11       parallelly_1.37.1        
  [45] DelayedMatrixStats_1.26.0 leiden_0.4.3.1           
  [47] codetools_0.2-20          tidyselect_1.2.1         
@@ -755,7 +758,7 @@ loaded via a namespace (and not attached):
  [73] R6_2.5.1                  mime_0.12                
  [75] colorspace_2.1-0          scattermore_1.2          
  [77] tensor_1.5                spatstat.data_3.0-4      
- [79] RSQLite_2.3.6             tidyr_1.3.1              
+ [79] RSQLite_2.3.7             tidyr_1.3.1              
  [81] utf8_1.2.4                generics_0.1.3           
  [83] data.table_1.15.4         renv_1.0.7               
  [85] htmlwidgets_1.6.4         httr_1.4.7               
@@ -764,7 +767,7 @@ loaded via a namespace (and not attached):
  [91] lmtest_0.9-40             XVector_0.44.0           
  [93] htmltools_0.5.8.1         dotCall64_1.1-1          
  [95] scales_1.3.0              png_0.1-8                
- [97] knitr_1.46                reshape2_1.4.4           
+ [97] knitr_1.47                reshape2_1.4.4           
  [99] rjson_0.2.21              nlme_3.1-164             
 [101] curl_5.2.1                cachem_1.1.0             
 [103] zoo_1.8-12                stringr_1.5.1            
@@ -783,7 +786,7 @@ loaded via a namespace (and not attached):
 [129] plyr_1.8.9                ggbeeswarm_0.7.2         
 [131] stringi_1.8.4             deldir_2.0-4             
 [133] viridisLite_0.4.2         munsell_0.5.1            
-[135] Biostrings_2.72.0         lazyeval_0.2.2           
+[135] Biostrings_2.72.1         lazyeval_0.2.2           
 [137] spatstat.geom_3.2-9       dir.expiry_1.12.0        
 [139] ExperimentHub_2.12.0      RcppHNSW_0.6.0           
 [141] patchwork_1.2.0           sparseMatrixStats_1.16.0 
