@@ -333,7 +333,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Working with large data</h1>
-        <p>Last updated on 2024-06-04 |
+        <p>Last updated on 2024-07-02 |
         
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/large_data.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -769,21 +769,20 @@ approximation can be largely ignored.</p>
 </h3>
 <pre class="output" tabindex="0"><code>     approx
 exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
-   1   90   0   0   0   0   0   0   0   1   0   0   0   0   0   0
-   2    0 143   0   1   0   0   0   0   0   0   0   0   0   0   0
-   3    0   0  75   0   2   0   0   0   0   0   0   0   0   0   0
-   4    0   0   0 203   0   0   0   0   0   0   0   0 143   0   0
-   5    0   0   0   0 395   0   1   0   0   1   0   1   0   0   0
-   6    0   0   0   0   0  81 127   0   0   0   1   0   0   0   0
+   1   90   0   0   0   1   0   0   0   1   0   0   0   0   0   0
+   2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
+   3    0   0  77   0   1   0   0   0   0   0   0   0   0   0   0
+   4    0   0   0 342   0   0   0   0   0   0   0   0   0   0  55
+   5    0   0   0   0  90   0   0  95   0   0   0   8   0   0   0
+   6    0   0   0   0   0  79 131   0   0   0   0   0   0   0   0
    7    0   0   0   0   0 245   0   0   0   1   0   0   0   0   0
-   8    0   0   0   0   0   0   0  95   0   0   0   0   0   0   0
-   9    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
-   10   0   0   0   0   0   0   0   0   0 113   4  10   0   0   0
-   11   0   0   0   0   0   0   0   0   0   0 143   0   0   0   0
-   12   0   0   0   0   1   0   0   0   0   0   0 203   0   0   0
-   13   0   0   0   0   0   0   0   0   0   0   6   0   0 146   0
-   14   0   0   0   0   0   0   0   0   0   0   0   0   0   0  20
-   15   0   0   0  51   0   0   0   0   0   0   0   0   0   0   0</code></pre>
+   8    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
+   9    0   0   0   0   0   0   0   0   0 113   0  10   0   0   0
+   10   0   0   0   0   0   0   0   0   0   5 142   0   6   0   0
+   11   0   0   0   0   0   0   0   0   0   0   0 198   0   0   0
+   12   0   0   0   0 303   0   0   0   0   0   0   0   0   0   0
+   13   0   0   0   0   0   0   0   0   0   0   0   0 146   0   0
+   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0</code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1058,7 +1057,7 @@ frameworks.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>R version 4.4.0 (2024-04-24)
+<pre class="output" tabindex="0"><code>R version 4.4.1 (2024-06-14)
 Platform: x86_64-pc-linux-gnu
 Running under: Ubuntu 22.04.4 LTS
 
@@ -1100,7 +1099,7 @@ other attached packages:
 
 loaded via a namespace (and not attached):
   [1] RcppAnnoy_0.0.22          later_1.3.2              
-  [3] splines_4.4.0             filelock_1.0.3           
+  [3] splines_4.4.1             filelock_1.0.3           
   [5] tibble_3.2.1              polyclip_1.10-6          
   [7] basilisk.utils_1.16.0     fastDummies_1.7.3        
   [9] lifecycle_1.0.4           edgeR_4.2.0              
@@ -1127,7 +1126,7 @@ loaded via a namespace (and not attached):
  [51] viridis_0.6.5             spatstat.explore_3.2-7   
  [53] BiocFileCache_2.12.0      jsonlite_1.8.8           
  [55] progressr_0.14.0          ggridges_0.5.6           
- [57] survival_3.6-4            tools_4.4.0              
+ [57] survival_3.6-4            tools_4.4.1              
  [59] ica_1.0-3                 Rcpp_1.0.12              
  [61] glue_1.7.0                gridExtra_2.3            
  [63] xfun_0.44                 dplyr_1.1.4              
@@ -1152,16 +1151,16 @@ loaded via a namespace (and not attached):
 [101] curl_5.2.1                cachem_1.1.0             
 [103] zoo_1.8-12                stringr_1.5.1            
 [105] BiocVersion_3.19.1        KernSmooth_2.23-24       
-[107] parallel_4.4.0            miniUI_0.1.1.1           
+[107] parallel_4.4.1            miniUI_0.1.1.1           
 [109] vipor_0.4.7               AnnotationDbi_1.66.0     
-[111] pillar_1.9.0              grid_4.4.0               
+[111] pillar_1.9.0              grid_4.4.1               
 [113] vctrs_0.6.5               RANN_2.6.1               
 [115] promises_1.3.0            dbplyr_2.5.0             
 [117] beachmat_2.20.0           xtable_1.8-4             
 [119] cluster_2.1.6             beeswarm_0.4.0           
 [121] evaluate_0.23             magick_2.8.3             
 [123] cli_3.6.2                 locfit_1.5-9.9           
-[125] compiler_4.4.0            rlang_1.1.3              
+[125] compiler_4.4.1            rlang_1.1.3              
 [127] crayon_1.5.2              future.apply_1.11.2      
 [129] plyr_1.8.9                ggbeeswarm_0.7.2         
 [131] stringi_1.8.4             deldir_2.0-4             
@@ -1199,7 +1198,7 @@ matrix in memory as opposed to holding the data out of memory.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>See the <code>HDF5Array</code> function for reading from HDF5 and the
 <code>writeHDF5Array</code> function for writing to HDF5 from the <em><a href="https://bioconductor.org/packages/3.19/HDF5Array" class="external-link">HDF5Array</a></em>
@@ -1213,7 +1212,7 @@ package.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -1241,7 +1240,7 @@ with 3 workers.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2"> Give me a hint </h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
 <div class="accordion-body">
 <p>Use the function <code>system.time</code> to obtain the runtime of
 each job.</p>
@@ -1254,7 +1253,7 @@ each job.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -1284,7 +1283,7 @@ with cells colored by a cell metadata column of your choice.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint3" aria-expanded="false" aria-controls="collapseHint3">
   <h4 class="accordion-header" id="headingHint3"> Give me a hint </h4>
 </button>
-<div id="collapseHint3" class="accordion-collapse collapse" aria-labelledby="headingHint3" data-bs-parent="#accordionHint3">
+<div id="collapseHint3" class="accordion-collapse collapse" data-bs-parent="#accordionHint3" aria-labelledby="headingHint3">
 <div class="accordion-body">
 <p>Use Seurat’s <code>DimPlot</code> function.</p>
 </div>
@@ -1296,7 +1295,7 @@ with cells colored by a cell metadata column of your choice.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>Use Seurat’s <code>DimPlot</code> function.</p>
 </div>
@@ -1381,7 +1380,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
         
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.5" class="external-link">sandpaper (0.16.5)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.5" class="external-link">pegboard (0.7.5)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.3" class="external-link">varnish (1.0.3)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.5" class="external-link">sandpaper (0.16.5)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.6" class="external-link">pegboard (0.7.6)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.3" class="external-link">varnish (1.0.3)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -1403,8 +1402,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/instructor/large_data.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/instructor/large_data.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-06-04",
-  "datePublished": "2024-06-25"
+  "dateModified": "2024-07-02",
+  "datePublished": "2024-07-02"
 }
 
   </script><script>
