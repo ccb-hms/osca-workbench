@@ -406,21 +406,20 @@ table(exact = colLabels(sce), approx = clusters)
 ``` output
      approx
 exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
-   1   90   0   0   0   0   0   0   0   1   0   0   0   0   0   0
-   2    0 143   0   1   0   0   0   0   0   0   0   0   0   0   0
-   3    0   0  75   0   2   0   0   0   0   0   0   0   0   0   0
-   4    0   0   0 203   0   0   0   0   0   0   0   0 143   0   0
-   5    0   0   0   0 395   0   1   0   0   1   0   1   0   0   0
-   6    0   0   0   0   0  81 127   0   0   0   1   0   0   0   0
+   1   90   0   0   0   1   0   0   0   1   0   0   0   0   0   0
+   2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
+   3    0   0  77   0   1   0   0   0   0   0   0   0   0   0   0
+   4    0   0   0 342   0   0   0   0   0   0   0   0   0   0  55
+   5    0   0   0   0  90   0   0  95   0   0   0   8   0   0   0
+   6    0   0   0   0   0  79 131   0   0   0   0   0   0   0   0
    7    0   0   0   0   0 245   0   0   0   1   0   0   0   0   0
-   8    0   0   0   0   0   0   0  95   0   0   0   0   0   0   0
-   9    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
-   10   0   0   0   0   0   0   0   0   0 113   4  10   0   0   0
-   11   0   0   0   0   0   0   0   0   0   0 143   0   0   0   0
-   12   0   0   0   0   1   0   0   0   0   0   0 203   0   0   0
-   13   0   0   0   0   0   0   0   0   0   0   6   0   0 146   0
-   14   0   0   0   0   0   0   0   0   0   0   0   0   0   0  20
-   15   0   0   0  51   0   0   0   0   0   0   0   0   0   0   0
+   8    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
+   9    0   0   0   0   0   0   0   0   0 113   0  10   0   0   0
+   10   0   0   0   0   0   0   0   0   0   5 142   0   6   0   0
+   11   0   0   0   0   0   0   0   0   0   0   0 198   0   0   0
+   12   0   0   0   0 303   0   0   0   0   0   0   0   0   0   0
+   13   0   0   0   0   0   0   0   0   0   0   0   0 146   0   0
+   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0
 ```
 
 
@@ -678,7 +677,7 @@ sessionInfo()
 ```
 
 ``` output
-R version 4.4.0 (2024-04-24)
+R version 4.4.1 (2024-06-14)
 Platform: x86_64-pc-linux-gnu
 Running under: Ubuntu 22.04.4 LTS
 
@@ -720,7 +719,7 @@ other attached packages:
 
 loaded via a namespace (and not attached):
   [1] RcppAnnoy_0.0.22          later_1.3.2              
-  [3] splines_4.4.0             filelock_1.0.3           
+  [3] splines_4.4.1             filelock_1.0.3           
   [5] tibble_3.2.1              polyclip_1.10-6          
   [7] basilisk.utils_1.16.0     fastDummies_1.7.3        
   [9] lifecycle_1.0.4           edgeR_4.2.0              
@@ -747,7 +746,7 @@ loaded via a namespace (and not attached):
  [51] viridis_0.6.5             spatstat.explore_3.2-7   
  [53] BiocFileCache_2.12.0      jsonlite_1.8.8           
  [55] progressr_0.14.0          ggridges_0.5.6           
- [57] survival_3.6-4            tools_4.4.0              
+ [57] survival_3.6-4            tools_4.4.1              
  [59] ica_1.0-3                 Rcpp_1.0.12              
  [61] glue_1.7.0                gridExtra_2.3            
  [63] xfun_0.44                 dplyr_1.1.4              
@@ -772,16 +771,16 @@ loaded via a namespace (and not attached):
 [101] curl_5.2.1                cachem_1.1.0             
 [103] zoo_1.8-12                stringr_1.5.1            
 [105] BiocVersion_3.19.1        KernSmooth_2.23-24       
-[107] parallel_4.4.0            miniUI_0.1.1.1           
+[107] parallel_4.4.1            miniUI_0.1.1.1           
 [109] vipor_0.4.7               AnnotationDbi_1.66.0     
-[111] pillar_1.9.0              grid_4.4.0               
+[111] pillar_1.9.0              grid_4.4.1               
 [113] vctrs_0.6.5               RANN_2.6.1               
 [115] promises_1.3.0            dbplyr_2.5.0             
 [117] beachmat_2.20.0           xtable_1.8-4             
 [119] cluster_2.1.6             beeswarm_0.4.0           
 [121] evaluate_0.23             magick_2.8.3             
 [123] cli_3.6.2                 locfit_1.5-9.9           
-[125] compiler_4.4.0            rlang_1.1.3              
+[125] compiler_4.4.1            rlang_1.1.3              
 [127] crayon_1.5.2              future.apply_1.11.2      
 [129] plyr_1.8.9                ggbeeswarm_0.7.2         
 [131] stringi_1.8.4             deldir_2.0-4             

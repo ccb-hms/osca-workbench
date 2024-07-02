@@ -729,7 +729,7 @@ sessionInfo()
 ```
 
 ``` output
-R version 4.4.0 (2024-04-24)
+R version 4.4.1 (2024-06-14)
 Platform: x86_64-pc-linux-gnu
 Running under: Ubuntu 22.04.4 LTS
 
@@ -765,7 +765,7 @@ other attached packages:
 loaded via a namespace (and not attached):
   [1] DBI_1.2.3                 formatR_1.14             
   [3] gridExtra_2.3             rlang_1.1.3              
-  [5] magrittr_2.0.3            compiler_4.4.0           
+  [5] magrittr_2.0.3            compiler_4.4.1           
   [7] RSQLite_2.3.7             DelayedMatrixStats_1.26.0
   [9] png_0.1-8                 vctrs_0.6.5              
  [11] pkgconfig_2.0.3           crayon_1.5.2             
@@ -780,9 +780,9 @@ loaded via a namespace (and not attached):
  [29] jsonlite_1.8.8            blob_1.2.4               
  [31] highr_0.11                DelayedArray_0.30.1      
  [33] BiocParallel_1.38.0       cluster_2.1.6            
- [35] irlba_2.3.5.1             parallel_4.4.0           
+ [35] irlba_2.3.5.1             parallel_4.4.1           
  [37] R6_2.5.1                  Rcpp_1.0.12              
- [39] knitr_1.47                splines_4.4.0            
+ [39] knitr_1.47                splines_4.4.1            
  [41] igraph_2.0.3              Matrix_1.7-0             
  [43] tidyselect_1.2.1          viridis_0.6.5            
  [45] abind_1.4-5               yaml_2.3.8               
@@ -797,10 +797,10 @@ loaded via a namespace (and not attached):
  [63] generics_0.1.3            BiocVersion_3.19.1       
  [65] sparseMatrixStats_1.16.0  munsell_0.5.1            
  [67] scales_1.3.0              glue_1.7.0               
- [69] metapod_1.12.0            tools_4.4.0              
+ [69] metapod_1.12.0            tools_4.4.1              
  [71] AnnotationHub_3.12.0      BiocNeighbors_1.22.0     
  [73] ScaledMatrix_1.12.0       locfit_1.5-9.9           
- [75] cowplot_1.1.3             grid_4.4.0               
+ [75] cowplot_1.1.3             grid_4.4.1               
  [77] AnnotationDbi_1.66.0      colorspace_2.1-0         
  [79] GenomeInfoDbData_1.2.12   beeswarm_0.4.0           
  [81] BiocSingular_1.20.0       vipor_0.4.7              
