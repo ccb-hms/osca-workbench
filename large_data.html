@@ -27,7 +27,7 @@
             <span class="visually-hidden">This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.</span>
           </abbr>
         </span>
-        
+
       </div>
     </div>
     <div class="selector-container">
@@ -56,7 +56,7 @@
             </li>
           </ul></li>
       </div>
-      
+
       <div class="dropdown" id="instructor-dropdown">
         <button class="btn btn-secondary dropdown-toggle bordered-button" type="button" id="dropdownMenu1" data-bs-toggle="dropdown" aria-expanded="false">
           <i aria-hidden="true" class="icon" data-feather="eye"></i> Learner View <i data-feather="chevron-down"></i>
@@ -180,7 +180,7 @@
                 </div><!--/div.accordion-flush-->
               </div><!--div.sidenav-view-selector -->
             </div><!--/div.col -->
-      
+
             <hr></div><!--/div.mobile-row -->
 
           <div class="accordion accordion-flush" id="accordionFlush11">
@@ -199,7 +199,7 @@
     <div class="accordion-header" id="flush-heading1">
         <a href="index.html">Summary and Setup</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -208,7 +208,7 @@
     <div class="accordion-header" id="flush-heading2">
         <a href="intro-sce.html">1. Introduction to Bioconductor and the SingleCellExperiment class</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -217,7 +217,7 @@
     <div class="accordion-header" id="flush-heading3">
         <a href="eda_qc.html">2. Exploratory data analysis and quality control</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -226,7 +226,7 @@
     <div class="accordion-header" id="flush-heading4">
         <a href="cell_type_annotation.html">3. Cell type annotation</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -235,7 +235,7 @@
     <div class="accordion-header" id="flush-heading5">
         <a href="multi-sample.html">4. Multi-sample analyses</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -249,7 +249,7 @@
         </span>
       </button>
     </div><!--/div.accordion-header-->
-        
+
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#motivation">Motivation</a></li>
@@ -262,7 +262,7 @@
 <li><a href="#references">References</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -271,7 +271,7 @@
     <div class="accordion-header" id="flush-heading7">
         <a href="hca.html">6. Accessing data from the Human Cell Atlas (HCA)</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -303,10 +303,10 @@
               </div>
             </div>
             <hr class="half-width resources"><a href="aio.html">See all in one page</a>
-            
+
 
             <hr class="d-none d-sm-block d-md-none"><div class="d-grid gap-1">
-            
+
             </div>
           </div><!-- /div.accordion -->
         </div><!-- /div.sidebar-inner -->
@@ -327,18 +327,18 @@
           Previous: Multi-sample
         </a>
         <a class="chapter-link float-end" href="hca.html" rel="next">
-          Next: Accessing data from... 
+          Next: Accessing data from...
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i>
         </a>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Working with large data</h1>
         <p>Last updated on 2024-07-02 |
-        
+
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/large_data.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
-        
-        
-        
+
+
+
         <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -374,8 +374,8 @@ datasets?</li>
 </div>
 </div>
 </div>
-<section id="motivation"><h2 class="section-heading">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a>
-</h2>
+<section><h2 class="section-heading" id="motivation">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a>
+<a class="anchor" aria-label="anchor" href="#motivation"></a></h2>
 <hr class="half-width"><p>Advances in scRNA-seq technologies have increased the number of cells
 that can be assayed in routine experiments. Public databases such as <a href="https://www.ncbi.nlm.nih.gov/geo/" class="external-link">GEO</a> are continually
 expanding with more scRNA-seq studies, while large-scale projects such
@@ -385,8 +385,8 @@ analysis, the computational methods need to scale with the increasing
 size of scRNA-seq data sets. This section discusses how we can use
 various aspects of the Bioconductor ecosystem to tune our analysis
 pipelines for greater speed and efficiency.</p>
-</section><section id="out-of-memory-representations"><h2 class="section-heading">Out of memory representations<a class="anchor" aria-label="anchor" href="#out-of-memory-representations"></a>
-</h2>
+</section><section><h2 class="section-heading" id="out-of-memory-representations">Out of memory representations<a class="anchor" aria-label="anchor" href="#out-of-memory-representations"></a>
+<a class="anchor" aria-label="anchor" href="#out-of-memory-representations"></a></h2>
 <hr class="half-width"><p>The count matrix is the central structure around which our analyses
 are based. In most of the previous chapters, this has been held fully in
 memory as a dense <code>matrix</code> or as a sparse
@@ -420,8 +420,8 @@ package.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>class: SingleCellExperiment 
-dim: 27998 20000 
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 27998 20000
 metadata(0):
 assays(1): counts
 rownames: NULL
@@ -584,8 +584,8 @@ usage pattern involves performing the heavy computing quickly with
 in-memory representations on HPC systems with plentiful memory, and then
 distributing file-backed counterparts to individual users for
 exploration and visualization on their personal machines.</p>
-</section><section id="parallelization"><h2 class="section-heading">Parallelization<a class="anchor" aria-label="anchor" href="#parallelization"></a>
-</h2>
+</section><section><h2 class="section-heading" id="parallelization">Parallelization<a class="anchor" aria-label="anchor" href="#parallelization"></a>
+<a class="anchor" aria-label="anchor" href="#parallelization"></a></h2>
 <hr class="half-width"><p>Parallelization of calculations across genes or cells is an obvious
 strategy for speeding up scRNA-seq analysis workflows.</p>
 <p>The <em><a href="https://bioconductor.org/packages/3.19/BiocParallel" class="external-link">BiocParallel</a></em>
@@ -716,8 +716,8 @@ relevant packages and (iii) transmitting the data to that session.
 Depending on the nature and size of the task, this overhead may outweigh
 any benefit from parallel computing.</p>
 </div>
-</section><section id="fast-approximations"><h2 class="section-heading">Fast approximations<a class="anchor" aria-label="anchor" href="#fast-approximations"></a>
-</h2>
+</section><section><h2 class="section-heading" id="fast-approximations">Fast approximations<a class="anchor" aria-label="anchor" href="#fast-approximations"></a>
+<a class="anchor" aria-label="anchor" href="#fast-approximations"></a></h2>
 <hr class="half-width"><div class="section level3">
 <h3 id="nearest-neighbor-searching">Nearest neighbor searching<a class="anchor" aria-label="anchor" href="#nearest-neighbor-searching"></a></h3>
 <p>Identification of neighbouring cells in PC or expression space is a
@@ -889,8 +889,8 @@ between accuracy and speed based on its oversampling parameter
 tend to prefer IRLBA as its default behavior is more accurate, though
 RSVD is much faster for file-backed matrices.</p>
 </div>
-</section><section id="interoperability-with-popular-single-cell-analysis-ecosytems"><h2 class="section-heading">Interoperability with popular single-cell analysis ecosytems<a class="anchor" aria-label="anchor" href="#interoperability-with-popular-single-cell-analysis-ecosytems"></a>
-</h2>
+</section><section><h2 class="section-heading" id="interoperability-with-popular-single-cell-analysis-ecosytems">Interoperability with popular single-cell analysis ecosytems<a class="anchor" aria-label="anchor" href="#interoperability-with-popular-single-cell-analysis-ecosytems"></a>
+<a class="anchor" aria-label="anchor" href="#interoperability-with-popular-single-cell-analysis-ecosytems"></a></h2>
 <hr class="half-width"><div class="section level3">
 <h3 id="seurat">Seurat<a class="anchor" aria-label="anchor" href="#seurat"></a></h3>
 <p><a href="https://satijalab.org/seurat" class="external-link">Seurat</a> is an R package
@@ -1017,8 +1017,8 @@ package.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>class: SingleCellExperiment 
-dim: 11 640 
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 11 640
 metadata(2): highlights iroot
 assays(1): X
 rownames(11): Gata2 Gata1 ... EgrNab Gfi1
@@ -1044,8 +1044,8 @@ on the wild-type chimera mouse gastrulation dataset.</p>
 function and then directly used in compatible Python-based analysis
 frameworks.</p>
 </div>
-</section><section id="session-info"><h2 class="section-heading">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
-</h2>
+</section><section><h2 class="section-heading" id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
+<a class="anchor" aria-label="anchor" href="#session-info"></a></h2>
 <hr class="half-width"><div class="codewrapper sourceCode" id="cb40">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1060,122 +1060,122 @@ Platform: x86_64-pc-linux-gnu
 Running under: Ubuntu 22.04.4 LTS
 
 Matrix products: default
-BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0 
+BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0
 LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.10.0
 
 locale:
- [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
- [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
- [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
-[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+ [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8
+ [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8
+ [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C
+[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C
 
 time zone: UTC
 tzcode source: system (glibc)
 
 attached base packages:
-[1] stats4    stats     graphics  grDevices utils     datasets  methods  
-[8] base     
+[1] stats4    stats     graphics  grDevices utils     datasets  methods
+[8] base
 
 other attached packages:
- [1] zellkonverter_1.14.0         Seurat_5.1.0                
- [3] SeuratObject_5.0.2           sp_2.1-4                    
- [5] BiocSingular_1.20.0          BiocNeighbors_1.22.0        
- [7] bluster_1.14.0               scran_1.32.0                
- [9] MouseGastrulationData_1.18.0 SpatialExperiment_1.14.0    
-[11] BiocParallel_1.38.0          scater_1.32.0               
-[13] ggplot2_3.5.1                scuttle_1.14.0              
-[15] TENxBrainData_1.24.0         HDF5Array_1.32.0            
-[17] rhdf5_2.48.0                 DelayedArray_0.30.1         
-[19] SparseArray_1.4.8            S4Arrays_1.4.1              
-[21] abind_1.4-5                  Matrix_1.7-0                
-[23] SingleCellExperiment_1.26.0  SummarizedExperiment_1.34.0 
-[25] Biobase_2.64.0               GenomicRanges_1.56.0        
-[27] GenomeInfoDb_1.40.1          IRanges_2.38.0              
-[29] S4Vectors_0.42.0             BiocGenerics_0.50.0         
-[31] MatrixGenerics_1.16.0        matrixStats_1.3.0           
-[33] BiocStyle_2.32.0            
+ [1] zellkonverter_1.14.0         Seurat_5.1.0
+ [3] SeuratObject_5.0.2           sp_2.1-4
+ [5] BiocSingular_1.20.0          BiocNeighbors_1.22.0
+ [7] bluster_1.14.0               scran_1.32.0
+ [9] MouseGastrulationData_1.18.0 SpatialExperiment_1.14.0
+[11] BiocParallel_1.38.0          scater_1.32.0
+[13] ggplot2_3.5.1                scuttle_1.14.0
+[15] TENxBrainData_1.24.0         HDF5Array_1.32.0
+[17] rhdf5_2.48.0                 DelayedArray_0.30.1
+[19] SparseArray_1.4.8            S4Arrays_1.4.1
+[21] abind_1.4-5                  Matrix_1.7-0
+[23] SingleCellExperiment_1.26.0  SummarizedExperiment_1.34.0
+[25] Biobase_2.64.0               GenomicRanges_1.56.0
+[27] GenomeInfoDb_1.40.1          IRanges_2.38.0
+[29] S4Vectors_0.42.0             BiocGenerics_0.50.0
+[31] MatrixGenerics_1.16.0        matrixStats_1.3.0
+[33] BiocStyle_2.32.0
 
 loaded via a namespace (and not attached):
-  [1] RcppAnnoy_0.0.22          later_1.3.2              
-  [3] splines_4.4.1             filelock_1.0.3           
-  [5] tibble_3.2.1              polyclip_1.10-6          
-  [7] basilisk.utils_1.16.0     fastDummies_1.7.3        
-  [9] lifecycle_1.0.4           edgeR_4.2.0              
- [11] globals_0.16.3            lattice_0.22-6           
- [13] MASS_7.3-60.2             magrittr_2.0.3           
- [15] plotly_4.10.4             limma_3.60.2             
- [17] rmarkdown_2.27            yaml_2.3.8               
- [19] metapod_1.12.0            httpuv_1.6.15            
- [21] sctransform_0.4.1         spam_2.10-0              
- [23] spatstat.sparse_3.0-3     reticulate_1.37.0        
- [25] pbapply_1.7-2             cowplot_1.1.3            
- [27] DBI_1.2.3                 RColorBrewer_1.1-3       
- [29] zlibbioc_1.50.0           Rtsne_0.17               
- [31] purrr_1.0.2               BumpyMatrix_1.12.0       
- [33] rappdirs_0.3.3            GenomeInfoDbData_1.2.12  
- [35] ggrepel_0.9.5             irlba_2.3.5.1            
- [37] spatstat.utils_3.0-4      listenv_0.9.1            
- [39] goftest_1.2-3             RSpectra_0.16-1          
- [41] spatstat.random_3.2-3     dqrng_0.4.1              
- [43] fitdistrplus_1.1-11       parallelly_1.37.1        
- [45] DelayedMatrixStats_1.26.0 leiden_0.4.3.1           
- [47] codetools_0.2-20          tidyselect_1.2.1         
- [49] UCSC.utils_1.0.0          ScaledMatrix_1.12.0      
- [51] viridis_0.6.5             spatstat.explore_3.2-7   
- [53] BiocFileCache_2.12.0      jsonlite_1.8.8           
- [55] progressr_0.14.0          ggridges_0.5.6           
- [57] survival_3.6-4            tools_4.4.1              
- [59] ica_1.0-3                 Rcpp_1.0.12              
- [61] glue_1.7.0                gridExtra_2.3            
- [63] xfun_0.44                 dplyr_1.1.4              
- [65] withr_3.0.0               BiocManager_1.30.23      
- [67] fastmap_1.2.0             basilisk_1.16.0          
- [69] rhdf5filters_1.16.0       fansi_1.0.6              
- [71] digest_0.6.35             rsvd_1.0.5               
- [73] R6_2.5.1                  mime_0.12                
- [75] colorspace_2.1-0          scattermore_1.2          
- [77] tensor_1.5                spatstat.data_3.0-4      
- [79] RSQLite_2.3.7             tidyr_1.3.1              
- [81] utf8_1.2.4                generics_0.1.3           
- [83] data.table_1.15.4         renv_1.0.7               
- [85] htmlwidgets_1.6.4         httr_1.4.7               
- [87] uwot_0.2.2                pkgconfig_2.0.3          
- [89] gtable_0.3.5              blob_1.2.4               
- [91] lmtest_0.9-40             XVector_0.44.0           
- [93] htmltools_0.5.8.1         dotCall64_1.1-1          
- [95] scales_1.3.0              png_0.1-8                
- [97] knitr_1.47                reshape2_1.4.4           
- [99] rjson_0.2.21              nlme_3.1-164             
-[101] curl_5.2.1                cachem_1.1.0             
-[103] zoo_1.8-12                stringr_1.5.1            
-[105] BiocVersion_3.19.1        KernSmooth_2.23-24       
-[107] parallel_4.4.1            miniUI_0.1.1.1           
-[109] vipor_0.4.7               AnnotationDbi_1.66.0     
-[111] pillar_1.9.0              grid_4.4.1               
-[113] vctrs_0.6.5               RANN_2.6.1               
-[115] promises_1.3.0            dbplyr_2.5.0             
-[117] beachmat_2.20.0           xtable_1.8-4             
-[119] cluster_2.1.6             beeswarm_0.4.0           
-[121] evaluate_0.23             magick_2.8.3             
-[123] cli_3.6.2                 locfit_1.5-9.9           
-[125] compiler_4.4.1            rlang_1.1.3              
-[127] crayon_1.5.2              future.apply_1.11.2      
-[129] plyr_1.8.9                ggbeeswarm_0.7.2         
-[131] stringi_1.8.4             deldir_2.0-4             
-[133] viridisLite_0.4.2         munsell_0.5.1            
-[135] Biostrings_2.72.1         lazyeval_0.2.2           
-[137] spatstat.geom_3.2-9       dir.expiry_1.12.0        
-[139] ExperimentHub_2.12.0      RcppHNSW_0.6.0           
-[141] patchwork_1.2.0           sparseMatrixStats_1.16.0 
-[143] bit64_4.0.5               future_1.33.2            
-[145] Rhdf5lib_1.26.0           KEGGREST_1.44.0          
-[147] statmod_1.5.0             shiny_1.8.1.1            
-[149] AnnotationHub_3.12.0      ROCR_1.0-11              
-[151] igraph_2.0.3              memoise_2.0.1            
+  [1] RcppAnnoy_0.0.22          later_1.3.2
+  [3] splines_4.4.1             filelock_1.0.3
+  [5] tibble_3.2.1              polyclip_1.10-6
+  [7] basilisk.utils_1.16.0     fastDummies_1.7.3
+  [9] lifecycle_1.0.4           edgeR_4.2.0
+ [11] globals_0.16.3            lattice_0.22-6
+ [13] MASS_7.3-60.2             magrittr_2.0.3
+ [15] plotly_4.10.4             limma_3.60.2
+ [17] rmarkdown_2.27            yaml_2.3.8
+ [19] metapod_1.12.0            httpuv_1.6.15
+ [21] sctransform_0.4.1         spam_2.10-0
+ [23] spatstat.sparse_3.0-3     reticulate_1.37.0
+ [25] pbapply_1.7-2             cowplot_1.1.3
+ [27] DBI_1.2.3                 RColorBrewer_1.1-3
+ [29] zlibbioc_1.50.0           Rtsne_0.17
+ [31] purrr_1.0.2               BumpyMatrix_1.12.0
+ [33] rappdirs_0.3.3            GenomeInfoDbData_1.2.12
+ [35] ggrepel_0.9.5             irlba_2.3.5.1
+ [37] spatstat.utils_3.0-4      listenv_0.9.1
+ [39] goftest_1.2-3             RSpectra_0.16-1
+ [41] spatstat.random_3.2-3     dqrng_0.4.1
+ [43] fitdistrplus_1.1-11       parallelly_1.37.1
+ [45] DelayedMatrixStats_1.26.0 leiden_0.4.3.1
+ [47] codetools_0.2-20          tidyselect_1.2.1
+ [49] UCSC.utils_1.0.0          ScaledMatrix_1.12.0
+ [51] viridis_0.6.5             spatstat.explore_3.2-7
+ [53] BiocFileCache_2.12.0      jsonlite_1.8.8
+ [55] progressr_0.14.0          ggridges_0.5.6
+ [57] survival_3.6-4            tools_4.4.1
+ [59] ica_1.0-3                 Rcpp_1.0.12
+ [61] glue_1.7.0                gridExtra_2.3
+ [63] xfun_0.44                 dplyr_1.1.4
+ [65] withr_3.0.0               BiocManager_1.30.23
+ [67] fastmap_1.2.0             basilisk_1.16.0
+ [69] rhdf5filters_1.16.0       fansi_1.0.6
+ [71] digest_0.6.35             rsvd_1.0.5
+ [73] R6_2.5.1                  mime_0.12
+ [75] colorspace_2.1-0          scattermore_1.2
+ [77] tensor_1.5                spatstat.data_3.0-4
+ [79] RSQLite_2.3.7             tidyr_1.3.1
+ [81] utf8_1.2.4                generics_0.1.3
+ [83] data.table_1.15.4         renv_1.0.7
+ [85] htmlwidgets_1.6.4         httr_1.4.7
+ [87] uwot_0.2.2                pkgconfig_2.0.3
+ [89] gtable_0.3.5              blob_1.2.4
+ [91] lmtest_0.9-40             XVector_0.44.0
+ [93] htmltools_0.5.8.1         dotCall64_1.1-1
+ [95] scales_1.3.0              png_0.1-8
+ [97] knitr_1.47                reshape2_1.4.4
+ [99] rjson_0.2.21              nlme_3.1-164
+[101] curl_5.2.1                cachem_1.1.0
+[103] zoo_1.8-12                stringr_1.5.1
+[105] BiocVersion_3.19.1        KernSmooth_2.23-24
+[107] parallel_4.4.1            miniUI_0.1.1.1
+[109] vipor_0.4.7               AnnotationDbi_1.66.0
+[111] pillar_1.9.0              grid_4.4.1
+[113] vctrs_0.6.5               RANN_2.6.1
+[115] promises_1.3.0            dbplyr_2.5.0
+[117] beachmat_2.20.0           xtable_1.8-4
+[119] cluster_2.1.6             beeswarm_0.4.0
+[121] evaluate_0.23             magick_2.8.3
+[123] cli_3.6.2                 locfit_1.5-9.9
+[125] compiler_4.4.1            rlang_1.1.3
+[127] crayon_1.5.2              future.apply_1.11.2
+[129] plyr_1.8.9                ggbeeswarm_0.7.2
+[131] stringi_1.8.4             deldir_2.0-4
+[133] viridisLite_0.4.2         munsell_0.5.1
+[135] Biostrings_2.72.1         lazyeval_0.2.2
+[137] spatstat.geom_3.2-9       dir.expiry_1.12.0
+[139] ExperimentHub_2.12.0      RcppHNSW_0.6.0
+[141] patchwork_1.2.0           sparseMatrixStats_1.16.0
+[143] bit64_4.0.5               future_1.33.2
+[145] Rhdf5lib_1.26.0           KEGGREST_1.44.0
+[147] statmod_1.5.0             shiny_1.8.1.1
+[149] AnnotationHub_3.12.0      ROCR_1.0-11
+[151] igraph_2.0.3              memoise_2.0.1
 [153] bit_4.0.5                </code></pre>
 </div>
-</section><section id="exercises"><h2 class="section-heading">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
-</h2>
+</section><section><h2 class="section-heading" id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
+<a class="anchor" aria-label="anchor" href="#exercises"></a></h2>
 <hr class="half-width"><div id="exercise-1-out-of-memory-representation" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -1196,7 +1196,7 @@ matrix in memory as opposed to holding the data out of memory.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
 <div class="accordion-body">
 <p>See the <code>HDF5Array</code> function for reading from HDF5 and the
 <code>writeHDF5Array</code> function for writing to HDF5 from the <em><a href="https://bioconductor.org/packages/3.19/HDF5Array" class="external-link">HDF5Array</a></em>
@@ -1210,7 +1210,7 @@ package.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -1238,7 +1238,7 @@ with 3 workers.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2"> Give me a hint </h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
 <div class="accordion-body">
 <p>Use the function <code>system.time</code> to obtain the runtime of
 each job.</p>
@@ -1251,7 +1251,7 @@ each job.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -1281,7 +1281,7 @@ with cells colored by a cell metadata column of your choice.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint3" aria-expanded="false" aria-controls="collapseHint3">
   <h4 class="accordion-header" id="headingHint3"> Give me a hint </h4>
 </button>
-<div id="collapseHint3" class="accordion-collapse collapse" data-bs-parent="#accordionHint3" aria-labelledby="headingHint3">
+<div id="collapseHint3" class="accordion-collapse collapse" aria-labelledby="headingHint3" data-bs-parent="#accordionHint3">
 <div class="accordion-body">
 <p>Use Seurat’s <code>DimPlot</code> function.</p>
 </div>
@@ -1293,7 +1293,7 @@ with cells colored by a cell metadata column of your choice.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>Use Seurat’s <code>DimPlot</code> function.</p>
 </div>
@@ -1337,11 +1337,11 @@ poplular single-cell analysis ecosystems.</li>
 </ul></div>
 </div>
 </div>
-</section><section id="references"><h2 class="section-heading">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h2>
-<hr class="half-width"><!-- 
+</section><section><h2 class="section-heading" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+<hr class="half-width"><!--
 Place links that you need to refer to multiple times across pages here. Delete
-any links that you are not going to use. 
+any links that you are not going to use.
  --></section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="multi-sample.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
@@ -1354,7 +1354,7 @@ any links that you are not going to use.
           Previous: Multi-sample
         </a>
         <a class="chapter-link float-end" href="hca.html" rel="next">
-          Next: Accessing data from... 
+          Next: Accessing data from...
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i>
         </a>
       </div>
@@ -1365,18 +1365,18 @@ any links that you are not going to use.
       		<footer class="row footer mx-md-3"><hr><div class="col-md-6">
         <p>This lesson is subject to the <a href="CODE_OF_CONDUCT.html">Code of Conduct</a></p>
         <p>
-        
+
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/large_data.Rmd" class="external-link">Edit on GitHub</a>
-        
+
 	
         | <a href="https://github.com/ccb-hms/osca-carpentries/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
         | <a href="https://github.com/ccb-hms/osca-carpentries/" class="external-link">Source</a></p>
 				<p><a href="https://github.com/ccb-hms/osca-carpentries/blob/main/CITATION" class="external-link">Cite</a> | <a href="mailto:christopher_magnano@hms.harvard.edu">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
 			</div>
 			<div class="col-md-6">
-        
+
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
-        
+
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
         <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.5" class="external-link">sandpaper (0.16.5)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.6" class="external-link">pegboard (0.7.6)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.3" class="external-link">varnish (1.0.3)</a></p>
 			</div>
@@ -1401,7 +1401,7 @@ any links that you are not going to use.
   "identifier": "https://ccb-hms.github.io/osca-carpentries/large_data.html",
   "dateCreated": "2024-01-10",
   "dateModified": "2024-07-02",
-  "datePublished": "2024-07-02"
+  "datePublished": "2024-07-09"
 }
 
   </script><script>

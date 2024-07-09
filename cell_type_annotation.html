@@ -27,7 +27,7 @@
             <span class="visually-hidden">This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.</span>
           </abbr>
         </span>
-        
+
       </div>
     </div>
     <div class="selector-container">
@@ -56,7 +56,7 @@
             </li>
           </ul></li>
       </div>
-      
+
       <div class="dropdown" id="instructor-dropdown">
         <button class="btn btn-secondary dropdown-toggle bordered-button" type="button" id="dropdownMenu1" data-bs-toggle="dropdown" aria-expanded="false">
           <i aria-hidden="true" class="icon" data-feather="eye"></i> Learner View <i data-feather="chevron-down"></i>
@@ -180,7 +180,7 @@
                 </div><!--/div.accordion-flush-->
               </div><!--div.sidenav-view-selector -->
             </div><!--/div.col -->
-      
+
             <hr></div><!--/div.mobile-row -->
 
           <div class="accordion accordion-flush" id="accordionFlush11">
@@ -199,7 +199,7 @@
     <div class="accordion-header" id="flush-heading1">
         <a href="index.html">Summary and Setup</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -208,7 +208,7 @@
     <div class="accordion-header" id="flush-heading2">
         <a href="intro-sce.html">1. Introduction to Bioconductor and the SingleCellExperiment class</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -217,7 +217,7 @@
     <div class="accordion-header" id="flush-heading3">
         <a href="eda_qc.html">2. Exploratory data analysis and quality control</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -231,7 +231,7 @@
         </span>
       </button>
     </div><!--/div.accordion-header-->
-        
+
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#setup">Setup</a></li>
@@ -244,7 +244,7 @@
 <li><a href="#exercises">Exercises</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -253,7 +253,7 @@
     <div class="accordion-header" id="flush-heading5">
         <a href="multi-sample.html">4. Multi-sample analyses</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -262,7 +262,7 @@
     <div class="accordion-header" id="flush-heading6">
         <a href="large_data.html">5. Working with large data</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -271,7 +271,7 @@
     <div class="accordion-header" id="flush-heading7">
         <a href="hca.html">6. Accessing data from the Human Cell Atlas (HCA)</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -303,10 +303,10 @@
               </div>
             </div>
             <hr class="half-width resources"><a href="aio.html">See all in one page</a>
-            
+
 
             <hr class="d-none d-sm-block d-md-none"><div class="d-grid gap-1">
-            
+
             </div>
           </div><!-- /div.accordion -->
         </div><!-- /div.sidebar-inner -->
@@ -327,18 +327,18 @@
           Previous: Exploratory data
         </a>
         <a class="chapter-link float-end" href="multi-sample.html" rel="next">
-          Next: Multi-sample... 
+          Next: Multi-sample...
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i>
         </a>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Cell type annotation</h1>
         <p>Last updated on 2024-07-02 |
-        
+
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/cell_type_annotation.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
-        
-        
-        
+
+
+
         <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -377,8 +377,8 @@ datasets.</li>
 </div>
 </div>
 </div>
-<section id="setup"><h2 class="section-heading">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
-</h2>
+<section><h2 class="section-heading" id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
+<a class="anchor" aria-label="anchor" href="#setup"></a></h2>
 <hr class="half-width"><div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -390,8 +390,8 @@ datasets.</li>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">scater</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">scran</span><span class="op">)</span></span></code></pre>
 </div>
-</section><section id="data-retrieval"><h2 class="section-heading">Data retrieval<a class="anchor" aria-label="anchor" href="#data-retrieval"></a>
-</h2>
+</section><section><h2 class="section-heading" id="data-retrieval">Data retrieval<a class="anchor" aria-label="anchor" href="#data-retrieval"></a>
+<a class="anchor" aria-label="anchor" href="#data-retrieval"></a></h2>
 <hr class="half-width"><div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -402,8 +402,8 @@ datasets.</li>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>class: SingleCellExperiment 
-dim: 29453 2411 
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 29453 2411
 metadata(0):
 assays(1): counts
 rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
@@ -425,8 +425,8 @@ cells.</p>
 <span><span class="va">ind</span> <span class="op">&lt;-</span> <span class="fu">sample</span><span class="op">(</span><span class="fu">ncol</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span>, <span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="va">sce</span><span class="op">[</span>,<span class="va">ind</span><span class="op">]</span></span></code></pre>
 </div>
-</section><section id="preprocessing"><h2 class="section-heading">Preprocessing<a class="anchor" aria-label="anchor" href="#preprocessing"></a>
-</h2>
+</section><section><h2 class="section-heading" id="preprocessing">Preprocessing<a class="anchor" aria-label="anchor" href="#preprocessing"></a>
+<a class="anchor" aria-label="anchor" href="#preprocessing"></a></h2>
 <hr class="half-width"><div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -434,8 +434,8 @@ cells.</p>
 <code class="sourceCode R"><span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">logNormCounts</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span>
 <span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runPCA</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
 </div>
-</section><section id="clustering"><h2 class="section-heading">Clustering<a class="anchor" aria-label="anchor" href="#clustering"></a>
-</h2>
+</section><section><h2 class="section-heading" id="clustering">Clustering<a class="anchor" aria-label="anchor" href="#clustering"></a>
+<a class="anchor" aria-label="anchor" href="#clustering"></a></h2>
 <hr class="half-width"><p>Clustering is an unsupervised learning procedure that is used to
 empirically define groups of cells with similar expression profiles. Its
 primary purpose is to summarize complex scRNA-seq data into a digestible
@@ -473,7 +473,7 @@ cell in our <code>SingleCellExperiment</code> object.</p>
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>
-  1   2   3   4   5   6   7   8   9  10  11 
+  1   2   3   4   5   6   7   8   9  10  11
 100 160  99 141  63  93  60 108  44  91  41 </code></pre>
 </div>
 <p>We assign the cluster assignments back into our
@@ -487,8 +487,8 @@ distribution of clusters in eg. a <em>t</em>-SNE or a UMAP.</p>
 <code class="sourceCode R"><span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runUMAP</span><span class="op">(</span><span class="va">sce</span>, dimred <span class="op">=</span> <span class="st">"PCA"</span><span class="op">)</span></span>
 <span><span class="fu">plotReducedDim</span><span class="op">(</span><span class="va">sce</span>, <span class="st">"UMAP"</span>, color_by <span class="op">=</span> <span class="st">"label"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/cell_type_annotation-rendered-cluster-viz-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section id="marker-gene-detection"><h2 class="section-heading">Marker gene detection<a class="anchor" aria-label="anchor" href="#marker-gene-detection"></a>
-</h2>
+<figure><img src="fig/cell_type_annotation-rendered-cluster-viz-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section><h2 class="section-heading" id="marker-gene-detection">Marker gene detection<a class="anchor" aria-label="anchor" href="#marker-gene-detection"></a>
+<a class="anchor" aria-label="anchor" href="#marker-gene-detection"></a></h2>
 <hr class="half-width"><p>To interpret clustering results as obtained in the previous section,
 we identify the genes that drive separation between clusters. These
 marker genes allow us to assign biological meaning to each cluster based
@@ -591,8 +591,8 @@ the <code>plotExpression</code> function from the <a href="https://bioconductor.
 <code class="sourceCode R"><span><span class="va">top.markers</span> <span class="op">&lt;-</span> <span class="fu">head</span><span class="op">(</span><span class="fu">rownames</span><span class="op">(</span><span class="va">markers</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">plotExpression</span><span class="op">(</span><span class="va">sce</span>, features <span class="op">=</span> <span class="va">top.markers</span>, x <span class="op">=</span> <span class="st">"label"</span>, color_by <span class="op">=</span> <span class="st">"label"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/cell_type_annotation-rendered-plot-markers-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section id="cell-type-annotation"><h2 class="section-heading">Cell type annotation<a class="anchor" aria-label="anchor" href="#cell-type-annotation"></a>
-</h2>
+<figure><img src="fig/cell_type_annotation-rendered-plot-markers-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section><h2 class="section-heading" id="cell-type-annotation">Cell type annotation<a class="anchor" aria-label="anchor" href="#cell-type-annotation"></a>
+<a class="anchor" aria-label="anchor" href="#cell-type-annotation"></a></h2>
 <hr class="half-width"><p>The most challenging task in scRNA-seq data analysis is arguably the
 interpretation of the results. Obtaining clusters of cells is fairly
 straightforward, but it is more difficult to determine what biological
@@ -648,8 +648,8 @@ book</a> from which most of the examples here are derived.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>class: SingleCellExperiment 
-dim: 29452 7569 
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 29452 7569
 metadata(0):
 assays(1): counts
 rownames(29452): ENSMUSG00000051951 ENSMUSG00000089699 ...
@@ -671,7 +671,7 @@ altExpNames(0):</code></pre>
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code><span></span>
-<span><span class="va">E8.5</span> </span>
+<span><span class="va">E8.5</span></span>
 <span><span class="fl">7569</span> </span></code></pre>
 </div>
 <p>To speed up the computations, we subsample the dataset to 1,000
@@ -695,31 +695,31 @@ cells.</p>
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>
-  Forebrain/Midbrain/Hindbrain                     Erythroid3 
-                           131                             75 
-             Paraxial mesoderm                            NMP 
-                            69                             51 
-                  ExE mesoderm               Surface ectoderm 
-                            49                             47 
-                     Allantois                     Mesenchyme 
-                            46                             45 
-                   Spinal cord            Pharyngeal mesoderm 
-                            45                             41 
-                  ExE endoderm                   Neural crest 
-                            38                             35 
-                           Gut Haematoendothelial progenitors 
-                            30                             27 
-         Intermediate mesoderm                 Cardiomyocytes 
-                            27                             26 
-              Somitic mesoderm                    Endothelium 
-                            25                             23 
-                    Erythroid2                  Def. endoderm 
-                            11                              3 
-                    Erythroid1            Blood progenitors 1 
-                             2                              1 
-           Blood progenitors 2                Caudal Mesoderm 
-                             1                              1 
-                           PGC 
+  Forebrain/Midbrain/Hindbrain                     Erythroid3
+                           131                             75
+             Paraxial mesoderm                            NMP
+                            69                             51
+                  ExE mesoderm               Surface ectoderm
+                            49                             47
+                     Allantois                     Mesenchyme
+                            46                             45
+                   Spinal cord            Pharyngeal mesoderm
+                            45                             41
+                  ExE endoderm                   Neural crest
+                            38                             35
+                           Gut Haematoendothelial progenitors
+                            30                             27
+         Intermediate mesoderm                 Cardiomyocytes
+                            27                             26
+              Somitic mesoderm                    Endothelium
+                            25                             23
+                    Erythroid2                  Def. endoderm
+                            11                              3
+                    Erythroid1            Blood progenitors 1
+                             2                              1
+           Blood progenitors 2                Caudal Mesoderm
+                             1                              1
+                           PGC
                              1 </code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb21">
@@ -866,25 +866,25 @@ markers derived from the mouse embryo atlas dataset.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>                     Allantois                 Cardiomyocytes 
-                           106                            106 
-                   Endothelium                     Erythroid2 
-                           103                             54 
-                    Erythroid3                   ExE endoderm 
-                            84                            102 
-                  ExE mesoderm   Forebrain/Midbrain/Hindbrain 
-                            97                             97 
-                           Gut Haematoendothelial progenitors 
-                            90                             71 
-         Intermediate mesoderm                     Mesenchyme 
-                            70                            118 
-                  Neural crest                            NMP 
-                            66                             91 
-             Paraxial mesoderm            Pharyngeal mesoderm 
-                            88                             85 
-              Somitic mesoderm                    Spinal cord 
-                            86                             91 
-              Surface ectoderm 
+<pre class="output" tabindex="0"><code>                     Allantois                 Cardiomyocytes
+                           106                            106
+                   Endothelium                     Erythroid2
+                           103                             54
+                    Erythroid3                   ExE endoderm
+                            84                            102
+                  ExE mesoderm   Forebrain/Midbrain/Hindbrain
+                            97                             97
+                           Gut Haematoendothelial progenitors
+                            90                             71
+         Intermediate mesoderm                     Mesenchyme
+                            70                            118
+                  Neural crest                            NMP
+                            66                             91
+             Paraxial mesoderm            Pharyngeal mesoderm
+                            88                             85
+              Somitic mesoderm                    Spinal cord
+                            86                             91
+              Surface ectoderm
                             92 </code></pre>
 </div>
 <p>Our test dataset will be as before the wild-type chimera dataset.</p>
@@ -897,8 +897,8 @@ markers derived from the mouse embryo atlas dataset.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>class: SingleCellExperiment 
-dim: 29411 1000 
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 29411 1000
 metadata(0):
 assays(2): counts logcounts
 rownames(29411): Xkr4 Gm1992 ... Vmn2r122 CAAA01147332.1
@@ -1015,7 +1015,7 @@ they should at least represent closely related cell states).</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>                                
+<pre class="output" tabindex="0"><code>
 new.labels                       Allantois Blood progenitors 1
   Allantois                             28                   0
   Cardiomyocytes                         0                   0
@@ -1035,7 +1035,7 @@ new.labels                       Allantois Blood progenitors 1
   Somitic mesoderm                       0                   0
   Spinal cord                            0                   0
   Surface ectoderm                       0                   0
-                                
+
 new.labels                       Blood progenitors 2 Cardiomyocytes
   Allantois                                        0              0
   Cardiomyocytes                                   0             27
@@ -1055,7 +1055,7 @@ new.labels                       Blood progenitors 2 Cardiomyocytes
   Somitic mesoderm                                 0              0
   Spinal cord                                      0              0
   Surface ectoderm                                 0              0
-                                
+
 new.labels                       Caudal epiblast Caudal Mesoderm Def. endoderm
   Allantois                                    0               0             0
   Cardiomyocytes                               0               0             0
@@ -1075,7 +1075,7 @@ new.labels                       Caudal epiblast Caudal Mesoderm Def. endoderm
   Somitic mesoderm                             0               1             1
   Spinal cord                                  0               0             0
   Surface ectoderm                             0               0             0
-                                
+
 new.labels                       Doublet Endothelium Erythroid1 Erythroid2
   Allantois                            0           0          0          0
   Cardiomyocytes                       0           0          0          0
@@ -1095,7 +1095,7 @@ new.labels                       Doublet Endothelium Erythroid1 Erythroid2
   Somitic mesoderm                     1           0          0          0
   Spinal cord                          1           0          0          0
   Surface ectoderm                     0           0          0          0
-                                
+
 new.labels                       Erythroid3 ExE mesoderm
   Allantois                               0            0
   Cardiomyocytes                          0            0
@@ -1115,7 +1115,7 @@ new.labels                       Erythroid3 ExE mesoderm
   Somitic mesoderm                        0            0
   Spinal cord                             0            0
   Surface ectoderm                        0            0
-                                
+
 new.labels                       Forebrain/Midbrain/Hindbrain Gut
   Allantois                                                 0   0
   Cardiomyocytes                                            0   0
@@ -1135,7 +1135,7 @@ new.labels                       Forebrain/Midbrain/Hindbrain Gut
   Somitic mesoderm                                          0   0
   Spinal cord                                               0   0
   Surface ectoderm                                          0  12
-                                
+
 new.labels                       Haematoendothelial progenitors
   Allantois                                                   0
   Cardiomyocytes                                              0
@@ -1155,7 +1155,7 @@ new.labels                       Haematoendothelial progenitors
   Somitic mesoderm                                            0
   Spinal cord                                                 0
   Surface ectoderm                                            0
-                                
+
 new.labels                       Intermediate mesoderm Mesenchyme Neural crest
   Allantois                                          0          0            0
   Cardiomyocytes                                     0          0            0
@@ -1175,7 +1175,7 @@ new.labels                       Intermediate mesoderm Mesenchyme Neural crest
   Somitic mesoderm                                   2          0            0
   Spinal cord                                        0          0            0
   Surface ectoderm                                   0          0            0
-                                
+
 new.labels                       NMP Paraxial mesoderm Pharyngeal mesoderm
   Allantois                        0                 0                   0
   Cardiomyocytes                   0                 0                   0
@@ -1195,7 +1195,7 @@ new.labels                       NMP Paraxial mesoderm Pharyngeal mesoderm
   Somitic mesoderm                 0                 0                   0
   Spinal cord                      0                 0                   0
   Surface ectoderm                 0                 0                   0
-                                
+
 new.labels                       Rostral neurectoderm Somitic mesoderm
   Allantois                                         0                0
   Cardiomyocytes                                    0                0
@@ -1215,7 +1215,7 @@ new.labels                       Rostral neurectoderm Somitic mesoderm
   Somitic mesoderm                                  0               25
   Spinal cord                                       0                0
   Surface ectoderm                                  0                0
-                                
+
 new.labels                       Spinal cord Stripped Surface ectoderm
   Allantois                                0        0                0
   Cardiomyocytes                           0        0                0
@@ -1261,8 +1261,8 @@ mixture, and the grey curve represents a fitted normal distribution.
 Vertical lines represent threshold estimates corresponding to each
 estimate of the distribution.</p>
 </div>
-</section><section id="session-info"><h2 class="section-heading">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
-</h2>
+</section><section><h2 class="section-heading" id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
+<a class="anchor" aria-label="anchor" href="#session-info"></a></h2>
 <hr class="half-width"><div class="codewrapper sourceCode" id="cb42">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1277,101 +1277,101 @@ Platform: x86_64-pc-linux-gnu
 Running under: Ubuntu 22.04.4 LTS
 
 Matrix products: default
-BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0 
+BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0
 LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.10.0
 
 locale:
- [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
- [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
- [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
-[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+ [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8
+ [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8
+ [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C
+[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C
 
 time zone: UTC
 tzcode source: system (glibc)
 
 attached base packages:
-[1] stats4    stats     graphics  grDevices utils     datasets  methods  
-[8] base     
+[1] stats4    stats     graphics  grDevices utils     datasets  methods
+[8] base
 
 other attached packages:
- [1] GSEABase_1.66.0              graph_1.82.0                
- [3] annotate_1.82.0              XML_3.99-0.16.1             
- [5] AnnotationDbi_1.66.0         pheatmap_1.0.12             
- [7] scran_1.32.0                 scater_1.32.0               
- [9] ggplot2_3.5.1                scuttle_1.14.0              
-[11] bluster_1.14.0               SingleR_2.6.0               
-[13] MouseGastrulationData_1.18.0 SpatialExperiment_1.14.0    
-[15] SingleCellExperiment_1.26.0  SummarizedExperiment_1.34.0 
-[17] Biobase_2.64.0               GenomicRanges_1.56.0        
-[19] GenomeInfoDb_1.40.1          IRanges_2.38.0              
-[21] S4Vectors_0.42.0             BiocGenerics_0.50.0         
-[23] MatrixGenerics_1.16.0        matrixStats_1.3.0           
-[25] AUCell_1.26.0                BiocStyle_2.32.0            
+ [1] GSEABase_1.66.0              graph_1.82.0
+ [3] annotate_1.82.0              XML_3.99-0.16.1
+ [5] AnnotationDbi_1.66.0         pheatmap_1.0.12
+ [7] scran_1.32.0                 scater_1.32.0
+ [9] ggplot2_3.5.1                scuttle_1.14.0
+[11] bluster_1.14.0               SingleR_2.6.0
+[13] MouseGastrulationData_1.18.0 SpatialExperiment_1.14.0
+[15] SingleCellExperiment_1.26.0  SummarizedExperiment_1.34.0
+[17] Biobase_2.64.0               GenomicRanges_1.56.0
+[19] GenomeInfoDb_1.40.1          IRanges_2.38.0
+[21] S4Vectors_0.42.0             BiocGenerics_0.50.0
+[23] MatrixGenerics_1.16.0        matrixStats_1.3.0
+[25] AUCell_1.26.0                BiocStyle_2.32.0
 
 loaded via a namespace (and not attached):
-  [1] RColorBrewer_1.1-3        jsonlite_1.8.8           
-  [3] magrittr_2.0.3            ggbeeswarm_0.7.2         
-  [5] magick_2.8.3              farver_2.1.2             
-  [7] rmarkdown_2.27            zlibbioc_1.50.0          
-  [9] vctrs_0.6.5               memoise_2.0.1            
- [11] DelayedMatrixStats_1.26.0 htmltools_0.5.8.1        
- [13] S4Arrays_1.4.1            AnnotationHub_3.12.0     
- [15] curl_5.2.1                BiocNeighbors_1.22.0     
- [17] SparseArray_1.4.8         htmlwidgets_1.6.4        
- [19] plotly_4.10.4             cachem_1.1.0             
- [21] igraph_2.0.3              mime_0.12                
- [23] lifecycle_1.0.4           pkgconfig_2.0.3          
- [25] rsvd_1.0.5                Matrix_1.7-0             
- [27] R6_2.5.1                  fastmap_1.2.0            
- [29] GenomeInfoDbData_1.2.12   digest_0.6.35            
- [31] colorspace_2.1-0          dqrng_0.4.1              
- [33] irlba_2.3.5.1             ExperimentHub_2.12.0     
- [35] RSQLite_2.3.7             beachmat_2.20.0          
- [37] labeling_0.4.3            filelock_1.0.3           
- [39] fansi_1.0.6               httr_1.4.7               
- [41] abind_1.4-5               compiler_4.4.1           
- [43] bit64_4.0.5               withr_3.0.0              
- [45] BiocParallel_1.38.0       viridis_0.6.5            
- [47] DBI_1.2.3                 highr_0.11               
- [49] R.utils_2.12.3            MASS_7.3-60.2            
- [51] rappdirs_0.3.3            DelayedArray_0.30.1      
- [53] rjson_0.2.21              tools_4.4.1              
- [55] vipor_0.4.7               beeswarm_0.4.0           
- [57] R.oo_1.26.0               glue_1.7.0               
- [59] nlme_3.1-164              grid_4.4.1               
- [61] cluster_2.1.6             generics_0.1.3           
- [63] gtable_0.3.5              R.methodsS3_1.8.2        
- [65] tidyr_1.3.1               data.table_1.15.4        
- [67] BiocSingular_1.20.0       ScaledMatrix_1.12.0      
- [69] metapod_1.12.0            utf8_1.2.4               
- [71] XVector_0.44.0            ggrepel_0.9.5            
- [73] BiocVersion_3.19.1        pillar_1.9.0             
- [75] limma_3.60.2              BumpyMatrix_1.12.0       
- [77] splines_4.4.1             dplyr_1.1.4              
- [79] BiocFileCache_2.12.0      lattice_0.22-6           
- [81] survival_3.6-4            FNN_1.1.4                
- [83] renv_1.0.7                bit_4.0.5                
- [85] tidyselect_1.2.1          locfit_1.5-9.9           
- [87] Biostrings_2.72.1         knitr_1.47               
- [89] gridExtra_2.3             edgeR_4.2.0              
- [91] xfun_0.44                 mixtools_2.0.0           
- [93] statmod_1.5.0             UCSC.utils_1.0.0         
- [95] lazyeval_0.2.2            yaml_2.3.8               
- [97] evaluate_0.23             codetools_0.2-20         
- [99] kernlab_0.9-32            tibble_3.2.1             
-[101] BiocManager_1.30.23       cli_3.6.2                
-[103] uwot_0.2.2                xtable_1.8-4             
-[105] segmented_2.1-0           munsell_0.5.1            
-[107] Rcpp_1.0.12               dbplyr_2.5.0             
-[109] png_0.1-8                 parallel_4.4.1           
-[111] blob_1.2.4                sparseMatrixStats_1.16.0 
-[113] viridisLite_0.4.2         scales_1.3.0             
-[115] purrr_1.0.2               crayon_1.5.2             
-[117] rlang_1.1.3               cowplot_1.1.3            
+  [1] RColorBrewer_1.1-3        jsonlite_1.8.8
+  [3] magrittr_2.0.3            ggbeeswarm_0.7.2
+  [5] magick_2.8.3              farver_2.1.2
+  [7] rmarkdown_2.27            zlibbioc_1.50.0
+  [9] vctrs_0.6.5               memoise_2.0.1
+ [11] DelayedMatrixStats_1.26.0 htmltools_0.5.8.1
+ [13] S4Arrays_1.4.1            AnnotationHub_3.12.0
+ [15] curl_5.2.1                BiocNeighbors_1.22.0
+ [17] SparseArray_1.4.8         htmlwidgets_1.6.4
+ [19] plotly_4.10.4             cachem_1.1.0
+ [21] igraph_2.0.3              mime_0.12
+ [23] lifecycle_1.0.4           pkgconfig_2.0.3
+ [25] rsvd_1.0.5                Matrix_1.7-0
+ [27] R6_2.5.1                  fastmap_1.2.0
+ [29] GenomeInfoDbData_1.2.12   digest_0.6.35
+ [31] colorspace_2.1-0          dqrng_0.4.1
+ [33] irlba_2.3.5.1             ExperimentHub_2.12.0
+ [35] RSQLite_2.3.7             beachmat_2.20.0
+ [37] labeling_0.4.3            filelock_1.0.3
+ [39] fansi_1.0.6               httr_1.4.7
+ [41] abind_1.4-5               compiler_4.4.1
+ [43] bit64_4.0.5               withr_3.0.0
+ [45] BiocParallel_1.38.0       viridis_0.6.5
+ [47] DBI_1.2.3                 highr_0.11
+ [49] R.utils_2.12.3            MASS_7.3-60.2
+ [51] rappdirs_0.3.3            DelayedArray_0.30.1
+ [53] rjson_0.2.21              tools_4.4.1
+ [55] vipor_0.4.7               beeswarm_0.4.0
+ [57] R.oo_1.26.0               glue_1.7.0
+ [59] nlme_3.1-164              grid_4.4.1
+ [61] cluster_2.1.6             generics_0.1.3
+ [63] gtable_0.3.5              R.methodsS3_1.8.2
+ [65] tidyr_1.3.1               data.table_1.15.4
+ [67] BiocSingular_1.20.0       ScaledMatrix_1.12.0
+ [69] metapod_1.12.0            utf8_1.2.4
+ [71] XVector_0.44.0            ggrepel_0.9.5
+ [73] BiocVersion_3.19.1        pillar_1.9.0
+ [75] limma_3.60.2              BumpyMatrix_1.12.0
+ [77] splines_4.4.1             dplyr_1.1.4
+ [79] BiocFileCache_2.12.0      lattice_0.22-6
+ [81] survival_3.6-4            FNN_1.1.4
+ [83] renv_1.0.7                bit_4.0.5
+ [85] tidyselect_1.2.1          locfit_1.5-9.9
+ [87] Biostrings_2.72.1         knitr_1.47
+ [89] gridExtra_2.3             edgeR_4.2.0
+ [91] xfun_0.44                 mixtools_2.0.0
+ [93] statmod_1.5.0             UCSC.utils_1.0.0
+ [95] lazyeval_0.2.2            yaml_2.3.8
+ [97] evaluate_0.23             codetools_0.2-20
+ [99] kernlab_0.9-32            tibble_3.2.1
+[101] BiocManager_1.30.23       cli_3.6.2
+[103] uwot_0.2.2                xtable_1.8-4
+[105] segmented_2.1-0           munsell_0.5.1
+[107] Rcpp_1.0.12               dbplyr_2.5.0
+[109] png_0.1-8                 parallel_4.4.1
+[111] blob_1.2.4                sparseMatrixStats_1.16.0
+[113] viridisLite_0.4.2         scales_1.3.0
+[115] purrr_1.0.2               crayon_1.5.2
+[117] rlang_1.1.3               cowplot_1.1.3
 [119] KEGGREST_1.44.0          </code></pre>
 </div>
-</section><section id="exercises"><h2 class="section-heading">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
-</h2>
+</section><section><h2 class="section-heading" id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
+<a class="anchor" aria-label="anchor" href="#exercises"></a></h2>
 <hr class="half-width"><div id="exercise-1-clustering" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -1550,9 +1550,9 @@ are highly expressed in each cell.</li>
 </ul></div>
 </div>
 </div>
-<!-- 
+<!--
 Place links that you need to refer to multiple times across pages here. Delete
-any links that you are not going to use. 
+any links that you are not going to use.
  -->
 </section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
@@ -1566,7 +1566,7 @@ any links that you are not going to use.
           Previous: Exploratory data
         </a>
         <a class="chapter-link float-end" href="multi-sample.html" rel="next">
-          Next: Multi-sample... 
+          Next: Multi-sample...
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i>
         </a>
       </div>
@@ -1577,18 +1577,18 @@ any links that you are not going to use.
       		<footer class="row footer mx-md-3"><hr><div class="col-md-6">
         <p>This lesson is subject to the <a href="CODE_OF_CONDUCT.html">Code of Conduct</a></p>
         <p>
-        
+
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/cell_type_annotation.Rmd" class="external-link">Edit on GitHub</a>
-        
+
 	
         | <a href="https://github.com/ccb-hms/osca-carpentries/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
         | <a href="https://github.com/ccb-hms/osca-carpentries/" class="external-link">Source</a></p>
 				<p><a href="https://github.com/ccb-hms/osca-carpentries/blob/main/CITATION" class="external-link">Cite</a> | <a href="mailto:christopher_magnano@hms.harvard.edu">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
 			</div>
 			<div class="col-md-6">
-        
+
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
-        
+
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
         <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.5" class="external-link">sandpaper (0.16.5)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.6" class="external-link">pegboard (0.7.6)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.3" class="external-link">varnish (1.0.3)</a></p>
 			</div>
@@ -1613,7 +1613,7 @@ any links that you are not going to use.
   "identifier": "https://ccb-hms.github.io/osca-carpentries/cell_type_annotation.html",
   "dateCreated": "2024-01-10",
   "dateModified": "2024-07-02",
-  "datePublished": "2024-07-02"
+  "datePublished": "2024-07-09"
 }
 
   </script><script>

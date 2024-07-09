@@ -27,7 +27,7 @@
             <span class="visually-hidden">This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.</span>
           </abbr>
         </span>
-        
+
       </div>
     </div>
     <div class="selector-container">
@@ -56,7 +56,7 @@
             </li>
           </ul></li>
       </div>
-      
+
       <div class="dropdown" id="instructor-dropdown">
         <button class="btn btn-secondary dropdown-toggle bordered-button" type="button" id="dropdownMenu1" data-bs-toggle="dropdown" aria-expanded="false">
           <i aria-hidden="true" class="icon" data-feather="eye"></i> Instructor View <i data-feather="chevron-down"></i>
@@ -180,7 +180,7 @@
                 </div><!--/div.accordion-flush-->
               </div><!--div.sidenav-view-selector -->
             </div><!--/div.col -->
-      
+
             <hr></div><!--/div.mobile-row -->
 
           <div class="accordion accordion-flush" id="accordionFlush11">
@@ -199,7 +199,7 @@
     <div class="accordion-header" id="flush-heading1">
         <a href="index.html">Summary and Schedule</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -208,7 +208,7 @@
     <div class="accordion-header" id="flush-heading2">
         <a href="intro-sce.html">1. Introduction to Bioconductor and the SingleCellExperiment class</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -217,7 +217,7 @@
     <div class="accordion-header" id="flush-heading3">
         <a href="eda_qc.html">2. Exploratory data analysis and quality control</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -226,7 +226,7 @@
     <div class="accordion-header" id="flush-heading4">
         <a href="cell_type_annotation.html">3. Cell type annotation</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -235,7 +235,7 @@
     <div class="accordion-header" id="flush-heading5">
         <a href="multi-sample.html">4. Multi-sample analyses</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -244,7 +244,7 @@
     <div class="accordion-header" id="flush-heading6">
         <a href="large_data.html">5. Working with large data</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -258,7 +258,7 @@
         </span>
       </button>
     </div><!--/div.accordion-header-->
-        
+
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#hca-project">HCA Project</a></li>
@@ -277,7 +277,7 @@
 <li><a href="#exercises">Exercises</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -309,10 +309,10 @@
               </div>
             </div>
             <hr class="half-width resources"><a href="../instructor/aio.html">See all in one page</a>
-            
+
 
             <hr class="d-none d-sm-block d-md-none"><div class="d-grid gap-1">
-            
+
             </div>
           </div><!-- /div.accordion -->
         </div><!-- /div.sidebar-inner -->
@@ -340,13 +340,13 @@
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Accessing data from the Human Cell Atlas (HCA)</h1>
         <p>Last updated on 2024-07-02 |
-        
+
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/hca.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
-        
-        
-        
+
+
+
         <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 30 minutes</p>
-        
+
         <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -380,8 +380,8 @@ data.</li>
 </div>
 </div>
 </div>
-<section id="hca-project"><h2 class="section-heading">HCA Project<a class="anchor" aria-label="anchor" href="#hca-project"></a>
-</h2>
+<section><h2 class="section-heading" id="hca-project">HCA Project<a class="anchor" aria-label="anchor" href="#hca-project"></a>
+<a class="anchor" aria-label="anchor" href="#hca-project"></a></h2>
 <hr class="half-width"><p>The Human Cell Atlas (HCA) is a large project that aims to learn from
 and map every cell type in the human body. The project extracts spatial
 and molecular characteristics in order to understand cellular function
@@ -389,23 +389,23 @@ and networks. It is an international collaborative that charts healthy
 cells in the human body at all ages. There are about 37.2 trillion cells
 in the human body. To read more about the project, head over to their
 website at <a href="https://www.humancellatlas.org" class="external-link uri">https://www.humancellatlas.org</a>.</p>
-</section><section id="cellxgene"><h2 class="section-heading">CELLxGENE<a class="anchor" aria-label="anchor" href="#cellxgene"></a>
-</h2>
+</section><section><h2 class="section-heading" id="cellxgene">CELLxGENE<a class="anchor" aria-label="anchor" href="#cellxgene"></a>
+<a class="anchor" aria-label="anchor" href="#cellxgene"></a></h2>
 <hr class="half-width"><p>CELLxGENE is a database and a suite of tools that help scientists to
 find, download, explore, analyze, annotate, and publish single cell
 data. It includes several analytic and visualization tools to help you
 to discover single cell data patterns. To see the list of tools, browse
 to <a href="https://cellxgene.cziscience.com/" class="external-link uri">https://cellxgene.cziscience.com/</a>.</p>
-</section><section id="cellxgene-census"><h2 class="section-heading">CELLxGENE | Census<a class="anchor" aria-label="anchor" href="#cellxgene-census"></a>
-</h2>
+</section><section><h2 class="section-heading" id="cellxgene-census">CELLxGENE | Census<a class="anchor" aria-label="anchor" href="#cellxgene-census"></a>
+<a class="anchor" aria-label="anchor" href="#cellxgene-census"></a></h2>
 <hr class="half-width"><p>The Census provides efficient computational tooling to access, query,
 and analyze all single-cell RNA data from CZ CELLxGENE Discover. Using a
 new access paradigm of cell-based slicing and querying, you can interact
 with the data through TileDB-SOMA, or get slices in AnnData or Seurat
 objects, thus accelerating your research by significantly minimizing
 data harmonization at <a href="https://chanzuckerberg.github.io/cellxgene-census/" class="external-link uri">https://chanzuckerberg.github.io/cellxgene-census/</a>.</p>
-</section><section id="the-curatedatlasqueryr-project"><h2 class="section-heading">The CuratedAtlasQueryR Project<a class="anchor" aria-label="anchor" href="#the-curatedatlasqueryr-project"></a>
-</h2>
+</section><section><h2 class="section-heading" id="the-curatedatlasqueryr-project">The CuratedAtlasQueryR Project<a class="anchor" aria-label="anchor" href="#the-curatedatlasqueryr-project"></a>
+<a class="anchor" aria-label="anchor" href="#the-curatedatlasqueryr-project"></a></h2>
 <hr class="half-width"><p>To systematically characterize the immune system across tissues,
 demographics and multiple studies, single cell transcriptomics data was
 harmonized from the CELLxGENE database. Data from 28,975,366 cells that
@@ -429,8 +429,8 @@ counts are also available to facilitate large-scale, summary analyses of
 transcriptional profiles. This platform offers a standardized workflow
 for accessing atlas-level datasets programmatically and
 reproducibly.</p>
-<figure><img src="https://raw.githubusercontent.com/ccb-hms/osca-workbench/main/episodes/figures/curatedAtlasQuery.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section id="data-sources-in-r-bioconductor"><h2 class="section-heading">Data Sources in R / Bioconductor<a class="anchor" aria-label="anchor" href="#data-sources-in-r-bioconductor"></a>
-</h2>
+<figure><img src="https://raw.githubusercontent.com/ccb-hms/osca-workbench/main/episodes/figures/curatedAtlasQuery.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section><h2 class="section-heading" id="data-sources-in-r-bioconductor">Data Sources in R / Bioconductor<a class="anchor" aria-label="anchor" href="#data-sources-in-r-bioconductor"></a>
+<a class="anchor" aria-label="anchor" href="#data-sources-in-r-bioconductor"></a></h2>
 <hr class="half-width"><p>There are a few options to access single cell data with R /
 Bioconductor.</p>
 <table class="table"><colgroup><col width="29%"><col width="41%"><col width="29%"></colgroup><thead><tr class="header"><th>Package</th>
@@ -446,8 +446,8 @@ Portal API</a></td>
 </tr><tr class="odd"><td><a href="https://stemangiola.github.io/CuratedAtlasQueryR/" class="external-link">CuratedAtlasQueryR</a></td>
 <td><a href="https://cellxgene.cziscience.com/" class="external-link">CellxGene</a></td>
 <td>fine-grained query capable CELLxGENE data including HCA</td>
-</tr></tbody></table></section><section id="installation"><h2 class="section-heading">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h2>
+</tr></tbody></table></section><section><h2 class="section-heading" id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+<a class="anchor" aria-label="anchor" href="#installation"></a></h2>
 <hr class="half-width"><div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -457,8 +457,8 @@ Portal API</a></td>
 <span></span>
 <span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="st">"CuratedAtlasQueryR"</span><span class="op">)</span></span></code></pre>
 </div>
-</section><section id="package-load"><h2 class="section-heading">Package load<a class="anchor" aria-label="anchor" href="#package-load"></a>
-</h2>
+</section><section><h2 class="section-heading" id="package-load">Package load<a class="anchor" aria-label="anchor" href="#package-load"></a>
+<a class="anchor" aria-label="anchor" href="#package-load"></a></h2>
 <hr class="half-width"><div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -466,8 +466,8 @@ Portal API</a></td>
 <code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">CuratedAtlasQueryR</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">dplyr</span><span class="op">)</span></span></code></pre>
 </div>
-</section><section id="hca-metadata"><h2 class="section-heading">HCA Metadata<a class="anchor" aria-label="anchor" href="#hca-metadata"></a>
-</h2>
+</section><section><h2 class="section-heading" id="hca-metadata">HCA Metadata<a class="anchor" aria-label="anchor" href="#hca-metadata"></a>
+<a class="anchor" aria-label="anchor" href="#hca-metadata"></a></h2>
 <hr class="half-width"><p>The metadata allows the user to get a lay of the land of what is
 available via the package. In this example, we are using the sample
 database URL which allows us to get a small and quick subset of the
@@ -505,8 +505,8 @@ $ cell_annotation_monaco_singler    &lt;chr&gt; "natural killer", "effector memo
 $ sample_id_db                      &lt;chr&gt; "0c1d320a7d0cbbc281a535912722d272", …
 $ `_sample_name`                    &lt;chr&gt; "BPH340PrSF_Via___transition zone of…</code></pre>
 </div>
-</section><section id="a-note-on-the-piping-operator"><h2 class="section-heading">A note on the piping operator<a class="anchor" aria-label="anchor" href="#a-note-on-the-piping-operator"></a>
-</h2>
+</section><section><h2 class="section-heading" id="a-note-on-the-piping-operator">A note on the piping operator<a class="anchor" aria-label="anchor" href="#a-note-on-the-piping-operator"></a>
+<a class="anchor" aria-label="anchor" href="#a-note-on-the-piping-operator"></a></h2>
 <hr class="half-width"><p>The vignette materials provided by <code>CuratedAtlasQueryR</code>
 show the use of the ‘native’ R pipe (implemented after R version
 <code>4.1.0</code>). For those not familiar with the pipe operator
@@ -536,8 +536,8 @@ each level in the <code>Species</code> variable with a
 2 versicolor     5.997872    2.804255     4.317021   1.3468085
 3  virginica     6.622449    2.983673     5.573469   2.0326531</code></pre>
 </div>
-</section><section id="summarizing-the-metadata"><h2 class="section-heading">Summarizing the metadata<a class="anchor" aria-label="anchor" href="#summarizing-the-metadata"></a>
-</h2>
+</section><section><h2 class="section-heading" id="summarizing-the-metadata">Summarizing the metadata<a class="anchor" aria-label="anchor" href="#summarizing-the-metadata"></a>
+<a class="anchor" aria-label="anchor" href="#summarizing-the-metadata"></a></h2>
 <hr class="half-width"><p>For each distinct tissue and dataset combination, count the number of
 datasets by tissue type.</p>
 <div class="codewrapper sourceCode" id="cb8">
@@ -567,8 +567,8 @@ datasets by tissue type.</p>
 10 fovea centralis                 1
 # ℹ more rows</code></pre>
 </div>
-</section><section id="columns-available-in-the-metadata"><h2 class="section-heading">Columns available in the metadata<a class="anchor" aria-label="anchor" href="#columns-available-in-the-metadata"></a>
-</h2>
+</section><section><h2 class="section-heading" id="columns-available-in-the-metadata">Columns available in the metadata<a class="anchor" aria-label="anchor" href="#columns-available-in-the-metadata"></a>
+<a class="anchor" aria-label="anchor" href="#columns-available-in-the-metadata"></a></h2>
 <hr class="half-width"><div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -580,8 +580,8 @@ datasets by tissue type.</p>
 </h3>
 <pre class="output" tabindex="0"><code>[1] "src"        "lazy_query"</code></pre>
 </div>
-</section><section id="available-assays"><h2 class="section-heading">Available assays<a class="anchor" aria-label="anchor" href="#available-assays"></a>
-</h2>
+</section><section><h2 class="section-heading" id="available-assays">Available assays<a class="anchor" aria-label="anchor" href="#available-assays"></a>
+<a class="anchor" aria-label="anchor" href="#available-assays"></a></h2>
 <hr class="half-width"><div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -609,8 +609,8 @@ datasets by tissue type.</p>
 10 10x 3' v2      27
 # ℹ more rows</code></pre>
 </div>
-</section><section id="available-organisms"><h2 class="section-heading">Available organisms<a class="anchor" aria-label="anchor" href="#available-organisms"></a>
-</h2>
+</section><section><h2 class="section-heading" id="available-organisms">Available organisms<a class="anchor" aria-label="anchor" href="#available-organisms"></a>
+<a class="anchor" aria-label="anchor" href="#available-organisms"></a></h2>
 <hr class="half-width"><div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -656,8 +656,8 @@ datasets by tissue type.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>class: SingleCellExperiment 
-dim: 36229 1571 
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 36229 1571
 metadata(0):
 assays(1): counts
 rownames(36229): A1BG A1BG-AS1 ... ZZEF1 ZZZ3
@@ -690,8 +690,8 @@ compared across samples.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>class: SingleCellExperiment 
-dim: 36229 1571 
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 36229 1571
 metadata(0):
 assays(1): cpm
 rownames(36229): A1BG A1BG-AS1 ... ZZEF1 ZZZ3
@@ -725,8 +725,8 @@ altExpNames(0):</code></pre>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>class: SingleCellExperiment 
-dim: 1 1571 
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 1 1571
 metadata(0):
 assays(1): cpm
 rownames(1): PUM1
@@ -779,8 +779,8 @@ objects, if necessary, is to use
 </div>
 </div>
 </div>
-</section><section id="exercises"><h2 class="section-heading">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
-</h2>
+</section><section><h2 class="section-heading" id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
+<a class="anchor" aria-label="anchor" href="#exercises"></a></h2>
 <hr class="half-width"><div id="exercise-1" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -799,7 +799,7 @@ cells per tissue in descending order.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -833,7 +833,7 @@ cells?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -867,7 +867,7 @@ summarise.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -909,7 +909,7 @@ columns, where possible.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -929,8 +929,8 @@ columns, where possible.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>class: SingleCellExperiment 
-dim: 36229 12 
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 36229 12
 metadata(0):
 assays(1): counts
 rownames(36229): A1BG A1BG-AS1 ... ZZEF1 ZZZ3
@@ -962,9 +962,9 @@ object.</li>
 </ul></div>
 </div>
 </div>
-<!-- 
+<!--
 Place links that you need to refer to multiple times across pages here. Delete
-any links that you are not going to use. 
+any links that you are not going to use.
  -->
 </section><div class="footnotes footnotes-end-of-document">
 <hr><ol><li id="fn1"><p><a href="reference.html#litref">Monaco 2019</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
@@ -995,18 +995,18 @@ any links that you are not going to use.
       		<footer class="row footer mx-md-3"><hr><div class="col-md-6">
         <p>This lesson is subject to the <a href="CODE_OF_CONDUCT.html">Code of Conduct</a></p>
         <p>
-        
+
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/hca.Rmd" class="external-link">Edit on GitHub</a>
-        
+
 	
         | <a href="https://github.com/ccb-hms/osca-carpentries/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
         | <a href="https://github.com/ccb-hms/osca-carpentries/" class="external-link">Source</a></p>
 				<p><a href="https://github.com/ccb-hms/osca-carpentries/blob/main/CITATION" class="external-link">Cite</a> | <a href="mailto:christopher_magnano@hms.harvard.edu">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
 			</div>
 			<div class="col-md-6">
-        
+
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
-        
+
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
         <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.5" class="external-link">sandpaper (0.16.5)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.6" class="external-link">pegboard (0.7.6)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.3" class="external-link">varnish (1.0.3)</a></p>
 			</div>
@@ -1031,7 +1031,7 @@ any links that you are not going to use.
   "identifier": "https://ccb-hms.github.io/osca-carpentries/instructor/hca.html",
   "dateCreated": "2024-01-10",
   "dateModified": "2024-07-02",
-  "datePublished": "2024-07-02"
+  "datePublished": "2024-07-09"
 }
 
   </script><script>

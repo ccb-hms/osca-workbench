@@ -27,7 +27,7 @@
             <span class="visually-hidden">This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.</span>
           </abbr>
         </span>
-        
+
       </div>
     </div>
     <div class="selector-container">
@@ -56,7 +56,7 @@
             </li>
           </ul></li>
       </div>
-      
+
       <div class="dropdown" id="instructor-dropdown">
         <button class="btn btn-secondary dropdown-toggle bordered-button" type="button" id="dropdownMenu1" data-bs-toggle="dropdown" aria-expanded="false">
           <i aria-hidden="true" class="icon" data-feather="eye"></i> Learner View <i data-feather="chevron-down"></i>
@@ -180,7 +180,7 @@
                 </div><!--/div.accordion-flush-->
               </div><!--div.sidenav-view-selector -->
             </div><!--/div.col -->
-      
+
             <hr></div><!--/div.mobile-row -->
 
           <div class="accordion accordion-flush" id="accordionFlush11">
@@ -199,7 +199,7 @@
     <div class="accordion-header" id="flush-heading1">
         <a href="index.html">Summary and Setup</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -208,7 +208,7 @@
     <div class="accordion-header" id="flush-heading2">
         <a href="intro-sce.html">1. Introduction to Bioconductor and the SingleCellExperiment class</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -222,7 +222,7 @@
         </span>
       </button>
     </div><!--/div.accordion-header-->
-        
+
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#setup-and-experimental-design">Setup and experimental design</a></li>
@@ -235,7 +235,7 @@
 <li><a href="#exercises">Exercises</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -244,7 +244,7 @@
     <div class="accordion-header" id="flush-heading4">
         <a href="cell_type_annotation.html">3. Cell type annotation</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -253,7 +253,7 @@
     <div class="accordion-header" id="flush-heading5">
         <a href="multi-sample.html">4. Multi-sample analyses</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -262,7 +262,7 @@
     <div class="accordion-header" id="flush-heading6">
         <a href="large_data.html">5. Working with large data</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -271,7 +271,7 @@
     <div class="accordion-header" id="flush-heading7">
         <a href="hca.html">6. Accessing data from the Human Cell Atlas (HCA)</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -303,10 +303,10 @@
               </div>
             </div>
             <hr class="half-width resources"><a href="aio.html">See all in one page</a>
-            
+
 
             <hr class="d-none d-sm-block d-md-none"><div class="d-grid gap-1">
-            
+
             </div>
           </div><!-- /div.accordion -->
         </div><!-- /div.sidebar-inner -->
@@ -327,18 +327,18 @@
           Previous: Introduction to
         </a>
         <a class="chapter-link float-end" href="cell_type_annotation.html" rel="next">
-          Next: Cell type annotation... 
+          Next: Cell type annotation...
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i>
         </a>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Exploratory data analysis and quality control</h1>
         <p>Last updated on 2024-07-02 |
-        
+
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/eda_qc.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
-        
-        
-        
+
+
+
         <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -372,8 +372,8 @@ reduction as parts of a typical single-cell analysis pipeline.</li>
 </div>
 </div>
 </div>
-<section id="setup-and-experimental-design"><h2 class="section-heading">Setup and experimental design<a class="anchor" aria-label="anchor" href="#setup-and-experimental-design"></a>
-</h2>
+<section><h2 class="section-heading" id="setup-and-experimental-design">Setup and experimental design<a class="anchor" aria-label="anchor" href="#setup-and-experimental-design"></a>
+<a class="anchor" aria-label="anchor" href="#setup-and-experimental-design"></a></h2>
 <hr class="half-width"><p>As mentioned in the introduction, in this tutorial we will use the
 wild-type data from the Tal1 chimera experiment. These data are
 available through the <a href="https://bioconductor.org/packages/release/data/experiment/html/MouseGastrulationData.html" class="external-link">MouseGastrulationData</a>
@@ -401,8 +401,8 @@ that contains all the droplets for which we have sequenced reads.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>class: SingleCellExperiment 
-dim: 29453 522554 
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 29453 522554
 metadata(0):
 assays(1): counts
 rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
@@ -416,8 +416,8 @@ mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
 <p>This is the same data we examined in the previous lesson.</p>
-</section><section id="droplet-processing"><h2 class="section-heading">Droplet processing<a class="anchor" aria-label="anchor" href="#droplet-processing"></a>
-</h2>
+</section><section><h2 class="section-heading" id="droplet-processing">Droplet processing<a class="anchor" aria-label="anchor" href="#droplet-processing"></a>
+<a class="anchor" aria-label="anchor" href="#droplet-processing"></a></h2>
 <hr class="half-width"><p>From the experiment, we expect to have only a few thousand cells,
 while we can see that we have data for more than 500,000 droplets. It is
 likely that most of these droplets are empty and are capturing only
@@ -475,7 +475,7 @@ average.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>   Mode   FALSE    TRUE    NA's 
+<pre class="output" tabindex="0"><code>   Mode   FALSE    TRUE    NA's
 logical    6184    3131  513239 </code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb6">
@@ -488,8 +488,8 @@ logical    6184    3131  513239 </code></pre>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>class: SingleCellExperiment 
-dim: 29453 3131 
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 29453 3131
 metadata(0):
 assays(1): counts
 rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
@@ -524,8 +524,8 @@ technically involving the generation of (pseudo-)random numbers.</p>
 </div>
 </div>
 </div>
-</section><section id="quality-control"><h2 class="section-heading">Quality control<a class="anchor" aria-label="anchor" href="#quality-control"></a>
-</h2>
+</section><section><h2 class="section-heading" id="quality-control">Quality control<a class="anchor" aria-label="anchor" href="#quality-control"></a>
+<a class="anchor" aria-label="anchor" href="#quality-control"></a></h2>
 <hr class="half-width"><p>While we have removed empty droplets, this does not necessarily imply
 that all the cell-containing droplets should be kept for downstream
 analysis. In fact, some droplets could contain low-quality samples, due
@@ -635,7 +635,7 @@ many cells are above/below a certain fixed threshold. For instance,</p>
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>
-FALSE  TRUE 
+FALSE  TRUE
  2477   654 </code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb14">
@@ -648,7 +648,7 @@ FALSE  TRUE
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>
-FALSE  TRUE 
+FALSE  TRUE
  2761   370 </code></pre>
 </div>
 <p>or we could look at the distribution of such metrics and use a data
@@ -662,7 +662,7 @@ adaptive threshold.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+<pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
      98    4126    5168    4455    5670    7908 </code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb18">
@@ -674,7 +674,7 @@ adaptive threshold.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+<pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
   0.000   1.155   1.608   5.079   2.182  66.968 </code></pre>
 </div>
 <p>This can be achieved with the <code>perCellQCFilters</code> function.
@@ -692,9 +692,9 @@ retain 99% of non-outlier values that follow a normal distribution.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>             low_lib_size            low_n_features high_subsets_Mito_percent 
-                      601                       654                       484 
-                  discard 
+<pre class="output" tabindex="0"><code>             low_lib_size            low_n_features high_subsets_Mito_percent
+                      601                       654                       484
+                  discard
                       694 </code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb22">
@@ -706,7 +706,7 @@ retain 99% of non-outlier values that follow a normal distribution.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>   Mode   FALSE    TRUE 
+<pre class="output" tabindex="0"><code>   Mode   FALSE    TRUE
 logical    2437     694 </code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb24">
@@ -774,8 +774,8 @@ cells by subsetting the original object.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>class: SingleCellExperiment 
-dim: 29453 2437 
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 29453 2437
 metadata(0):
 assays(1): counts
 rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
@@ -789,8 +789,8 @@ mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
 </div>
-</section><section id="normalization"><h2 class="section-heading">Normalization<a class="anchor" aria-label="anchor" href="#normalization"></a>
-</h2>
+</section><section><h2 class="section-heading" id="normalization">Normalization<a class="anchor" aria-label="anchor" href="#normalization"></a>
+<a class="anchor" aria-label="anchor" href="#normalization"></a></h2>
 <hr class="half-width"><p>Systematic differences in sequencing coverage between libraries are
 often observed in single-cell RNA sequencing data. They typically arise
 from technical differences in cDNA capture or PCR amplification
@@ -830,7 +830,7 @@ as the original counts.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+<pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
  0.2730  0.7879  0.9600  1.0000  1.1730  2.5598 </code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb33">
@@ -874,7 +874,7 @@ review).</p>
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>clust
-  1   2   3   4   5   6   7   8   9  10  11  12  13 
+  1   2   3   4   5   6   7   8   9  10  11  12  13
 273 159 250 122 187 201 154 252 152 169 199 215 104 </code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb36">
@@ -887,7 +887,7 @@ review).</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+<pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
  0.3100  0.8028  0.9626  1.0000  1.1736  2.7858 </code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb38">
@@ -916,8 +916,8 @@ creating a new assay called <code>logcounts</code>.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>class: SingleCellExperiment 
-dim: 29453 2437 
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 29453 2437
 metadata(0):
 assays(2): counts logcounts
 rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
@@ -931,8 +931,8 @@ mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
 </div>
-</section><section id="feature-selection"><h2 class="section-heading">Feature Selection<a class="anchor" aria-label="anchor" href="#feature-selection"></a>
-</h2>
+</section><section><h2 class="section-heading" id="feature-selection">Feature Selection<a class="anchor" aria-label="anchor" href="#feature-selection"></a>
+<a class="anchor" aria-label="anchor" href="#feature-selection"></a></h2>
 <hr class="half-width"><p>The typical next steps in the analysis of single-cell data are
 dimensionality reduction and clustering, which involve measuring the
 similarity between cells.</p>
@@ -995,8 +995,8 @@ differentially expressed across our cell populations and hence select
 [4] "ENSMUSG00000052187" "ENSMUSG00000048583" "ENSMUSG00000051855"</code></pre>
 </div>
 </div>
-</section><section id="dimensionality-reduction"><h2 class="section-heading">Dimensionality Reduction<a class="anchor" aria-label="anchor" href="#dimensionality-reduction"></a>
-</h2>
+</section><section><h2 class="section-heading" id="dimensionality-reduction">Dimensionality Reduction<a class="anchor" aria-label="anchor" href="#dimensionality-reduction"></a>
+<a class="anchor" aria-label="anchor" href="#dimensionality-reduction"></a></h2>
 <hr class="half-width"><p>Many scRNA-seq analysis procedures involve comparing cells based on
 their expression values across multiple genes. For example, clustering
 aims to identify cells with similar transcriptomic profiles by computing
@@ -1039,8 +1039,8 @@ genes identified before.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>class: SingleCellExperiment 
-dim: 29453 2437 
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 29453 2437
 metadata(0):
 assays(2): counts logcounts
 rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
@@ -1124,8 +1124,8 @@ and replotting without the need for recomputing.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>class: SingleCellExperiment 
-dim: 29453 2437 
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 29453 2437
 metadata(0):
 assays(2): counts logcounts
 rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
@@ -1145,8 +1145,8 @@ run will lead to different plots) and that there are key parameters to
 be set that change the results substantially (e.g., the “perplexity”
 parameter of t-SNE).</p>
 </div>
-</section><section id="doublet-identification"><h2 class="section-heading">Doublet identification<a class="anchor" aria-label="anchor" href="#doublet-identification"></a>
-</h2>
+</section><section><h2 class="section-heading" id="doublet-identification">Doublet identification<a class="anchor" aria-label="anchor" href="#doublet-identification"></a>
+<a class="anchor" aria-label="anchor" href="#doublet-identification"></a></h2>
 <hr class="half-width"><p><em>Doublets</em> are artifactual libraries generated from two cells.
 They typically arise due to errors in cell sorting or capture.
 Specifically, in droplet-based protocols, it may happen that two cells
@@ -1195,7 +1195,7 @@ a t-SNE plot.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+<pre class="output" tabindex="0"><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
  0.04874  0.28757  0.46790  0.65614  0.82371 14.88032 </code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb55">
@@ -1220,7 +1220,7 @@ large outliers for the score within each sample. Here we use the
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>singlet doublet 
+<pre class="output" tabindex="0"><code>singlet doublet
    2124     313 </code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb58">
@@ -1256,8 +1256,8 @@ clusters. It could be fine to keep the doublets in the analysis, but it
 may be safer to discard them to avoid biases in downstream analysis
 (e.g., differential expression).</p>
 </div>
-</section><section id="exercises"><h2 class="section-heading">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
-</h2>
+</section><section><h2 class="section-heading" id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
+<a class="anchor" aria-label="anchor" href="#exercises"></a></h2>
 <hr class="half-width"><div id="exercise-1-normalization" class="callout discussion">
 <div class="callout-square">
 <i class="callout-icon" data-feather="message-circle"></i>
@@ -1379,9 +1379,9 @@ downstream analysis.</li>
 </ul></div>
 </div>
 </div>
-<!-- 
+<!--
 Place links that you need to refer to multiple times across pages here. Delete
-any links that you are not going to use. 
+any links that you are not going to use.
  -->
 </section><div class="footnotes footnotes-end-of-document">
 <hr><ol><li id="fn1"><p><a href="reference.html#litref">Lun (2019)</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
@@ -1403,7 +1403,7 @@ any links that you are not going to use.
           Previous: Introduction to
         </a>
         <a class="chapter-link float-end" href="cell_type_annotation.html" rel="next">
-          Next: Cell type annotation... 
+          Next: Cell type annotation...
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i>
         </a>
       </div>
@@ -1414,18 +1414,18 @@ any links that you are not going to use.
       		<footer class="row footer mx-md-3"><hr><div class="col-md-6">
         <p>This lesson is subject to the <a href="CODE_OF_CONDUCT.html">Code of Conduct</a></p>
         <p>
-        
+
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/eda_qc.Rmd" class="external-link">Edit on GitHub</a>
-        
+
 	
         | <a href="https://github.com/ccb-hms/osca-carpentries/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
         | <a href="https://github.com/ccb-hms/osca-carpentries/" class="external-link">Source</a></p>
 				<p><a href="https://github.com/ccb-hms/osca-carpentries/blob/main/CITATION" class="external-link">Cite</a> | <a href="mailto:christopher_magnano@hms.harvard.edu">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
 			</div>
 			<div class="col-md-6">
-        
+
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
-        
+
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
         <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.5" class="external-link">sandpaper (0.16.5)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.6" class="external-link">pegboard (0.7.6)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.3" class="external-link">varnish (1.0.3)</a></p>
 			</div>
@@ -1450,7 +1450,7 @@ any links that you are not going to use.
   "identifier": "https://ccb-hms.github.io/osca-carpentries/eda_qc.html",
   "dateCreated": "2024-01-10",
   "dateModified": "2024-07-02",
-  "datePublished": "2024-07-02"
+  "datePublished": "2024-07-09"
 }
 
   </script><script>

@@ -27,7 +27,7 @@
             <span class="visually-hidden">This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.</span>
           </abbr>
         </span>
-        
+
       </div>
     </div>
     <div class="selector-container">
@@ -56,7 +56,7 @@
             </li>
           </ul></li>
       </div>
-      
+
       <div class="dropdown" id="instructor-dropdown">
         <button class="btn btn-secondary dropdown-toggle bordered-button" type="button" id="dropdownMenu1" data-bs-toggle="dropdown" aria-expanded="false">
           <i aria-hidden="true" class="icon" data-feather="eye"></i> Instructor View <i data-feather="chevron-down"></i>
@@ -180,7 +180,7 @@
                 </div><!--/div.accordion-flush-->
               </div><!--div.sidenav-view-selector -->
             </div><!--/div.col -->
-      
+
             <hr></div><!--/div.mobile-row -->
 
           <div class="accordion accordion-flush" id="accordionFlush11">
@@ -199,7 +199,7 @@
     <div class="accordion-header" id="flush-heading1">
         <a href="index.html">Summary and Schedule</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -208,7 +208,7 @@
     <div class="accordion-header" id="flush-heading2">
         <a href="intro-sce.html">1. Introduction to Bioconductor and the SingleCellExperiment class</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -217,7 +217,7 @@
     <div class="accordion-header" id="flush-heading3">
         <a href="eda_qc.html">2. Exploratory data analysis and quality control</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -226,7 +226,7 @@
     <div class="accordion-header" id="flush-heading4">
         <a href="cell_type_annotation.html">3. Cell type annotation</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -240,7 +240,7 @@
         </span>
       </button>
     </div><!--/div.accordion-header-->
-        
+
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#setup-and-data-exploration">Setup and data exploration</a></li>
@@ -251,7 +251,7 @@
 <li><a href="#exercises">Exercises</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -260,7 +260,7 @@
     <div class="accordion-header" id="flush-heading6">
         <a href="large_data.html">5. Working with large data</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -269,7 +269,7 @@
     <div class="accordion-header" id="flush-heading7">
         <a href="hca.html">6. Accessing data from the Human Cell Atlas (HCA)</a>
     </div><!--/div.accordion-header-->
-        
+
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
@@ -301,10 +301,10 @@
               </div>
             </div>
             <hr class="half-width resources"><a href="../instructor/aio.html">See all in one page</a>
-            
+
 
             <hr class="d-none d-sm-block d-md-none"><div class="d-grid gap-1">
-            
+
             </div>
           </div><!-- /div.accordion -->
         </div><!-- /div.sidebar-inner -->
@@ -325,20 +325,20 @@
           Previous: Cell type annotation
         </a>
         <a class="chapter-link float-end" href="../instructor/large_data.html" rel="next">
-          Next: Working with large... 
+          Next: Working with large...
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i>
         </a>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Multi-sample analyses</h1>
         <p>Last updated on 2024-07-02 |
-        
+
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/multi-sample.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
-        
-        
-        
+
+
+
         <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 45 minutes</p>
-        
+
         <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -375,8 +375,8 @@ on pseudo-bulk samples.</li>
 </div>
 </div>
 </div>
-<section id="setup-and-data-exploration"><h2 class="section-heading">Setup and data exploration<a class="anchor" aria-label="anchor" href="#setup-and-data-exploration"></a>
-</h2>
+<section><h2 class="section-heading" id="setup-and-data-exploration">Setup and data exploration<a class="anchor" aria-label="anchor" href="#setup-and-data-exploration"></a>
+<a class="anchor" aria-label="anchor" href="#setup-and-data-exploration"></a></h2>
 <hr class="half-width"><p>As said, we will use the the wild-type data from the Tal1 chimera
 experiment:</p>
 <ul><li>Sample 5: E8.5 injected cells (tomato positive), pool 3</li>
@@ -401,8 +401,8 @@ we have seen in the previous lectures to all samples.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>class: SingleCellExperiment 
-dim: 29453 20935 
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 29453 20935
 metadata(0):
 assays(1): counts
 rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
@@ -519,8 +519,8 @@ instance, if the goal is to identify cell types with a clustering
 method, one may want to remove the sample effects with “batch effect”
 correction methods.</p>
 <p>For now, let’s assume that we want to remove this effect.</p>
-</section><section id="correcting-batch-effects"><h2 class="section-heading">Correcting batch effects<a class="anchor" aria-label="anchor" href="#correcting-batch-effects"></a>
-</h2>
+</section><section><h2 class="section-heading" id="correcting-batch-effects">Correcting batch effects<a class="anchor" aria-label="anchor" href="#correcting-batch-effects"></a>
+<a class="anchor" aria-label="anchor" href="#correcting-batch-effects"></a></h2>
 <hr class="half-width"><p>We correct the effect of samples by aid of the
 <code>correctExperiment</code> function in the <code>batchelor</code>
 package and using the <code>sample</code> <code>colData</code> column as
@@ -547,8 +547,8 @@ batch.</p>
 </div>
 <figure><img src="../fig/multi-sample-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Once we removed the sample batch effect, we can proceed with the
 Differential Expression Analysis.</p>
-</section><section id="differential-expression"><h2 class="section-heading">Differential Expression<a class="anchor" aria-label="anchor" href="#differential-expression"></a>
-</h2>
+</section><section><h2 class="section-heading" id="differential-expression">Differential Expression<a class="anchor" aria-label="anchor" href="#differential-expression"></a>
+<a class="anchor" aria-label="anchor" href="#differential-expression"></a></h2>
 <hr class="half-width"><p>In order to perform a Differential Expression Analysis, we need to
 identify groups of cells across samples/conditions (depending on the
 experimental design and the final aim of the experiment).</p>
@@ -584,8 +584,8 @@ steps.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>class: SingleCellExperiment 
-dim: 13641 179 
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 13641 179
 metadata(2): merge.info pca.info
 assays(1): counts
 rownames(13641): ENSMUSG00000051951 ENSMUSG00000025900 ...
@@ -673,7 +673,7 @@ don’t need to filter out any of them.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>   Mode   FALSE 
+<pre class="output" tabindex="0"><code>   Mode   FALSE
 logical       6 </code></pre>
 </div>
 <p>The same idea is typically applied to the genes, indeed we need to
@@ -690,7 +690,7 @@ modeling.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>   Mode   FALSE    TRUE 
+<pre class="output" tabindex="0"><code>   Mode   FALSE    TRUE
 logical    9121    4520 </code></pre>
 </div>
 <p>We can now proceed to normalize the data There are several approaches
@@ -799,7 +799,7 @@ parameter, to model the mean-variance trend.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+<pre class="output" tabindex="0"><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
 0.009325 0.016271 0.024233 0.021603 0.026868 0.027993 </code></pre>
 </div>
 <p>The BCV plot allows us to investigate the relation between the
@@ -829,7 +829,7 @@ final analysis.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+<pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
  0.3189  0.9705  1.0901  1.0251  1.1486  1.2151 </code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb28">
@@ -841,7 +841,7 @@ final analysis.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+<pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
  0.3046  8.7242  8.7242  8.6466  8.7242  8.7242 </code></pre>
 </div>
 <p>QL dispersion estimates for each gene as a function of abundance. Raw
@@ -882,7 +882,7 @@ Up                      5</code></pre>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>Coefficient:  factor(tomato)TRUE 
+<pre class="output" tabindex="0"><code>Coefficient:  factor(tomato)TRUE
                         logFC   logCPM          F       PValue          FDR
 ENSMUSG00000010760 -4.1515323 9.973704 1118.17411 3.424939e-12 1.548073e-08
 ENSMUSG00000096768  1.9987246 8.844258  375.41194 1.087431e-09 2.457594e-06
@@ -942,8 +942,8 @@ ENSMUSG00000096730        NA        NA        NA          NA          NA
 ENSMUSG00000095742        NA        NA        NA          NA          NA</code></pre>
 </div>
 </div>
-</section><section id="differential-abundance"><h2 class="section-heading">Differential Abundance<a class="anchor" aria-label="anchor" href="#differential-abundance"></a>
-</h2>
+</section><section><h2 class="section-heading" id="differential-abundance">Differential Abundance<a class="anchor" aria-label="anchor" href="#differential-abundance"></a>
+<a class="anchor" aria-label="anchor" href="#differential-abundance"></a></h2>
 <hr class="half-width"><p>With DA we test for differences between clusters across conditions,
 to investigate which clusters change accordingly to the treatment (the
 tomato injection in our case).</p>
@@ -1036,7 +1036,7 @@ Up                      1</code></pre>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>Coefficient:  factor(tomato)TRUE 
+<pre class="output" tabindex="0"><code>Coefficient:  factor(tomato)TRUE
                        logFC   logCPM         F       PValue          FDR
 ExE ectoderm      -5.7983253 13.13490 34.326044 1.497957e-07 5.093053e-06
 Parietal endoderm -6.9219242 12.36649 21.805721 1.468320e-05 2.496144e-04
@@ -1085,7 +1085,7 @@ Up                      0</code></pre>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>Coefficient:  factor(tomato)TRUE 
+<pre class="output" tabindex="0"><code>Coefficient:  factor(tomato)TRUE
                          logFC unshrunk.logFC   logCPM       PValue
 ExE ectoderm        -5.5156915     -5.9427658 13.06465 5.730409e-06
 Parietal endoderm   -6.5897795    -27.4235942 12.30091 1.215896e-04
@@ -1112,8 +1112,8 @@ Allantois           0.9866105512</code></pre>
 <p>Addionally, the choice of can be guided by other external
 experimental data, like a previous or a pilot experiment.</p>
 </div>
-</section><section id="session-info"><h2 class="section-heading">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
-</h2>
+</section><section><h2 class="section-heading" id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
+<a class="anchor" aria-label="anchor" href="#session-info"></a></h2>
 <hr class="half-width"><div class="codewrapper sourceCode" id="cb49">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1128,90 +1128,90 @@ Platform: x86_64-pc-linux-gnu
 Running under: Ubuntu 22.04.4 LTS
 
 Matrix products: default
-BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0 
+BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0
 LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.10.0
 
 locale:
- [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
- [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
- [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
-[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+ [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8
+ [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8
+ [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C
+[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C
 
 time zone: UTC
 tzcode source: system (glibc)
 
 attached base packages:
-[1] stats4    stats     graphics  grDevices utils     datasets  methods  
-[8] base     
+[1] stats4    stats     graphics  grDevices utils     datasets  methods
+[8] base
 
 other attached packages:
- [1] edgeR_4.2.0                  limma_3.60.2                
- [3] batchelor_1.20.0             scran_1.32.0                
- [5] scater_1.32.0                ggplot2_3.5.1               
+ [1] edgeR_4.2.0                  limma_3.60.2
+ [3] batchelor_1.20.0             scran_1.32.0
+ [5] scater_1.32.0                ggplot2_3.5.1
  [7] scuttle_1.14.0               MouseGastrulationData_1.18.0
- [9] SpatialExperiment_1.14.0     SingleCellExperiment_1.26.0 
-[11] SummarizedExperiment_1.34.0  Biobase_2.64.0              
-[13] GenomicRanges_1.56.0         GenomeInfoDb_1.40.1         
-[15] IRanges_2.38.0               S4Vectors_0.42.0            
-[17] BiocGenerics_0.50.0          MatrixGenerics_1.16.0       
-[19] matrixStats_1.3.0            BiocStyle_2.32.0            
+ [9] SpatialExperiment_1.14.0     SingleCellExperiment_1.26.0
+[11] SummarizedExperiment_1.34.0  Biobase_2.64.0
+[13] GenomicRanges_1.56.0         GenomeInfoDb_1.40.1
+[15] IRanges_2.38.0               S4Vectors_0.42.0
+[17] BiocGenerics_0.50.0          MatrixGenerics_1.16.0
+[19] matrixStats_1.3.0            BiocStyle_2.32.0
 
 loaded via a namespace (and not attached):
-  [1] DBI_1.2.3                 formatR_1.14             
-  [3] gridExtra_2.3             rlang_1.1.3              
-  [5] magrittr_2.0.3            compiler_4.4.1           
+  [1] DBI_1.2.3                 formatR_1.14
+  [3] gridExtra_2.3             rlang_1.1.3
+  [5] magrittr_2.0.3            compiler_4.4.1
   [7] RSQLite_2.3.7             DelayedMatrixStats_1.26.0
-  [9] png_0.1-8                 vctrs_0.6.5              
- [11] pkgconfig_2.0.3           crayon_1.5.2             
- [13] fastmap_1.2.0             dbplyr_2.5.0             
- [15] magick_2.8.3              XVector_0.44.0           
- [17] labeling_0.4.3            utf8_1.2.4               
- [19] rmarkdown_2.27            UCSC.utils_1.0.0         
- [21] ggbeeswarm_0.7.2          purrr_1.0.2              
- [23] bit_4.0.5                 bluster_1.14.0           
- [25] xfun_0.44                 zlibbioc_1.50.0          
- [27] cachem_1.1.0              beachmat_2.20.0          
- [29] jsonlite_1.8.8            blob_1.2.4               
- [31] highr_0.11                DelayedArray_0.30.1      
- [33] BiocParallel_1.38.0       cluster_2.1.6            
- [35] irlba_2.3.5.1             parallel_4.4.1           
- [37] R6_2.5.1                  Rcpp_1.0.12              
- [39] knitr_1.47                splines_4.4.1            
- [41] igraph_2.0.3              Matrix_1.7-0             
- [43] tidyselect_1.2.1          viridis_0.6.5            
- [45] abind_1.4-5               yaml_2.3.8               
- [47] codetools_0.2-20          curl_5.2.1               
- [49] lattice_0.22-6            tibble_3.2.1             
- [51] withr_3.0.0               KEGGREST_1.44.0          
- [53] BumpyMatrix_1.12.0        Rtsne_0.17               
- [55] evaluate_0.23             BiocFileCache_2.12.0     
- [57] ExperimentHub_2.12.0      Biostrings_2.72.1        
- [59] pillar_1.9.0              BiocManager_1.30.23      
- [61] filelock_1.0.3            renv_1.0.7               
- [63] generics_0.1.3            BiocVersion_3.19.1       
- [65] sparseMatrixStats_1.16.0  munsell_0.5.1            
- [67] scales_1.3.0              glue_1.7.0               
- [69] metapod_1.12.0            tools_4.4.1              
- [71] AnnotationHub_3.12.0      BiocNeighbors_1.22.0     
- [73] ScaledMatrix_1.12.0       locfit_1.5-9.9           
- [75] cowplot_1.1.3             grid_4.4.1               
- [77] AnnotationDbi_1.66.0      colorspace_2.1-0         
- [79] GenomeInfoDbData_1.2.12   beeswarm_0.4.0           
- [81] BiocSingular_1.20.0       vipor_0.4.7              
- [83] cli_3.6.2                 rsvd_1.0.5               
- [85] rappdirs_0.3.3            fansi_1.0.6              
- [87] viridisLite_0.4.2         S4Arrays_1.4.1           
- [89] dplyr_1.1.4               ResidualMatrix_1.14.0    
- [91] gtable_0.3.5              digest_0.6.35            
- [93] dqrng_0.4.1               SparseArray_1.4.8        
- [95] ggrepel_0.9.5             farver_2.1.2             
- [97] rjson_0.2.21              memoise_2.0.1            
- [99] htmltools_0.5.8.1         lifecycle_1.0.4          
-[101] httr_1.4.7                statmod_1.5.0            
+  [9] png_0.1-8                 vctrs_0.6.5
+ [11] pkgconfig_2.0.3           crayon_1.5.2
+ [13] fastmap_1.2.0             dbplyr_2.5.0
+ [15] magick_2.8.3              XVector_0.44.0
+ [17] labeling_0.4.3            utf8_1.2.4
+ [19] rmarkdown_2.27            UCSC.utils_1.0.0
+ [21] ggbeeswarm_0.7.2          purrr_1.0.2
+ [23] bit_4.0.5                 bluster_1.14.0
+ [25] xfun_0.44                 zlibbioc_1.50.0
+ [27] cachem_1.1.0              beachmat_2.20.0
+ [29] jsonlite_1.8.8            blob_1.2.4
+ [31] highr_0.11                DelayedArray_0.30.1
+ [33] BiocParallel_1.38.0       cluster_2.1.6
+ [35] irlba_2.3.5.1             parallel_4.4.1
+ [37] R6_2.5.1                  Rcpp_1.0.12
+ [39] knitr_1.47                splines_4.4.1
+ [41] igraph_2.0.3              Matrix_1.7-0
+ [43] tidyselect_1.2.1          viridis_0.6.5
+ [45] abind_1.4-5               yaml_2.3.8
+ [47] codetools_0.2-20          curl_5.2.1
+ [49] lattice_0.22-6            tibble_3.2.1
+ [51] withr_3.0.0               KEGGREST_1.44.0
+ [53] BumpyMatrix_1.12.0        Rtsne_0.17
+ [55] evaluate_0.23             BiocFileCache_2.12.0
+ [57] ExperimentHub_2.12.0      Biostrings_2.72.1
+ [59] pillar_1.9.0              BiocManager_1.30.23
+ [61] filelock_1.0.3            renv_1.0.7
+ [63] generics_0.1.3            BiocVersion_3.19.1
+ [65] sparseMatrixStats_1.16.0  munsell_0.5.1
+ [67] scales_1.3.0              glue_1.7.0
+ [69] metapod_1.12.0            tools_4.4.1
+ [71] AnnotationHub_3.12.0      BiocNeighbors_1.22.0
+ [73] ScaledMatrix_1.12.0       locfit_1.5-9.9
+ [75] cowplot_1.1.3             grid_4.4.1
+ [77] AnnotationDbi_1.66.0      colorspace_2.1-0
+ [79] GenomeInfoDbData_1.2.12   beeswarm_0.4.0
+ [81] BiocSingular_1.20.0       vipor_0.4.7
+ [83] cli_3.6.2                 rsvd_1.0.5
+ [85] rappdirs_0.3.3            fansi_1.0.6
+ [87] viridisLite_0.4.2         S4Arrays_1.4.1
+ [89] dplyr_1.1.4               ResidualMatrix_1.14.0
+ [91] gtable_0.3.5              digest_0.6.35
+ [93] dqrng_0.4.1               SparseArray_1.4.8
+ [95] ggrepel_0.9.5             farver_2.1.2
+ [97] rjson_0.2.21              memoise_2.0.1
+ [99] htmltools_0.5.8.1         lifecycle_1.0.4
+[101] httr_1.4.7                statmod_1.5.0
 [103] mime_0.12                 bit64_4.0.5              </code></pre>
 </div>
-</section><section id="exercises"><h2 class="section-heading">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
-</h2>
+</section><section><h2 class="section-heading" id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
+<a class="anchor" aria-label="anchor" href="#exercises"></a></h2>
 <hr class="half-width"><div id="exercise-1-replicates" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -1231,7 +1231,7 @@ issues.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
 <div class="accordion-body">
 
 </div>
@@ -1243,7 +1243,7 @@ issues.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -1268,7 +1268,7 @@ package and check for differences in the results.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2"> Give me a hint </h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
 <div class="accordion-body">
 
 </div>
@@ -1280,7 +1280,7 @@ package and check for differences in the results.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -1335,9 +1335,9 @@ gene, but of cells per label.</li>
 </ul></div>
 </div>
 </div>
-<!-- 
+<!--
 Place links that you need to refer to multiple times across pages here. Delete
-any links that you are not going to use. 
+any links that you are not going to use.
  -->
 </section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
@@ -1351,7 +1351,7 @@ any links that you are not going to use.
           Previous: Cell type annotation
         </a>
         <a class="chapter-link float-end" href="../instructor/large_data.html" rel="next">
-          Next: Working with large... 
+          Next: Working with large...
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i>
         </a>
       </div>
@@ -1362,18 +1362,18 @@ any links that you are not going to use.
       		<footer class="row footer mx-md-3"><hr><div class="col-md-6">
         <p>This lesson is subject to the <a href="CODE_OF_CONDUCT.html">Code of Conduct</a></p>
         <p>
-        
+
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/multi-sample.Rmd" class="external-link">Edit on GitHub</a>
-        
+
 	
         | <a href="https://github.com/ccb-hms/osca-carpentries/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
         | <a href="https://github.com/ccb-hms/osca-carpentries/" class="external-link">Source</a></p>
 				<p><a href="https://github.com/ccb-hms/osca-carpentries/blob/main/CITATION" class="external-link">Cite</a> | <a href="mailto:christopher_magnano@hms.harvard.edu">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
 			</div>
 			<div class="col-md-6">
-        
+
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
-        
+
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
         <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.5" class="external-link">sandpaper (0.16.5)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.6" class="external-link">pegboard (0.7.6)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.3" class="external-link">varnish (1.0.3)</a></p>
 			</div>
@@ -1398,7 +1398,7 @@ any links that you are not going to use.
   "identifier": "https://ccb-hms.github.io/osca-carpentries/instructor/multi-sample.html",
   "dateCreated": "2024-01-10",
   "dateModified": "2024-07-02",
-  "datePublished": "2024-07-02"
+  "datePublished": "2024-07-09"
 }
 
   </script><script>
