@@ -8,8 +8,8 @@ editor_options:
 ---
 
 ::: questions
--   How to identify groups of cells with similar expression profiles?
--   How to identify genes that drive separation between these groups of cells?
+-   How can we identify groups of cells with similar expression profiles?
+-   How can we identify genes that drive separation between these groups of cells?
 -   How to leverage reference datasets and known marker genes for the cell type annotation of new datasets?
 :::
 
@@ -38,12 +38,14 @@ library(scran)
 
 ## Data retrieval
 
+We'll be using the same set of WT chimeric mouse embryo data: 
+
 ```{r data, message = FALSE}
 sce <- WTChimeraData(samples = 5, type = "processed")
 sce
 ```
 
-To speed up the computations, we subsample the dataset to 1,000 cells.
+To speed up the computations, we take a random subset of 1,000 cells.
 
 ```{r}
 set.seed(123)
@@ -52,6 +54,8 @@ sce <- sce[,ind]
 ```
 
 ## Preprocessing
+
+The SCE object needs to contain log-normalized expression counts as well as PCA coordinates in the reduced dimensions, so we compute those here: 
 
 ```{r preproc, warning = FALSE}
 sce <- logNormCounts(sce)
@@ -89,23 +93,36 @@ algorithm](https://doi.org/10.1088/1742-5468/2008/10/P10008) for
 community detection. All calculations are performed using the top PCs to
 take advantage of data compression and denoising. This function returns
 a vector containing cluster assignments for each cell in our
-`SingleCellExperiment` object.
+`SingleCellExperiment` object. We use the `colLabels()` function to assign the
+cluster labels as a factor in the column data.
 
 ```{r cluster}
 colLabels(sce) <- clusterCells(sce, use.dimred = "PCA",
-                               BLUSPARAM = NNGraphParam(cluster.fun = "louvain"))
+                               BLUSPARAM = NNGraphParam(cluster.fun = "louvain", k = 20))
+
 table(colLabels(sce))
 ```
 
-We assign the cluster assignments back into our `SingleCellExperiment`
-object as a `factor` in the column metadata. This allows us to
-conveniently visualize the distribution of clusters in eg. a *t*-SNE or
-a UMAP.
+We can now overlay the cluster labels as color on a UMAP plot:
 
 ```{r cluster-viz}
 sce <- runUMAP(sce, dimred = "PCA")
+
 plotReducedDim(sce, "UMAP", color_by = "label")
 ```
+
+:::: challenge
+
+Our clusters look semi-reasonable, but what if we wanted to make them less granular? Look at the help documentation for `?clusterCells` and `?NNGraphParam` to find out what we'd need to change to get fewer, larger clusters.
+
+::: solution
+
+We see in the help documentation for `?clusterCells` that all of the clustering algorithm details are handled through the `BLUSPARAM` argument, which needs to provide a `BlusterParam` object (of which `NNGraphParam` is a sub-class). Each type of clustering algorithm will have some sort of hyper-parameter that controls the granularity of the output clusters. Looking at `?NNGraphParam` specifically, we see an argument called `k` which is described as "An integer scalar specifying the number of nearest neighbors to consider during graph construction." If the clustering process has to connect larger sets of neighbors, the graph will tend to be cut into larger groups, resulting in less granular clusters. Try the two code blocks again with `k = 20`. Given their visual differences, do you think one set of clusters is "right" and the other "wrong"?  
+:::
+
+::::
+
+
 
 ## Marker gene detection
 
