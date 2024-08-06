@@ -141,6 +141,20 @@ The _getter_ methods are used to extract information from the slots and the _set
 
 Depending on the object, slots can contain different types of data (e.g., numeric matrices, lists, etc.). We will here review the main slots of the SingleCellExperiment class as well as their getter/setter methods.
 
+:::: challenge
+
+Before SingleCellExperiments, coders working with single cell data would sometimes keep all of these components in separate objects e.g. a matrix of counts, a data.frame of sample metadata, a data.frame of gene annotations and so on. What are the main disadvantages of this sort of "from scratch" approach?
+
+::: solution
+
+1. You have to do tons of manual book-keeping! If you perform a QC step that removes dead cells, now you also have to remember to remove that same set of cells from the cell-wise metadata. Dropped un-expressed genes? Don't forget to filter the gene metadata table too. 
+
+2. All the downstream steps have to be "from scratch" as well! If your tables have some slight format difference from those of your lab-mate, suddenly the plotting code you're trying to re-use doesn't work! Agh!
+
+:::
+
+::::
+
 ### The `assays`
 
 This is arguably the most fundamental part of the object that contains the count matrix, and potentially other matrices with transformed data. We can access the _list_ of matrices with the `assays` function and individual matrices with the `assay` function. If one of these matrices is called "counts", we can use the special `counts` getter (and the analogous `logcounts`).
