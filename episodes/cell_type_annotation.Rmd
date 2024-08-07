@@ -98,7 +98,7 @@ cluster labels as a factor in the column data.
 
 ```{r cluster}
 colLabels(sce) <- clusterCells(sce, use.dimred = "PCA",
-                               BLUSPARAM = NNGraphParam(cluster.fun = "louvain", k = 20))
+                               BLUSPARAM = NNGraphParam(cluster.fun = "louvain"))
 
 table(colLabels(sce))
 ```
@@ -123,7 +123,6 @@ We see in the help documentation for `?clusterCells` that all of the clustering 
 ::::
 
 
-
 ## Marker gene detection
 
 To interpret clustering results as obtained in the previous section, we
@@ -138,7 +137,7 @@ testing for differential expression between clusters. If a gene is
 strongly DE between clusters, it is likely to have driven the separation
 of cells in the clustering algorithm.
 
-Here, we perform a Wilcoxon rank sum test against a log2 fold change
+Here, we use `findMarkers()` to perform a Wilcoxon rank sum test against a log2 fold change
 threshold of 1, focusing on up-regulated (positive) markers in one
 cluster when compared to another cluster.
 
@@ -147,6 +146,8 @@ rownames(sce) <- rowData(sce)$SYMBOL
 markers <- findMarkers(sce, test.type = "wilcox", direction = "up", lfc = 1)
 markers
 ```
+
+<!-- TODO change this ^ to scoreMarkers() -->
 
 The resulting object contains a sorted marker gene list for each
 cluster, in which the top genes are those that contribute the most to
@@ -175,6 +176,22 @@ We can then inspect the top marker genes for the first cluster using the
 top.markers <- head(rownames(markers[[1]]))
 plotExpression(sce, features = top.markers, x = "label", color_by = "label")
 ```
+
+Clearly, not every marker gene distinguishes cluster 1 from every other cluster. However, with a combination of multiple marker genes it's possible to clearly identify gene patterns that are unique to cluster 1. It's sort of like the 20 questions game - with answers to the right questions about a cell, you can clearly identify what cluster it falls in.
+
+:::: challenge 
+
+Why do you think marker genes are found by aggregating pairwise comparisons rather than iteratively comparing each cluster to all other clusters? 
+
+::: solution
+
+One important reason why is because averages over all other clusters can be sensitive to the cell type composition. If a rare cell type shows up in one sample, the most discriminative marker genes found in this way could be very different from those found in another sample where the rare cell type is absent. 
+
+Generally, it's good to keep in mind that the concept of "everything else" is not a stable basis for comparison. 
+
+:::
+::::
+
 
 ## Cell type annotation
 
