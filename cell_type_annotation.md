@@ -8,8 +8,8 @@ editor_options:
 ---
 
 ::: questions
--   How to identify groups of cells with similar expression profiles?
--   How to identify genes that drive separation between these groups of cells?
+-   How can we identify groups of cells with similar expression profiles?
+-   How can we identify genes that drive separation between these groups of cells?
 -   How to leverage reference datasets and known marker genes for the cell type annotation of new datasets?
 :::
 
@@ -36,6 +36,8 @@ library(scran)
 
 ## Data retrieval
 
+We'll be using the same set of WT chimeric mouse embryo data: 
+
 
 ``` r
 sce <- WTChimeraData(samples = 5, type = "processed")
@@ -57,7 +59,7 @@ mainExpName: NULL
 altExpNames(0):
 ```
 
-To speed up the computations, we subsample the dataset to 1,000 cells.
+To speed up the computations, we take a random subset of 1,000 cells.
 
 
 ``` r
@@ -67,6 +69,8 @@ sce <- sce[,ind]
 ```
 
 ## Preprocessing
+
+The SCE object needs to contain log-normalized expression counts as well as PCA coordinates in the reduced dimensions, so we compute those here: 
 
 
 ``` r
@@ -105,12 +109,14 @@ algorithm](https://doi.org/10.1088/1742-5468/2008/10/P10008) for
 community detection. All calculations are performed using the top PCs to
 take advantage of data compression and denoising. This function returns
 a vector containing cluster assignments for each cell in our
-`SingleCellExperiment` object.
+`SingleCellExperiment` object. We use the `colLabels()` function to assign the
+cluster labels as a factor in the column data.
 
 
 ``` r
 colLabels(sce) <- clusterCells(sce, use.dimred = "PCA",
                                BLUSPARAM = NNGraphParam(cluster.fun = "louvain"))
+
 table(colLabels(sce))
 ```
 
@@ -120,18 +126,28 @@ table(colLabels(sce))
 100 160  99 141  63  93  60 108  44  91  41 
 ```
 
-We assign the cluster assignments back into our `SingleCellExperiment`
-object as a `factor` in the column metadata. This allows us to
-conveniently visualize the distribution of clusters in eg. a *t*-SNE or
-a UMAP.
+We can now overlay the cluster labels as color on a UMAP plot:
 
 
 ``` r
 sce <- runUMAP(sce, dimred = "PCA")
+
 plotReducedDim(sce, "UMAP", color_by = "label")
 ```
 
 <img src="fig/cell_type_annotation-rendered-cluster-viz-1.png" style="display: block; margin: auto;" />
+
+:::: challenge
+
+Our clusters look semi-reasonable, but what if we wanted to make them less granular? Look at the help documentation for `?clusterCells` and `?NNGraphParam` to find out what we'd need to change to get fewer, larger clusters.
+
+::: solution
+
+We see in the help documentation for `?clusterCells` that all of the clustering algorithm details are handled through the `BLUSPARAM` argument, which needs to provide a `BlusterParam` object (of which `NNGraphParam` is a sub-class). Each type of clustering algorithm will have some sort of hyper-parameter that controls the granularity of the output clusters. Looking at `?NNGraphParam` specifically, we see an argument called `k` which is described as "An integer scalar specifying the number of nearest neighbors to consider during graph construction." If the clustering process has to connect larger sets of neighbors, the graph will tend to be cut into larger groups, resulting in less granular clusters. Try the two code blocks above once more with `k = 20`. Given their visual differences, do you think one set of clusters is "right" and the other is "wrong"?  
+:::
+
+::::
+
 
 ## Marker gene detection
 
@@ -147,7 +163,7 @@ testing for differential expression between clusters. If a gene is
 strongly DE between clusters, it is likely to have driven the separation
 of cells in the clustering algorithm.
 
-Here, we perform a Wilcoxon rank sum test against a log2 fold change
+Here, we use `findMarkers()` to perform a Wilcoxon rank sum test against a log2 fold change
 threshold of 1, focusing on up-regulated (positive) markers in one
 cluster when compared to another cluster.
 
@@ -162,6 +178,8 @@ markers
 List of length 11
 names(11): 1 2 3 4 5 6 7 8 9 10 11
 ```
+
+<!-- TODO change this ^ to scoreMarkers() -->
 
 The resulting object contains a sorted marker gene list for each
 cluster, in which the top genes are those that contribute the most to
@@ -237,6 +255,22 @@ plotExpression(sce, features = top.markers, x = "label", color_by = "label")
 ```
 
 <img src="fig/cell_type_annotation-rendered-plot-markers-1.png" style="display: block; margin: auto;" />
+
+Clearly, not every marker gene distinguishes cluster 1 from every other cluster. However, with a combination of multiple marker genes it's possible to clearly identify gene patterns that are unique to cluster 1. It's sort of like the 20 questions game - with answers to the right questions about a cell (e.g. "Do you highly express Ptn?"), you can clearly identify what cluster it falls in.
+
+:::: challenge 
+
+Why do you think marker genes are found by aggregating pairwise comparisons rather than iteratively comparing each cluster to all other clusters? 
+
+::: solution
+
+One important reason why is because averages over all other clusters can be sensitive to the cell type composition. If a rare cell type shows up in one sample, the most discriminative marker genes found in this way could be very different from those found in another sample where the rare cell type is absent. 
+
+Generally, it's good to keep in mind that the concept of "everything else" is not a stable basis for comparison. Read that sentence again, because its a subtle but broadly applicable point. Think about it and you can probably identify analogous issues in fields outside of single-cell analysis. It frequently comes up when comparisons between multiple categories are involved.
+
+:::
+::::
+
 
 ## Cell type annotation
 
@@ -332,6 +366,8 @@ ind <- sample(ncol(ref), 1000)
 ref <- ref[,ind]
 ```
 
+You can see we have an assortment of different cell types in the reference (with varying frequency):
+
 
 ``` r
 tab <- sort(table(ref$celltype), decreasing = TRUE)
@@ -411,9 +447,13 @@ sce.mat <- as.matrix(assay(sce, "logcounts"))
 ref.mat <- as.matrix(assay(ref, "logcounts"))
 ```
 
+Finally, run SingleR with the query and reference datasets:
+
 
 ``` r
-res <- SingleR(test = sce.mat, ref = ref.mat, labels = ref$celltype)
+res <- SingleR(test = sce.mat, 
+               ref = ref.mat,
+               labels = ref$celltype)
 res
 ```
 
@@ -450,9 +490,7 @@ cell_11860 Forebrain/Midbrain/H..
 We inspect the results using a heatmap of the per-cell and label scores.
 Ideally, each cell should exhibit a high score in one label relative to
 all of the others, indicating that the assignment to that label was
-unambiguous. This is largely the case for mesenchyme and endothelial
-cells, whereas we see expectedly more ambiguity between the two
-erythroid cell populations.
+unambiguous. 
 
 
 ``` r
@@ -461,13 +499,17 @@ plotScoreHeatmap(res)
 
 <img src="fig/cell_type_annotation-rendered-score-heat-1.png" style="display: block; margin: auto;" />
 
-We also compare the cell type assignments with the clustering results to
-determine the identity of each cluster. Here, several cell type classes
-are nested within the same cluster, indicating that these clusters are
-composed of several transcriptomically similar cell populations (such as
-cluster 4 and 6). On the other hand, there are also instances where we
-have several clusters for the same cell type, indicating that the
-clustering represents finer subdivisions within these cell types.
+We obtained fairly unambiguous predictions for mesenchyme and endothelial
+cells, whereas we see expectedly more ambiguity between the two
+erythroid cell populations.
+
+We can also compare the cell type assignments with the unsupervised clustering
+results to determine the identity of each cluster. Here, several cell type
+classes are nested within the same cluster, indicating that these clusters are
+composed of several transcriptomically similar cell populations. On the other
+hand, there are also instances where we have several clusters for the same cell
+type, indicating that the clustering represents finer subdivisions within these
+cell types.
 
 
 ``` r
@@ -491,6 +533,32 @@ pheatmap(log2(tab + 10), color = colorRampPalette(c("white", "blue"))(101))
 ```
 
 <img src="fig/cell_type_annotation-rendered-anno-vs-preanno-1.png" style="display: block; margin: auto;" />
+
+:::: challenge
+
+SingleR can be computationally expensive. How do you set it to run in parallel?
+
+::: solution
+
+Use `BiocParallel` and the `BPPARAM` argument! This example will set it to use four cores on your laptop, but you can also configure BiocParallel to use cluster jobs.
+
+
+``` r
+library(BiocParallel)
+
+my_bpparam = MulticoreParam(workers = 4)
+
+res <- SingleR(test = sce.mat, 
+               ref = ref.mat,
+               labels = ref$celltype,
+               BPPARAM = my_bpparam)
+```
+
+`BiocParallel` is the most common way to enable parallel computation in Bioconductor packages, so you can expect to see it elsewhere outside of SingleR.
+
+:::
+
+::::
 
 ### Assigning cell labels from gene sets
 
@@ -903,6 +971,19 @@ mixture of normals, the pink curve represents a fitted three-component
 mixture, and the grey curve represents a fitted normal distribution.
 Vertical lines represent threshold estimates corresponding to each
 estimate of the distribution.
+
+:::: challenge
+
+The diagnostics don't look so good for some of the examples here. Which ones? Why?
+
+::: solution
+
+The example that jumps out most strongly to the eye is ExE endoderm, which doesn't show clear separate modes. Simultaneously, Endothelium seems to have three or four modes. 
+
+Remember, this is an exploratory diagnostic, not the final word! At this point it'd be good to engage in some critical inspection of the results. Maybe we don't have enough / the best marker genes. In this particular case, the fact that we subsetted the reference set to 1000 cells probably didn't help.
+:::
+
+::::
 
 ## Session Info
 

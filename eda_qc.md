@@ -72,18 +72,25 @@ From the experiment, we expect to have only a few thousand cells, while we can s
 
 ``` r
 library(DropletUtils)
+library(ggplot2)
+
 bcrank <- barcodeRanks(counts(sce))
 
 # Only showing unique points for plotting speed.
 uniq <- !duplicated(bcrank$rank)
-plot(bcrank$rank[uniq], bcrank$total[uniq], log="xy",
-    xlab="Rank", ylab="Total UMI count", cex.lab=1.2)
 
-abline(h=metadata(bcrank)$inflection, col="darkgreen", lty=2)
-abline(h=metadata(bcrank)$knee, col="dodgerblue", lty=2)
+line_df = data.frame(cutoff = names(metadata(bcrank)),
+                     value  = unlist(metadata(bcrank)))
 
-legend("bottomleft", legend=c("Inflection", "Knee"), 
-        col=c("darkgreen", "dodgerblue"), lty=2, cex=1.2)
+ggplot(bcrank[uniq,], aes(rank, total)) + 
+    geom_point() + 
+    geom_hline(data = line_df,
+               aes(color = cutoff,
+                   yintercept = value),
+               lty = 2) + 
+    scale_x_log10() + 
+    scale_y_log10() + 
+    labs(y = "Total UMI count")
 ```
 
 <img src="fig/eda_qc-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
@@ -91,6 +98,26 @@ legend("bottomleft", legend=c("Inflection", "Knee"),
 The distribution of total counts (called the unique molecular identifier or UMI count) exhibits a sharp transition between barcodes with large and small total counts, probably corresponding to cell-containing and empty droplets respectively. 
 
 A simple approach would be to apply a threshold on the total count to only retain those barcodes with large totals. However, this may unnecessarily discard libraries derived from cell types with low RNA content.
+
+:::: challenge 
+
+What is the median number of total counts in the raw data?
+
+::: solution
+
+
+``` r
+median(bcrank$total)
+```
+
+``` output
+[1] 2
+```
+
+Just 2! Clearly many barcodes produce practically no output.
+:::
+
+::::
 
 ### Testing for empty droplets
 
@@ -182,8 +209,11 @@ library(EnsDb.Mmusculus.v79)
 
 
 ``` r
-chr.loc <- mapIds(EnsDb.Mmusculus.v79, keys=rownames(sce),
-    keytype="GENEID", column="SEQNAME")
+chr.loc <- mapIds(EnsDb.Mmusculus.v79,
+                  keys    = rownames(sce),
+                  keytype = "GENEID", 
+                  column  = "SEQNAME")
+
 is.mito <- which(chr.loc=="MT")
 ```
 
@@ -273,34 +303,55 @@ summary(df$subsets_Mito_percent)
   0.000   1.155   1.608   5.079   2.182  66.968 
 ```
 
-This can be achieved with the `perCellQCFilters` function. By default, we consider a value to be an outlier if it is more than 3 median absolute deviations (MADs) from the median in the "problematic" direction. This is loosely motivated by the fact that such a filter will retain 99% of non-outlier values that follow a normal distribution.
+We can use the `perCellQCFilters` function to apply a set of common adaptive filters to identify low-quality cells. By default, we consider a value to be an outlier if it is more than 3 median absolute deviations (MADs) from the median in the "problematic" direction. This is loosely motivated by the fact that such a filter will retain 99% of non-outlier values that follow a normal distribution.
 
 
 ``` r
 reasons <- perCellQCFilters(df, sub.fields="subsets_Mito_percent")
-colSums(as.matrix(reasons))
+reasons
 ```
 
 ``` output
-             low_lib_size            low_n_features high_subsets_Mito_percent 
-                      601                       654                       484 
-                  discard 
-                      694 
+DataFrame with 3131 rows and 4 columns
+         low_lib_size   low_n_features high_subsets_Mito_percent   discard
+     <outlier.filter> <outlier.filter>          <outlier.filter> <logical>
+1               FALSE            FALSE                     FALSE     FALSE
+2               FALSE            FALSE                     FALSE     FALSE
+3               FALSE            FALSE                     FALSE     FALSE
+4               FALSE            FALSE                     FALSE     FALSE
+5                TRUE             TRUE                     FALSE      TRUE
+...               ...              ...                       ...       ...
+3127            FALSE            FALSE                     FALSE     FALSE
+3128             TRUE             TRUE                      TRUE      TRUE
+3129             TRUE             TRUE                      TRUE      TRUE
+3130             TRUE             TRUE                     FALSE      TRUE
+3131             TRUE             TRUE                      TRUE      TRUE
 ```
 
 ``` r
-summary(reasons$discard)
-```
-
-``` output
-   Mode   FALSE    TRUE 
-logical    2437     694 
-```
-
-``` r
-# include in object
 sce$discard <- reasons$discard
 ```
+
+:::: challenge
+
+We've removed empty cells and low-quality cells to be discarded. How many cells are we left with at this point?
+
+::: solution
+
+``` r
+table(sce$discard)
+```
+
+``` output
+
+FALSE  TRUE 
+ 2437   694 
+```
+
+There are 2437 cells that *haven't* been flagged to be discarded, so that's how many we have left.
+:::
+
+::::
 
 ### Diagnostic plots
 
@@ -314,19 +365,19 @@ library(scater)
 plotColData(sce, y = "sum", colour_by = "discard") + ggtitle("Total count")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 
 ``` r
 plotColData(sce, y = "detected", colour_by = "discard") + ggtitle("Detected features")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-10-2.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-12-2.png" style="display: block; margin: auto;" />
 
 ``` r
 plotColData(sce, y = "subsets_Mito_percent", colour_by = "discard") + ggtitle("Mito percent")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-10-3.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-12-3.png" style="display: block; margin: auto;" />
 
 While the univariate distribution of QC metrics can give some insight on the quality of the sample, often looking at the bivariate distribution of QC metrics is useful, e.g., to confirm that there are no cells with both large total counts and large mitochondrial counts, to ensure that we are not inadvertently removing high-quality cells that happen to be highly metabolically active.
 
@@ -335,7 +386,7 @@ While the univariate distribution of QC metrics can give some insight on the qua
 plotColData(sce, x="sum", y="subsets_Mito_percent", colour_by="discard")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
 It could also be a good idea to perform a differential expression analysis between retained and discarded cells to check wether we are removing an unusual cell population rather than low-quality libraries (see [Section 1.5 of OSCA advanced](https://bioconductor.org/books/release/OSCA.advanced/quality-control-redux.html#qc-discard-cell-types)).
 
@@ -386,15 +437,19 @@ summary(lib.sf)
 ```
 
 ``` r
-hist(log10(lib.sf), xlab="Log10[Size factor]", col='grey80', breaks = 30)
+sf_df = data.frame(size_factor = lib.sf)
+
+ggplot(sf_df, aes(size_factor)) + 
+    geom_histogram() + 
+    scale_x_log10()
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
 
 
 ### Normalization by deconvolution
 
-Library size normalization is not optimal, as it assumes that the total sum of UMI counts differ between cells only for technical and not biological reason. This can be a problem if a highly-expressed subset of genes is differentially expressed between cells or cell types.
+Library size normalization is not optimal, as it assumes that the total sum of UMI counts differ between cells only for technical and not biological reasons. This can be a problem if a highly-expressed subset of genes is differentially expressed between cells or cell types.
 
 Several robust normalization methods have been proposed for bulk RNA-seq. However, these methods may underperform in single-cell data due to the dominance of low and zero counts. 
 To overcome this, one solution is to _pool_ counts from many cells to increase the size of the counts for accurate size factor estimation[^3]. Pool-based size factors are then _deconvolved_ into cell-based factors for normalization of each cell's expression profile.
@@ -429,13 +484,17 @@ summary(deconv.sf)
 ```
 
 ``` r
-plot(lib.sf, deconv.sf, xlab="Library size factor",
-    ylab="Deconvolution size factor", log='xy', pch=16,
-    col=as.integer(clust))
-abline(a=0, b=1, col="red")
+sf_df$deconv_sf = deconv.sf
+sf_df$clust = clust
+
+ggplot(sf_df, aes(size_factor, deconv_sf)) + 
+    geom_abline() + 
+    geom_point(aes(color = clust)) +
+    scale_x_log10() + 
+    scale_y_log10()
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
 
 Once we have computed the size factors, we compute the normalized expression values for each cell by dividing the count for each gene with the appropriate size factor for that cell. Since we are typically going to work with log-transformed counts, the function `logNormCounts` also log-transforms the normalized values, creating a new assay called `logcounts`.
 
@@ -462,6 +521,18 @@ mainExpName: NULL
 altExpNames(0):
 ```
 
+:::: challenge
+
+Some sophisticated experiments perform additional steps so that they can estimate size factors from so-called "spike-ins". Judging by the name, what do you think "spike-ins" are, and what additional steps are required to use them?
+
+::: solution
+
+Spike-ins are deliberately introduced exogeneous RNA from an exotic or synthetic source at a known concentration. This provides a known signal to normalize to. Exotic or synthetic RNA (e.g. soil bacteria RNA in a study of human cells) is used in order to avoid confusing spike-in RNA with sample RNA. This has the obvious advantage of accounting for cell-wise variation, but adds additional sample-preparation work.
+
+:::
+
+::::
+
 ## Feature Selection
 
 The typical next steps in the analysis of single-cell data are dimensionality reduction and clustering, which involve measuring the similarity between cells.
@@ -479,12 +550,18 @@ Calculation of the per-gene variance is simple but feature selection requires mo
 dec.sce <- modelGeneVar(sce)
 fit.sce <- metadata(dec.sce)
 
-plot(fit.sce$mean, fit.sce$var, xlab = "Mean of log-expression",
-     ylab = "Variance of log-expression")
-curve(fit.sce$trend(x), col = "dodgerblue", add = TRUE, lwd = 2)
+mean_var_df = data.frame(mean = fit.sce$mean,
+                         var = fit.sce$var)
+
+ggplot(mean_var_df, aes(mean, var)) + 
+    geom_point() + 
+    geom_function(fun = fit.sce$trend, 
+                  color = "dodgerblue") + 
+    labs(x = "Mean of log-expression",
+         y = "Variance of log-expression")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
 
 The blue line represents the uninteresting "technical" variance for any given gene abundance. The genes with a lot of additional variance exhibit interesting "biological" variation.
 
@@ -503,6 +580,11 @@ head(hvg.sce.var)
 [4] "ENSMUSG00000052187" "ENSMUSG00000048583" "ENSMUSG00000051855"
 ```
 
+:::: challenge
+
+Run an internet search for some of the most highly variable genes we've identified here. See if you can identify the type of protein they produce or what sort of process they're involved in. Do they make biological sense to you?
+
+::::
 
 ## Dimensionality Reduction
 
@@ -544,11 +626,18 @@ By default, `runPCA` computes the first 50 principal components. We can check ho
 
 
 ``` r
-percent.var <- attr(reducedDim(sce), "percentVar")
-plot(percent.var, log="y", xlab="PC", ylab="Variance explained (%)")
+pct_var_df = data.frame(PC = 1:50,
+                        pct_var = attr(reducedDim(sce), "percentVar"))
+
+ggplot(pct_var_df,
+       aes(PC, pct_var)) + 
+    geom_point() + 
+    labs(y = "Variance explained (%)")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
+
+You can see the first two PCs capture the largest amount of variation, but in this case you have to take the first 8 PCs before you've captured 50% of the total.
 
 And we can of course visualize the first 2-3 components, perhaps color-coding each point by an interesting feature, in this case the total number of UMIs per cell.
 
@@ -557,19 +646,22 @@ And we can of course visualize the first 2-3 components, perhaps color-coding ea
 plotPCA(sce, colour_by="sum")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
+
+It can be helpful to compare pairs of PCs. This can be done with the `ncomponents` argument to `plotReducedDim()`. For example if one batch or cell type splits off on a particular PC, this can help visualize the effect of that.
+
 
 ``` r
 plotReducedDim(sce, dimred="PCA", ncomponents=3)
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-21-2.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
 
 ### Non-linear methods
 
 While PCA is a simple and effective way to visualize (and interpret!) scRNA-seq data, non-linear methods such as t-SNE (_t-stochastic neighbor embedding_) and UMAP (_uniform manifold approximation and projection_) have gained much popularity in the literature.
 
-These methods attempt to find a low-dimensional representation of the data that preserves the distances between each point and its neighbors in the high-dimensional space.
+These methods attempt to find a low-dimensional representation of the data that attempt to preserve pair-wise distance and structure in high-dimensional gene space as best as possible.
 
 
 ``` r
@@ -578,7 +670,7 @@ sce <- runTSNE(sce, dimred="PCA")
 plotTSNE(sce)
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
 
 
 ``` r
@@ -587,13 +679,13 @@ sce <- runUMAP(sce, dimred="PCA")
 plotUMAP(sce)
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
 
 It is easy to over-interpret t-SNE and UMAP plots. We note that the relative sizes and positions of the visual clusters may be misleading, as they tend to inflate dense clusters and compress sparse ones, such that we cannot use the size as a measure of subpopulation heterogeneity. 
 
 In addition, these methods are not guaranteed to preserve the global structure of the data (e.g., the relative locations of non-neighboring clusters), such that we cannot use their positions to determine relationships between distant clusters.
 
-Note that the `sce` object now includes all the computed dimensionality reduced representations of the data for ease of reusing and replotting without the need for recomputing.
+Note that the `sce` object now includes all the computed dimensionality reduced representations of the data for ease of reusing and replotting without the need for recomputing. Note the added `reducedDimNames` row when printing `sce` here:
 
 
 ``` r
@@ -616,8 +708,18 @@ mainExpName: NULL
 altExpNames(0):
 ```
 
-Despite their shortcomings, t-SNE and UMAP may be useful visualization techniques.
+Despite their shortcomings, t-SNE and UMAP can be useful visualization techniques.
 When using them, it is important to consider that they are stochastic methods that involve a random component (each run will lead to different plots) and that there are key parameters to be set that change the results substantially (e.g., the "perplexity" parameter of t-SNE).
+
+:::: challenge
+
+Can dimensionality reduction techniques provide a perfectly accurate representation of the data?
+
+::: solution
+Mathematically, this would require the data to fall on a two-dimensional plane (for linear methods like PCA) or a smooth 2D manifold (for methods like UMAP). You can be confident that this will never happen in real-world data, so the reduction from ~2500-dimensional gene space to two-dimensional plot space always involves some degree of information loss.
+:::
+
+::::
 
 ## Doublet identification
 
@@ -629,7 +731,7 @@ It is not easy to computationally identify doublets as they can be hard to disti
 
 There are several computational methods to identify doublets; we describe only one here based on in-silico simulation of doublets.
 
-### Computing doublet desities
+### Computing doublet densities
 
 At a high level, the algorithm can be defined by the following steps:
 
@@ -663,7 +765,7 @@ sce$DoubletScore <- dbl.dens
 plotTSNE(sce, colour_by="DoubletScore")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
 
 We can explicitly convert this into doublet calls by identifying large outliers for the score within each sample. Here we use the "griffiths" method to do so.
 
@@ -684,13 +786,13 @@ sce$doublet <- dbl.calls
 plotColData(sce, y="DoubletScore", colour_by="doublet")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-29-1.png" style="display: block; margin: auto;" />
 
 ``` r
 plotTSNE(sce, colour_by="doublet")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-26-2.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-29-2.png" style="display: block; margin: auto;" />
 
 One way to determine whether a cell is in a real transient state or it is a doublet is to check the number of detected genes and total UMI counts.
 
@@ -699,13 +801,13 @@ One way to determine whether a cell is in a real transient state or it is a doub
 plotColData(sce, "detected", "sum", colour_by = "DoubletScore")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-30-1.png" style="display: block; margin: auto;" />
 
 ``` r
 plotColData(sce, "detected", "sum", colour_by = "doublet")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-27-2.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-30-2.png" style="display: block; margin: auto;" />
 
 In this case, we only have a few doublets at the periphery of some clusters. It could be fine to keep the doublets in the analysis, but it may be safer to discard them to avoid biases in downstream analysis (e.g., differential expression).
 

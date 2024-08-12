@@ -30,15 +30,15 @@ library(SingleCellExperiment)
 library(MouseGastrulationData)
 ```
 
+It's normal to see lot of startup messages when loading these packages. 
+
 ## Bioconductor
 
 ### Overview 
 
 Within the R ecosystem, the Bioconductor project provides tools for the analysis and comprehension of high-throughput genomics data.
 The scope of the project covers microarray data, various forms of sequencing (RNA-seq, ChIP-seq, bisulfite, genotyping, etc.), proteomics, flow cytometry and more.
-One of Bioconductor's main selling points is the use of common data structures to promote interoperability between packages,
-allowing code written by different people (from different organizations, in different countries) to work together seamlessly in complex analyses. 
-By extending R to genomics, Bioconductor serves as a powerful addition to the computational biologist's toolkit.
+One of Bioconductor's main selling points is the use of common data structures to promote interoperability between packages, allowing code written by different people (from different organizations, in different countries) to work together seamlessly in complex analyses. 
 
 ### Installing Bioconductor Packages
 
@@ -63,9 +63,6 @@ For example, the code chunk below uses this approach to install the *[SingleCell
 
 
 ``` r
-## The command below is a one-line shortcut for:
-## library(BiocManager)
-## install("SingleCellExperiment")
 BiocManager::install("SingleCellExperiment")
 ```
 
@@ -102,13 +99,15 @@ This will check for more recent versions of each package (within a Bioconductor 
 BiocManager::install()
 ```
 
+Be careful: if you have a lot of packages to update, this can take a long time.
+
 ## The `SingleCellExperiment` class
 
 One of the main strengths of the Bioconductor project lies in the use of a common data infrastructure that powers interoperability across packages. 
 
 Users should be able to analyze their data using functions from different Bioconductor packages without the need to convert between formats. To this end, the `SingleCellExperiment` class (from the _SingleCellExperiment_ package) serves as the common currency for data exchange across 70+ single-cell-related Bioconductor packages.
 
-This class implements a data structure that stores all aspects of our single-cell data - gene-by-cell expression data, per-cell metadata and per-gene annotation - and manipulate them in a synchronized manner.
+This class implements a data structure that stores all aspects of our single-cell data - gene-by-cell expression data, cell-wise metadata, and gene-wise annotation - and lets us manipulate them in an organized manner.
 
 <img src="http://bioconductor.org/books/release/OSCA.intro/images/SingleCellExperiment.png" style="display: block; margin: auto;" />
 
@@ -135,19 +134,18 @@ mainExpName: NULL
 altExpNames(0):
 ```
 
-We can think of this (and other) class as a _container_, that contains several different pieces of data in so-called _slots_.
+We can think of this (and other) class as a _container_, that contains several different pieces of data in so-called _slots_. SingleCellExperiment objects come with dedicated methods for _getting_ and _setting_ the data in their slots. 
 
-The _getter_ methods are used to extract information from the slots and the _setter_ methods are used to add information into the slots. These are the only ways to interact with the objects (rather than directly accessing the slots).
+Depending on the object, slots can contain different types of data (e.g., numeric matrices, lists, etc.). Here we'll review the main slots of the SingleCellExperiment class as well as their getter/setter methods.
 
-Depending on the object, slots can contain different types of data (e.g., numeric matrices, lists, etc.). We will here review the main slots of the SingleCellExperiment class as well as their getter/setter methods.
 
 :::: challenge
 
-Before SingleCellExperiments, coders working with single cell data would sometimes keep all of these components in separate objects e.g. a matrix of counts, a data.frame of sample metadata, a data.frame of gene annotations and so on. What are the main disadvantages of this sort of "from scratch" approach?
+Before SingleCellExperiments, coders working with single cell data would sometimes keep all of these components in separate objects e.g. a matrix of counts, a data.frame of sample metadata, a data.frame of gene annotations and so on. What are the main disadvantage of this sort of "from scratch" approach?
 
 ::: solution
 
-1. You have to do tons of manual book-keeping! If you perform a QC step that removes dead cells, now you also have to remember to remove that same set of cells from the cell-wise metadata. Dropped un-expressed genes? Don't forget to filter the gene metadata table too. 
+1. You have to do tons of book-keeping! If you perform a QC step that removes dead cells, now you also have to remember to remove that same set of cells from the cell-wise metadata. Dropped un-expressed genes? Don't forget to filter the gene metadata table too. 
 
 2. All the downstream steps have to be "from scratch" as well! If your tables have some slight format difference from those of your lab-mate, suddenly the plotting code you're trying to re-use doesn't work! Agh!
 
@@ -155,17 +153,17 @@ Before SingleCellExperiments, coders working with single cell data would sometim
 
 ::::
 
-### The `assays`
+### `assays`
 
 This is arguably the most fundamental part of the object that contains the count matrix, and potentially other matrices with transformed data. We can access the _list_ of matrices with the `assays` function and individual matrices with the `assay` function. If one of these matrices is called "counts", we can use the special `counts` getter (and the analogous `logcounts`).
 
 
 ``` r
-identical(assay(sce), counts(sce))
+names(assays(sce))
 ```
 
 ``` output
-[1] TRUE
+[1] "counts"
 ```
 
 ``` r
@@ -182,7 +180,7 @@ ENSMUSG00000102343         .         .         .
 
 You will notice that in this case we have a sparse matrix of class "dgTMatrix" inside the object. More generally, any "matrix-like" object can be used, e.g., dense matrices or HDF5-backed matrices (see "Working with large data").
 
-### The `colData` and `rowData`
+### `colData` and `rowData`
 
 Conceptually, these are two data frames that annotate the columns and the rows of your assay, respectively.
 
@@ -190,131 +188,74 @@ One can interact with them as usual, e.g., by extracting columns or adding addit
 
 
 ``` r
-colData(sce)
+colData(sce)[1:3, 1:4]
 ```
 
 ``` output
-DataFrame with 2411 rows and 11 columns
-                  cell          barcode    sample       stage    tomato
-           <character>      <character> <integer> <character> <logical>
-cell_9769    cell_9769 AAACCTGAGACTGTAA         5        E8.5      TRUE
-cell_9770    cell_9770 AAACCTGAGATGCCTT         5        E8.5      TRUE
-cell_9771    cell_9771 AAACCTGAGCAGCCTC         5        E8.5      TRUE
-cell_9772    cell_9772 AAACCTGCATACTCTT         5        E8.5      TRUE
-cell_9773    cell_9773 AAACGGGTCAACACCA         5        E8.5      TRUE
-...                ...              ...       ...         ...       ...
-cell_12175  cell_12175 TTTGGTTAGTCCGTAT         5        E8.5      TRUE
-cell_12176  cell_12176 TTTGGTTAGTGTTGAA         5        E8.5      TRUE
-cell_12177  cell_12177 TTTGGTTGTTAAAGAC         5        E8.5      TRUE
-cell_12178  cell_12178 TTTGGTTTCAGTCAGT         5        E8.5      TRUE
-cell_12179  cell_12179 TTTGGTTTCGCCATAA         5        E8.5      TRUE
-                pool stage.mapped        celltype.mapped closest.cell
-           <integer>  <character>            <character>  <character>
-cell_9769          3        E8.25             Mesenchyme   cell_24159
-cell_9770          3         E8.5            Endothelium   cell_96660
-cell_9771          3         E8.5              Allantois  cell_134982
-cell_9772          3         E8.5             Erythroid3  cell_133892
-cell_9773          3        E8.25             Erythroid1   cell_76296
-...              ...          ...                    ...          ...
-cell_12175         3         E8.5             Erythroid3  cell_138060
-cell_12176         3         E8.5 Forebrain/Midbrain/H..   cell_72709
-cell_12177         3        E8.25       Surface ectoderm  cell_100275
-cell_12178         3        E8.25             Erythroid2   cell_70906
-cell_12179         3         E8.5            Spinal cord  cell_102334
-           doub.density sizeFactor
-              <numeric>  <numeric>
-cell_9769    0.02985045    1.41243
-cell_9770    0.00172753    1.22757
-cell_9771    0.01338013    1.15439
-cell_9772    0.00218402    1.28676
-cell_9773    0.00211723    1.78719
-...                 ...        ...
-cell_12175   0.00129403   1.219506
-cell_12176   0.01833074   1.095753
-cell_12177   0.03104037   0.910728
-cell_12178   0.00169483   2.061701
-cell_12179   0.03767894   1.798687
+DataFrame with 3 rows and 4 columns
+                 cell          barcode    sample       stage
+          <character>      <character> <integer> <character>
+cell_9769   cell_9769 AAACCTGAGACTGTAA         5        E8.5
+cell_9770   cell_9770 AAACCTGAGATGCCTT         5        E8.5
+cell_9771   cell_9771 AAACCTGAGCAGCCTC         5        E8.5
 ```
 
 ``` r
-rowData(sce)
+rowData(sce)[1:3, 1:2]
 ```
 
 ``` output
-DataFrame with 29453 rows and 2 columns
-                              ENSEMBL         SYMBOL
-                          <character>    <character>
-ENSMUSG00000051951 ENSMUSG00000051951           Xkr4
-ENSMUSG00000089699 ENSMUSG00000089699         Gm1992
-ENSMUSG00000102343 ENSMUSG00000102343        Gm37381
-ENSMUSG00000025900 ENSMUSG00000025900            Rp1
-ENSMUSG00000025902 ENSMUSG00000025902          Sox17
-...                               ...            ...
-ENSMUSG00000095041 ENSMUSG00000095041     AC149090.1
-ENSMUSG00000063897 ENSMUSG00000063897          DHRSX
-ENSMUSG00000096730 ENSMUSG00000096730       Vmn2r122
-ENSMUSG00000095742 ENSMUSG00000095742 CAAA01147332.1
-tomato-td                   tomato-td      tomato-td
+DataFrame with 3 rows and 2 columns
+                              ENSEMBL      SYMBOL
+                          <character> <character>
+ENSMUSG00000051951 ENSMUSG00000051951        Xkr4
+ENSMUSG00000089699 ENSMUSG00000089699      Gm1992
+ENSMUSG00000102343 ENSMUSG00000102343     Gm37381
 ```
 
-Note the `$` short cut.
+You can access columns of the colData with the `$` accessor to quickly add cell-wise metadata to the colData
 
-
-``` r
-identical(colData(sce)$sum, sce$sum)
-```
-
-``` output
-[1] TRUE
-```
 
 ``` r
 sce$my_sum <- colSums(counts(sce))
-colData(sce)
+colData(sce)[1:3,]
 ```
 
 ``` output
-DataFrame with 2411 rows and 12 columns
-                  cell          barcode    sample       stage    tomato
-           <character>      <character> <integer> <character> <logical>
-cell_9769    cell_9769 AAACCTGAGACTGTAA         5        E8.5      TRUE
-cell_9770    cell_9770 AAACCTGAGATGCCTT         5        E8.5      TRUE
-cell_9771    cell_9771 AAACCTGAGCAGCCTC         5        E8.5      TRUE
-cell_9772    cell_9772 AAACCTGCATACTCTT         5        E8.5      TRUE
-cell_9773    cell_9773 AAACGGGTCAACACCA         5        E8.5      TRUE
-...                ...              ...       ...         ...       ...
-cell_12175  cell_12175 TTTGGTTAGTCCGTAT         5        E8.5      TRUE
-cell_12176  cell_12176 TTTGGTTAGTGTTGAA         5        E8.5      TRUE
-cell_12177  cell_12177 TTTGGTTGTTAAAGAC         5        E8.5      TRUE
-cell_12178  cell_12178 TTTGGTTTCAGTCAGT         5        E8.5      TRUE
-cell_12179  cell_12179 TTTGGTTTCGCCATAA         5        E8.5      TRUE
-                pool stage.mapped        celltype.mapped closest.cell
-           <integer>  <character>            <character>  <character>
-cell_9769          3        E8.25             Mesenchyme   cell_24159
-cell_9770          3         E8.5            Endothelium   cell_96660
-cell_9771          3         E8.5              Allantois  cell_134982
-cell_9772          3         E8.5             Erythroid3  cell_133892
-cell_9773          3        E8.25             Erythroid1   cell_76296
-...              ...          ...                    ...          ...
-cell_12175         3         E8.5             Erythroid3  cell_138060
-cell_12176         3         E8.5 Forebrain/Midbrain/H..   cell_72709
-cell_12177         3        E8.25       Surface ectoderm  cell_100275
-cell_12178         3        E8.25             Erythroid2   cell_70906
-cell_12179         3         E8.5            Spinal cord  cell_102334
-           doub.density sizeFactor    my_sum
-              <numeric>  <numeric> <numeric>
-cell_9769    0.02985045    1.41243     27577
-cell_9770    0.00172753    1.22757     29309
-cell_9771    0.01338013    1.15439     28795
-cell_9772    0.00218402    1.28676     34794
-cell_9773    0.00211723    1.78719     38300
-...                 ...        ...       ...
-cell_12175   0.00129403   1.219506     26680
-cell_12176   0.01833074   1.095753     19013
-cell_12177   0.03104037   0.910728     24627
-cell_12178   0.00169483   2.061701     46162
-cell_12179   0.03767894   1.798687     38398
+DataFrame with 3 rows and 12 columns
+                 cell          barcode    sample       stage    tomato
+          <character>      <character> <integer> <character> <logical>
+cell_9769   cell_9769 AAACCTGAGACTGTAA         5        E8.5      TRUE
+cell_9770   cell_9770 AAACCTGAGATGCCTT         5        E8.5      TRUE
+cell_9771   cell_9771 AAACCTGAGCAGCCTC         5        E8.5      TRUE
+               pool stage.mapped celltype.mapped closest.cell doub.density
+          <integer>  <character>     <character>  <character>    <numeric>
+cell_9769         3        E8.25      Mesenchyme   cell_24159   0.02985045
+cell_9770         3         E8.5     Endothelium   cell_96660   0.00172753
+cell_9771         3         E8.5       Allantois  cell_134982   0.01338013
+          sizeFactor    my_sum
+           <numeric> <numeric>
+cell_9769    1.41243     27577
+cell_9770    1.22757     29309
+cell_9771    1.15439     28795
 ```
+
+:::: challenge 
+
+Try to add a column of gene-wise metadata to the rowData.
+
+::: solution
+
+Here we add a column called "conservation" that is just an integer sequence from 1 to the number of genes.
+
+
+``` r
+rowData(sce)$conservation = 1:nrow(sce)
+```
+
+::: 
+
+::::
 
 ### The `reducedDims`
 
@@ -344,7 +285,7 @@ library(scater)
 plotReducedDim(sce, "pca.corrected.E8.5", colour_by = "celltype.mapped")
 ```
 
-<img src="fig/intro-sce-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+<img src="fig/intro-sce-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
 :::::::::::::::::::::::::::::::::: challenge
 
