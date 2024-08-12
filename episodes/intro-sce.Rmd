@@ -25,6 +25,7 @@ exercises: 10 # Minutes of exercises in the lesson
 ```{r chunk-opts, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 library(BiocStyle)
+options(digits = 3)
 ```
 
 ```{r setup}
@@ -32,15 +33,15 @@ library(SingleCellExperiment)
 library(MouseGastrulationData)
 ```
 
+It's normal to see lot of startup messages when loading these packages. 
+
 ## Bioconductor
 
 ### Overview 
 
 Within the R ecosystem, the Bioconductor project provides tools for the analysis and comprehension of high-throughput genomics data.
 The scope of the project covers microarray data, various forms of sequencing (RNA-seq, ChIP-seq, bisulfite, genotyping, etc.), proteomics, flow cytometry and more.
-One of Bioconductor's main selling points is the use of common data structures to promote interoperability between packages,
-allowing code written by different people (from different organizations, in different countries) to work together seamlessly in complex analyses. 
-By extending R to genomics, Bioconductor serves as a powerful addition to the computational biologist's toolkit.
+One of Bioconductor's main selling points is the use of common data structures to promote interoperability between packages, allowing code written by different people (from different organizations, in different countries) to work together seamlessly in complex analyses. 
 
 ### Installing Bioconductor Packages
 
@@ -62,9 +63,6 @@ After that, we can use `r CRANpkg("BiocManager")`'s `install()` function to inst
 For example, the code chunk below uses this approach to install the `r Biocpkg("SingleCellExperiment")` package.
 
 ```{r, eval=FALSE}
-## The command below is a one-line shortcut for:
-## library(BiocManager)
-## install("SingleCellExperiment")
 BiocManager::install("SingleCellExperiment")
 ```
 
@@ -99,13 +97,15 @@ This will check for more recent versions of each package (within a Bioconductor 
 BiocManager::install()
 ```
 
+Be careful: if you have a lot of packages to update, this can take a long time.
+
 ## The `SingleCellExperiment` class
 
 One of the main strengths of the Bioconductor project lies in the use of a common data infrastructure that powers interoperability across packages. 
 
 Users should be able to analyze their data using functions from different Bioconductor packages without the need to convert between formats. To this end, the `SingleCellExperiment` class (from the _SingleCellExperiment_ package) serves as the common currency for data exchange across 70+ single-cell-related Bioconductor packages.
 
-This class implements a data structure that stores all aspects of our single-cell data - gene-by-cell expression data, per-cell metadata and per-gene annotation - and manipulate them in a synchronized manner.
+This class implements a data structure that stores all aspects of our single-cell data - gene-by-cell expression data, cell-wise metadata, and gene-wise annotation - and lets us manipulate them in an organized manner.
 
 ```{r, echo=FALSE}
 knitr::include_graphics("http://bioconductor.org/books/release/OSCA.intro/images/SingleCellExperiment.png")
@@ -118,19 +118,18 @@ sce <- WTChimeraData(samples=5)
 sce
 ```
 
-We can think of this (and other) class as a _container_, that contains several different pieces of data in so-called _slots_.
+We can think of this (and other) class as a _container_, that contains several different pieces of data in so-called _slots_. SingleCellExperiment objects come with dedicated methods for _getting_ and _setting_ the data in their slots. 
 
-The _getter_ methods are used to extract information from the slots and the _setter_ methods are used to add information into the slots. These are the only ways to interact with the objects (rather than directly accessing the slots).
+Depending on the object, slots can contain different types of data (e.g., numeric matrices, lists, etc.). Here we'll review the main slots of the SingleCellExperiment class as well as their getter/setter methods.
 
-Depending on the object, slots can contain different types of data (e.g., numeric matrices, lists, etc.). We will here review the main slots of the SingleCellExperiment class as well as their getter/setter methods.
 
 :::: challenge
 
-Before SingleCellExperiments, coders working with single cell data would sometimes keep all of these components in separate objects e.g. a matrix of counts, a data.frame of sample metadata, a data.frame of gene annotations and so on. What are the main disadvantages of this sort of "from scratch" approach?
+Before SingleCellExperiments, coders working with single cell data would sometimes keep all of these components in separate objects e.g. a matrix of counts, a data.frame of sample metadata, a data.frame of gene annotations and so on. What are the main disadvantage of this sort of "from scratch" approach?
 
 ::: solution
 
-1. You have to do tons of manual book-keeping! If you perform a QC step that removes dead cells, now you also have to remember to remove that same set of cells from the cell-wise metadata. Dropped un-expressed genes? Don't forget to filter the gene metadata table too. 
+1. You have to do tons of book-keeping! If you perform a QC step that removes dead cells, now you also have to remember to remove that same set of cells from the cell-wise metadata. Dropped un-expressed genes? Don't forget to filter the gene metadata table too. 
 
 2. All the downstream steps have to be "from scratch" as well! If your tables have some slight format difference from those of your lab-mate, suddenly the plotting code you're trying to re-use doesn't work! Agh!
 
@@ -138,35 +137,50 @@ Before SingleCellExperiments, coders working with single cell data would sometim
 
 ::::
 
-### The `assays`
+### `assays`
 
 This is arguably the most fundamental part of the object that contains the count matrix, and potentially other matrices with transformed data. We can access the _list_ of matrices with the `assays` function and individual matrices with the `assay` function. If one of these matrices is called "counts", we can use the special `counts` getter (and the analogous `logcounts`).
 
 ```{r}
-identical(assay(sce), counts(sce))
+names(assays(sce))
 counts(sce)[1:3, 1:3]
 ```
 
 You will notice that in this case we have a sparse matrix of class "dgTMatrix" inside the object. More generally, any "matrix-like" object can be used, e.g., dense matrices or HDF5-backed matrices (see "Working with large data").
 
-### The `colData` and `rowData`
+### `colData` and `rowData`
 
 Conceptually, these are two data frames that annotate the columns and the rows of your assay, respectively.
 
 One can interact with them as usual, e.g., by extracting columns or adding additional variables as columns.
 
 ```{r}
-colData(sce)
-rowData(sce)
+colData(sce)[1:3, 1:4]
+rowData(sce)[1:3, 1:2]
 ```
 
-Note the `$` short cut.
+You can access columns of the colData with the `$` accessor to quickly add cell-wise metadata to the colData
 
 ```{r}
-identical(colData(sce)$sum, sce$sum)
 sce$my_sum <- colSums(counts(sce))
-colData(sce)
+colData(sce)[1:3,]
 ```
+
+:::: challenge 
+
+Try to add a column of gene-wise metadata to the rowData.
+
+::: solution
+
+Here we add a column called "conservation" that is just an integer sequence from 1 to the number of genes.
+
+```{r}
+rowData(sce)$conservation = 1:nrow(sce)
+```
+
+::: 
+
+::::
 
 ### The `reducedDims`
 
