@@ -328,7 +328,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Introduction to Bioconductor and the SingleCellExperiment class</h1>
-        <p>Last updated on 2024-08-06 |
+        <p>Last updated on 2024-08-12 |
 
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/intro-sce.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -378,6 +378,8 @@ objects.</li>
 <code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">SingleCellExperiment</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">MouseGastrulationData</span><span class="op">)</span></span></code></pre>
 </div>
+<p>It’s normal to see lot of startup messages when loading these
+packages.</p>
 </section><section><h2 class="section-heading" id="bioconductor">Bioconductor<a class="anchor" aria-label="anchor" href="#bioconductor"></a>
 <a class="anchor" aria-label="anchor" href="#bioconductor"></a></h2>
 <hr class="half-width"><div class="section level3">
@@ -389,9 +391,8 @@ scope of the project covers microarray data, various forms of sequencing
 cytometry and more. One of Bioconductor’s main selling points is the use
 of common data structures to promote interoperability between packages,
 allowing code written by different people (from different organizations,
-in different countries) to work together seamlessly in complex analyses.
-By extending R to genomics, Bioconductor serves as a powerful addition
-to the computational biologist’s toolkit.</p>
+in different countries) to work together seamlessly in complex
+analyses.</p>
 </div>
 <div class="section level3">
 <h3 id="installing-bioconductor-packages">Installing Bioconductor Packages<a class="anchor" aria-label="anchor" href="#installing-bioconductor-packages"></a></h3>
@@ -424,10 +425,7 @@ package.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">## The command below is a one-line shortcut for:</span></span>
-<span><span class="co">## library(BiocManager)</span></span>
-<span><span class="co">## install("SingleCellExperiment")</span></span>
-<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="st">"SingleCellExperiment"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="st">"SingleCellExperiment"</span><span class="op">)</span></span></code></pre>
 </div>
 <p>Should we forget, the same instructions are present on the landing
 page of any Bioconductor package. For example, looking at the <a href="https://bioconductor.org/packages/release/bioc/html/scater.html" class="external-link"><code>scater</code></a>
@@ -473,6 +471,8 @@ release) and prompt the user to update if any are available.</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
+<p>Be careful: if you have a lot of packages to update, this can take a
+long time.</p>
 </div>
 </section><section><h2 class="section-heading" id="the-singlecellexperiment-class">The <code>SingleCellExperiment</code> class<a class="anchor" aria-label="anchor" href="#the-singlecellexperiment-class"></a>
 <a class="anchor" aria-label="anchor" href="#the-singlecellexperiment-class"></a></h2>
@@ -486,8 +486,9 @@ the <em>SingleCellExperiment</em> package) serves as the common currency
 for data exchange across 70+ single-cell-related Bioconductor
 packages.</p>
 <p>This class implements a data structure that stores all aspects of our
-single-cell data - gene-by-cell expression data, per-cell metadata and
-per-gene annotation - and manipulate them in a synchronized manner.</p>
+single-cell data - gene-by-cell expression data, cell-wise metadata, and
+gene-wise annotation - and lets us manipulate them in an organized
+manner.</p>
 <figure><img src="http://bioconductor.org/books/release/OSCA.intro/images/SingleCellExperiment.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Let’s start with an example dataset.</p>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -513,15 +514,12 @@ mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
 <p>We can think of this (and other) class as a <em>container</em>, that
-contains several different pieces of data in so-called
-<em>slots</em>.</p>
-<p>The <em>getter</em> methods are used to extract information from the
-slots and the <em>setter</em> methods are used to add information into
-the slots. These are the only ways to interact with the objects (rather
-than directly accessing the slots).</p>
+contains several different pieces of data in so-called <em>slots</em>.
+SingleCellExperiment objects come with dedicated methods for
+<em>getting</em> and <em>setting</em> the data in their slots.</p>
 <p>Depending on the object, slots can contain different types of data
-(e.g., numeric matrices, lists, etc.). We will here review the main
-slots of the SingleCellExperiment class as well as their getter/setter
+(e.g., numeric matrices, lists, etc.). Here we’ll review the main slots
+of the SingleCellExperiment class as well as their getter/setter
 methods.</p>
 <div id="challenge1" class="callout challenge">
 <div class="callout-square">
@@ -534,7 +532,7 @@ methods.</p>
 <p>Before SingleCellExperiments, coders working with single cell data
 would sometimes keep all of these components in separate objects e.g. a
 matrix of counts, a data.frame of sample metadata, a data.frame of gene
-annotations and so on. What are the main disadvantages of this sort of
+annotations and so on. What are the main disadvantage of this sort of
 “from scratch” approach?</p>
 </div>
 </div>
@@ -544,11 +542,11 @@ annotations and so on. What are the main disadvantages of this sort of
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
-<ol style="list-style-type: decimal"><li><p>You have to do tons of manual book-keeping! If you perform a QC
-step that removes dead cells, now you also have to remember to remove
-that same set of cells from the cell-wise metadata. Dropped un-expressed
+<ol style="list-style-type: decimal"><li><p>You have to do tons of book-keeping! If you perform a QC step
+that removes dead cells, now you also have to remember to remove that
+same set of cells from the cell-wise metadata. Dropped un-expressed
 genes? Don’t forget to filter the gene metadata table too.</p></li>
 <li><p>All the downstream steps have to be “from scratch” as well! If
 your tables have some slight format difference from those of your
@@ -559,8 +557,7 @@ work! Agh!</p></li>
 </div>
 </div>
 <div class="section level3">
-<h3 id="the-assays">The <code>assays</code>
-<a class="anchor" aria-label="anchor" href="#the-assays"></a></h3>
+<h3 id="assays"><code>assays</code><a class="anchor" aria-label="anchor" href="#assays"></a></h3>
 <p>This is arguably the most fundamental part of the object that
 contains the count matrix, and potentially other matrices with
 transformed data. We can access the <em>list</em> of matrices with the
@@ -572,12 +569,12 @@ analogous <code>logcounts</code>).</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">identical</span><span class="op">(</span><span class="fu">assay</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span>, <span class="fu">counts</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">names</span><span class="op">(</span><span class="fu">assays</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] TRUE</code></pre>
+<pre class="output" tabindex="0"><code>[1] "counts"</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -600,8 +597,9 @@ can be used, e.g., dense matrices or HDF5-backed matrices (see “Working
 with large data”).</p>
 </div>
 <div class="section level3">
-<h3 id="the-coldata-and-rowdata">The <code>colData</code> and <code>rowData</code>
-<a class="anchor" aria-label="anchor" href="#the-coldata-and-rowdata"></a></h3>
+<h3 id="coldata-and-rowdata">
+<code>colData</code> and <code>rowData</code>
+<a class="anchor" aria-label="anchor" href="#coldata-and-rowdata"></a></h3>
 <p>Conceptually, these are two data frames that annotate the columns and
 the rows of your assay, respectively.</p>
 <p>One can interact with them as usual, e.g., by extracting columns or
@@ -610,138 +608,93 @@ adding additional variables as columns.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">colData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">colData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>DataFrame with 2411 rows and 11 columns
-                  cell          barcode    sample       stage    tomato
-           &lt;character&gt;      &lt;character&gt; &lt;integer&gt; &lt;character&gt; &lt;logical&gt;
-cell_9769    cell_9769 AAACCTGAGACTGTAA         5        E8.5      TRUE
-cell_9770    cell_9770 AAACCTGAGATGCCTT         5        E8.5      TRUE
-cell_9771    cell_9771 AAACCTGAGCAGCCTC         5        E8.5      TRUE
-cell_9772    cell_9772 AAACCTGCATACTCTT         5        E8.5      TRUE
-cell_9773    cell_9773 AAACGGGTCAACACCA         5        E8.5      TRUE
-...                ...              ...       ...         ...       ...
-cell_12175  cell_12175 TTTGGTTAGTCCGTAT         5        E8.5      TRUE
-cell_12176  cell_12176 TTTGGTTAGTGTTGAA         5        E8.5      TRUE
-cell_12177  cell_12177 TTTGGTTGTTAAAGAC         5        E8.5      TRUE
-cell_12178  cell_12178 TTTGGTTTCAGTCAGT         5        E8.5      TRUE
-cell_12179  cell_12179 TTTGGTTTCGCCATAA         5        E8.5      TRUE
-                pool stage.mapped        celltype.mapped closest.cell
-           &lt;integer&gt;  &lt;character&gt;            &lt;character&gt;  &lt;character&gt;
-cell_9769          3        E8.25             Mesenchyme   cell_24159
-cell_9770          3         E8.5            Endothelium   cell_96660
-cell_9771          3         E8.5              Allantois  cell_134982
-cell_9772          3         E8.5             Erythroid3  cell_133892
-cell_9773          3        E8.25             Erythroid1   cell_76296
-...              ...          ...                    ...          ...
-cell_12175         3         E8.5             Erythroid3  cell_138060
-cell_12176         3         E8.5 Forebrain/Midbrain/H..   cell_72709
-cell_12177         3        E8.25       Surface ectoderm  cell_100275
-cell_12178         3        E8.25             Erythroid2   cell_70906
-cell_12179         3         E8.5            Spinal cord  cell_102334
-           doub.density sizeFactor
-              &lt;numeric&gt;  &lt;numeric&gt;
-cell_9769    0.02985045    1.41243
-cell_9770    0.00172753    1.22757
-cell_9771    0.01338013    1.15439
-cell_9772    0.00218402    1.28676
-cell_9773    0.00211723    1.78719
-...                 ...        ...
-cell_12175   0.00129403   1.219506
-cell_12176   0.01833074   1.095753
-cell_12177   0.03104037   0.910728
-cell_12178   0.00169483   2.061701
-cell_12179   0.03767894   1.798687</code></pre>
+<pre class="output" tabindex="0"><code>DataFrame with 3 rows and 4 columns
+                 cell          barcode    sample       stage
+          &lt;character&gt;      &lt;character&gt; &lt;integer&gt; &lt;character&gt;
+cell_9769   cell_9769 AAACCTGAGACTGTAA         5        E8.5
+cell_9770   cell_9770 AAACCTGAGATGCCTT         5        E8.5
+cell_9771   cell_9771 AAACCTGAGCAGCCTC         5        E8.5</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">rowData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">rowData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>DataFrame with 29453 rows and 2 columns
-                              ENSEMBL         SYMBOL
-                          &lt;character&gt;    &lt;character&gt;
-ENSMUSG00000051951 ENSMUSG00000051951           Xkr4
-ENSMUSG00000089699 ENSMUSG00000089699         Gm1992
-ENSMUSG00000102343 ENSMUSG00000102343        Gm37381
-ENSMUSG00000025900 ENSMUSG00000025900            Rp1
-ENSMUSG00000025902 ENSMUSG00000025902          Sox17
-...                               ...            ...
-ENSMUSG00000095041 ENSMUSG00000095041     AC149090.1
-ENSMUSG00000063897 ENSMUSG00000063897          DHRSX
-ENSMUSG00000096730 ENSMUSG00000096730       Vmn2r122
-ENSMUSG00000095742 ENSMUSG00000095742 CAAA01147332.1
-tomato-td                   tomato-td      tomato-td</code></pre>
+<pre class="output" tabindex="0"><code>DataFrame with 3 rows and 2 columns
+                              ENSEMBL      SYMBOL
+                          &lt;character&gt; &lt;character&gt;
+ENSMUSG00000051951 ENSMUSG00000051951        Xkr4
+ENSMUSG00000089699 ENSMUSG00000089699      Gm1992
+ENSMUSG00000102343 ENSMUSG00000102343     Gm37381</code></pre>
 </div>
-<p>Note the <code>$</code> short cut.</p>
+<p>You can access columns of the colData with the <code>$</code>
+accessor to quickly add cell-wise metadata to the colData</p>
 <div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">identical</span><span class="op">(</span><span class="fu">colData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">$</span><span class="va">sum</span>, <span class="va">sce</span><span class="op">$</span><span class="va">sum</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">sce</span><span class="op">$</span><span class="va">my_sum</span> <span class="op">&lt;-</span> <span class="fu">colSums</span><span class="op">(</span><span class="fu">counts</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">colData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,<span class="op">]</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] TRUE</code></pre>
+<pre class="output" tabindex="0"><code>DataFrame with 3 rows and 12 columns
+                 cell          barcode    sample       stage    tomato
+          &lt;character&gt;      &lt;character&gt; &lt;integer&gt; &lt;character&gt; &lt;logical&gt;
+cell_9769   cell_9769 AAACCTGAGACTGTAA         5        E8.5      TRUE
+cell_9770   cell_9770 AAACCTGAGATGCCTT         5        E8.5      TRUE
+cell_9771   cell_9771 AAACCTGAGCAGCCTC         5        E8.5      TRUE
+               pool stage.mapped celltype.mapped closest.cell doub.density
+          &lt;integer&gt;  &lt;character&gt;     &lt;character&gt;  &lt;character&gt;    &lt;numeric&gt;
+cell_9769         3        E8.25      Mesenchyme   cell_24159   0.02985045
+cell_9770         3         E8.5     Endothelium   cell_96660   0.00172753
+cell_9771         3         E8.5       Allantois  cell_134982   0.01338013
+          sizeFactor    my_sum
+           &lt;numeric&gt; &lt;numeric&gt;
+cell_9769    1.41243     27577
+cell_9770    1.22757     29309
+cell_9771    1.15439     28795</code></pre>
 </div>
+<div id="challenge2" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge<a class="anchor" aria-label="anchor" href="#challenge2"></a>
+</h3>
+<div class="callout-content">
+<p>Try to add a column of gene-wise metadata to the rowData.</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
+</button>
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div class="accordion-body">
+<p>Here we add a column called “conservation” that is just an integer
+sequence from 1 to the number of genes.</p>
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sce</span><span class="op">$</span><span class="va">my_sum</span> <span class="op">&lt;-</span> <span class="fu">colSums</span><span class="op">(</span><span class="fu">counts</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">colData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">rowData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">$</span><span class="va">conservation</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">nrow</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>DataFrame with 2411 rows and 12 columns
-                  cell          barcode    sample       stage    tomato
-           &lt;character&gt;      &lt;character&gt; &lt;integer&gt; &lt;character&gt; &lt;logical&gt;
-cell_9769    cell_9769 AAACCTGAGACTGTAA         5        E8.5      TRUE
-cell_9770    cell_9770 AAACCTGAGATGCCTT         5        E8.5      TRUE
-cell_9771    cell_9771 AAACCTGAGCAGCCTC         5        E8.5      TRUE
-cell_9772    cell_9772 AAACCTGCATACTCTT         5        E8.5      TRUE
-cell_9773    cell_9773 AAACGGGTCAACACCA         5        E8.5      TRUE
-...                ...              ...       ...         ...       ...
-cell_12175  cell_12175 TTTGGTTAGTCCGTAT         5        E8.5      TRUE
-cell_12176  cell_12176 TTTGGTTAGTGTTGAA         5        E8.5      TRUE
-cell_12177  cell_12177 TTTGGTTGTTAAAGAC         5        E8.5      TRUE
-cell_12178  cell_12178 TTTGGTTTCAGTCAGT         5        E8.5      TRUE
-cell_12179  cell_12179 TTTGGTTTCGCCATAA         5        E8.5      TRUE
-                pool stage.mapped        celltype.mapped closest.cell
-           &lt;integer&gt;  &lt;character&gt;            &lt;character&gt;  &lt;character&gt;
-cell_9769          3        E8.25             Mesenchyme   cell_24159
-cell_9770          3         E8.5            Endothelium   cell_96660
-cell_9771          3         E8.5              Allantois  cell_134982
-cell_9772          3         E8.5             Erythroid3  cell_133892
-cell_9773          3        E8.25             Erythroid1   cell_76296
-...              ...          ...                    ...          ...
-cell_12175         3         E8.5             Erythroid3  cell_138060
-cell_12176         3         E8.5 Forebrain/Midbrain/H..   cell_72709
-cell_12177         3        E8.25       Surface ectoderm  cell_100275
-cell_12178         3        E8.25             Erythroid2   cell_70906
-cell_12179         3         E8.5            Spinal cord  cell_102334
-           doub.density sizeFactor    my_sum
-              &lt;numeric&gt;  &lt;numeric&gt; &lt;numeric&gt;
-cell_9769    0.02985045    1.41243     27577
-cell_9770    0.00172753    1.22757     29309
-cell_9771    0.01338013    1.15439     28795
-cell_9772    0.00218402    1.28676     34794
-cell_9773    0.00211723    1.78719     38300
-...                 ...        ...       ...
-cell_12175   0.00129403   1.219506     26680
-cell_12176   0.01833074   1.095753     19013
-cell_12177   0.03104037   0.910728     24627
-cell_12178   0.00169483   2.061701     46162
-cell_12179   0.03767894   1.798687     38398</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="section level3">
@@ -756,7 +709,7 @@ to data analysis with R and Bioconductor</a> course.</p>
 <p>One of the peculiarity of SingleCellExperiment is its ability to
 store reduced dimension matrices within the object. These may include
 PCA, t-SNE, UMAP, etc.</p>
-<div class="codewrapper sourceCode" id="cb21">
+<div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -778,14 +731,14 @@ function as an example of how to extract this information
 <em>indirectly</em> from the objects. Note that one could obtain the
 same results (somewhat less efficiently) by extracting the corresponding
 <code>reducedDim</code> matrix and <code>ggplot</code>.</p>
-<div class="codewrapper sourceCode" id="cb23">
+<div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">scater</span><span class="op">)</span></span>
 <span><span class="fu">plotReducedDim</span><span class="op">(</span><span class="va">sce</span>, <span class="st">"pca.corrected.E8.5"</span>, colour_by <span class="op">=</span> <span class="st">"celltype.mapped"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="../fig/intro-sce-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div id="exercise-1" class="callout challenge">
+<figure><img src="../fig/intro-sce-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div id="exercise-1" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
@@ -805,7 +758,7 @@ it) and add one or more columns as <code>colData</code>.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
 <div class="accordion-body">
 <p>The <code>SingleCellExperiment</code> constructor function can be
 used to create a new <code>SingleCellExperiment</code> object.</p>
@@ -924,8 +877,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/instructor/intro-sce.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/instructor/intro-sce.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-08-06",
-  "datePublished": "2024-08-06"
+  "dateModified": "2024-08-12",
+  "datePublished": "2024-08-12"
 }
 
   </script><script>
