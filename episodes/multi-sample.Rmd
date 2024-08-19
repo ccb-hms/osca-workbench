@@ -501,18 +501,26 @@ de.results <- pseudoBulkDGE(summed.filt.subset,
 
 :::::::::::::::::::::::::::::::::: challenge
 
-#### Exercise 2: `muscat`
+#### Exercise 2: 
 
-Test differential expressed genes computed with `muscat` package and check for differences in the results.
+Use the `pheatmap` package to create a heatmap of the abundances table. Does it comport with the model results?
 
 :::::::::::::: hint
 
+You can just hand `pheatmap()` a matrix as its only argument. It has a million options, but the defaults are usually pretty good.
 
 :::::::::::::::::::::::
 
 :::::::::::::: solution
 
-TODO
+```{r}
+library(pheatmap)
+
+pheatmap(y.ab$counts)
+```
+
+The top DA result was a decrease in ExE ectoderm in the tomato condition, which you can sort of see, especially if you `log1p()` the counts or discard rows that show much higher values. ExE ectoderm counts were much higher in samples 8 and 10 compared to 5, 7, and 9. 
+
 :::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::::::::
