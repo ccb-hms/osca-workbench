@@ -6,9 +6,9 @@ exercises: 15 # Minutes of exercises in the lesson
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How to integrate data from multiple batches, samples, and studies?
-- How to identify differentially expressed genes between experimental conditions for each cell type?
-- How to identify changes in cell type abundance between experimental conditions?
+- How can we integrate data from multiple batches, samples, and studies?
+- How can we identify differentially expressed genes between experimental conditions for each cell type?
+- How can we identify changes in cell type abundance between experimental conditions?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -23,7 +23,7 @@ exercises: 15 # Minutes of exercises in the lesson
 
 ## Setup and data exploration
 
-As said, we will use the the wild-type data from the Tal1 chimera experiment:
+As before, we will use the the wild-type data from the Tal1 chimera experiment:
 
 - Sample 5: E8.5 injected cells (tomato positive), pool 3
 - Sample 6: E8.5 host cells (tomato negative), pool 3
@@ -161,6 +161,18 @@ There are evident sample effects. Depending on the analysis that you want to per
 
 For now, let's assume that we want to remove this effect.
 
+:::: challenge
+
+It seems like samples 5 and 6 are separated off from the others in gene expression space. Given the group of cells in each sample, why might this make sense versus some other pair of samples? What is the factor presumably leading to this difference?
+
+::: solution
+
+Samples 5 and 6 were from the same "pool" of cells. Looking at the documentation for the dataset under `?WTChimeraData` we see that the pool variable is defined as: "Integer, embryo pool from which cell derived; samples with same value are matched." So samples 5 and 6 have an experimental factor in common which causes a shared, systematic difference in gene expression profiles compared to the other samples. That's why you can see many of isolated blue/orange clusters on the first TSNE plot. If you were developing single-cell library preparation protocols you might want to preserve this effect to understand how variation in pools leads to variation in expression, but for now, given that we're investigate other effects, we'll want to remove this as undesired technical variation.
+
+:::
+
+::::
+
 ## Correcting batch effects
 
 We correct the effect of samples by aid of the `correctExperiment` function
@@ -190,6 +202,20 @@ plotTSNE(merged, colour_by="batch")
 
 Once we removed the sample batch effect, we can proceed with the Differential 
 Expression Analysis.
+
+:::: challenge
+
+Having multiple independent samples in each experimental group is always helpful, but it particularly important when it comes to batch effect correction. Why?
+
+::: solution
+
+It's important to have multiple samples within each experimental group because it helps the batch effect correction algorithm distinguish differences due to batch effects (uninteresting) from differences due to biology (interesting). 
+
+Imagine you had one sample that received a drug treatment and one that did not, each with 10,000 cells. They differ substantially in expression of gene X. Is that an important scientific finding? You can't tell for sure, because the effect of drug is indistinguishable from a sample-wise batch effect. But if the difference in gene X holds up when you have five treated samples and five untreated samples, now you can be a bit more confident. Many batch effect correction methods will take information on experimental factors as additional arguments, which they can use to help remove batch effects while retaining experimental differences.
+
+:::
+
+::::
 
 
 ## Differential Expression
@@ -246,12 +272,13 @@ altExpNames(0):
 
 ### Differential Expression Analysis
 
-The main advantage of using pseudo-bulk samples is the possibility to use 
+The main advantage of using pseudo-bulk samples is the possibility to use
 well-tested methods for differential analysis like `edgeR` and `DESeq2`, we will
-focus on the former for this analysis.
-`edgeR` uses a Negative Binomial Generalized Linear Model.
+focus on the former for this analysis. `edgeR` uses a Negative Binomial
+Generalized Linear Model.
 
-First, let's start with a specific cell type, for instance the "Mesenchymal stem cells", and look into differences between this cell type across conditions.
+First, let's start with a specific cell type, for instance the "Mesenchymal stem
+cells", and look into differences between this cell type across conditions.
 
 
 ``` r
@@ -299,9 +326,9 @@ Sample5        Mesenchyme        9    239
 Sample6        Mesenchyme       10    146
 ```
 
-A typical step is to discard low quality samples due to low sequenced library 
-size. We discard these samples because they can affect further steps like normalization
-and/or DEGs analysis.
+A typical step is to discard low quality samples due to low sequenced library
+size. We discard these samples because they can affect further steps like
+normalization and/or DEGs analysis.
 
 We can see that in our case we don't have low quality samples and we don't need 
 to filter out any of them.
@@ -333,11 +360,11 @@ summary(keep)
 logical    9121    4520 
 ```
 
-We can now proceed to normalize the data
-There are several approaches for normalizing bulk, and hence pseudo-bulk data. Here, we use the Trimmed Mean of M-values method, implemented in the `edgeR` 
-package within the `calcNormFactors` function.
-Keep in mind that because we are going to normalize the pseudo-bulk counts,
-we don't need to normalize the data in "single cell form".
+We can now proceed to normalize the data There are several approaches for
+normalizing bulk, and hence pseudo-bulk data. Here, we use the Trimmed Mean of
+M-values method, implemented in the `edgeR` package within the `calcNormFactors`
+function. Keep in mind that because we are going to normalize the pseudo-bulk
+counts, we don't need to normalize the data in "single cell form".
 
 
 ``` r
@@ -369,22 +396,28 @@ Sample5        Mesenchyme        9    239
 Sample6        Mesenchyme       10    146
 ```
 
-To investigate the effect of our normalization, we use a Mean-Difference (MD) plot for each sample
-in order to detect possible normalization problems due to insufficient cells/reads/UMIs composing a particular pseudo-bulk profile.
+To investigate the effect of our normalization, we use a Mean-Difference (MD)
+plot for each sample in order to detect possible normalization problems due to
+insufficient cells/reads/UMIs composing a particular pseudo-bulk profile.
 
-In our case, we verify that all these plots are centered in 0 (on y-axis) and present
-a trumpet shape, as expected.
+In our case, we verify that all these plots are centered in 0 (on y-axis) and
+present a trumpet shape, as expected.
 
 
 
 ``` r
-par(mfrow=c(2,3))
+par(mfrow = c(2,3))
+
 for (i in seq_len(ncol(y))) {
     plotMD(y, column=i)
 }
 ```
 
 <img src="fig/multi-sample-rendered-unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+
+``` r
+par(mfrow = c(1,1))
+```
 
 Furthermore, we want to check if the samples cluster together based
 on their known factors (like the tomato injection in this case).
@@ -405,7 +438,8 @@ use it in the next step of the analysis.
 
 
 ``` r
-design <- model.matrix(~factor(pool) + factor(tomato), y$samples)
+design <- model.matrix(~factor(pool) + factor(tomato),
+                       data = y$samples)
 design
 ```
 
@@ -454,7 +488,7 @@ plotBCV(y)
 
 
 We then fit a Quasi-Likelihood (QL) negative binomial generalized linear model for each gene. 
-The `robust=TRUE` parameter avoids distorsions from highly variable clusters.
+The `robust=TRUE` parameter avoids distortions from highly variable clusters.
 The QL method includes an additional dispersion parameter, useful to handle the uncertainty and variability of the per-gene variance, which is not well estimated by the NB dispersions, so the two dispersion types complement each other in the final analysis.
 
 
@@ -564,17 +598,31 @@ ENSMUSG00000096730        NA        NA        NA          NA          NA
 ENSMUSG00000095742        NA        NA        NA          NA          NA
 ```
 
+:::: challenge
+
+Clearly some of the results have low p-values. What about the effect sizes? What does `logFC` stand for?
+
+::: solution
+
+"logFC" stands for log fold-change. Rather than reporting e.g. a 5-fold increase, it's better to report a logFC of log(5) = 1.61. Additive log scales are easier to work with than multiplicative identity scales, once you get used to it.
+
+`ENSMUSG00000037664` seems to have an estimated logFC of about -8. That's a big difference if it's real.
+
+:::
+
+::::
+
 
 ## Differential Abundance
 
-With DA we test for differences between clusters across conditions, to investigate
-which clusters change accordingly to the treatment (the tomato injection in our case).
+With DA we look for differences in cluster *abundance* across conditions (the
+tomato injection in our case), rather than differences in gene expression.
 
 We first setup some code and variables for further analysis, like quantifying the
 number of cells per each cell type and fit a model to catch differences between the 
 injected cells and the background.
 
-The performed steps are very similar to the ones for DEGs analysis, but this time
+The steps are very similar to the ones for DEGs analysis, but this time
 we start our analysis on the computed abundances and without normalizing the 
 data with TMM.
 
@@ -594,23 +642,29 @@ fit.ab <- glmQLFit(y.ab, design, robust=TRUE, abundance.trend=FALSE)
 
 ### Background on compositional effect
 
-As mentioned before, in DA we don't normalize our data with `calcNormFactors` 
-function, because this approach considers that most of the input features do not vary between conditions.
-This cannot be applied to this analysis because we have a small number of cell
-populations that all can change due to the treatment.
-Leaving us to normalize only for library depth, which in pseudo-bulk data means 
-by the total number of cells in each sample (cell type).
+As mentioned before, in DA we don't normalize our data with `calcNormFactors`
+function, because this approach considers that most of the input features do not
+vary between conditions. This cannot be applied to DA analysis because we have a
+small number of cell populations that all can change due to the treatment. This
+means that here we will normalize only for library depth, which in pseudo-bulk
+data means by the total number of cells in each sample (cell type).
 
-On the other hand, this can lead our data to be susceptible to compositional 
-effect, that means that our conclusions can be biased by the amount of cells 
-present in each cell type. And this amount of cells can be totally unbalanced 
-between cell types.
+On the other hand, this can lead our data to be susceptible to compositional
+effect. "Compositional" refers to the fact that the cluster abundances in a
+sample are not independent of one another because each cell type is effectively
+competing for space in the sample. They behave like proportions. If cell type A
+abundance increases in a new condition, that means we'll observe less of
+everything else, even if everything else is unaffected by the new condition.
+
+Compositionality means that our conclusions can be biased by the amount of cells
+present in each cell type. And this amount of cells can be totally unbalanced
+between cell types. This is particularly problematic for cell types that start
+at or end up near 0 or 100 percent.
 
 For example, a specific cell type can be 40% of the total amount of cells
-present in the experiment, while another just the 3%. 
-The differences in terms of abundance of these cell types are detected between 
-the different conditions, but our final interpretation could be biased if we don't
-consider this aspect.
+present in the experiment, while another just the 3%. The differences in terms
+of abundance of these cell types are detected between the different conditions,
+but our final interpretation could be biased if we don't consider this aspect.
 
 We now look at different approaches for handling the compositional effect.
 
@@ -633,13 +687,16 @@ y.ab2$samples$norm.factors
 [1] 1.1029040 1.0228173 1.0695358 0.7686501 1.0402941 1.0365354
 ```
 
-We then follow the already seen edgeR analysis steps. 
+We then use edgeR in a manner similar to what we ran before: 
 
 
 ``` r
 y.ab2 <- estimateDisp(y.ab2, design, trend="none")
+
 fit.ab2 <- glmQLFit(y.ab2, design, robust=TRUE, abundance.trend=FALSE)
+
 res2 <- glmQLFTest(fit.ab2, coef=ncol(design))
+
 summary(decideTests(res2))
 ```
 
@@ -671,10 +728,15 @@ Allantois          0.5462287 15.54924  2.922074 9.193574e-02 3.125815e-01
 
 ###  Testing against a log-fold change threshold
 
-This other approach assumes that the composition bias introduces a spurious log2-fold change of no more than a \tau quantity for a non-DA label. 
-In other words, we interpret this as the maximum log-fold change in the total number of cells given by DA in other labels.
-On the other hand, when choosing \tau, we should not consider fold-differences in the totals due to differences in capture efficiency or the size of the original cell population are not attributable to composition bias.
-We then mitigate the effect of composition biases by testing each label for changes in abundance beyond \tau.
+This other approach assumes that the composition bias introduces a spurious
+log2-fold change of no more than a \tau quantity for a non-DA label.
+
+In other words, we interpret this as the maximum log-fold change in the total
+number of cells given by DA in other labels. On the other hand, when choosing
+\tau, we should not consider fold-differences in the totals due to differences
+in capture efficiency or the size of the original cell population are not
+attributable to composition bias. We then mitigate the effect of composition
+biases by testing each label for changes in abundance beyond \tau.
 
 
 ``` r
@@ -828,30 +890,54 @@ Test differential expressed genes with just 2 replicates per condition and look 
 
 :::::::::::::: hint
 
+Remember, you can subset SingleCellExperiments with logical indices, just like a matrix. You can also access their column data with the `$` accessor, like a data frame. 
 
 :::::::::::::::::::::::
 
 :::::::::::::: solution
 
-TODO
+
+
+``` r
+summed.filt.subset = summed.filt[,summed.filt$pool != 3]
+
+de.results <- pseudoBulkDGE(summed.filt.subset, 
+    label=summed.filt.subset$celltype.mapped,
+    design=~factor(pool) + tomato,
+    coef="tomatoTRUE",
+    condition=summed.filt.subset$tomato 
+)
+```
+
 :::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::: challenge
 
-#### Exercise 2: `muscat`
+#### Exercise 2: 
 
-Test differential expressed genes computed with `muscat` package and check for differences in the results.
+Use the `pheatmap` package to create a heatmap of the abundances table. Does it comport with the model results?
 
 :::::::::::::: hint
 
+You can just hand `pheatmap()` a matrix as its only argument. It has a million options, but the defaults are usually pretty good.
 
 :::::::::::::::::::::::
 
 :::::::::::::: solution
 
-TODO
+
+``` r
+library(pheatmap)
+
+pheatmap(y.ab$counts)
+```
+
+<img src="fig/multi-sample-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+
+The top DA result was a decrease in ExE ectoderm in the tomato condition, which you can sort of see, especially if you `log1p()` the counts or discard rows that show much higher values. ExE ectoderm counts were much higher in samples 8 and 10 compared to 5, 7, and 9. 
+
 :::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::::::::
