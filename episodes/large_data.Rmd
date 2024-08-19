@@ -6,9 +6,9 @@ exercises: 2 # Minutes of exercises in the lesson
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How to work with single-cell datasets that are too large to fit in memory?
-- How to speed up single-cell analysis workflows for large datasets?
-- How to convert between popular single-cell data formats?
+- How do we work with single-cell datasets that are too large to fit in memory?
+- How do we speed up single-cell analysis workflows for large datasets?
+- How do we convert between popular single-cell data formats?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -52,18 +52,16 @@ For example, the 1.3 million brain cell data set from 10X Genomics
 would require over 100 GB of RAM to hold as a `matrix` and around 30 GB as a `dgCMatrix`.
 This makes it challenging to explore the data on anything less than a HPC system.
 
-The obvious solution is to use a file-backed matrix representation where the 
-data are held on disk and subsets are retrieved into memory as requested.
-While a number of implementations of file-backed matrices are available 
-(e.g.,
-[bigmemory](https://cran.r-project.org/web/packages/bigmemory/index.html), 
-[matter](https://bioconductor.org/packages/matter)), 
-we will be using the implementation from the 
-[HDF5Array](https://bioconductor.org/packages/HDF5Array) package.
-This uses the popular HDF5 format as the underlying data store, which provides
-a measure of standardization and portability across systems.
-We demonstrate with a subset of 20,000 cells from the 1.3 million brain cell 
-data set, as provided by the
+The obvious solution is to use a file-backed matrix representation where the
+data are held on disk and subsets are retrieved into memory as requested. While
+a number of implementations of file-backed matrices are available (e.g.,
+[bigmemory](https://cran.r-project.org/web/packages/bigmemory/index.html),
+[matter](https://bioconductor.org/packages/matter)), we will be using the
+implementation from the [HDF5Array](https://bioconductor.org/packages/HDF5Array)
+package. This uses the popular HDF5 format as the underlying data store, which
+provides a measure of standardization and portability across systems. We
+demonstrate with a subset of 20,000 cells from the 1.3 million brain cell data
+set, as provided by the
 [TENxBrainData](https://bioconductor.org/packages/TENxBrainData) package.
 
 ```{r tenx-brain}
@@ -117,15 +115,13 @@ qcstats <- perCellQCMetrics(sce.brain, subsets = list(Mt = is.mito))
 qcstats
 ```
 
-Needless to say, data access from file-backed representations is slower than that
-from in-memory representations.
-The time spent retrieving data from disk is an unavoidable cost of reducing
-memory usage.
-Whether this is tolerable depends on the application.
-One example usage pattern involves performing the heavy computing quickly with 
-in-memory representations on HPC systems with plentiful memory, and then
-distributing file-backed counterparts to individual users for exploration and 
-visualization on their personal machines.
+Needless to say, data access from file-backed representations is slower than
+that from in-memory representations. The time spent retrieving data from disk is
+an unavoidable cost of reducing memory usage. Whether this is tolerable depends
+on the application. One example usage pattern involves performing the heavy
+computing quickly with in-memory representations on HPC systems with plentiful
+memory, and then distributing file-backed counterparts to individual users for
+exploration and visualization on their personal machines.
 
 ## Parallelization
 
@@ -197,15 +193,34 @@ rs <- list(walltime = 7200, memory = 8000, ncpus = 1)
 bpp <- BatchtoolsParam(10, cluster = "slurm", resources = rs)
 ```
 
-Parallelization is best suited for CPU-intensive calculations where the division
-of labor results in a concomitant reduction in compute time. It is not suited
-for tasks that are bounded by other compute resources, e.g., memory or file I/O
-(though the latter is less of an issue on HPC systems with parallel read/write).
-In particular, R itself is inherently single-core, so many of the
+Parallelization is best suited for independent, CPU-intensive tasks where the
+division of labor results in a concomitant reduction in compute time. It is not
+suited for tasks that are bounded by other compute resources, e.g., memory or
+file I/O (though the latter is less of an issue on HPC systems with parallel
+read/write). In particular, R itself is inherently single-core, so many of the
 parallelization backends involve (i) setting up one or more separate R sessions,
 (ii) loading the relevant packages and (iii) transmitting the data to that
 session. Depending on the nature and size of the task, this overhead may
-outweigh any benefit from parallel computing.
+outweigh any benefit from parallel computing. While the default behavior of the
+parallel job managers often works well for simple cases, it is sometimes
+necessary to explicitly specify what data/libraries are sent to / loaded on the
+parallel workers in order to avoid unnecessary overhead.
+
+:::: challenge
+
+How do you turn on progress bars with parallel processing?
+
+::: solution
+
+From `?MulticoreParam` : 
+
+> `progressbar` logical(1) Enable progress bar (based on plyr:::progress_text). Enabling the progress bar changes the default value of tasks to .Machine$integer.max, so that progress is reported for each element of X.
+
+Progress bars are a helpful way to gauge whether that task is going to take 5 minutes or 5 hours.
+
+:::
+
+::::
 
 ## Fast approximations
 
