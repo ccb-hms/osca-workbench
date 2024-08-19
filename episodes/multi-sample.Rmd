@@ -187,12 +187,13 @@ summed
 
 ### Differential Expression Analysis
 
-The main advantage of using pseudo-bulk samples is the possibility to use 
+The main advantage of using pseudo-bulk samples is the possibility to use
 well-tested methods for differential analysis like `edgeR` and `DESeq2`, we will
-focus on the former for this analysis.
-`edgeR` uses a Negative Binomial Generalized Linear Model.
+focus on the former for this analysis. `edgeR` uses a Negative Binomial
+Generalized Linear Model.
 
-First, let's start with a specific cell type, for instance the "Mesenchymal stem cells", and look into differences between this cell type across conditions.
+First, let's start with a specific cell type, for instance the "Mesenchymal stem
+cells", and look into differences between this cell type across conditions.
 
 ```{r}
 label <- "Mesenchyme"
@@ -347,9 +348,9 @@ Clearly some of the results have low p-values. What about the effect sizes? What
 
 ::: solution
 
-"logFC" stands for log fold-change. Rather than reporting e.g. a 5-fold increase, it usually makes more mathematical sense to report a logFC of log(5) = 1.61. 
+"logFC" stands for log fold-change. Rather than reporting e.g. a 5-fold increase, it's better to report a logFC of log(5) = 1.61. Additive log scales are easier to work with than multiplicative identity scales, once you get used to it.
 
-`ENSMUSG00000037664` seems to have an estimated logFC of about -8. That's a big effect. Worth looking into whether or not it's real!
+`ENSMUSG00000037664` seems to have an estimated logFC of about -8. That's a big difference if it's real.
 
 :::
 
@@ -358,14 +359,14 @@ Clearly some of the results have low p-values. What about the effect sizes? What
 
 ## Differential Abundance
 
-With DA we test for differences between clusters across conditions, to investigate
-which clusters change accordingly to the treatment (the tomato injection in our case).
+With DA we look for differences in cluster *abundance* across conditions (the
+tomato injection in our case), rather than differences in gene expression.
 
 We first setup some code and variables for further analysis, like quantifying the
 number of cells per each cell type and fit a model to catch differences between the 
 injected cells and the background.
 
-The performed steps are very similar to the ones for DEGs analysis, but this time
+The steps are very similar to the ones for DEGs analysis, but this time
 we start our analysis on the computed abundances and without normalizing the 
 data with TMM.
 
@@ -384,23 +385,29 @@ fit.ab <- glmQLFit(y.ab, design, robust=TRUE, abundance.trend=FALSE)
 
 ### Background on compositional effect
 
-As mentioned before, in DA we don't normalize our data with `calcNormFactors` 
-function, because this approach considers that most of the input features do not vary between conditions.
-This cannot be applied to this analysis because we have a small number of cell
-populations that all can change due to the treatment.
-Leaving us to normalize only for library depth, which in pseudo-bulk data means 
-by the total number of cells in each sample (cell type).
+As mentioned before, in DA we don't normalize our data with `calcNormFactors`
+function, because this approach considers that most of the input features do not
+vary between conditions. This cannot be applied to DA analysis because we have a
+small number of cell populations that all can change due to the treatment. This
+means that here we will normalize only for library depth, which in pseudo-bulk
+data means by the total number of cells in each sample (cell type).
 
-On the other hand, this can lead our data to be susceptible to compositional 
-effect, that means that our conclusions can be biased by the amount of cells 
-present in each cell type. And this amount of cells can be totally unbalanced 
-between cell types.
+On the other hand, this can lead our data to be susceptible to compositional
+effect. "Compositional" refers to the fact that the cluster abundances in a
+sample are not independent of one another because each cell type is effectively
+competing for space in the sample. They behave like proportions. If cell type A
+abundance increases in a new condition, that means we'll observe less of
+everything else, even if everything else is unaffected by the new condition.
+
+Compositionality means that our conclusions can be biased by the amount of cells
+present in each cell type. And this amount of cells can be totally unbalanced
+between cell types. This is particularly problematic for cell types that start
+at or end up near 0 or 100 percent.
 
 For example, a specific cell type can be 40% of the total amount of cells
-present in the experiment, while another just the 3%. 
-The differences in terms of abundance of these cell types are detected between 
-the different conditions, but our final interpretation could be biased if we don't
-consider this aspect.
+present in the experiment, while another just the 3%. The differences in terms
+of abundance of these cell types are detected between the different conditions,
+but our final interpretation could be biased if we don't consider this aspect.
 
 We now look at different approaches for handling the compositional effect.
 
@@ -418,22 +425,31 @@ y.ab2 <- calcNormFactors(y.ab)
 y.ab2$samples$norm.factors
 ```
 
-We then follow the already seen edgeR analysis steps. 
+We then use edgeR in a manner similar to what we ran before: 
 
 ```{r}
 y.ab2 <- estimateDisp(y.ab2, design, trend="none")
+
 fit.ab2 <- glmQLFit(y.ab2, design, robust=TRUE, abundance.trend=FALSE)
+
 res2 <- glmQLFTest(fit.ab2, coef=ncol(design))
+
 summary(decideTests(res2))
+
 topTags(res2, n=10)
 ```
 
 ###  Testing against a log-fold change threshold
 
-This other approach assumes that the composition bias introduces a spurious log2-fold change of no more than a \tau quantity for a non-DA label. 
-In other words, we interpret this as the maximum log-fold change in the total number of cells given by DA in other labels.
-On the other hand, when choosing \tau, we should not consider fold-differences in the totals due to differences in capture efficiency or the size of the original cell population are not attributable to composition bias.
-We then mitigate the effect of composition biases by testing each label for changes in abundance beyond \tau.
+This other approach assumes that the composition bias introduces a spurious
+log2-fold change of no more than a \tau quantity for a non-DA label.
+
+In other words, we interpret this as the maximum log-fold change in the total
+number of cells given by DA in other labels. On the other hand, when choosing
+\tau, we should not consider fold-differences in the totals due to differences
+in capture efficiency or the size of the original cell population are not
+attributable to composition bias. We then mitigate the effect of composition
+biases by testing each label for changes in abundance beyond \tau.
 
 ```{r}
 res.lfc <- glmTreat(fit.ab, coef=ncol(design), lfc=1)
@@ -460,12 +476,25 @@ Test differential expressed genes with just 2 replicates per condition and look 
 
 :::::::::::::: hint
 
+Remember, you can subset SingleCellExperiments with logical indices, just like a matrix. You can also access their column data with the `$` accessor, like a data frame. 
 
 :::::::::::::::::::::::
 
 :::::::::::::: solution
 
-TODO
+
+```{r}
+
+summed.filt.subset = summed.filt[,summed.filt$pool != 3]
+
+de.results <- pseudoBulkDGE(summed.filt.subset, 
+    label=summed.filt.subset$celltype.mapped,
+    design=~factor(pool) + tomato,
+    coef="tomatoTRUE",
+    condition=summed.filt.subset$tomato 
+)
+```
+
 :::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::::::::
