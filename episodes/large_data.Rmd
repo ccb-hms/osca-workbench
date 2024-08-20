@@ -22,7 +22,7 @@ exercises: 2 # Minutes of exercises in the lesson
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ```{r chunk-opts, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, digits = 3)
 library(BiocStyle)
 ```
 
@@ -245,15 +245,14 @@ colLabels(sce) <- clusterCells(sce, use.dimred = "PCA",
                                BLUSPARAM = NNGraphParam(cluster.fun = "louvain"))
 ```
 
-The above clusters on a nearest neighbor graph generated with
-an exact neighbour search.
-We repeat this below using an approximate search, implemented using the
-[Annoy](https://github.com/spotify/Annoy) algorithm.
-This involves constructing a `AnnoyParam` object to specify the search algorithm
-and then passing it to the parameterization of the `NNGraphParam()` function.
-The results from the exact and approximate searches are consistent with most
-clusters from the former re-appearing in the latter.
-This suggests that the inaccuracy from the approximation can be largely ignored.
+The above clusters on a nearest neighbor graph generated with an exact neighbour
+search. We repeat this below using an approximate search, implemented using the
+[Annoy](https://github.com/spotify/Annoy) algorithm. This involves constructing
+a `AnnoyParam` object to specify the search algorithm and then passing it to the
+parameterization of the `NNGraphParam()` function. The results from the exact
+and approximate searches are consistent with most clusters from the former
+re-appearing in the latter. This suggests that the inaccuracy from the
+approximation can be largely ignored.
 
 ```{r cluster-annoy}
 library(scran)
@@ -264,9 +263,10 @@ clusters <- clusterCells(sce, use.dimred = "PCA",
 table(exact = colLabels(sce), approx = clusters)
 ```
 
+This can be quantified by calculating the pairwise Rand index: 
+
 ```{r check-annoy, echo = FALSE}
 # Check that clusterings are very similar
-library(bluster)
 rand <- pairwiseRand(colLabels(sce), clusters, mode = "index")
 stopifnot(rand > 0.85)
 ```
@@ -292,15 +292,13 @@ mean(exact$index != approx$index)
 ### Singular value decomposition 
 
 The singular value decomposition (SVD) underlies the PCA used throughout our
-analyses, e.g., in `denoisePCA()`, `fastMNN()`, `doubletCells()`.
-(Briefly, the right singular vectors are the eigenvectors of the gene-gene
-covariance matrix, where each eigenvector represents the axis of maximum remaining
-variation in the PCA.)
-The default `base::svd()` function performs an exact SVD that is not performant
-for large datasets.
-Instead, we use fast approximate methods from the `r CRANpkg("irlba")` and
-`r CRANpkg("rsvd")` packages, conveniently wrapped into the 
-`r Biocpkg("BiocSingular")` package for ease of use and package development.
+analyses, e.g., in `denoisePCA()`, `fastMNN()`, `doubletCells()`. (Briefly, the
+right singular vectors are the eigenvectors of the gene-gene covariance matrix,
+where each eigenvector represents the axis of maximum remaining variation in the
+PCA.) The default `base::svd()` function performs an exact SVD that is not
+performant for large datasets. Instead, we use fast approximate methods from the
+`r CRANpkg("irlba")` and `r CRANpkg("rsvd")` packages, conveniently wrapped into
+the `r Biocpkg("BiocSingular")` package for ease of use and package development.
 Specifically, we can change the SVD algorithm used in any of these functions by
 simply specifying an alternative value for the `BSPARAM` argument.
 
@@ -318,16 +316,57 @@ i.out <- runPCA(sce, ncomponents = 20, BSPARAM = IrlbaParam())
 str(reducedDim(i.out, "PCA"))
 ```
 
-Both IRLBA and randomized SVD (RSVD) are much faster than the exact SVD with
-negligible loss of accuracy.
-This motivates their default use in many `r Biocpkg("scran")` and `r Biocpkg("scater")`
-functions, at the cost of requiring users to set the seed to guarantee reproducibility.
-IRLBA can occasionally fail to converge and require more iterations
-(passed via `maxit=` in `IrlbaParam()`), while RSVD involves an explicit trade-off
-between accuracy and speed based on its oversampling parameter (`p=`) and number
-of power iterations (`q=`).
-We tend to prefer IRLBA as its default behavior is more accurate, though RSVD is
-much faster for file-backed matrices.
+Both IRLBA and randomized SVD (RSVD) are much faster than the exact SVD and
+usually yield only a negligible loss of accuracy. This motivates their default
+use in many `r Biocpkg("scran")` and `r Biocpkg("scater")` functions, at the
+cost of requiring users to set the seed to guarantee reproducibility. IRLBA can
+occasionally fail to converge and require more iterations (passed via `maxit=`
+in `IrlbaParam()`), while RSVD involves an explicit trade-off between accuracy
+and speed based on its oversampling parameter (`p=`) and number of power
+iterations (`q=`). We tend to prefer IRLBA as its default behavior is more
+accurate, though RSVD is much faster for file-backed matrices.
+
+:::: challenge
+
+The uncertainty from approximation error is sometimes psychologically
+objectionable. "Why can't my computer just give me the right answer?" One way to
+alleviate this feeling is to quantify the approximation error on a small test
+set like the sce we have here. Using the `ExactParam()` class, visualize the
+error in PC1 coordinates compared to the RSVD results.
+
+::: solution
+This code block calculates the exact PCA coordinates. Another thing to note: PC vectors are only identified up to a sign flip. We can see that the RSVD PC1 vector points in the 
+```{r}
+set.seed(123)
+e.out <- runPCA(sce, ncomponents = 20, BSPARAM = ExactParam())
+str(reducedDim(e.out, "PCA"))
+
+reducedDim(e.out, "PCA")[1:5,1:3]
+reducedDim(r.out, "PCA")[1:5,1:3]
+```
+
+For the sake of visualizing the error we can just flip the PC1 coordinates:
+
+```{r}
+reducedDim(r.out, "PCA") = -1 * reducedDim(r.out, "PCA")
+```
+
+From there we can visualize the error with a histogram:
+
+```{r}
+error = reducedDim(r.out, "PCA")[,"PC1"] - 
+        reducedDim(e.out, "PCA")[,"PC1"]
+
+data.frame(approx_error = error) |> 
+  ggplot(aes(approx_error)) + 
+  geom_histogram()
+```
+
+It's almost never .001 in this case. 
+
+:::
+
+::::
 
 ## Interoperability with popular single-cell analysis ecosytems
 
@@ -345,16 +384,15 @@ library(Seurat)
 ```
 
 Although the basic processing of single-cell data with Bioconductor packages
-(described in the [OSCA book](https://bioconductor.org/books/release/OSCA/))
-and with Seurat is very similar and will produce overall roughly identical
-results, there is also complementary functionality with regard to cell type
-annotation, dataset integration, and downstream analysis.
-To make the most of both ecosystems it is therefore beneficial to be able 
-to easily switch between a `SeuratObject` and a `SingleCellExperiment`.
-See also the Seurat
-[conversion vignette](https://satijalab.org/seurat/articles/conversion_vignette.html)
-for conversion to/from other popular single cell formats such as the AnnData
-format used by [scanpy](https://scanpy.readthedocs.io/en/stable/).
+(described in the [OSCA book](https://bioconductor.org/books/release/OSCA/)) and
+with Seurat is very similar and will produce overall roughly identical results,
+there is also complementary functionality with regard to cell type annotation,
+dataset integration, and downstream analysis. To make the most of both
+ecosystems it is therefore beneficial to be able to easily switch between a
+`SeuratObject` and a `SingleCellExperiment`. See also the Seurat [conversion
+vignette](https://satijalab.org/seurat/articles/conversion_vignette.html) for
+conversion to/from other popular single cell formats such as the AnnData format
+used by [scanpy](https://scanpy.readthedocs.io/en/stable/).
 
 Here, we demonstrate converting the Seurat object produced in Seurat's
 [PBMC tutorial](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html)
