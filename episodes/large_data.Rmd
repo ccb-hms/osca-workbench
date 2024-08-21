@@ -362,7 +362,7 @@ data.frame(approx_error = error) |>
   geom_histogram()
 ```
 
-It's almost never .001 in this case. 
+It's almost never more than .001 in this case. 
 
 :::
 
@@ -448,14 +448,14 @@ sobj
 
 [Scanpy](https://scanpy.readthedocs.io) is a scalable toolkit for analyzing
 single-cell gene expression data built jointly with
-[anndata](https://anndata.readthedocs.io/). It includes
-preprocessing, visualization, clustering, trajectory inference and differential
-expression testing. The Python-based implementation efficiently deals with
-datasets of more than one million cells. Scanpy is developed and maintained by
-the [Theis lab]() and is released under a
-[BSD-3-Clause license](https://github.com/scverse/scanpy/blob/master/LICENSE).
-Scanpy is part of the [scverse](https://scverse.org/), a Python-based ecosystem
-for single-cell omics data analysis.
+[anndata](https://anndata.readthedocs.io/). It includes preprocessing,
+visualization, clustering, trajectory inference and differential expression
+testing. The Python-based implementation efficiently deals with datasets of more
+than one million cells. Scanpy is developed and maintained by the [Theis lab]()
+and is released under a [BSD-3-Clause
+license](https://github.com/scverse/scanpy/blob/master/LICENSE). Scanpy is part
+of the [scverse](https://scverse.org/), a Python-based ecosystem for single-cell
+omics data analysis.
 
 At the core of scanpy's single-cell functionality is the `anndata` data structure,
 scanpy's integrated single-cell data container, which is conceptually very similar
@@ -486,7 +486,7 @@ We can also write a `SingleCellExperiment` to an H5AD file with the
 chimera mouse gastrulation dataset. 
 
 ```{r write-h5ad, message = FALSE}
-out.file <- tempfile(pattern = ".h5ad")
+out.file <- tempfile(fileext = ".h5ad")
 writeH5AD(sce, file = out.file)
 ```
 
@@ -507,10 +507,10 @@ sessionInfo()
 
 #### Exercise 1: Out of memory representation
 
-Write the counts matrix of the wild-type chimera
-mouse gastrulation dataset to an HDF5 file. Create another counts matrix that
-reads the data from the HDF5 file. Compare memory usage of holding the entire
-matrix in memory as opposed to holding the data out of memory.  
+Write the counts matrix of the wild-type chimera mouse gastrulation dataset to
+an HDF5 file. Create another counts matrix that reads the data from the HDF5
+file. Compare memory usage of holding the entire matrix in memory as opposed to
+holding the data out of memory.
 
 :::::::::::::: hint
 
@@ -521,7 +521,23 @@ function for writing to HDF5 from the `r Biocpkg("HDF5Array")` package.
 
 :::::::::::::: solution
 
-TODO
+```{r}
+
+wt_out = tempfile(fileext = ".h5")
+
+wt_counts = counts(WTChimeraData())
+
+writeHDF5Array(wt_counts,
+               name = "wt_counts",
+               file = wt_out)
+
+oom_wt = HDF5Array(wt_out, "wt_counts")
+
+object.size(wt_counts)
+
+object.size(oom_wt)
+```
+
 :::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::::::::
