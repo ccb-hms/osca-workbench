@@ -559,7 +559,7 @@ Use the function `system.time` to obtain the runtime of each job.
 
 :::::::::::::: solution
 
-```{r}
+```{r eval=FALSE}
 
 sce.brain = logNormCounts(sce.brain)
 
