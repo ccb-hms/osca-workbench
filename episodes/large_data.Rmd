@@ -581,31 +581,6 @@ system.time({i.out <- runPCA(sce.brain, ncomponents = 20,
 
 :::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::: challenge
-
-#### Exercise 3: Conversion to Seurat
-
-The [scRNAseq](https://bioconductor.org/packages/scRNAseq)
-package provides gene-level counts for a collection of public scRNA-seq datasets,
-stored as `SingleCellExperiment` objects with annotated cell- and gene-level metadata.
-Consult the vignette of the [scRNAseq](https://bioconductor.org/packages/scRNAseq)
-package to inspect all available datasets and select a dataset of your choice.
-Convert the chosen dataset to a Seurat object and produce a PCA plot with cells
-colored by a cell metadata column of your choice.
-
-:::::::::::::: hint
-
-Use Seurat's `DimPlot` function.
-
-:::::::::::::::::::::::
-
-:::::::::::::: solution
-
-Use Seurat's `DimPlot` function.
-
-:::::::::::::::::::::::
-
-:::::::::::::::::::::::
 
 :::::::::::::: checklist
 ## Further Reading
