@@ -339,7 +339,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Accessing data from the Human Cell Atlas (HCA)</h1>
-        <p>Last updated on 2024-07-02 |
+        <p>Last updated on 2024-08-26 |
 
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/hca.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -402,29 +402,18 @@ with the data through TileDB-SOMA, or get slices in AnnData or Seurat
 objects, thus accelerating your research by significantly minimizing
 data harmonization at <a href="https://chanzuckerberg.github.io/cellxgene-census/" class="external-link uri">https://chanzuckerberg.github.io/cellxgene-census/</a>.</p>
 </section><section><h2 class="section-heading" id="the-curatedatlasqueryr-project">The CuratedAtlasQueryR Project<a class="anchor" aria-label="anchor" href="#the-curatedatlasqueryr-project"></a></h2>
-<hr class="half-width"><p>To systematically characterize the immune system across tissues,
-demographics and multiple studies, single cell transcriptomics data was
-harmonized from the CELLxGENE database. Data from 28,975,366 cells that
-cover 156 tissues (excluding cell cultures), 12,981 samples, and 324
-studies were collected. The metadata was standardized, including sample
-identifiers, tissue labels (based on anatomy) and age. Also, the
-gene-transcript abundance of all samples was harmonized by putting
-values on the positive natural scale (i.e. non-logarithmic).</p>
-<p>To model the immune system across studies, we adopted a consistent
-immune cell-type ontology appropriate for lymphoid and non-lymphoid
-tissues. We applied a consensus cell labeling strategy between the
-Seurat blueprint and Monaco<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> to minimize biases in immune cell
-classification from study-specific standards.</p>
+<hr class="half-width"><p>The <code>CuratedAtlasQueryR</code> is an alternative package that
+can also be used to access the CELLxGENE data from R through a tidy API.
+The data has also been harmonized, curated, and re-annotated across
+studies.</p>
 <p><code>CuratedAtlasQueryR</code> supports data access and programmatic
 exploration of the harmonized atlas. Cells of interest can be selected
 based on ontology, tissue of origin, demographics, and disease. For
 example, the user can select CD4 T helper cells across healthy and
 diseased lymphoid tissue. The data for the selected cells can be
-downloaded locally into popular single-cell data containers. Pseudo bulk
-counts are also available to facilitate large-scale, summary analyses of
-transcriptional profiles. This platform offers a standardized workflow
-for accessing atlas-level datasets programmatically and
-reproducibly.</p>
+downloaded locally into SingleCellExperiment objects. Pseudo bulk counts
+are also available to facilitate large-scale, summary analyses of
+transcriptional profiles.</p>
 <figure><img src="https://raw.githubusercontent.com/ccb-hms/osca-workbench/main/episodes/figures/curatedAtlasQuery.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section><h2 class="section-heading" id="data-sources-in-r-bioconductor">Data Sources in R / Bioconductor<a class="anchor" aria-label="anchor" href="#data-sources-in-r-bioconductor"></a></h2>
 <hr class="half-width"><p>There are a few options to access single cell data with R /
 Bioconductor.</p>
@@ -468,7 +457,8 @@ available metadata.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">metadata</span> <span class="op">&lt;-</span> <span class="fu">get_metadata</span><span class="op">(</span>remote_url <span class="op">=</span> <span class="fu">CuratedAtlasQueryR</span><span class="fu">::</span><span class="va">SAMPLE_DATABASE_URL</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">metadata</span> <span class="op">&lt;-</span> <span class="fu">get_metadata</span><span class="op">(</span>remote_url <span class="op">=</span> <span class="fu">CuratedAtlasQueryR</span><span class="fu">::</span><span class="va">SAMPLE_DATABASE_URL</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">collect</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <p>Get a view of the first 10 columns in the metadata with
 <code>glimpse</code></p>
@@ -502,35 +492,44 @@ $ `_sample_name`                    &lt;chr&gt; "BPH340PrSF_Via___transition zon
 show the use of the ‘native’ R pipe (implemented after R version
 <code>4.1.0</code>). For those not familiar with the pipe operator
 (<code>|&gt;</code>), it allows you to chain functions by passing the
-left-hand side (LHS) to the first input (typically) on the right-hand
-side (RHS).</p>
-<p>In this example, we are extracting the <code>iris</code> data set
-from the <code>datasets</code> package and ‘then’ taking a subset where
-the sepal lengths are greater than 5 and ‘then’ summarizing the data for
-each level in the <code>Species</code> variable with a
-<code>mean</code>. The pipe operator can be read as ‘then’.</p>
+left-hand side as the first argument to the function on the right-hand
+side. It is used extensively in the <code>tidyverse</code> dialect of R,
+especially within the <a href="https://dplyr.tidyverse.org/" class="external-link"><code>dplyr</code> package</a>.</p>
+<p>The pipe operator can be read as “and then”. Thankfully, R doesn’t
+care about whitespace, so it’s common to start a new line after a pipe.
+Together these points enable users to “chain” complex sequences of
+commands into readable blocks.</p>
+<p>In this example, we start with the built-in <code>mtcars</code>
+dataset and then filter to rows where <code>cyl</code> is not equal to
+4, and then compute the mean <code>disp</code> value by each unique
+<code>cyl</code> value.</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">data</span><span class="op">(</span><span class="st">"iris"</span>, package <span class="op">=</span> <span class="st">"datasets"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">iris</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">subset</span><span class="op">(</span><span class="va">Sepal.Length</span> <span class="op">&gt;</span> <span class="fl">5</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">aggregate</span><span class="op">(</span><span class="va">.</span> <span class="op">~</span> <span class="va">Species</span>, data <span class="op">=</span> <span class="va">_</span>, <span class="va">mean</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">filter</span><span class="op">(</span><span class="va">cyl</span> <span class="op">!=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">summarise</span><span class="op">(</span>avg_disp <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">disp</span><span class="op">)</span>,</span>
+<span>            .by <span class="op">=</span> <span class="va">cyl</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>     Species Sepal.Length Sepal.Width Petal.Length Petal.Width
-1     setosa     5.313636    3.713636     1.509091   0.2772727
-2 versicolor     5.997872    2.804255     4.317021   1.3468085
-3  virginica     6.622449    2.983673     5.573469   2.0326531</code></pre>
+<pre class="output" tabindex="0"><code>  cyl avg_disp
+1   6 183.3143
+2   8 353.1000</code></pre>
+</div>
+<p>This command is equivalent to the following:</p>
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">summarise</span><span class="op">(</span><span class="fu">filter</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">cyl</span> <span class="op">!=</span> <span class="fl">4</span><span class="op">)</span>, mean_disp <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">disp</span><span class="op">)</span>, .by <span class="op">=</span> <span class="va">cyl</span><span class="op">)</span></span></code></pre>
 </div>
 </section><section><h2 class="section-heading" id="summarizing-the-metadata">Summarizing the metadata<a class="anchor" aria-label="anchor" href="#summarizing-the-metadata"></a></h2>
 <hr class="half-width"><p>For each distinct tissue and dataset combination, count the number of
 datasets by tissue type.</p>
-<div class="codewrapper sourceCode" id="cb8">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -541,24 +540,23 @@ datasets by tissue type.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code># Source:   SQL [?? x 2]
-# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1021-azure:R 4.4.0/:memory:]
-   tissue                          n
-   &lt;chr&gt;                       &lt;dbl&gt;
- 1 heart left ventricle            7
- 2 bone marrow                     4
- 3 lung                            4
- 4 renal medulla                   6
- 5 caecum                          1
- 6 ileum                           1
- 7 lymph node                      2
- 8 transition zone of prostate     2
- 9 peripheral zone of prostate     2
-10 fovea centralis                 1
-# ℹ more rows</code></pre>
+<pre class="output" tabindex="0"><code># A tibble: 33 × 2
+   tissue                             n
+   &lt;chr&gt;                          &lt;int&gt;
+ 1 adrenal gland                      1
+ 2 axilla                             1
+ 3 blood                             17
+ 4 bone marrow                        4
+ 5 caecum                             1
+ 6 caudate lobe of liver              1
+ 7 cortex of kidney                   7
+ 8 dorsolateral prefrontal cortex     1
+ 9 epithelium of esophagus            1
+10 fovea centralis                    1
+# ℹ 23 more rows</code></pre>
 </div>
 </section><section><h2 class="section-heading" id="columns-available-in-the-metadata">Columns available in the metadata<a class="anchor" aria-label="anchor" href="#columns-available-in-the-metadata"></a></h2>
-<hr class="half-width"><div class="codewrapper sourceCode" id="cb10">
+<hr class="half-width"><div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -567,10 +565,32 @@ datasets by tissue type.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] "src"        "lazy_query"</code></pre>
+<pre class="output" tabindex="0"><code> [1] "cell_"                             "sample_"
+ [3] "cell_type"                         "cell_type_harmonised"
+ [5] "confidence_class"                  "cell_annotation_azimuth_l2"
+ [7] "cell_annotation_blueprint_singler" "cell_annotation_monaco_singler"
+ [9] "sample_id_db"                      "_sample_name"                     </code></pre>
+</div>
+<div id="discussion1" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge</h3>
+<div class="callout-content">
+<p>Glance over the full list of metadata column names. Do any other
+metadata columns jump out as interesting to you for your work?</p>
+<div class="codewrapper sourceCode" id="cb13">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">metadata</span> <span class="op">|&gt;</span> <span class="fu">names</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">sort</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+</div>
+</div>
 </div>
 </section><section><h2 class="section-heading" id="available-assays">Available assays<a class="anchor" aria-label="anchor" href="#available-assays"></a></h2>
-<hr class="half-width"><div class="codewrapper sourceCode" id="cb12">
+<hr class="half-width"><div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -581,24 +601,24 @@ datasets by tissue type.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code># Source:   SQL [?? x 2]
-# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1021-azure:R 4.4.0/:memory:]
-   assay           n
-   &lt;chr&gt;       &lt;dbl&gt;
- 1 10x 3' v3      21
- 2 Slide-seq       4
- 3 sci-RNA-seq     1
- 4 10x 3' v1       1
- 5 Smart-seq2      1
- 6 10x 5' v2       2
- 7 scRNA-seq       4
- 8 Seq-Well        2
- 9 Drop-seq        1
-10 10x 3' v2      27
-# ℹ more rows</code></pre>
+<pre class="output" tabindex="0"><code># A tibble: 12 × 2
+   assay                              n
+   &lt;chr&gt;                          &lt;int&gt;
+ 1 10x 3' v1                          1
+ 2 10x 3' v2                         27
+ 3 10x 3' v3                         21
+ 4 10x 5' v1                          7
+ 5 10x 5' v2                          2
+ 6 Drop-seq                           1
+ 7 Seq-Well                           2
+ 8 Slide-seq                          4
+ 9 Smart-seq2                         1
+10 Visium Spatial Gene Expression     7
+11 scRNA-seq                          4
+12 sci-RNA-seq                        1</code></pre>
 </div>
 </section><section><h2 class="section-heading" id="available-organisms">Available organisms<a class="anchor" aria-label="anchor" href="#available-organisms"></a></h2>
-<hr class="half-width"><div class="codewrapper sourceCode" id="cb14">
+<hr class="half-width"><div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -609,10 +629,9 @@ datasets by tissue type.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code># Source:   SQL [1 x 2]
-# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1021-azure:R 4.4.0/:memory:]
+<pre class="output" tabindex="0"><code># A tibble: 1 × 2
   organism         n
-  &lt;chr&gt;        &lt;dbl&gt;
+  &lt;chr&gt;        &lt;int&gt;
 1 Homo sapiens    63</code></pre>
 </div>
 <div class="section level3">
@@ -622,20 +641,27 @@ datasets by tissue type.</p>
 <code>get_single_cell_experiment()</code> function. By default, the
 <code>SingleCellExperiment</code> provided will contain only the
 ‘counts’ data.</p>
-<div class="section level4">
-<h4 id="query-raw-counts">Query raw counts<a class="anchor" aria-label="anchor" href="#query-raw-counts"></a></h4>
-<div class="codewrapper sourceCode" id="cb16">
+<p>For the sake of demonstration, we’ll focus this small subset of
+samples:</p>
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">single_cell_counts</span> <span class="op">&lt;-</span> </span>
-<span>    <span class="va">metadata</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">filter</span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">sample_subset</span> <span class="op">=</span> <span class="va">metadata</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">filter</span><span class="op">(</span></span>
 <span>        <span class="va">ethnicity</span> <span class="op">==</span> <span class="st">"African"</span> <span class="op">&amp;</span></span>
 <span>        <span class="fu">stringr</span><span class="fu">::</span><span class="fu">str_like</span><span class="op">(</span><span class="va">assay</span>, <span class="st">"%10x%"</span><span class="op">)</span> <span class="op">&amp;</span></span>
 <span>        <span class="va">tissue</span> <span class="op">==</span> <span class="st">"lung parenchyma"</span> <span class="op">&amp;</span></span>
 <span>        <span class="fu">stringr</span><span class="fu">::</span><span class="fu">str_like</span><span class="op">(</span><span class="va">cell_type</span>, <span class="st">"%CD4%"</span><span class="op">)</span></span>
-<span>    <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="op">)</span></span></code></pre>
+</div>
+<div class="section level4">
+<h4 id="query-raw-counts">Query raw counts<a class="anchor" aria-label="anchor" href="#query-raw-counts"></a></h4>
+<div class="codewrapper sourceCode" id="cb19">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">single_cell_counts</span> <span class="op">&lt;-</span> <span class="va">sample_subset</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">get_single_cell_experiment</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">single_cell_counts</span></span></code></pre>
@@ -661,17 +687,11 @@ altExpNames(0):</code></pre>
 <h4 id="query-counts-scaled-per-million">Query counts scaled per million<a class="anchor" aria-label="anchor" href="#query-counts-scaled-per-million"></a></h4>
 <p>This is helpful if just few genes are of interest, as they can be
 compared across samples.</p>
-<div class="codewrapper sourceCode" id="cb18">
+<div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">metadata</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">filter</span><span class="op">(</span></span>
-<span>      <span class="va">ethnicity</span> <span class="op">==</span> <span class="st">"African"</span> <span class="op">&amp;</span></span>
-<span>      <span class="fu">stringr</span><span class="fu">::</span><span class="fu">str_like</span><span class="op">(</span><span class="va">assay</span>, <span class="st">"%10x%"</span><span class="op">)</span> <span class="op">&amp;</span></span>
-<span>      <span class="va">tissue</span> <span class="op">==</span> <span class="st">"lung parenchyma"</span> <span class="op">&amp;</span></span>
-<span>      <span class="fu">stringr</span><span class="fu">::</span><span class="fu">str_like</span><span class="op">(</span><span class="va">cell_type</span>, <span class="st">"%CD4%"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">sample_subset</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">get_single_cell_experiment</span><span class="op">(</span>assays <span class="op">=</span> <span class="st">"cpm"</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -693,18 +713,11 @@ altExpNames(0):</code></pre>
 </div>
 <div class="section level4">
 <h4 id="extract-only-a-subset-of-genes">Extract only a subset of genes<a class="anchor" aria-label="anchor" href="#extract-only-a-subset-of-genes"></a></h4>
-<div class="codewrapper sourceCode" id="cb20">
+<div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">single_cell_counts</span> <span class="op">&lt;-</span></span>
-<span>    <span class="va">metadata</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">filter</span><span class="op">(</span></span>
-<span>        <span class="va">ethnicity</span> <span class="op">==</span> <span class="st">"African"</span> <span class="op">&amp;</span></span>
-<span>        <span class="fu">stringr</span><span class="fu">::</span><span class="fu">str_like</span><span class="op">(</span><span class="va">assay</span>, <span class="st">"%10x%"</span><span class="op">)</span> <span class="op">&amp;</span></span>
-<span>        <span class="va">tissue</span> <span class="op">==</span> <span class="st">"lung parenchyma"</span> <span class="op">&amp;</span></span>
-<span>        <span class="fu">stringr</span><span class="fu">::</span><span class="fu">str_like</span><span class="op">(</span><span class="va">cell_type</span>, <span class="st">"%CD4%"</span><span class="op">)</span></span>
-<span>    <span class="op">)</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">single_cell_counts</span> <span class="op">&lt;-</span> <span class="va">sample_subset</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">get_single_cell_experiment</span><span class="op">(</span>assays <span class="op">=</span> <span class="st">"cpm"</span>, features <span class="op">=</span> <span class="st">"PUM1"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">single_cell_counts</span></span></code></pre>
@@ -731,18 +744,11 @@ altExpNames(0):</code></pre>
 <p>If needed, the H5 <code>SingleCellExperiment</code> can be converted
 into a Seurat object. Note that it may take a long time and use a lot of
 memory depending on how many cells you are requesting.</p>
-<div class="codewrapper sourceCode" id="cb22">
+<div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">single_cell_counts</span> <span class="op">&lt;-</span></span>
-<span>    <span class="va">metadata</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">filter</span><span class="op">(</span></span>
-<span>        <span class="va">ethnicity</span> <span class="op">==</span> <span class="st">"African"</span> <span class="op">&amp;</span></span>
-<span>        <span class="fu">stringr</span><span class="fu">::</span><span class="fu">str_like</span><span class="op">(</span><span class="va">assay</span>, <span class="st">"%10x%"</span><span class="op">)</span> <span class="op">&amp;</span></span>
-<span>        <span class="va">tissue</span> <span class="op">==</span> <span class="st">"lung parenchyma"</span> <span class="op">&amp;</span></span>
-<span>        <span class="fu">stringr</span><span class="fu">::</span><span class="fu">str_like</span><span class="op">(</span><span class="va">cell_type</span>, <span class="st">"%CD4%"</span><span class="op">)</span></span>
-<span>    <span class="op">)</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">single_cell_counts</span> <span class="op">&lt;-</span> <span class="va">sample_subset</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">get_seurat</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">single_cell_counts</span></span></code></pre>
@@ -758,7 +764,7 @@ memory depending on how many cells you are requesting.</p>
 objects, if necessary, is to use
 <code>saveHDF5SummarizedExperiment</code> from the
 <code>HDF5Array</code> package.</p>
-<div class="codewrapper sourceCode" id="cb23">
+<div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -784,9 +790,9 @@ cells per tissue in descending order.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb24">
+<div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -817,15 +823,14 @@ cells?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb25">
+<div class="codewrapper sourceCode" id="cb28">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">metadata</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">group_by</span><span class="op">(</span><span class="va">tissue</span>, <span class="va">cell_type</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">count</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">count</span><span class="op">(</span><span class="va">tissue</span>, <span class="va">cell_type</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">arrange</span><span class="op">(</span><span class="op">-</span><span class="va">n</span><span class="op">)</span></span></code></pre>
 </div>
 </div>
@@ -850,9 +855,9 @@ summarise.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb26">
+<div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -891,14 +896,14 @@ columns, where possible.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb27">
+<div class="codewrapper sourceCode" id="cb30">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">metadata</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">filter</span><span class="op">(</span></span>
+<span>    <span class="fu">filter</span><span class="op">(</span></span>
 <span>        <span class="va">sex</span> <span class="op">==</span> <span class="st">"female"</span> <span class="op">&amp;</span></span>
 <span>        <span class="va">age_days</span> <span class="op">&gt;</span> <span class="fl">80</span> <span class="op">*</span> <span class="fl">365</span> <span class="op">&amp;</span></span>
 <span>        <span class="fu">stringr</span><span class="fu">::</span><span class="fu">str_like</span><span class="op">(</span><span class="va">assay</span>, <span class="st">"%10x%"</span><span class="op">)</span> <span class="op">&amp;</span></span>
@@ -947,13 +952,7 @@ object.</li>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
-</section><div class="footnotes footnotes-end-of-document">
-<hr><ol><li id="fn1"><p><a href="reference.html#litref">Monaco 2019</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-</ol></div>
-
-
-
-      </div> <!-- / div.lesson-content -->
+</section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="../instructor/large_data.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="../instructor/index.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
@@ -1011,7 +1010,7 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/instructor/hca.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/instructor/hca.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-07-02",
+  "dateModified": "2024-08-26",
   "datePublished": "2024-08-26"
 }
 
