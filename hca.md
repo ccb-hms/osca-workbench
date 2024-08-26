@@ -46,28 +46,15 @@ https://chanzuckerberg.github.io/cellxgene-census/.
 
 ## The CuratedAtlasQueryR Project
 
-To systematically characterize the immune system across tissues, demographics
-and multiple studies, single cell transcriptomics data was harmonized from the
-CELLxGENE database. Data from 28,975,366 cells that cover 156 tissues (excluding
-cell cultures), 12,981 samples, and 324 studies were collected. The metadata was
-standardized, including sample identifiers, tissue labels (based on anatomy) and
-age. Also, the gene-transcript abundance of all samples was harmonized by
-putting values on the positive natural scale (i.e. non-logarithmic).
-
-To model the immune system across studies, we adopted a consistent immune
-cell-type ontology appropriate for lymphoid and non-lymphoid tissues. We applied
-a consensus cell labeling strategy between the Seurat blueprint and Monaco[^1]
-to minimize biases in immune cell classification from
-study-specific standards.
+The `CuratedAtlasQueryR` is an alternative package that can also be used to access the CELLxGENE data from R through a tidy API. The data has also been harmonized, curated, and re-annotated across studies.
 
 `CuratedAtlasQueryR` supports data access and programmatic exploration of the
 harmonized atlas. Cells of interest can be selected based on ontology, tissue of
 origin, demographics, and disease. For example, the user can select CD4 T helper
 cells across healthy and diseased lymphoid tissue. The data for the selected
-cells can be downloaded locally into popular single-cell data containers. Pseudo
+cells can be downloaded locally into SingleCellExperiment objects. Pseudo
 bulk counts are also available to facilitate large-scale, summary analyses of
-transcriptional profiles. This platform offers a standardized workflow for
-accessing atlas-level datasets programmatically and reproducibly.
+transcriptional profiles. 
 
 <img src="https://raw.githubusercontent.com/ccb-hms/osca-workbench/main/episodes/figures/curatedAtlasQuery.png" style="display: block; margin: auto;" />
 
@@ -109,7 +96,8 @@ allows us to get a small and quick subset of the available metadata.
 
 
 ``` r
-metadata <- get_metadata(remote_url = CuratedAtlasQueryR::SAMPLE_DATABASE_URL)
+metadata <- get_metadata(remote_url = CuratedAtlasQueryR::SAMPLE_DATABASE_URL) |> 
+  collect()
 ```
 
 Get a view of the first 10 columns in the metadata with `glimpse`
@@ -142,28 +130,31 @@ $ `_sample_name`                    <chr> "BPH340PrSF_Via___transition zone of�
 The vignette materials provided by `CuratedAtlasQueryR` show the use of the
 'native' R pipe (implemented after R version `4.1.0`). For those not familiar
 with the pipe operator (`|>`), it allows you to chain functions by passing the
-left-hand side (LHS) to the first input (typically) on the right-hand side
-(RHS). 
+left-hand side as the first argument to the function on the right-hand side. It is used extensively in the `tidyverse` dialect of R, especially within the [`dplyr` package](https://dplyr.tidyverse.org/).
 
-In this example, we are extracting the `iris` data set from the `datasets`
-package and 'then' taking a subset where the sepal lengths are greater than 5
-and 'then' summarizing the data for each level in the `Species` variable with a
-`mean`. The pipe operator can be read as 'then'.
+The pipe operator can be read as "and then". Thankfully, R doesn't care about whitespace, so it's common to start a new line after a pipe. Together these points enable users to "chain" complex sequences of commands into readable blocks.
+
+In this example, we start with the built-in `mtcars` dataset and then filter to rows where `cyl` is not equal to 4, and then compute the mean `disp` value by each unique `cyl` value.
 
 
 ``` r
-data("iris", package = "datasets")
-
-iris |>
-  subset(Sepal.Length > 5) |>
-  aggregate(. ~ Species, data = _, mean)
+mtcars |> 
+  filter(cyl != 4) |> 
+  summarise(avg_disp = mean(disp),
+            .by = cyl)
 ```
 
 ``` output
-     Species Sepal.Length Sepal.Width Petal.Length Petal.Width
-1     setosa     5.313636    3.713636     1.509091   0.2772727
-2 versicolor     5.997872    2.804255     4.317021   1.3468085
-3  virginica     6.622449    2.983673     5.573469   2.0326531
+  cyl avg_disp
+1   6 183.3143
+2   8 353.1000
+```
+
+This command is equivalent to the following:
+
+
+``` r
+summarise(filter(mtcars, cyl != 4), mean_disp = mean(disp), .by = cyl)
 ```
 
 ## Summarizing the metadata
@@ -179,21 +170,20 @@ metadata |>
 ```
 
 ``` output
-# Source:   SQL [?? x 2]
-# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1021-azure:R 4.4.0/:memory:]
-   tissue                          n
-   <chr>                       <dbl>
- 1 heart left ventricle            7
- 2 bone marrow                     4
- 3 lung                            4
- 4 renal medulla                   6
- 5 caecum                          1
- 6 ileum                           1
- 7 lymph node                      2
- 8 transition zone of prostate     2
- 9 peripheral zone of prostate     2
-10 fovea centralis                 1
-# ℹ more rows
+# A tibble: 33 × 2
+   tissue                             n
+   <chr>                          <int>
+ 1 adrenal gland                      1
+ 2 axilla                             1
+ 3 blood                             17
+ 4 bone marrow                        4
+ 5 caecum                             1
+ 6 caudate lobe of liver              1
+ 7 cortex of kidney                   7
+ 8 dorsolateral prefrontal cortex     1
+ 9 epithelium of esophagus            1
+10 fovea centralis                    1
+# ℹ 23 more rows
 ```
 
 ## Columns available in the metadata
@@ -204,8 +194,23 @@ head(names(metadata), 10)
 ```
 
 ``` output
-[1] "src"        "lazy_query"
+ [1] "cell_"                             "sample_"                          
+ [3] "cell_type"                         "cell_type_harmonised"             
+ [5] "confidence_class"                  "cell_annotation_azimuth_l2"       
+ [7] "cell_annotation_blueprint_singler" "cell_annotation_monaco_singler"   
+ [9] "sample_id_db"                      "_sample_name"                     
 ```
+
+:::: challenge
+
+Glance over the full list of metadata column names. Do any other metadata columns jump out as interesting to you for your work?
+
+
+``` r
+metadata |> names() |> sort()
+```
+
+::::
 
 ## Available assays
 
@@ -217,21 +222,21 @@ metadata |>
 ```
 
 ``` output
-# Source:   SQL [?? x 2]
-# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1021-azure:R 4.4.0/:memory:]
-   assay           n
-   <chr>       <dbl>
- 1 10x 3' v3      21
- 2 Slide-seq       4
- 3 sci-RNA-seq     1
- 4 10x 3' v1       1
- 5 Smart-seq2      1
- 6 10x 5' v2       2
- 7 scRNA-seq       4
- 8 Seq-Well        2
- 9 Drop-seq        1
-10 10x 3' v2      27
-# ℹ more rows
+# A tibble: 12 × 2
+   assay                              n
+   <chr>                          <int>
+ 1 10x 3' v1                          1
+ 2 10x 3' v2                         27
+ 3 10x 3' v3                         21
+ 4 10x 5' v1                          7
+ 5 10x 5' v2                          2
+ 6 Drop-seq                           1
+ 7 Seq-Well                           2
+ 8 Slide-seq                          4
+ 9 Smart-seq2                         1
+10 Visium Spatial Gene Expression     7
+11 scRNA-seq                          4
+12 sci-RNA-seq                        1
 ```
 
 ## Available organisms
@@ -244,10 +249,9 @@ metadata |>
 ```
 
 ``` output
-# Source:   SQL [1 x 2]
-# Database: DuckDB v0.10.2 [unknown@Linux 6.5.0-1021-azure:R 4.4.0/:memory:]
+# A tibble: 1 × 2
   organism         n
-  <chr>        <dbl>
+  <chr>        <int>
 1 Homo sapiens    63
 ```
 
@@ -258,18 +262,25 @@ by the `assays` argument in the `get_single_cell_experiment()` function. By
 default, the `SingleCellExperiment` provided will contain only the 'counts'
 data.
 
-#### Query raw counts
+For the sake of demonstration, we'll focus this small subset of samples:
 
 
 ``` r
-single_cell_counts <- 
-    metadata |>
-    dplyr::filter(
+sample_subset = metadata |>
+    filter(
         ethnicity == "African" &
         stringr::str_like(assay, "%10x%") &
         tissue == "lung parenchyma" &
         stringr::str_like(cell_type, "%CD4%")
-    ) |>
+    )
+```
+
+
+#### Query raw counts
+
+
+``` r
+single_cell_counts <- sample_subset |>
     get_single_cell_experiment()
 
 single_cell_counts
@@ -297,13 +308,7 @@ across samples.
 
 
 ``` r
-metadata |>
-  dplyr::filter(
-      ethnicity == "African" &
-      stringr::str_like(assay, "%10x%") &
-      tissue == "lung parenchyma" &
-      stringr::str_like(cell_type, "%CD4%")
-  ) |>
+sample_subset |>
   get_single_cell_experiment(assays = "cpm")
 ```
 
@@ -326,14 +331,7 @@ altExpNames(0):
 
 
 ``` r
-single_cell_counts <-
-    metadata |>
-    dplyr::filter(
-        ethnicity == "African" &
-        stringr::str_like(assay, "%10x%") &
-        tissue == "lung parenchyma" &
-        stringr::str_like(cell_type, "%CD4%")
-    ) |>
+single_cell_counts <- sample_subset |>
     get_single_cell_experiment(assays = "cpm", features = "PUM1")
 
 single_cell_counts
@@ -362,14 +360,7 @@ cells you are requesting.
 
 
 ``` r
-single_cell_counts <-
-    metadata |>
-    dplyr::filter(
-        ethnicity == "African" &
-        stringr::str_like(assay, "%10x%") &
-        tissue == "lung parenchyma" &
-        stringr::str_like(cell_type, "%CD4%")
-    ) |>
+single_cell_counts <- sample_subset |>
     get_seurat()
 
 single_cell_counts
@@ -422,8 +413,7 @@ numerous type of cells?
 
 ``` r
 metadata |>
-    group_by(tissue, cell_type) |>
-    count() |>
+    count(tissue, cell_type) |>
     arrange(-n)
 ```
 :::::::::::::::::::::::
@@ -470,7 +460,7 @@ possible.
 
 ``` r
 metadata |> 
-    dplyr::filter(
+    filter(
         sex == "female" &
         age_days > 80 * 365 &
         stringr::str_like(assay, "%10x%") &
@@ -506,4 +496,4 @@ altExpNames(0):
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-[^1]: [Monaco 2019](learners/reference.md#litref)
+
