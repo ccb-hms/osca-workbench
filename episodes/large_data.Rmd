@@ -559,43 +559,34 @@ Use the function `system.time` to obtain the runtime of each job.
 
 :::::::::::::: solution
 
-TODO
+```{r eval=FALSE}
+
+sce.brain = logNormCounts(sce.brain)
+
+system.time({i.out <- runPCA(sce.brain, ncomponents = 20, 
+                             BSPARAM = ExactParam(),
+                             BPPARAM = SerialParam())})
+
+system.time({i.out <- runPCA(sce.brain, ncomponents = 20, 
+                             BSPARAM = ExactParam(),
+                             BPPARAM = MulticoreParam(workers = 2))})
+
+system.time({i.out <- runPCA(sce.brain, ncomponents = 20, 
+                             BSPARAM = ExactParam(),
+                             BPPARAM = MulticoreParam(workers = 3))})
+
+```
+
 :::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::: challenge
-
-#### Exercise 3: Conversion to Seurat
-
-The [scRNAseq](https://bioconductor.org/packages/scRNAseq)
-package provides gene-level counts for a collection of public scRNA-seq datasets,
-stored as `SingleCellExperiment` objects with annotated cell- and gene-level metadata.
-Consult the vignette of the [scRNAseq](https://bioconductor.org/packages/scRNAseq)
-package to inspect all available datasets and select a dataset of your choice.
-Convert the chosen dataset to a Seurat object and produce a PCA plot with cells
-colored by a cell metadata column of your choice.
-
-:::::::::::::: hint
-
-Use Seurat's `DimPlot` function.
-
-:::::::::::::::::::::::
-
-:::::::::::::: solution
-
-Use Seurat's `DimPlot` function.
-
-:::::::::::::::::::::::
-
-:::::::::::::::::::::::
 
 :::::::::::::: checklist
 ## Further Reading
 
 * OSCA book, [Chapter 14](https://bioconductor.org/books/release/OSCA.advanced/dealing-with-big-data.html): Dealing with big data 
 * The `BiocParallel` `r Biocpkg("BiocParallel", vignette = "Introduction_To_BiocParallel.html", label = "intro vignette")`. 
-
 ::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
