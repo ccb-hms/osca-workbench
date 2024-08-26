@@ -6,9 +6,9 @@ exercises: 2 # Minutes of exercises in the lesson
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How to work with single-cell datasets that are too large to fit in memory?
-- How to speed up single-cell analysis workflows for large datasets?
-- How to convert between popular single-cell data formats?
+- How do we work with single-cell datasets that are too large to fit in memory?
+- How do we speed up single-cell analysis workflows for large datasets?
+- How do we convert between popular single-cell data formats?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -49,18 +49,16 @@ For example, the 1.3 million brain cell data set from 10X Genomics
 would require over 100 GB of RAM to hold as a `matrix` and around 30 GB as a `dgCMatrix`.
 This makes it challenging to explore the data on anything less than a HPC system.
 
-The obvious solution is to use a file-backed matrix representation where the 
-data are held on disk and subsets are retrieved into memory as requested.
-While a number of implementations of file-backed matrices are available 
-(e.g.,
-[bigmemory](https://cran.r-project.org/web/packages/bigmemory/index.html), 
-[matter](https://bioconductor.org/packages/matter)), 
-we will be using the implementation from the 
-[HDF5Array](https://bioconductor.org/packages/HDF5Array) package.
-This uses the popular HDF5 format as the underlying data store, which provides
-a measure of standardization and portability across systems.
-We demonstrate with a subset of 20,000 cells from the 1.3 million brain cell 
-data set, as provided by the
+The obvious solution is to use a file-backed matrix representation where the
+data are held on disk and subsets are retrieved into memory as requested. While
+a number of implementations of file-backed matrices are available (e.g.,
+[bigmemory](https://cran.r-project.org/web/packages/bigmemory/index.html),
+[matter](https://bioconductor.org/packages/matter)), we will be using the
+implementation from the [HDF5Array](https://bioconductor.org/packages/HDF5Array)
+package. This uses the popular HDF5 format as the underlying data store, which
+provides a measure of standardization and portability across systems. We
+demonstrate with a subset of 20,000 cells from the 1.3 million brain cell data
+set, as provided by the
 [TENxBrainData](https://bioconductor.org/packages/TENxBrainData) package.
 
 
@@ -220,15 +218,13 @@ DataFrame with 20000 rows and 6 columns
 20000      1775
 ```
 
-Needless to say, data access from file-backed representations is slower than that
-from in-memory representations.
-The time spent retrieving data from disk is an unavoidable cost of reducing
-memory usage.
-Whether this is tolerable depends on the application.
-One example usage pattern involves performing the heavy computing quickly with 
-in-memory representations on HPC systems with plentiful memory, and then
-distributing file-backed counterparts to individual users for exploration and 
-visualization on their personal machines.
+Needless to say, data access from file-backed representations is slower than
+that from in-memory representations. The time spent retrieving data from disk is
+an unavoidable cost of reducing memory usage. Whether this is tolerable depends
+on the application. One example usage pattern involves performing the heavy
+computing quickly with in-memory representations on HPC systems with plentiful
+memory, and then distributing file-backed counterparts to individual users for
+exploration and visualization on their personal machines.
 
 ## Parallelization
 
@@ -349,15 +345,34 @@ rs <- list(walltime = 7200, memory = 8000, ncpus = 1)
 bpp <- BatchtoolsParam(10, cluster = "slurm", resources = rs)
 ```
 
-Parallelization is best suited for CPU-intensive calculations where the division
-of labor results in a concomitant reduction in compute time. It is not suited
-for tasks that are bounded by other compute resources, e.g., memory or file I/O
-(though the latter is less of an issue on HPC systems with parallel read/write).
-In particular, R itself is inherently single-core, so many of the
+Parallelization is best suited for independent, CPU-intensive tasks where the
+division of labor results in a concomitant reduction in compute time. It is not
+suited for tasks that are bounded by other compute resources, e.g., memory or
+file I/O (though the latter is less of an issue on HPC systems with parallel
+read/write). In particular, R itself is inherently single-core, so many of the
 parallelization backends involve (i) setting up one or more separate R sessions,
 (ii) loading the relevant packages and (iii) transmitting the data to that
 session. Depending on the nature and size of the task, this overhead may
-outweigh any benefit from parallel computing.
+outweigh any benefit from parallel computing. While the default behavior of the
+parallel job managers often works well for simple cases, it is sometimes
+necessary to explicitly specify what data/libraries are sent to / loaded on the
+parallel workers in order to avoid unnecessary overhead.
+
+:::: challenge
+
+How do you turn on progress bars with parallel processing?
+
+::: solution
+
+From `?MulticoreParam` : 
+
+> `progressbar` logical(1) Enable progress bar (based on plyr:::progress_text). Enabling the progress bar changes the default value of tasks to .Machine$integer.max, so that progress is reported for each element of X.
+
+Progress bars are a helpful way to gauge whether that task is going to take 5 minutes or 5 hours.
+
+:::
+
+::::
 
 ## Fast approximations
 
@@ -383,15 +398,14 @@ colLabels(sce) <- clusterCells(sce, use.dimred = "PCA",
                                BLUSPARAM = NNGraphParam(cluster.fun = "louvain"))
 ```
 
-The above clusters on a nearest neighbor graph generated with
-an exact neighbour search.
-We repeat this below using an approximate search, implemented using the
-[Annoy](https://github.com/spotify/Annoy) algorithm.
-This involves constructing a `AnnoyParam` object to specify the search algorithm
-and then passing it to the parameterization of the `NNGraphParam()` function.
-The results from the exact and approximate searches are consistent with most
-clusters from the former re-appearing in the latter.
-This suggests that the inaccuracy from the approximation can be largely ignored.
+The above clusters on a nearest neighbor graph generated with an exact neighbour
+search. We repeat this below using an approximate search, implemented using the
+[Annoy](https://github.com/spotify/Annoy) algorithm. This involves constructing
+a `AnnoyParam` object to specify the search algorithm and then passing it to the
+parameterization of the `NNGraphParam()` function. The results from the exact
+and approximate searches are consistent with most clusters from the former
+re-appearing in the latter. This suggests that the inaccuracy from the
+approximation can be largely ignored.
 
 
 ``` r
@@ -406,26 +420,26 @@ table(exact = colLabels(sce), approx = clusters)
 ``` output
      approx
 exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
-   1   90   0   0   0   1   0   0   0   1   0   0   0   0   0   0
-   2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
-   3    0   0  77   0   1   0   0   0   0   0   0   0   0   0   0
-   4    0   0   0 342   0   0   0   0   0   0   0   0   0   0  55
-   5    0   0   0   0  90   0   0  95   0   0   0   8   0   0   0
-   6    0   0   0   0   0  79 131   0   0   0   0   0   0   0   0
-   7    0   0   0   0   0 245   0   0   0   1   0   0   0   0   0
-   8    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
-   9    0   0   0   0   0   0   0   0   0 113   0  10   0   0   0
-   10   0   0   0   0   0   0   0   0   0   5 142   0   6   0   0
-   11   0   0   0   0   0   0   0   0   0   0   0 198   0   0   0
-   12   0   0   0   0 303   0   0   0   0   0   0   0   0   0   0
+   1   90   0   0   0   2   0   0   0   1   0   0   0   0   0   0
+   2    0  86  57   0   0   0   0   0   0   0   0   0   0   0   1
+   3    0   0  76   0   0   0   0   0   0   0   0   0   0   0   0
+   4    0   0   0 341   0   0   0   0   0   0   0   0   0   0   0
+   5    0   0   1   0 350   0   0   0   0   0   0   2   0   0   0
+   6    0   0   0   0   0 203   1   0   0   0   1   0   0   0   0
+   7    0   0   0   0   0   6 244   0   0   1   0   0   0   0   0
+   8    0   0   0   0   0   0   0  95   0   0   0   0   0   0   0
+   9    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
+   10   0   0   0   0  43   0   0   0   0 113   0   1   0   0   0
+   11   0   0   0   0   0   0   0   0   0   0 153   0   0   0   0
+   12   0   0   0   0   2   0   0   0   0   0   0 211   0   0   0
    13   0   0   0   0   0   0   0   0   0   0   0   0 146   0   0
    14   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0
+   15   0   0   0   0   0   0   0   0   0   0   0   0   0   0  56
 ```
 
+This can be quantified by calculating the pairwise Rand index: 
 
-``` error
-Error: rand > 0.85 is not TRUE
-```
+
 
 Note that Annoy writes the NN index to disk prior to performing the search.
 Thus, it may not actually be faster than the default exact algorithm for small
@@ -453,15 +467,13 @@ mean(exact$index != approx$index)
 ### Singular value decomposition 
 
 The singular value decomposition (SVD) underlies the PCA used throughout our
-analyses, e.g., in `denoisePCA()`, `fastMNN()`, `doubletCells()`.
-(Briefly, the right singular vectors are the eigenvectors of the gene-gene
-covariance matrix, where each eigenvector represents the axis of maximum remaining
-variation in the PCA.)
-The default `base::svd()` function performs an exact SVD that is not performant
-for large datasets.
-Instead, we use fast approximate methods from the *[irlba](https://CRAN.R-project.org/package=irlba)* and
-*[rsvd](https://CRAN.R-project.org/package=rsvd)* packages, conveniently wrapped into the 
-*[BiocSingular](https://bioconductor.org/packages/3.19/BiocSingular)* package for ease of use and package development.
+analyses, e.g., in `denoisePCA()`, `fastMNN()`, `doubletCells()`. (Briefly, the
+right singular vectors are the eigenvectors of the gene-gene covariance matrix,
+where each eigenvector represents the axis of maximum remaining variation in the
+PCA.) The default `base::svd()` function performs an exact SVD that is not
+performant for large datasets. Instead, we use fast approximate methods from the
+*[irlba](https://CRAN.R-project.org/package=irlba)* and *[rsvd](https://CRAN.R-project.org/package=rsvd)* packages, conveniently wrapped into
+the *[BiocSingular](https://bioconductor.org/packages/3.19/BiocSingular)* package for ease of use and package development.
 Specifically, we can change the SVD algorithm used in any of these functions by
 simply specifying an alternative value for the `BSPARAM` argument.
 
@@ -508,16 +520,98 @@ str(reducedDim(i.out, "PCA"))
   .. ..$ : chr [1:20] "PC1" "PC2" "PC3" "PC4" ...
 ```
 
-Both IRLBA and randomized SVD (RSVD) are much faster than the exact SVD with
-negligible loss of accuracy.
-This motivates their default use in many *[scran](https://bioconductor.org/packages/3.19/scran)* and *[scater](https://bioconductor.org/packages/3.19/scater)*
-functions, at the cost of requiring users to set the seed to guarantee reproducibility.
-IRLBA can occasionally fail to converge and require more iterations
-(passed via `maxit=` in `IrlbaParam()`), while RSVD involves an explicit trade-off
-between accuracy and speed based on its oversampling parameter (`p=`) and number
-of power iterations (`q=`).
-We tend to prefer IRLBA as its default behavior is more accurate, though RSVD is
-much faster for file-backed matrices.
+Both IRLBA and randomized SVD (RSVD) are much faster than the exact SVD and
+usually yield only a negligible loss of accuracy. This motivates their default
+use in many *[scran](https://bioconductor.org/packages/3.19/scran)* and *[scater](https://bioconductor.org/packages/3.19/scater)* functions, at the
+cost of requiring users to set the seed to guarantee reproducibility. IRLBA can
+occasionally fail to converge and require more iterations (passed via `maxit=`
+in `IrlbaParam()`), while RSVD involves an explicit trade-off between accuracy
+and speed based on its oversampling parameter (`p=`) and number of power
+iterations (`q=`). We tend to prefer IRLBA as its default behavior is more
+accurate, though RSVD is much faster for file-backed matrices.
+
+:::: challenge
+
+The uncertainty from approximation error is sometimes psychologically
+objectionable. "Why can't my computer just give me the right answer?" One way to
+alleviate this feeling is to quantify the approximation error on a small test
+set like the sce we have here. Using the `ExactParam()` class, visualize the
+error in PC1 coordinates compared to the RSVD results.
+
+::: solution
+This code block calculates the exact PCA coordinates. Another thing to note: PC vectors are only identified up to a sign flip. We can see that the RSVD PC1 vector points in the 
+
+``` r
+set.seed(123)
+e.out <- runPCA(sce, ncomponents = 20, BSPARAM = ExactParam())
+str(reducedDim(e.out, "PCA"))
+```
+
+``` output
+ num [1:2411, 1:20] -14.79 -5.79 -13.07 32.19 26.45 ...
+ - attr(*, "dimnames")=List of 2
+  ..$ : chr [1:2411] "cell_9769" "cell_9770" "cell_9771" "cell_9772" ...
+  ..$ : chr [1:20] "PC1" "PC2" "PC3" "PC4" ...
+ - attr(*, "varExplained")= num [1:20] 192.6 87 29.4 23.1 21.6 ...
+ - attr(*, "percentVar")= num [1:20] 25.84 11.67 3.94 3.1 2.89 ...
+ - attr(*, "rotation")= num [1:500, 1:20] 0.174 0.173 0.157 -0.105 0.132 ...
+  ..- attr(*, "dimnames")=List of 2
+  .. ..$ : chr [1:500] "ENSMUSG00000055609" "ENSMUSG00000052217" "ENSMUSG00000069919" "ENSMUSG00000048583" ...
+  .. ..$ : chr [1:20] "PC1" "PC2" "PC3" "PC4" ...
+```
+
+``` r
+reducedDim(e.out, "PCA")[1:5,1:3]
+```
+
+``` output
+                 PC1       PC2        PC3
+cell_9769 -14.793684 18.470324 -0.4893474
+cell_9770  -5.789032 13.347277  5.0560761
+cell_9771 -13.066503 16.803152 -0.5602737
+cell_9772  32.185950  6.697517 -0.6945423
+cell_9773  26.452390  3.083474 -0.2271916
+```
+
+``` r
+reducedDim(r.out, "PCA")[1:5,1:3]
+```
+
+``` output
+                 PC1       PC2        PC3
+cell_9769  14.793780 18.470111 -0.4888676
+cell_9770   5.789148 13.348438  5.0702153
+cell_9771  13.066327 16.803423 -0.5562241
+cell_9772 -32.186341  6.698347 -0.6892421
+cell_9773 -26.452373  3.083974 -0.2299814
+```
+
+For the sake of visualizing the error we can just flip the PC1 coordinates:
+
+
+``` r
+reducedDim(r.out, "PCA") = -1 * reducedDim(r.out, "PCA")
+```
+
+From there we can visualize the error with a histogram:
+
+
+``` r
+error = reducedDim(r.out, "PCA")[,"PC1"] - 
+        reducedDim(e.out, "PCA")[,"PC1"]
+
+data.frame(approx_error = error) |> 
+  ggplot(aes(approx_error)) + 
+  geom_histogram()
+```
+
+<img src="fig/large_data-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
+
+It's almost never more than .001 in this case. 
+
+:::
+
+::::
 
 ## Interoperability with popular single-cell analysis ecosytems
 
@@ -536,16 +630,15 @@ library(Seurat)
 ```
 
 Although the basic processing of single-cell data with Bioconductor packages
-(described in the [OSCA book](https://bioconductor.org/books/release/OSCA/))
-and with Seurat is very similar and will produce overall roughly identical
-results, there is also complementary functionality with regard to cell type
-annotation, dataset integration, and downstream analysis.
-To make the most of both ecosystems it is therefore beneficial to be able 
-to easily switch between a `SeuratObject` and a `SingleCellExperiment`.
-See also the Seurat
-[conversion vignette](https://satijalab.org/seurat/articles/conversion_vignette.html)
-for conversion to/from other popular single cell formats such as the AnnData
-format used by [scanpy](https://scanpy.readthedocs.io/en/stable/).
+(described in the [OSCA book](https://bioconductor.org/books/release/OSCA/)) and
+with Seurat is very similar and will produce overall roughly identical results,
+there is also complementary functionality with regard to cell type annotation,
+dataset integration, and downstream analysis. To make the most of both
+ecosystems it is therefore beneficial to be able to easily switch between a
+`SeuratObject` and a `SingleCellExperiment`. See also the Seurat [conversion
+vignette](https://satijalab.org/seurat/articles/conversion_vignette.html) for
+conversion to/from other popular single cell formats such as the AnnData format
+used by [scanpy](https://scanpy.readthedocs.io/en/stable/).
 
 Here, we demonstrate converting the Seurat object produced in Seurat's
 [PBMC tutorial](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html)
@@ -606,14 +699,14 @@ sobj
 
 [Scanpy](https://scanpy.readthedocs.io) is a scalable toolkit for analyzing
 single-cell gene expression data built jointly with
-[anndata](https://anndata.readthedocs.io/). It includes
-preprocessing, visualization, clustering, trajectory inference and differential
-expression testing. The Python-based implementation efficiently deals with
-datasets of more than one million cells. Scanpy is developed and maintained by
-the [Theis lab]() and is released under a
-[BSD-3-Clause license](https://github.com/scverse/scanpy/blob/master/LICENSE).
-Scanpy is part of the [scverse](https://scverse.org/), a Python-based ecosystem
-for single-cell omics data analysis.
+[anndata](https://anndata.readthedocs.io/). It includes preprocessing,
+visualization, clustering, trajectory inference and differential expression
+testing. The Python-based implementation efficiently deals with datasets of more
+than one million cells. Scanpy is developed and maintained by the [Theis lab]()
+and is released under a [BSD-3-Clause
+license](https://github.com/scverse/scanpy/blob/master/LICENSE). Scanpy is part
+of the [scverse](https://scverse.org/), a Python-based ecosystem for single-cell
+omics data analysis.
 
 At the core of scanpy's single-cell functionality is the `anndata` data structure,
 scanpy's integrated single-cell data container, which is conceptually very similar
@@ -661,7 +754,7 @@ chimera mouse gastrulation dataset.
 
 
 ``` r
-out.file <- tempfile(pattern = ".h5ad")
+out.file <- tempfile(fileext = ".h5ad")
 writeH5AD(sce, file = out.file)
 ```
 
@@ -718,83 +811,84 @@ other attached packages:
 [33] BiocStyle_2.32.0            
 
 loaded via a namespace (and not attached):
-  [1] RcppAnnoy_0.0.22          later_1.3.2              
-  [3] splines_4.4.1             filelock_1.0.3           
-  [5] tibble_3.2.1              polyclip_1.10-6          
-  [7] basilisk.utils_1.16.0     fastDummies_1.7.3        
-  [9] lifecycle_1.0.4           edgeR_4.2.0              
- [11] globals_0.16.3            lattice_0.22-6           
- [13] MASS_7.3-60.2             magrittr_2.0.3           
- [15] plotly_4.10.4             limma_3.60.2             
- [17] rmarkdown_2.27            yaml_2.3.8               
- [19] metapod_1.12.0            httpuv_1.6.15            
- [21] sctransform_0.4.1         spam_2.10-0              
- [23] spatstat.sparse_3.0-3     reticulate_1.37.0        
- [25] pbapply_1.7-2             cowplot_1.1.3            
- [27] DBI_1.2.3                 RColorBrewer_1.1-3       
- [29] zlibbioc_1.50.0           Rtsne_0.17               
- [31] purrr_1.0.2               BumpyMatrix_1.12.0       
- [33] rappdirs_0.3.3            GenomeInfoDbData_1.2.12  
- [35] ggrepel_0.9.5             irlba_2.3.5.1            
- [37] spatstat.utils_3.0-4      listenv_0.9.1            
- [39] goftest_1.2-3             RSpectra_0.16-1          
- [41] spatstat.random_3.2-3     dqrng_0.4.1              
- [43] fitdistrplus_1.1-11       parallelly_1.37.1        
- [45] DelayedMatrixStats_1.26.0 leiden_0.4.3.1           
- [47] codetools_0.2-20          tidyselect_1.2.1         
- [49] UCSC.utils_1.0.0          ScaledMatrix_1.12.0      
- [51] viridis_0.6.5             spatstat.explore_3.2-7   
- [53] BiocFileCache_2.12.0      jsonlite_1.8.8           
- [55] progressr_0.14.0          ggridges_0.5.6           
- [57] survival_3.6-4            tools_4.4.1              
- [59] ica_1.0-3                 Rcpp_1.0.12              
- [61] glue_1.7.0                gridExtra_2.3            
- [63] xfun_0.44                 dplyr_1.1.4              
- [65] withr_3.0.0               BiocManager_1.30.23      
- [67] fastmap_1.2.0             basilisk_1.16.0          
- [69] rhdf5filters_1.16.0       fansi_1.0.6              
- [71] digest_0.6.35             rsvd_1.0.5               
- [73] R6_2.5.1                  mime_0.12                
- [75] colorspace_2.1-0          scattermore_1.2          
- [77] tensor_1.5                spatstat.data_3.0-4      
- [79] RSQLite_2.3.7             tidyr_1.3.1              
- [81] utf8_1.2.4                generics_0.1.3           
- [83] data.table_1.15.4         renv_1.0.7               
- [85] htmlwidgets_1.6.4         httr_1.4.7               
- [87] uwot_0.2.2                pkgconfig_2.0.3          
- [89] gtable_0.3.5              blob_1.2.4               
- [91] lmtest_0.9-40             XVector_0.44.0           
- [93] htmltools_0.5.8.1         dotCall64_1.1-1          
- [95] scales_1.3.0              png_0.1-8                
- [97] knitr_1.47                reshape2_1.4.4           
- [99] rjson_0.2.21              nlme_3.1-164             
-[101] curl_5.2.1                cachem_1.1.0             
-[103] zoo_1.8-12                stringr_1.5.1            
-[105] BiocVersion_3.19.1        KernSmooth_2.23-24       
-[107] parallel_4.4.1            miniUI_0.1.1.1           
-[109] vipor_0.4.7               AnnotationDbi_1.66.0     
-[111] pillar_1.9.0              grid_4.4.1               
-[113] vctrs_0.6.5               RANN_2.6.1               
-[115] promises_1.3.0            dbplyr_2.5.0             
-[117] beachmat_2.20.0           xtable_1.8-4             
-[119] cluster_2.1.6             beeswarm_0.4.0           
-[121] evaluate_0.23             magick_2.8.3             
-[123] cli_3.6.2                 locfit_1.5-9.9           
-[125] compiler_4.4.1            rlang_1.1.3              
-[127] crayon_1.5.2              future.apply_1.11.2      
-[129] plyr_1.8.9                ggbeeswarm_0.7.2         
-[131] stringi_1.8.4             deldir_2.0-4             
-[133] viridisLite_0.4.2         munsell_0.5.1            
-[135] Biostrings_2.72.1         lazyeval_0.2.2           
-[137] spatstat.geom_3.2-9       dir.expiry_1.12.0        
-[139] ExperimentHub_2.12.0      RcppHNSW_0.6.0           
-[141] patchwork_1.2.0           sparseMatrixStats_1.16.0 
-[143] bit64_4.0.5               future_1.33.2            
-[145] Rhdf5lib_1.26.0           KEGGREST_1.44.0          
-[147] statmod_1.5.0             shiny_1.8.1.1            
-[149] AnnotationHub_3.12.0      ROCR_1.0-11              
-[151] igraph_2.0.3              memoise_2.0.1            
-[153] bit_4.0.5                
+  [1] spatstat.sparse_3.0-3     httr_1.4.7               
+  [3] RColorBrewer_1.1-3        tools_4.4.1              
+  [5] sctransform_0.4.1         utf8_1.2.4               
+  [7] R6_2.5.1                  lazyeval_0.2.2           
+  [9] uwot_0.2.2                rhdf5filters_1.16.0      
+ [11] withr_3.0.0               gridExtra_2.3            
+ [13] progressr_0.14.0          cli_3.6.2                
+ [15] spatstat.explore_3.2-7    fastDummies_1.7.3        
+ [17] labeling_0.4.3            spatstat.data_3.0-4      
+ [19] ggridges_0.5.6            pbapply_1.7-2            
+ [21] parallelly_1.37.1         limma_3.60.2             
+ [23] RSQLite_2.3.7             generics_0.1.3           
+ [25] ica_1.0-3                 spatstat.random_3.2-3    
+ [27] dplyr_1.1.4               ggbeeswarm_0.7.2         
+ [29] fansi_1.0.6               lifecycle_1.0.4          
+ [31] yaml_2.3.8                edgeR_4.2.0              
+ [33] BiocFileCache_2.12.0      Rtsne_0.17               
+ [35] grid_4.4.1                blob_1.2.4               
+ [37] promises_1.3.0            dqrng_0.4.1              
+ [39] ExperimentHub_2.12.0      crayon_1.5.2             
+ [41] dir.expiry_1.12.0         miniUI_0.1.1.1           
+ [43] lattice_0.22-6            beachmat_2.20.0          
+ [45] cowplot_1.1.3             KEGGREST_1.44.0          
+ [47] magick_2.8.3              pillar_1.9.0             
+ [49] knitr_1.47                metapod_1.12.0           
+ [51] rjson_0.2.21              future.apply_1.11.2      
+ [53] codetools_0.2-20          leiden_0.4.3.1           
+ [55] glue_1.7.0                data.table_1.15.4        
+ [57] vctrs_0.6.5               png_0.1-8                
+ [59] spam_2.10-0               gtable_0.3.5             
+ [61] cachem_1.1.0              xfun_0.44                
+ [63] mime_0.12                 survival_3.6-4           
+ [65] statmod_1.5.0             fitdistrplus_1.1-11      
+ [67] ROCR_1.0-11               nlme_3.1-164             
+ [69] bit64_4.0.5               filelock_1.0.3           
+ [71] RcppAnnoy_0.0.22          BumpyMatrix_1.12.0       
+ [73] irlba_2.3.5.1             vipor_0.4.7              
+ [75] KernSmooth_2.23-24        colorspace_2.1-0         
+ [77] DBI_1.2.3                 tidyselect_1.2.1         
+ [79] bit_4.0.5                 compiler_4.4.1           
+ [81] curl_5.2.1                basilisk.utils_1.16.0    
+ [83] plotly_4.10.4             scales_1.3.0             
+ [85] lmtest_0.9-40             rappdirs_0.3.3           
+ [87] stringr_1.5.1             digest_0.6.35            
+ [89] goftest_1.2-3             spatstat.utils_3.0-4     
+ [91] rmarkdown_2.27            basilisk_1.16.0          
+ [93] XVector_0.44.0            htmltools_0.5.8.1        
+ [95] pkgconfig_2.0.3           sparseMatrixStats_1.16.0 
+ [97] highr_0.11                dbplyr_2.5.0             
+ [99] fastmap_1.2.0             rlang_1.1.3              
+[101] htmlwidgets_1.6.4         UCSC.utils_1.0.0         
+[103] shiny_1.8.1.1             DelayedMatrixStats_1.26.0
+[105] farver_2.1.2              zoo_1.8-12               
+[107] jsonlite_1.8.8            magrittr_2.0.3           
+[109] GenomeInfoDbData_1.2.12   dotCall64_1.1-1          
+[111] patchwork_1.2.0           Rhdf5lib_1.26.0          
+[113] munsell_0.5.1             Rcpp_1.0.12              
+[115] viridis_0.6.5             reticulate_1.37.0        
+[117] stringi_1.8.4             zlibbioc_1.50.0          
+[119] MASS_7.3-60.2             AnnotationHub_3.12.0     
+[121] plyr_1.8.9                parallel_4.4.1           
+[123] listenv_0.9.1             ggrepel_0.9.5            
+[125] deldir_2.0-4              Biostrings_2.72.1        
+[127] splines_4.4.1             tensor_1.5               
+[129] locfit_1.5-9.9            igraph_2.0.3             
+[131] spatstat.geom_3.2-9       RcppHNSW_0.6.0           
+[133] reshape2_1.4.4            ScaledMatrix_1.12.0      
+[135] BiocVersion_3.19.1        evaluate_0.23            
+[137] renv_1.0.7                BiocManager_1.30.23      
+[139] httpuv_1.6.15             RANN_2.6.1               
+[141] tidyr_1.3.1               purrr_1.0.2              
+[143] polyclip_1.10-6           future_1.33.2            
+[145] scattermore_1.2           rsvd_1.0.5               
+[147] xtable_1.8-4              RSpectra_0.16-1          
+[149] later_1.3.2               viridisLite_0.4.2        
+[151] tibble_3.2.1              memoise_2.0.1            
+[153] beeswarm_0.4.0            AnnotationDbi_1.66.0     
+[155] cluster_2.1.6             globals_0.16.3           
 ```
 
 
@@ -804,10 +898,10 @@ loaded via a namespace (and not attached):
 
 #### Exercise 1: Out of memory representation
 
-Write the counts matrix of the wild-type chimera
-mouse gastrulation dataset to an HDF5 file. Create another counts matrix that
-reads the data from the HDF5 file. Compare memory usage of holding the entire
-matrix in memory as opposed to holding the data out of memory.  
+Write the counts matrix of the wild-type chimera mouse gastrulation dataset to
+an HDF5 file. Create another counts matrix that reads the data from the HDF5
+file. Compare memory usage of holding the entire matrix in memory as opposed to
+holding the data out of memory.
 
 :::::::::::::: hint
 
@@ -818,7 +912,51 @@ function for writing to HDF5 from the *[HDF5Array](https://bioconductor.org/pack
 
 :::::::::::::: solution
 
-TODO
+
+``` r
+wt_out = tempfile(fileext = ".h5")
+
+wt_counts = counts(WTChimeraData())
+
+writeHDF5Array(wt_counts,
+               name = "wt_counts",
+               file = wt_out)
+```
+
+``` output
+<29453 x 30703> sparse HDF5Matrix object of type "double":
+                       cell_1     cell_2     cell_3 ... cell_30702 cell_30703
+ENSMUSG00000051951          0          0          0   .          0          0
+ENSMUSG00000089699          0          0          0   .          0          0
+ENSMUSG00000102343          0          0          0   .          0          0
+ENSMUSG00000025900          0          0          0   .          0          0
+ENSMUSG00000025902          0          0          0   .          0          0
+               ...          .          .          .   .          .          .
+ENSMUSG00000095041          0          1          2   .          0          0
+ENSMUSG00000063897          0          0          0   .          0          0
+ENSMUSG00000096730          0          0          0   .          0          0
+ENSMUSG00000095742          0          0          0   .          0          0
+         tomato-td          1          0          1   .          0          0
+```
+
+``` r
+oom_wt = HDF5Array(wt_out, "wt_counts")
+
+object.size(wt_counts)
+```
+
+``` output
+1520366960 bytes
+```
+
+``` r
+object.size(oom_wt)
+```
+
+``` output
+2488 bytes
+```
+
 :::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::::::::
