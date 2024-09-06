@@ -42,7 +42,7 @@ install.packages("ggplot2")
 ```
 
 In our case, however, we want to install Bioconductor packages.
-These packages are located in a separate repository (see comments below) so we first install the *[BiocManager](https://CRAN.R-project.org/package=BiocManager)* package to easily connect to the Bioconductor servers.
+These packages are located in a separate repository hosted by Bioconductor, so we first install the *[BiocManager](https://CRAN.R-project.org/package=BiocManager)* package to easily connect to the Bioconductor servers.
 
 
 ``` r
