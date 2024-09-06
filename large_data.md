@@ -420,26 +420,29 @@ table(exact = colLabels(sce), approx = clusters)
 ``` output
      approx
 exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
-   1   88   0   0   0   2   0   0   0   2   0   0   0   0   0   0
-   2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
-   3    0   0  75   0   3   0   0   0   0   0   0   0   0   0   0
-   4    0   0   0 341   0   0   0   0   0   0   0   0   0   0   1
-   5    0   0   0   0 392   0   0   2   0   1   0   2   0   0   0
-   6    0   0   0   0   0  79 130   0   0   0   0   0   0   0   0
-   7    0   0   0   0   0 245   0   0   0   1   0   0   1   0   0
-   8    0   0   0   0   0   0   0  93   0   0   0   0   0   0   0
+   1   90   0   0   0   0   0   0   0   1   0   0   0   0   0   0
+   2    0 143   0   1   0   0   0   0   0   0   0   0   0   0   0
+   3    0   0  75   0   0   0   0   0   0   0   0   0   0   0   0
+   4    0   0   0 253   0   0   0   0   0   0   0   0 144   0   0
+   5    0   0   2   0 391   1   0   0   0   1   0   3   0   0   0
+   6    0   0   0   0   0 206  51   0   0   0   1   0   0   0   0
+   7    0   0   0   0   0   3 194   0   0   1   0   0   0   0   0
+   8    0   0   0   0   2   0   0  91   0   0   0   2   0   0   0
    9    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
-   10   0   0   0   0   0   0   0   0   0 113   4  16   0   0   0
-   11   0   0   0   0   0   0   1   0   0   0 143   0   0   0   0
-   12   0   0   0   0   2   0   0   0   0   0   0 196   0   0   0
-   13   0   0   0   0   0   0   0   0   0   0   6   0 145   0   0
-   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0
-   15   0   0   0   0   0   0   0   0   0   0   0   0   0   0  55
+   10   0   0   0   0   0   0   0   0   0 113   8   0   0   0   0
+   11   0   0   0   0   0   0   0   0   0   0 144   0   0   0   0
+   12   0   0   0   0   2   0   0   0   0  15   0 199   0   0   0
+   13   0   0   0   0   0   0   0   0   0   0   0   0   0 146   0
+   14   0   0   0   0   0   0   0   0   0   0   0   0   0   0  20
 ```
 
-This can be quantified by calculating the pairwise Rand index: 
+The similarity of the two clusterings can be quantified by calculating the pairwise Rand index: 
 
 
+``` r
+rand <- pairwiseRand(colLabels(sce), clusters, mode = "index")
+stopifnot(rand > 0.8)
+```
 
 Note that Annoy writes the NN index to disk prior to performing the search.
 Thus, it may not actually be faster than the default exact algorithm for small

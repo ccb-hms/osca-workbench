@@ -20,17 +20,8 @@ exercises: 10 # Minutes of exercises in the lesson
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Setup
 
 
-
-
-``` r
-library(SingleCellExperiment)
-library(MouseGastrulationData)
-```
-
-It's normal to see lot of startup messages when loading these packages. 
 
 ## Bioconductor
 
@@ -103,6 +94,20 @@ Be careful: if you have a lot of packages to update, this can take a long time.
 
 ## The `SingleCellExperiment` class
 
+### Setup
+
+First start by loading some libraries we'll be using:
+
+
+``` r
+library(SingleCellExperiment)
+library(MouseGastrulationData)
+```
+
+It's normal to see lot of startup messages when loading these packages. 
+
+### Motivation and overview
+
 One of the main strengths of the Bioconductor project lies in the use of a common data infrastructure that powers interoperability across packages. 
 
 Users should be able to analyze their data using functions from different Bioconductor packages without the need to convert between formats. To this end, the `SingleCellExperiment` class (from the _SingleCellExperiment_ package) serves as the common currency for data exchange across 70+ single-cell-related Bioconductor packages.
@@ -111,7 +116,7 @@ This class implements a data structure that stores all aspects of our single-cel
 
 <img src="http://bioconductor.org/books/release/OSCA.intro/images/SingleCellExperiment.png" style="display: block; margin: auto;" />
 
-Let's start with an example dataset.
+Let's look at an example dataset. `WTChimeraData` comes from a study on mouse development. We can assign one sample to a `SingleCellExperiment` object named `sce` like so:
 
 
 ``` r
@@ -141,13 +146,13 @@ Depending on the object, slots can contain different types of data (e.g., numeri
 
 :::: challenge
 
-Before SingleCellExperiments, coders working with single cell data would sometimes keep all of these components in separate objects e.g. a matrix of counts, a data.frame of sample metadata, a data.frame of gene annotations and so on. What are the main disadvantage of this sort of "from scratch" approach?
+Before `SingleCellExperiment`, coders working with single cell data would sometimes keep all of these components in separate objects e.g. a matrix of counts, a data.frame of sample metadata, a data.frame of gene annotations and so on. What are the main disadvantages of this sort of "from scratch" approach?
 
 ::: solution
 
 1. You have to do tons of book-keeping! If you perform a QC step that removes dead cells, now you also have to remember to remove that same set of cells from the cell-wise metadata. Dropped un-expressed genes? Don't forget to filter the gene metadata table too. 
 
-2. All the downstream steps have to be "from scratch" as well! If your tables have some slight format difference from those of your lab-mate, suddenly the plotting code you're trying to re-use doesn't work! Agh!
+2. All the downstream steps have to be "from scratch" as well! All the data munging, analysis, and visualization code has to be customized to the idiosyncrasies of your input. Agh!
 
 :::
 
@@ -155,7 +160,7 @@ Before SingleCellExperiments, coders working with single cell data would sometim
 
 ### `assays`
 
-This is arguably the most fundamental part of the object that contains the count matrix, and potentially other matrices with transformed data. We can access the _list_ of matrices with the `assays` function and individual matrices with the `assay` function. If one of these matrices is called "counts", we can use the special `counts` getter (and the analogous `logcounts`).
+This is arguably the most fundamental part of the object that contains the count matrix, and potentially other matrices with transformed data. We can access the _list_ of matrices with the `assays` function and individual matrices with the `assay` function. If one of these matrices is called "counts", we can use the special `counts` getter (likewise for `logcounts`).
 
 
 ``` r
@@ -178,7 +183,7 @@ ENSMUSG00000089699         .         .         .
 ENSMUSG00000102343         .         .         .
 ```
 
-You will notice that in this case we have a sparse matrix of class "dgTMatrix" inside the object. More generally, any "matrix-like" object can be used, e.g., dense matrices or HDF5-backed matrices (see "Working with large data").
+You will notice that in this case we have a sparse matrix of class "dgTMatrix" inside the object. More generally, any "matrix-like" object can be used, e.g., dense matrices or HDF5-backed matrices (see the "Working with large data" episode).
 
 ### `colData` and `rowData`
 
@@ -253,6 +258,8 @@ Here we add a column called "conservation" that is just an integer sequence from
 rowData(sce)$conservation = 1:nrow(sce)
 ```
 
+This is just a made-up example with a simple sequence of numbers, but in practice its convenient to store any sort of gene-wise information in the columns of the rowData.
+
 ::: 
 
 ::::
@@ -261,7 +268,7 @@ rowData(sce)$conservation = 1:nrow(sce)
 
 Everything that we have described so far (except for the `counts` getter) is part of the `SummarizedExperiment` class that SingleCellExperiment extends. You can find a complete lesson on the `SummarizedExperiment` class in [Introduction to data analysis with R and Bioconductor](https://carpentries-incubator.github.io/bioc-intro/60-next-steps.html) course.
 
-One of the peculiarity of SingleCellExperiment is its ability to store reduced dimension matrices within the object. These may include PCA, t-SNE, UMAP, etc.
+One peculiarity of `SingleCellExperiment` is its ability to store reduced dimension matrices within the object. These may include PCA, t-SNE, UMAP, etc.
 
 
 ``` r
