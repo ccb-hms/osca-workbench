@@ -25,7 +25,6 @@ title: Setup
 
 - Open RStudio, and click on "Help" > "Check for updates". If a new version is
   available, quit RStudio, and download the latest version for RStudio.
-
 - To check which version of R you are using, start RStudio and the first thing
   that appears in the console indicates the version of R you are
   running. Alternatively, you can type `sessionInfo()`, which will also display
@@ -34,7 +33,6 @@ title: Setup
   whether a more recent version is available. If so, please download and install
   it. You can [check here](https://cran.r-project.org/bin/windows/base/rw-FAQ.html#How-do-I-UNinstall-R_003f) for
   more information on how to remove old versions from your system if you wish to do so.
-
 - Follow the steps in the instructions [for everyone](#for-everyone) at the
   bottom of this page.
 
@@ -47,21 +45,14 @@ title: Setup
 
 - Download R from
   the [CRAN website](https://cran.r-project.org/bin/windows/base/release.htm).
-
 - Run the `.exe` file that was just downloaded
-
 - Go to the [RStudio download page](https://www.rstudio.com/products/rstudio/download/#download)
-
 - Under *All Installers* select **RStudio xxxx.yy.zz-uuu.exe - Windows 10/11** (where x, y, z, and u represent version numbers)
-
 - Double click the file to install it
-
 - Once it's installed, open RStudio to make sure it works and you don't get any
   error messages
-
 - Follow the steps in the instructions [for everyone](#for-everyone) at the
   bottom of this page.
-
 
 :::::::::::::::::::::::::
 
@@ -75,14 +66,12 @@ title: Setup
 
 - Open RStudio, and click on "Help" > "Check for updates". If a new version is
   available, quit RStudio, and download the latest version for RStudio.
-
 - To check the version of R you are using, start RStudio and the first thing
   that appears on the terminal indicates the version of R you are running. Alternatively, you can type `sessionInfo()`, which will
   also display which version of R you are running. Go on
   the [CRAN website](https://cran.r-project.org/bin/macosx/) and check
   whether a more recent version is available. If so, please download and install
   it.
-
 - Follow the steps in the instructions [for everyone](#for-everyone) at the
   bottom of this page.
 
@@ -95,23 +84,15 @@ title: Setup
 
 - Download R from
   the [CRAN website](https://cran.r-project.org/bin/macosx/).
-
 - Select the `.pkg` file for the latest R version
-
 - Double click on the downloaded file to install R
-
 - It is also a good idea to install [XQuartz](https://www.xquartz.org/) (needed
   by some packages)
-
 - Go to the [RStudio download page](https://www.rstudio.com/products/rstudio/download/#download)
-
 - Under *All Installers* select **RStudio xxxx.yy.zz-uuu.dmg - macOS 10.15+** (where x, y, z, and u represent version numbers)
-
 - Double click the file to install RStudio
-
 - Once it's installed, open RStudio to make sure it works and you don't get any
   error messages.
-
 - Follow the steps in the instructions [for everyone](#for-everyone) at the
   bottom of this page.
 
@@ -146,17 +127,32 @@ title: Setup
 
 ### For everyone
 
-After installing R and RStudio, you need to install a couple of
-packages that will be used during the workshop. We will also learn
-about package installation during the course to explain the following
-commands. For now, simply follow the instructions below:
-
-- Start RStudio by double-clicking the icon and then type:
+After installing R and RStudio, you need to install some packages that will be
+used during the workshop. We will also learn about package installation during
+the course to explain the following commands. For now, simply start RStudio by
+double-clicking the icon and enter these commands:
 
 ```r
 install.packages(c("BiocManager", "remotes"))
-BiocManager::install(c("AUCell", "CuratedAtlasQueryR", "DropletUtils",
-                       "MouseGastrulationData", "Seurat", "SingleR", "TENxBrainData",
-                       "scDblFinder", "scater", "scran", "zellkonverter"))
+BiocManager::install(c("AUCell", "batchelor", "BiocNeighbors", 
+                       "BiocParallel", "BiocSingular", "BiocStyle", 
+                       "bluster", "CuratedAtlasQueryR", "dplyr", 
+                       "DropletUtils", "edgeR", "EnsDb.Mmusculus.v79", 
+                       "ggplot2", "GSEABase", "MouseGastrulationData",
+                       "pheatmap", "scater", "scDblFinder", "scran", 
+                       "scuttle", "Seurat", "SeuratData", 
+                       "SingleCellExperiment", "SingleR",
+                       "TENxBrainData", "zellkonverter"),
+                     Ncpus = 4)
 ```
+
+<!--- 
+grep -Ph "library\(" episodes/*.Rmd | sort | uniq 
+
+^these are all libraries used in the episodes
+-->
+
+On the off chance you don't have multiple CPU cores, remove the Ncpus = 4
+argument.
+
 
