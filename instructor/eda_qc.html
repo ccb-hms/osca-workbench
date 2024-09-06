@@ -355,7 +355,7 @@
 <div class="inner">
 <h3 class="card-title">Questions</h3>
 <ul><li>How do I examine the quality of single-cell data?</li>
-<li>What data visualizations should I use during quality-control in a
+<li>What data visualizations should I use during quality control in a
 single-cell analysis?</li>
 <li>How do I prepare single-cell data for analysis?</li>
 </ul></div>
@@ -395,7 +395,7 @@ that contains all the droplets for which we have sequenced reads.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">MouseGastrulationData</span><span class="op">)</span></span>
-<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">WTChimeraData</span><span class="op">(</span>samples<span class="op">=</span><span class="fl">5</span>, type<span class="op">=</span><span class="st">"raw"</span><span class="op">)</span></span>
+<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">WTChimeraData</span><span class="op">(</span>samples <span class="op">=</span> <span class="fl">5</span>, type <span class="op">=</span> <span class="st">"raw"</span><span class="op">)</span></span>
 <span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="va">sce</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="va">sce</span></span></code></pre>
 </div>
@@ -455,6 +455,23 @@ cell-containing and empty droplets respectively.</p>
 only retain those barcodes with large totals. However, this may
 unnecessarily discard libraries derived from cell types with low RNA
 content.</p>
+<div id="callout1" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Callout</h3>
+<div class="callout-content">
+<p>Depending on your data source, identifying and discarding empty
+droplets may not be necessary. Some academic institutions have research
+cores dedicated to single cell work that perform the sample preparation
+and sequencing. Many of these cores will also perform empty droplet
+filtering and other initial QC steps. If the sequencing outputs were
+provided to you by someone else, make sure to communicate with them
+about what pre-processing steps have been performed, if any.</p>
+</div>
+</div>
+</div>
 <div id="challenge1" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -471,7 +488,7 @@ content.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -550,7 +567,7 @@ cell, while the large majority of droplets are empty.</p>
 <button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
   <h3 class="accordion-header" id="headingSpoiler1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div> Setting the Random Seed </h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
 <div class="accordion-body">
 <p>Whenever your code involves the generation of random numbers, it’s a
 good practice to set the random seed in R with
@@ -577,15 +594,15 @@ results</li>
 <li>interfere with variance estimation and principal component
 analysis</li>
 <li>contain contaminating transcripts from ambient RNA</li>
-</ul><p>To mitigate these problems, we can check a few quality-control
+</ul><p>To mitigate these problems, we can check a few quality control (QC)
 metrics and, if needed, remove low-quality samples.</p>
 <div class="section level3">
-<h3 id="choice-of-quality-control-metrics">Choice of quality-control metrics<a class="anchor" aria-label="anchor" href="#choice-of-quality-control-metrics"></a></h3>
-<p>There are many possible ways to define a set of quality-control
+<h3 id="choice-of-quality-control-metrics">Choice of quality control metrics<a class="anchor" aria-label="anchor" href="#choice-of-quality-control-metrics"></a></h3>
+<p>There are many possible ways to define a set of quality control
 metrics, see for instance <a href="reference.html#litref">Cole 2019</a>.
 Here, we keep it simple and consider only:</p>
 <ul><li>the <em>library size</em>, defined as the total sum of counts across
-all relevant features for each cell;</li>
+all relevant features <em>for each cell</em>;</li>
 <li>the number of expressed features in each cell, defined as the number
 of endogenous genes with non-zero counts for that cell;</li>
 <li>the proportion of reads mapped to genes in the mitochondrial
@@ -618,20 +635,21 @@ updated version of Ensembl can be used through the
 <span>                  keytype <span class="op">=</span> <span class="st">"GENEID"</span>, </span>
 <span>                  column  <span class="op">=</span> <span class="st">"SEQNAME"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">is.mito</span> <span class="op">&lt;-</span> <span class="fu">which</span><span class="op">(</span><span class="va">chr.loc</span><span class="op">==</span><span class="st">"MT"</span><span class="op">)</span></span></code></pre>
+<span><span class="va">is.mito</span> <span class="op">&lt;-</span> <span class="fu">which</span><span class="op">(</span><span class="va">chr.loc</span> <span class="op">==</span> <span class="st">"MT"</span><span class="op">)</span></span></code></pre>
 </div>
 <p>We can use the <code>scuttle</code> package to compute a set of
-quality-control metrics, specifying that we want to use the
+quality control metrics, specifying that we want to use the
 mitochondrial genes as a special set of features.</p>
 <div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">scuttle</span><span class="op">)</span></span>
-<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">perCellQCMetrics</span><span class="op">(</span><span class="va">sce</span>, subsets<span class="op">=</span><span class="fu">list</span><span class="op">(</span>Mito<span class="op">=</span><span class="va">is.mito</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># include them in the object</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">perCellQCMetrics</span><span class="op">(</span><span class="va">sce</span>, subsets <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>Mito <span class="op">=</span> <span class="va">is.mito</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">colData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">cbind</span><span class="op">(</span><span class="fu">colData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span>, <span class="va">df</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">colData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -730,7 +748,8 @@ non-outlier values that follow a normal distribution.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">reasons</span> <span class="op">&lt;-</span> <span class="fu">perCellQCFilters</span><span class="op">(</span><span class="va">df</span>, sub.fields<span class="op">=</span><span class="st">"subsets_Mito_percent"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">reasons</span> <span class="op">&lt;-</span> <span class="fu">perCellQCFilters</span><span class="op">(</span><span class="va">df</span>, sub.fields <span class="op">=</span> <span class="st">"subsets_Mito_percent"</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">reasons</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -774,7 +793,7 @@ many cells are we left with at this point?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -810,19 +829,22 @@ discarded cells, further exploration might be needed.</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">scater</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, y <span class="op">=</span> <span class="st">"sum"</span>, colour_by <span class="op">=</span> <span class="st">"discard"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Total count"</span><span class="op">)</span></span></code></pre>
+<span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, y <span class="op">=</span> <span class="st">"sum"</span>, colour_by <span class="op">=</span> <span class="st">"discard"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Total count"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/eda_qc-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb28">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, y <span class="op">=</span> <span class="st">"detected"</span>, colour_by <span class="op">=</span> <span class="st">"discard"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Detected features"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, y <span class="op">=</span> <span class="st">"detected"</span>, colour_by <span class="op">=</span> <span class="st">"discard"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Detected features"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/eda_qc-rendered-unnamed-chunk-12-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, y <span class="op">=</span> <span class="st">"subsets_Mito_percent"</span>, colour_by <span class="op">=</span> <span class="st">"discard"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Mito percent"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, y <span class="op">=</span> <span class="st">"subsets_Mito_percent"</span>, colour_by <span class="op">=</span> <span class="st">"discard"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Mito percent"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/eda_qc-rendered-unnamed-chunk-12-3.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>While the univariate distribution of QC metrics can give some insight
 on the quality of the sample, often looking at the bivariate
@@ -834,7 +856,7 @@ happen to be highly metabolically active.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, x<span class="op">=</span><span class="st">"sum"</span>, y<span class="op">=</span><span class="st">"subsets_Mito_percent"</span>, colour_by<span class="op">=</span><span class="st">"discard"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>,  x <span class="op">=</span><span class="st">"sum"</span>, y <span class="op">=</span> <span class="st">"subsets_Mito_percent"</span>, colour_by <span class="op">=</span> <span class="st">"discard"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/eda_qc-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>It could also be a good idea to perform a differential expression
 analysis between retained and discarded cells to check wether we are
@@ -903,6 +925,7 @@ as the original counts.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lib.sf</span> <span class="op">&lt;-</span> <span class="fu">librarySizeFactors</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">summary</span><span class="op">(</span><span class="va">lib.sf</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -948,8 +971,11 @@ review).</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">scran</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">clust</span> <span class="op">&lt;-</span> <span class="fu">quickCluster</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span> </span>
+<span></span>
 <span><span class="fu">table</span><span class="op">(</span><span class="va">clust</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -963,7 +989,8 @@ review).</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">deconv.sf</span> <span class="op">&lt;-</span> <span class="fu">calculateSumFactors</span><span class="op">(</span><span class="va">sce</span>, cluster<span class="op">=</span><span class="va">clust</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">deconv.sf</span> <span class="op">&lt;-</span> <span class="fu">calculateSumFactors</span><span class="op">(</span><span class="va">sce</span>, cluster <span class="op">=</span> <span class="va">clust</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">summary</span><span class="op">(</span><span class="va">deconv.sf</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -977,6 +1004,7 @@ review).</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sf_df</span><span class="op">$</span><span class="va">deconv_sf</span> <span class="op">=</span> <span class="va">deconv.sf</span></span>
+<span></span>
 <span><span class="va">sf_df</span><span class="op">$</span><span class="va">clust</span> <span class="op">=</span> <span class="va">clust</span></span>
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">sf_df</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">size_factor</span>, <span class="va">deconv_sf</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -996,7 +1024,9 @@ creating a new assay called <code>logcounts</code>.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">sizeFactors</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">deconv.sf</span></span>
+<span></span>
 <span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">logNormCounts</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">sce</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -1035,9 +1065,9 @@ required to use them?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
-<p>Spike-ins are deliberately introduced exogeneous RNA from an exotic
+<p>Spike-ins are deliberately-introduced exogeneous RNA from an exotic
 or synthetic source at a known concentration. This provides a known
 signal to normalize to. Exotic or synthetic RNA (e.g. soil bacteria RNA
 in a study of human cells) is used in order to avoid confusing spike-in
@@ -1062,9 +1092,11 @@ size of the data to improve computational efficiency of later steps.</p>
 <h3 id="quantifying-per-gene-variation">Quantifying per-gene variation<a class="anchor" aria-label="anchor" href="#quantifying-per-gene-variation"></a></h3>
 <p>The simplest approach to feature selection is to select the most
 variable genes based on their log-normalized expression across the
-population.</p>
+population. This is motivated by practical idea that if we’re going to
+try to explain variation in gene expression by biological factors, those
+genes need to have variance to explain.</p>
 <p>Calculation of the per-gene variance is simple but feature selection
-requires modelling of the mean-variance relationship. The
+requires modeling of the mean-variance relationship. The
 log-transformation is not a variance stabilizing transformation in most
 cases, which means that the total variance of a gene is driven more by
 its abundance than its underlying biological heterogeneity. To account
@@ -1075,10 +1107,11 @@ variance with respect to abundance across all genes.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dec.sce</span> <span class="op">&lt;-</span> <span class="fu">modelGeneVar</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">fit.sce</span> <span class="op">&lt;-</span> <span class="fu">metadata</span><span class="op">(</span><span class="va">dec.sce</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">mean_var_df</span> <span class="op">=</span> <span class="fu">data.frame</span><span class="op">(</span>mean <span class="op">=</span> <span class="va">fit.sce</span><span class="op">$</span><span class="va">mean</span>,</span>
-<span>                         var <span class="op">=</span> <span class="va">fit.sce</span><span class="op">$</span><span class="va">var</span><span class="op">)</span></span>
+<span>                         var  <span class="op">=</span> <span class="va">fit.sce</span><span class="op">$</span><span class="va">var</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">mean_var_df</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">mean</span>, <span class="va">var</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -1097,17 +1130,18 @@ exhibit interesting “biological” variation.</p>
 analyses. A larger set will assure that we do not remove important
 genes, at the cost of potentially increasing noise. Typically, we
 restrict ourselves to the top <span class="math inline">\(n\)</span>
-genes, here we chose <span class="math inline">\(n=1000\)</span>, but
+genes, here we chose <span class="math inline">\(n = 1000\)</span>, but
 this choice should be guided by prior biological knowledge; for
 instance, we may expect that only about 10% of genes to be
 differentially expressed across our cell populations and hence select
 10% of genes as higly variable (e.g., by setting
-<code>prop=0.1</code>).</p>
+<code>prop = 0.1</code>).</p>
 <div class="codewrapper sourceCode" id="cb44">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">hvg.sce.var</span> <span class="op">&lt;-</span> <span class="fu">getTopHVGs</span><span class="op">(</span><span class="va">dec.sce</span>, n<span class="op">=</span><span class="fl">1000</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">hvg.sce.var</span> <span class="op">&lt;-</span> <span class="fu">getTopHVGs</span><span class="op">(</span><span class="va">dec.sce</span>, n <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">head</span><span class="op">(</span><span class="va">hvg.sce.var</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -1168,7 +1202,8 @@ genes identified before.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runPCA</span><span class="op">(</span><span class="va">sce</span>, subset_row<span class="op">=</span><span class="va">hvg.sce.var</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runPCA</span><span class="op">(</span><span class="va">sce</span>, subset_row <span class="op">=</span> <span class="va">hvg.sce.var</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">sce</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -1189,7 +1224,9 @@ mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
 <p>By default, <code>runPCA</code> computes the first 50 principal
-components. We can check how much original variability they explain.</p>
+components. We can check how much original variability they explain.
+These values are stored in the attributes of the <code>percentVar</code>
+reducedDim:</p>
 <div class="codewrapper sourceCode" id="cb48">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1212,7 +1249,7 @@ total number of UMIs per cell.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">plotPCA</span><span class="op">(</span><span class="va">sce</span>, colour_by<span class="op">=</span><span class="st">"sum"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">plotPCA</span><span class="op">(</span><span class="va">sce</span>, colour_by <span class="op">=</span> <span class="st">"sum"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/eda_qc-rendered-unnamed-chunk-23-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>It can be helpful to compare pairs of PCs. This can be done with the
 <code>ncomponents</code> argument to <code>plotReducedDim()</code>. For
@@ -1222,7 +1259,7 @@ can help visualize the effect of that.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">plotReducedDim</span><span class="op">(</span><span class="va">sce</span>, dimred<span class="op">=</span><span class="st">"PCA"</span>, ncomponents<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">plotReducedDim</span><span class="op">(</span><span class="va">sce</span>, dimred <span class="op">=</span> <span class="st">"PCA"</span>, ncomponents <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/eda_qc-rendered-unnamed-chunk-24-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></div>
 <div class="section level3">
@@ -1239,7 +1276,9 @@ high-dimensional gene space as best as possible.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
-<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runTSNE</span><span class="op">(</span><span class="va">sce</span>, dimred<span class="op">=</span><span class="st">"PCA"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runTSNE</span><span class="op">(</span><span class="va">sce</span>, dimred <span class="op">=</span> <span class="st">"PCA"</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">plotTSNE</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/eda_qc-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb52">
@@ -1247,7 +1286,9 @@ high-dimensional gene space as best as possible.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">111</span><span class="op">)</span></span>
-<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runUMAP</span><span class="op">(</span><span class="va">sce</span>, dimred<span class="op">=</span><span class="st">"PCA"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runUMAP</span><span class="op">(</span><span class="va">sce</span>, dimred <span class="op">=</span> <span class="st">"PCA"</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">plotUMAP</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/eda_qc-rendered-unnamed-chunk-26-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>It is easy to over-interpret t-SNE and UMAP plots. We note that the
@@ -1310,7 +1351,7 @@ representation of the data?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <p>Mathematically, this would require the data to fall on a
 two-dimensional plane (for linear methods like PCA) or a smooth 2D
@@ -1356,17 +1397,18 @@ in the neighborhood.</li>
 each cell.</li>
 </ol><p>Intuitively, if a “cell” is surrounded only by simulated doublets is
 very likely to be a doublet itself.</p>
-<p>This approach is implemented below, where we visualize the scores in
-a t-SNE plot.</p>
+<p>This approach is implemented below using the <code>scDblFinder</code>
+library. We then visualize the scores in a t-SNE plot.</p>
 <div class="codewrapper sourceCode" id="cb55">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">scDblFinder</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">dbl.dens</span> <span class="op">&lt;-</span> <span class="fu">computeDoubletDensity</span><span class="op">(</span><span class="va">sce</span>, subset.row<span class="op">=</span><span class="va">hvg.sce.var</span>,</span>
-<span>                                  d<span class="op">=</span><span class="fu">ncol</span><span class="op">(</span><span class="fu">reducedDim</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">dbl.dens</span> <span class="op">&lt;-</span> <span class="fu">computeDoubletDensity</span><span class="op">(</span><span class="va">sce</span>, subset.row <span class="op">=</span> <span class="va">hvg.sce.var</span>,</span>
+<span>                                  d <span class="op">=</span> <span class="fu">ncol</span><span class="op">(</span><span class="fu">reducedDim</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">summary</span><span class="op">(</span><span class="va">dbl.dens</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -1381,7 +1423,7 @@ a t-SNE plot.</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sce</span><span class="op">$</span><span class="va">DoubletScore</span> <span class="op">&lt;-</span> <span class="va">dbl.dens</span></span>
 <span></span>
-<span><span class="fu">plotTSNE</span><span class="op">(</span><span class="va">sce</span>, colour_by<span class="op">=</span><span class="st">"DoubletScore"</span><span class="op">)</span></span></code></pre>
+<span><span class="fu">plotTSNE</span><span class="op">(</span><span class="va">sce</span>, colour_by <span class="op">=</span> <span class="st">"DoubletScore"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/eda_qc-rendered-unnamed-chunk-28-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We can explicitly convert this into doublet calls by identifying
 large outliers for the score within each sample. Here we use the
@@ -1390,8 +1432,9 @@ large outliers for the score within each sample. Here we use the
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dbl.calls</span> <span class="op">&lt;-</span> <span class="fu">doubletThresholding</span><span class="op">(</span><span class="fu">data.frame</span><span class="op">(</span>score<span class="op">=</span><span class="va">dbl.dens</span><span class="op">)</span>,</span>
-<span>                                 method<span class="op">=</span><span class="st">"griffiths"</span>, returnType<span class="op">=</span><span class="st">"call"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">dbl.calls</span> <span class="op">&lt;-</span> <span class="fu">doubletThresholding</span><span class="op">(</span><span class="fu">data.frame</span><span class="op">(</span>score <span class="op">=</span> <span class="va">dbl.dens</span><span class="op">)</span>,</span>
+<span>                                 method <span class="op">=</span> <span class="st">"griffiths"</span>,</span>
+<span>                                 returnType <span class="op">=</span> <span class="st">"call"</span><span class="op">)</span></span>
 <span><span class="fu">summary</span><span class="op">(</span><span class="va">dbl.calls</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -1405,13 +1448,14 @@ large outliers for the score within each sample. Here we use the
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sce</span><span class="op">$</span><span class="va">doublet</span> <span class="op">&lt;-</span> <span class="va">dbl.calls</span></span>
-<span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, y<span class="op">=</span><span class="st">"DoubletScore"</span>, colour_by<span class="op">=</span><span class="st">"doublet"</span><span class="op">)</span></span></code></pre>
+<span></span>
+<span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, y <span class="op">=</span> <span class="st">"DoubletScore"</span>, colour_by <span class="op">=</span> <span class="st">"doublet"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/eda_qc-rendered-unnamed-chunk-29-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb61">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">plotTSNE</span><span class="op">(</span><span class="va">sce</span>, colour_by<span class="op">=</span><span class="st">"doublet"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">plotTSNE</span><span class="op">(</span><span class="va">sce</span>, colour_by <span class="op">=</span> <span class="st">"doublet"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/eda_qc-rendered-unnamed-chunk-29-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>One way to determine whether a cell is in a real transient state or
 it is a doublet is to check the number of detected genes and total UMI
@@ -1470,12 +1514,12 @@ results?</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
 <div class="accordion-body">
 <p>First subset the object to include only highly variable genes
 (<code>sce2 &lt;- sce[hvg.sce.var,]</code>) and then apply the
 <code>NewWave</code> function to the new object setting
-<code>K=10</code> to obtain the first 10 dimensions.</p>
+<code>K = 10</code> to obtain the first 10 dimensions.</p>
 </div>
 </div>
 </div>
