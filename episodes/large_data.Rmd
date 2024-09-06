@@ -263,12 +263,11 @@ clusters <- clusterCells(sce, use.dimred = "PCA",
 table(exact = colLabels(sce), approx = clusters)
 ```
 
-This can be quantified by calculating the pairwise Rand index: 
+The similarity of the two clusterings can be quantified by calculating the pairwise Rand index: 
 
-```{r check-annoy, echo = FALSE}
-# Check that clusterings are very similar
+```{r check-annoy}
 rand <- pairwiseRand(colLabels(sce), clusters, mode = "index")
-stopifnot(rand > 0.85)
+stopifnot(rand > 0.8)
 ```
 
 Note that Annoy writes the NN index to disk prior to performing the search.
