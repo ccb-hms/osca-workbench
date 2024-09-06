@@ -6,14 +6,11 @@ title: Setup
 
 ### R and RStudio
 
-- R and RStudio are separate downloads and installations. R is the
-  underlying statistical computing environment, but using R alone is
-  no fun. RStudio is a graphical integrated development environment
-  (IDE) that makes using R much easier and more interactive. You need
-  to install R before you install RStudio. After installing both
-  programs, you will need to install some specific R packages within
-  RStudio. Follow the instructions below for your operating system,
-  and then follow the instructions to install packages.
+- R and RStudio are separate downloads and installations. R is a programming language and collection of software that implements that language. RStudio is a graphical integrated development environment
+(IDE) that makes using R much easier and more interactive. You need to install R
+before you install RStudio. After installing both programs, you will need to
+install some R libraries from within RStudio. Follow the instructions below for
+your operating system, and then follow the instructions to install packages.
 
 ### You are running Windows
 
@@ -134,6 +131,7 @@ double-clicking the icon and enter these commands:
 
 ```r
 install.packages(c("BiocManager", "remotes"))
+
 BiocManager::install(c("AUCell", "batchelor", "BiocNeighbors", 
                        "BiocParallel", "BiocSingular", "BiocStyle", 
                        "bluster", "CuratedAtlasQueryR", "dplyr", 
@@ -152,7 +150,19 @@ grep -Ph "library\(" episodes/*.Rmd | sort | uniq
 ^these are all libraries used in the episodes
 -->
 
-On the off chance you don't have multiple CPU cores, remove the Ncpus = 4
-argument.
+On the off chance your computer don't have multiple CPU cores, remove the `Ncpus
+= 4` argument.
+
+If you've worked with Bioconductor packages before, and the installation command
+offers to update packages that have newer versions, saying something like:
+
+```
+<...long list of packages...>
+
+Update all/some/none? [a/s/n]:
+```
+
+Select `n` for no. If old packages turn out to be a problem, cross that bridge
+when you come to it.
 
 
