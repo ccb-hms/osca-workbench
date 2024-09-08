@@ -466,14 +466,14 @@ overlaps in their marker sets. In the absence of prior annotation, a
 more general diagnostic check is to compare the assigned labels to
 cluster identities, under the expectation that most cells of a single
 cluster would have the same label (or, if multiple labels are present,
-they should at least represent closely related cell states).
+they should at least represent closely related cell states). We only print out the top-left corner of the table here, but you should try looking at the whole thing:
 
 ```{r anno-vs-cluster}
 new.labels <- colnames(results)[max.col(results)]
 
 tab <- table(new.labels, sce$celltype.mapped)
 
-tab
+tab[1:4,1:4]
 ```
 
 As a diagnostic measure, we examine the distribution of AUCs across
