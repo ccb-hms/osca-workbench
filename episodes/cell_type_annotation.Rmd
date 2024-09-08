@@ -25,7 +25,10 @@ editor_options:
 ```{r chunk-opts, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 library(BiocStyle)
+options(digits = 3)
 ```
+
+Again we'll start by loading the libraries we'll be using:
 
 ```{r setup}
 library(AUCell)
@@ -34,11 +37,13 @@ library(SingleR)
 library(bluster)
 library(scater)
 library(scran)
+library(pheatmap)
+library(GSEABase)
 ```
 
 ## Data retrieval
 
-We'll be using the same set of WT chimeric mouse embryo data: 
+We'll be using the fifth processed sample from the WT chimeric mouse embryo data: 
 
 ```{r data, message = FALSE}
 sce <- WTChimeraData(samples = 5, type = "processed")
@@ -49,7 +54,9 @@ To speed up the computations, we take a random subset of 1,000 cells.
 
 ```{r}
 set.seed(123)
+
 ind <- sample(ncol(sce), 1000)
+
 sce <- sce[,ind]
 ```
 
@@ -59,6 +66,7 @@ The SCE object needs to contain log-normalized expression counts as well as PCA 
 
 ```{r preproc, warning = FALSE}
 sce <- logNormCounts(sce)
+
 sce <- runPCA(sce)
 ```
 
@@ -102,6 +110,7 @@ colLabels(sce) <- clusterCells(sce, use.dimred = "PCA",
 
 table(colLabels(sce))
 ```
+You can see we ended up with `r length(table(colLabels(sce)))` clusters of varying sizes.
 
 We can now overlay the cluster labels as color on a UMAP plot:
 
@@ -143,7 +152,9 @@ cluster when compared to another cluster.
 
 ```{r marker-detect}
 rownames(sce) <- rowData(sce)$SYMBOL
+
 markers <- findMarkers(sce, test.type = "wilcox", direction = "up", lfc = 1)
+
 markers
 ```
 
@@ -249,15 +260,17 @@ most of the examples here are derived.
 
 ```{r ref-data, message = FALSE}
 ref <- EmbryoAtlasData(samples = 29)
+
 ref
-table(ref$stage)
 ```
 
-To speed up the computations, we subsample the dataset to 1,000 cells.
+In order to reduce the computational load, we subsample the dataset to 1,000 cells.
 
 ```{r}
 set.seed(123)
+
 ind <- sample(ncol(ref), 1000)
+
 ref <- ref[,ind]
 ```
 
@@ -268,15 +281,18 @@ tab <- sort(table(ref$celltype), decreasing = TRUE)
 tab
 ```
 
+We need the normalized log counts, so we add those on: 
+
 ```{r ref-preproc}
 ref <- logNormCounts(ref)
 ```
 
 Some cleaning - remove cells of the reference dataset for which the cell
-type annotation is missing.
+type annotation is missing:
 
 ```{r na-celltype}
 nna <- !is.na(ref$celltype)
+
 ref <- ref[,nna]
 ```
 
@@ -285,7 +301,9 @@ to remove noise prior to subsequent annotation tasks.
 
 ```{r low-abu-ct}
 abu.ct <- names(tab)[tab >= 10]
+
 ind <- ref$celltype %in% abu.ct
+
 ref <- ref[,ind] 
 ```
 
@@ -293,16 +311,20 @@ Restrict to genes shared between query and reference dataset.
 
 ```{r shared-genes}
 rownames(ref) <- rowData(ref)$SYMBOL
-isect <- intersect(rownames(sce), rownames(ref))
-sce <- sce[isect,]
-ref <- ref[isect,]
+
+shared_genes <- intersect(rownames(sce), rownames(ref))
+
+sce <- sce[shared_genes,]
+
+ref <- ref[shared_genes,]
 ```
 
 Convert sparse assay matrices to regular dense matrices for input to
-SingleR.
+SingleR:
 
 ```{r sparse-to-dense-mat}
 sce.mat <- as.matrix(assay(sce, "logcounts"))
+
 ref.mat <- as.matrix(assay(ref, "logcounts"))
 ```
 
@@ -337,8 +359,8 @@ type, indicating that the clustering represents finer subdivisions within these
 cell types.
 
 ```{r, fig.width = 10, fig.height = 10}
-library(pheatmap)
 tab <- table(anno = res$pruned.labels, cluster = colLabels(sce))
+
 pheatmap(log2(tab + 10), color = colorRampPalette(c("white", "blue"))(101))
 ```
 
@@ -350,6 +372,7 @@ experts.
 
 ```{r anno-vs-preanno, fig.width = 10, fig.height = 10}
 tab <- table(res$pruned.labels, sce$celltype.mapped)
+
 pheatmap(log2(tab + 10), color = colorRampPalette(c("white", "blue"))(101))
 ```
 
@@ -389,10 +412,11 @@ the markers are available. We demonstrate this approach using cell type
 markers derived from the mouse embryo atlas dataset.
 
 ```{r atlas-markers}
-library(scran)
 wilcox.z <- pairwiseWilcox(ref, ref$celltype, lfc = 1, direction = "up")
+
 markers.z <- getTopMarkers(wilcox.z$statistics, wilcox.z$pairs, 
                            pairwise = FALSE, n = 50)
+
 lengths(markers.z)
 ```
 
@@ -414,19 +438,22 @@ set, but involving only the top ranking genes by expression in each
 cell.
 
 ```{r create-gsets, message = FALSE}
-library(GSEABase)
 all.sets <- lapply(names(markers.z), 
                    function(x) GeneSet(markers.z[[x]], setName = x))
+
 all.sets <- GeneSetCollection(all.sets)
+
 all.sets
 ```
 
 ```{r aucell}
-library(AUCell)
 rankings <- AUCell_buildRankings(as.matrix(counts(sce)),
                                  plotStats = FALSE, verbose = FALSE)
+
 cell.aucs <- AUCell_calcAUC(all.sets, rankings)
+
 results <- t(assay(cell.aucs))
+
 head(results)
 ```
 
@@ -443,7 +470,9 @@ they should at least represent closely related cell states).
 
 ```{r anno-vs-cluster}
 new.labels <- colnames(results)[max.col(results)]
+
 tab <- table(new.labels, sce$celltype.mapped)
+
 tab
 ```
 
@@ -460,6 +489,7 @@ may indicate that its gene set is not sufficiently informative.
 
 ```{r auc-dist, results="hide", fig.width = 10, fig.height = 10}
 par(mfrow = c(3,3))
+
 AUCell_exploreThresholds(cell.aucs[1:9], plotHist = TRUE, assign = TRUE) 
 ```
 
