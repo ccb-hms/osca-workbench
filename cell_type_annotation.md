@@ -24,6 +24,8 @@ editor_options:
 
 
 
+Again we'll start by loading the libraries we'll be using:
+
 
 ``` r
 library(AUCell)
@@ -32,11 +34,13 @@ library(SingleR)
 library(bluster)
 library(scater)
 library(scran)
+library(pheatmap)
+library(GSEABase)
 ```
 
 ## Data retrieval
 
-We'll be using the same set of WT chimeric mouse embryo data: 
+We'll be using the fifth processed sample from the WT chimeric mouse embryo data: 
 
 
 ``` r
@@ -64,7 +68,9 @@ To speed up the computations, we take a random subset of 1,000 cells.
 
 ``` r
 set.seed(123)
+
 ind <- sample(ncol(sce), 1000)
+
 sce <- sce[,ind]
 ```
 
@@ -75,6 +81,7 @@ The SCE object needs to contain log-normalized expression counts as well as PCA 
 
 ``` r
 sce <- logNormCounts(sce)
+
 sce <- runPCA(sce)
 ```
 
@@ -125,6 +132,7 @@ table(colLabels(sce))
   1   2   3   4   5   6   7   8   9  10  11 
 100 160  99 141  63  93  60 108  44  91  41 
 ```
+You can see we ended up with 11 clusters of varying sizes.
 
 We can now overlay the cluster labels as color on a UMAP plot:
 
@@ -170,7 +178,9 @@ cluster when compared to another cluster.
 
 ``` r
 rownames(sce) <- rowData(sce)$SYMBOL
+
 markers <- findMarkers(sce, test.type = "wilcox", direction = "up", lfc = 1)
+
 markers
 ```
 
@@ -329,6 +339,7 @@ most of the examples here are derived.
 
 ``` r
 ref <- EmbryoAtlasData(samples = 29)
+
 ref
 ```
 
@@ -347,22 +358,14 @@ mainExpName: NULL
 altExpNames(0):
 ```
 
-``` r
-table(ref$stage)
-```
-
-``` output
-
-E8.5 
-7569 
-```
-
-To speed up the computations, we subsample the dataset to 1,000 cells.
+In order to reduce the computational load, we subsample the dataset to 1,000 cells.
 
 
 ``` r
 set.seed(123)
+
 ind <- sample(ncol(ref), 1000)
+
 ref <- ref[,ind]
 ```
 
@@ -404,17 +407,20 @@ tab
                              1 
 ```
 
+We need the normalized log counts, so we add those on: 
+
 
 ``` r
 ref <- logNormCounts(ref)
 ```
 
 Some cleaning - remove cells of the reference dataset for which the cell
-type annotation is missing.
+type annotation is missing:
 
 
 ``` r
 nna <- !is.na(ref$celltype)
+
 ref <- ref[,nna]
 ```
 
@@ -424,7 +430,9 @@ to remove noise prior to subsequent annotation tasks.
 
 ``` r
 abu.ct <- names(tab)[tab >= 10]
+
 ind <- ref$celltype %in% abu.ct
+
 ref <- ref[,ind] 
 ```
 
@@ -433,17 +441,21 @@ Restrict to genes shared between query and reference dataset.
 
 ``` r
 rownames(ref) <- rowData(ref)$SYMBOL
-isect <- intersect(rownames(sce), rownames(ref))
-sce <- sce[isect,]
-ref <- ref[isect,]
+
+shared_genes <- intersect(rownames(sce), rownames(ref))
+
+sce <- sce[shared_genes,]
+
+ref <- ref[shared_genes,]
 ```
 
 Convert sparse assay matrices to regular dense matrices for input to
-SingleR.
+SingleR:
 
 
 ``` r
 sce.mat <- as.matrix(assay(sce, "logcounts"))
+
 ref.mat <- as.matrix(assay(ref, "logcounts"))
 ```
 
@@ -513,8 +525,8 @@ cell types.
 
 
 ``` r
-library(pheatmap)
 tab <- table(anno = res$pruned.labels, cluster = colLabels(sce))
+
 pheatmap(log2(tab + 10), color = colorRampPalette(c("white", "blue"))(101))
 ```
 
@@ -529,6 +541,7 @@ experts.
 
 ``` r
 tab <- table(res$pruned.labels, sce$celltype.mapped)
+
 pheatmap(log2(tab + 10), color = colorRampPalette(c("white", "blue"))(101))
 ```
 
@@ -571,10 +584,11 @@ markers derived from the mouse embryo atlas dataset.
 
 
 ``` r
-library(scran)
 wilcox.z <- pairwiseWilcox(ref, ref$celltype, lfc = 1, direction = "up")
+
 markers.z <- getTopMarkers(wilcox.z$statistics, wilcox.z$pairs, 
                            pairwise = FALSE, n = 50)
+
 lengths(markers.z)
 ```
 
@@ -635,10 +649,11 @@ cell.
 
 
 ``` r
-library(GSEABase)
 all.sets <- lapply(names(markers.z), 
                    function(x) GeneSet(markers.z[[x]], setName = x))
+
 all.sets <- GeneSetCollection(all.sets)
+
 all.sets
 ```
 
@@ -653,55 +668,57 @@ GeneSetCollection
 
 
 ``` r
-library(AUCell)
 rankings <- AUCell_buildRankings(as.matrix(counts(sce)),
                                  plotStats = FALSE, verbose = FALSE)
+
 cell.aucs <- AUCell_calcAUC(all.sets, rankings)
+
 results <- t(assay(cell.aucs))
+
 head(results)
 ```
 
 ``` output
             gene sets
-cells         Allantois Cardiomyocytes Endothelium Erythroid2 Erythroid3
-  cell_11995 0.21994609      0.2336827   0.1947563 0.12228508  0.1639749
-  cell_10294 0.10066221      0.1246414   0.1104634 0.60732017  0.6081721
-  cell_9963  0.34273069      0.3158431   0.5407815 0.13588372  0.1797007
-  cell_11610 0.08244651      0.1340388   0.1048735 0.57892981  0.5706619
-  cell_10910 0.31763336      0.2784001   0.2445795 0.08175859  0.1354818
-  cell_11021 0.20549732      0.2320122   0.1869839 0.11351012  0.1769588
+cells        Allantois Cardiomyocytes Endothelium Erythroid2 Erythroid3
+  cell_11995    0.2199          0.234       0.195     0.1223      0.164
+  cell_10294    0.1007          0.125       0.110     0.6073      0.608
+  cell_9963     0.3427          0.316       0.541     0.1359      0.180
+  cell_11610    0.0824          0.134       0.105     0.5789      0.571
+  cell_10910    0.3176          0.278       0.245     0.0818      0.135
+  cell_11021    0.2055          0.232       0.187     0.1135      0.177
             gene sets
-cells        ExE endoderm ExE mesoderm Forebrain/Midbrain/Hindbrain       Gut
-  cell_11995   0.06053637    0.4371076                    0.6319109 0.3779960
-  cell_10294   0.06369959    0.1900184                    0.2670988 0.1482988
-  cell_9963    0.09466189    0.4165978                    0.4972886 0.3805059
-  cell_11610   0.05720738    0.2060333                    0.2785028 0.1466698
-  cell_10910   0.11787498    0.5770948                    0.5721069 0.4450836
-  cell_11021   0.09285926    0.4736976                    0.6011933 0.3993608
+cells        ExE endoderm ExE mesoderm Forebrain/Midbrain/Hindbrain   Gut
+  cell_11995       0.0605        0.437                        0.632 0.378
+  cell_10294       0.0637        0.190                        0.267 0.148
+  cell_9963        0.0947        0.417                        0.497 0.381
+  cell_11610       0.0572        0.206                        0.279 0.147
+  cell_10910       0.1179        0.577                        0.572 0.445
+  cell_11021       0.0929        0.474                        0.601 0.399
             gene sets
 cells        Haematoendothelial progenitors Intermediate mesoderm Mesenchyme
-  cell_11995                      0.3329538             0.5396029  0.2456757
-  cell_10294                      0.1621829             0.1781659  0.1078670
-  cell_9963                       0.6010306             0.4623277  0.3566887
-  cell_11610                      0.1526329             0.1968055  0.1118536
-  cell_10910                      0.4333710             0.5481614  0.3512731
-  cell_11021                      0.3336212             0.5197592  0.2403682
+  cell_11995                          0.333                 0.540      0.246
+  cell_10294                          0.162                 0.178      0.108
+  cell_9963                           0.601                 0.462      0.357
+  cell_11610                          0.153                 0.197      0.112
+  cell_10910                          0.433                 0.548      0.351
+  cell_11021                          0.334                 0.520      0.240
             gene sets
-cells        Neural crest       NMP Paraxial mesoderm Pharyngeal mesoderm
-  cell_11995    0.6535231 0.4841026         0.5510547           0.5076289
-  cell_10294    0.2840264 0.2113283         0.2192031           0.2049349
-  cell_9963     0.5374756 0.3740042         0.5007010           0.4618718
-  cell_11610    0.2949987 0.2235049         0.2348724           0.2134701
-  cell_10910    0.5472885 0.5225294         0.5506325           0.5564014
-  cell_11021    0.5863399 0.5731637         0.4992671           0.4707530
+cells        Neural crest   NMP Paraxial mesoderm Pharyngeal mesoderm
+  cell_11995        0.654 0.484             0.551               0.508
+  cell_10294        0.284 0.211             0.219               0.205
+  cell_9963         0.537 0.374             0.501               0.462
+  cell_11610        0.295 0.224             0.235               0.213
+  cell_10910        0.547 0.523             0.551               0.556
+  cell_11021        0.586 0.573             0.499               0.471
             gene sets
 cells        Somitic mesoderm Spinal cord Surface ectoderm
-  cell_11995        0.4654095   0.5807133        0.5251957
-  cell_10294        0.2141816   0.2290110        0.1874113
-  cell_9963         0.4307335   0.4373858        0.4173470
-  cell_11610        0.2339673   0.2564642        0.2054802
-  cell_10910        0.5179489   0.5167149        0.5049140
-  cell_11021        0.5186006   0.5526277        0.5052879
+  cell_11995            0.465       0.581            0.525
+  cell_10294            0.214       0.229            0.187
+  cell_9963             0.431       0.437            0.417
+  cell_11610            0.234       0.256            0.205
+  cell_10910            0.518       0.517            0.505
+  cell_11021            0.519       0.553            0.505
 ```
 
 We assign cell type identity to each cell in the test dataset by taking
@@ -718,7 +735,9 @@ they should at least represent closely related cell states).
 
 ``` r
 new.labels <- colnames(results)[max.col(results)]
+
 tab <- table(new.labels, sce$celltype.mapped)
+
 tab
 ```
 
@@ -959,6 +978,7 @@ may indicate that its gene set is not sufficiently informative.
 
 ``` r
 par(mfrow = c(3,3))
+
 AUCell_exploreThresholds(cell.aucs[1:9], plotHist = TRUE, assign = TRUE) 
 ```
 
