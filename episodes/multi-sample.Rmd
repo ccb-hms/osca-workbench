@@ -34,7 +34,7 @@ As before, we will use the the wild-type data from the Tal1 chimera experiment:
 
 Note that this is a paired design in which for each biological replicate (pool 3, 4, and 5), we have both host and injected cells.
 
-We start by loading the data and doing a quick exploratory analysis, essentially applying the normalization and visualization techniques that we have seen in the previous lectures to all samples.
+We start by loading the data and doing a quick exploratory analysis, essentially applying the normalization and visualization techniques that we have seen in the previous lectures to all samples. Note that this time we're selecting samples 5 to 10, not just 5 by itself.
 
 ```{r chunk-opts, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
@@ -43,23 +43,30 @@ library(BiocStyle)
 
 ```{r setup}
 library(MouseGastrulationData)
-sce <- WTChimeraData(samples=5:10, type = "processed")
+library(batchelor)
+library(edgeR)
+library(scater)
+library(ggplot2)
+library(scran)
+library(pheatmap)
+library(scuttle)
+
+sce <- WTChimeraData(samples = 5:10, type = "processed")
+
 sce
+
 colData(sce)
 ```
 
 To speed up computations, after removing doublets, we randomly select 50% cells per sample.
 
 ```{r}
-library(scater)
-library(ggplot2)
-library(scran)
-
-# remove doublets
 drop <- sce$celltype.mapped %in% c("stripped", "Doublet")
+
 sce <- sce[,!drop]
 
 set.seed(29482)
+
 idx <- unlist(tapply(colnames(sce), sce$sample, function(x) {
     perc <- round(0.50 * length(x))
     sample(x, perc)
@@ -68,22 +75,23 @@ idx <- unlist(tapply(colnames(sce), sce$sample, function(x) {
 sce <- sce[,idx]
 ```
 
-We now normalize the data and visualize them in a tSNE plot.
+We now normalize the data, run some dimensionality reduction steps, and visualize them in a tSNE plot.
 
 ```{r}
-# normalization
 sce <- logNormCounts(sce)
 
-# identify highly variable genes
-dec <- modelGeneVar(sce, block=sce$sample)
+dec <- modelGeneVar(sce, block = sce$sample)
+
 chosen.hvgs <- dec$bio > 0
 
-# dimensionality reduction
 sce <- runPCA(sce, subset_row = chosen.hvgs, ntop = 1000)
+
 sce <- runTSNE(sce, dimred = "PCA")
 
 sce$sample <- as.factor(sce$sample)
+
 plotTSNE(sce, colour_by = "sample")
+
 plotTSNE(sce, colour_by = "celltype.mapped") +
     scale_color_discrete() +
     theme(legend.position = "bottom")
@@ -99,7 +107,7 @@ It seems like samples 5 and 6 are separated off from the others in gene expressi
 
 ::: solution
 
-Samples 5 and 6 were from the same "pool" of cells. Looking at the documentation for the dataset under `?WTChimeraData` we see that the pool variable is defined as: "Integer, embryo pool from which cell derived; samples with same value are matched." So samples 5 and 6 have an experimental factor in common which causes a shared, systematic difference in gene expression profiles compared to the other samples. That's why you can see many of isolated blue/orange clusters on the first TSNE plot. If you were developing single-cell library preparation protocols you might want to preserve this effect to understand how variation in pools leads to variation in expression, but for now, given that we're investigate other effects, we'll want to remove this as undesired technical variation.
+Samples 5 and 6 were from the same "pool" of cells. Looking at the documentation for the dataset under `?WTChimeraData` we see that the pool variable is defined as: "Integer, embryo pool from which cell derived; samples with same value are matched." So samples 5 and 6 have an experimental factor in common which causes a shared, systematic difference in gene expression profiles compared to the other samples. That's why you can see many of isolated blue/orange clusters on the first TSNE plot. If you were developing single-cell library preparation protocols you might want to preserve this effect to understand how variation in pools leads to variation in expression, but for now, given that we're investigating other effects, we'll want to remove this as undesired technical variation.
 
 :::
 
@@ -107,27 +115,28 @@ Samples 5 and 6 were from the same "pool" of cells. Looking at the documentation
 
 ## Correcting batch effects
 
-We correct the effect of samples by aid of the `correctExperiment` function
-in the `batchelor` package and using the `sample` `colData` column as batch.
+We "correct" the effect of samples with the `correctExperiment` function
+in the `batchelor` package and using the `sample` column as batch.
 
 
 ```{r}
-
-library(batchelor)
 set.seed(10102)
-merged <- correctExperiments(sce, 
-    batch=sce$sample, 
-    subset.row=chosen.hvgs,
-    PARAM=FastMnnParam(
-        merge.order=list(
+
+merged <- correctExperiments(
+    sce, 
+    batch = sce$sample, 
+    subset.row = chosen.hvgs,
+    PARAM = FastMnnParam(
+        merge.order = list(
             list(1,3,5), # WT (3 replicates)
             list(2,4,6)  # td-Tomato (3 replicates)
         )
     )
 )
 
-merged <- runTSNE(merged, dimred="corrected")
-plotTSNE(merged, colour_by="batch")
+merged <- runTSNE(merged, dimred = "corrected")
+
+plotTSNE(merged, colour_by = "batch")
 
 ```
 
@@ -151,23 +160,21 @@ Imagine you had one sample that received a drug treatment and one that did not, 
 
 ## Differential Expression
 
-In order to perform a Differential Expression Analysis, we need to identify 
+In order to perform a differential expression analysis, we need to identify 
 groups of cells across samples/conditions (depending on the experimental 
 design and the final aim of the experiment). 
 
 As previously seen, we have two ways of grouping cells, cell clustering and cell
-labeling.
-In our case we will focus on this second aspect to group cells according to the 
-already annotated cell types to proceed with the computation of the 
-pseudo-bulk samples.
+labeling. In our case we will focus on this second aspect to group cells
+according to the already annotated cell types to proceed with the computation of
+the pseudo-bulk samples.
 
 ### Pseudo-bulk samples
 
-To compute differences between groups of cells, a possible way is to 
-compute pseudo-bulk samples, where we mediate the gene signal of all the cells
-for each specific cell type.
-In this manner, we are then able to detect differences between the same cell type 
-across two different conditions.
+To compute differences between groups of cells, a possible way is to compute
+pseudo-bulk samples, where we mediate the gene signal of all the cells for each
+specific cell type. In this manner, we are then able to detect differences
+between the same cell type across two different conditions.
 
 To compute pseudo-bulk samples, we use the `aggregateAcrossCells` function in the 
 `scuttle` package, which takes as input not only a SingleCellExperiment, 
@@ -178,9 +185,12 @@ we want be able to discern between replicates and conditions during further step
 ```{r}
 # Using 'label' and 'sample' as our two factors; each column of the output
 # corresponds to one unique combination of these two factors.
-library(scuttle)
-summed <- aggregateAcrossCells(merged, 
-    id=colData(merged)[,c("celltype.mapped", "sample")])
+
+summed <- aggregateAcrossCells(
+    merged, 
+    id = colData(merged)[,c("celltype.mapped", "sample")]
+)
+
 summed
 
 ```
@@ -197,11 +207,11 @@ cells", and look into differences between this cell type across conditions.
 
 ```{r}
 label <- "Mesenchyme"
-current <- summed[,label==summed$celltype.mapped]
 
-# Creating up a DGEList object for use in edgeR:
-library(edgeR)
-y <- DGEList(counts(current), samples=colData(current))
+current <- summed[,label == summed$celltype.mapped]
+
+y <- DGEList(counts(current), samples = colData(current))
+
 y
 ```
 
@@ -214,7 +224,9 @@ to filter out any of them.
 
 ```{r}
 discarded <- current$ncells < 10
+
 y <- y[,!discarded]
+
 summary(discarded)
 ```
 
@@ -222,8 +234,10 @@ The same idea is typically applied to the genes, indeed we need to discard low
 expressed genes to improve accuracy for the DEGs modeling.
 
 ```{r}
-keep <- filterByExpr(y, group=current$tomato)
+keep <- filterByExpr(y, group = current$tomato)
+
 y <- y[keep,]
+
 summary(keep)
 ```
 
@@ -235,6 +249,7 @@ counts, we don't need to normalize the data in "single cell form".
 
 ```{r}
 y <- calcNormFactors(y)
+
 y$samples
 ```
 
@@ -250,7 +265,7 @@ present a trumpet shape, as expected.
 par(mfrow = c(2,3))
 
 for (i in seq_len(ncol(y))) {
-    plotMD(y, column=i)
+    plotMD(y, column = i)
 }
 
 par(mfrow = c(1,1))
@@ -262,8 +277,8 @@ on their known factors (like the tomato injection in this case).
 To do so, we use the MDS plot, which is very close to a PCA representation.
     
 ```{r}
-limma::plotMDS(cpm(y, log=TRUE), 
-    col=ifelse(y$samples$tomato, "red", "blue"))
+limma::plotMDS(cpm(y, log = TRUE), 
+               col = ifelse(y$samples$tomato, "red", "blue"))
 ```
 
 We then construct a design matrix by including both the pool and the tomato as factors.
@@ -281,6 +296,7 @@ the mean-variance trend.
 
 ```{r}
 y <- estimateDisp(y, design)
+
 summary(y$trended.dispersion)
 ```
 
@@ -294,12 +310,14 @@ plotBCV(y)
 
 
 We then fit a Quasi-Likelihood (QL) negative binomial generalized linear model for each gene. 
-The `robust=TRUE` parameter avoids distortions from highly variable clusters.
+The `robust = TRUE` parameter avoids distortions from highly variable clusters.
 The QL method includes an additional dispersion parameter, useful to handle the uncertainty and variability of the per-gene variance, which is not well estimated by the NB dispersions, so the two dispersion types complement each other in the final analysis.
 
 ```{r}
-fit <- glmQLFit(y, design, robust=TRUE)
+fit <- glmQLFit(y, design, robust = TRUE)
+
 summary(fit$var.prior)
+
 summary(fit$df.prior)
 ```
 
@@ -314,8 +332,10 @@ The low amount of DGEs highlights that the tomato injection effect has a low
 influence on the mesenchyme cells.
 
 ```{r}
-res <- glmQLFTest(fit, coef=ncol(design))
+res <- glmQLFTest(fit, coef = ncol(design))
+
 summary(decideTests(res))
+
 topTags(res)
 ```
 
@@ -323,14 +343,14 @@ All the previous steps can be easily performed with the following function
 for each cell type, thanks to the `pseudoBulkDGE` function in the `scran` package.
 
 ```{r}
-library(scran)
 summed.filt <- summed[,summed$ncells >= 10]
 
-de.results <- pseudoBulkDGE(summed.filt, 
-    label=summed.filt$celltype.mapped,
-    design=~factor(pool) + tomato,
-    coef="tomatoTRUE",
-    condition=summed.filt$tomato 
+de.results <- pseudoBulkDGE(
+    summed.filt, 
+    label = summed.filt$celltype.mapped,
+    design = ~factor(pool) + tomato,
+    coef = "tomatoTRUE",
+    condition = summed.filt$tomato 
 )
 ```
 
@@ -339,6 +359,7 @@ Each of these contains also the intermediate results in `edgeR` format to perfor
 
 ```{r}
 cur.results <- de.results[["Allantois"]]
+
 cur.results[order(cur.results$PValue),]
 ```
 
@@ -362,25 +383,28 @@ Clearly some of the results have low p-values. What about the effect sizes? What
 With DA we look for differences in cluster *abundance* across conditions (the
 tomato injection in our case), rather than differences in gene expression.
 
-We first setup some code and variables for further analysis, like quantifying the
-number of cells per each cell type and fit a model to catch differences between the 
-injected cells and the background.
+Our first steps are quantifying the number of cells per each cell type and
+fitting a model to catch differences between the injected cells and the
+background.
 
-The steps are very similar to the ones for DEGs analysis, but this time
-we start our analysis on the computed abundances and without normalizing the 
-data with TMM.
+The process is very similar differential expression modeling, but this time we
+start our analysis on the computed abundances and without normalizing the data
+with TMM.
 
 ```{r}
-library(edgeR)
 abundances <- table(merged$celltype.mapped, merged$sample) 
+
 abundances <- unclass(abundances) 
-# Attaching some column metadata.
+
 extra.info <- colData(merged)[match(colnames(abundances), merged$sample),]
-y.ab <- DGEList(abundances, samples=extra.info)
+
+y.ab <- DGEList(abundances, samples = extra.info)
 
 design <- model.matrix(~factor(pool) + factor(tomato), y.ab$samples)
-y.ab <- estimateDisp(y.ab, design, trend="none")
-fit.ab <- glmQLFit(y.ab, design, robust=TRUE, abundance.trend=FALSE)
+
+y.ab <- estimateDisp(y.ab, design, trend = "none")
+
+fit.ab <- glmQLFit(y.ab, design, robust = TRUE, abundance.trend = FALSE)
 ```
 
 ### Background on compositional effect
@@ -422,21 +446,22 @@ estimate a QL-model for our abundance data.
 
 ```{r}
 y.ab2 <- calcNormFactors(y.ab)
+
 y.ab2$samples$norm.factors
 ```
 
 We then use edgeR in a manner similar to what we ran before: 
 
 ```{r}
-y.ab2 <- estimateDisp(y.ab2, design, trend="none")
+y.ab2 <- estimateDisp(y.ab2, design, trend = "none")
 
-fit.ab2 <- glmQLFit(y.ab2, design, robust=TRUE, abundance.trend=FALSE)
+fit.ab2 <- glmQLFit(y.ab2, design, robust = TRUE, abundance.trend = FALSE)
 
-res2 <- glmQLFTest(fit.ab2, coef=ncol(design))
+res2 <- glmQLFTest(fit.ab2, coef = ncol(design))
 
 summary(decideTests(res2))
 
-topTags(res2, n=10)
+topTags(res2, n = 10)
 ```
 
 ###  Testing against a log-fold change threshold
@@ -452,8 +477,10 @@ attributable to composition bias. We then mitigate the effect of composition
 biases by testing each label for changes in abundance beyond \tau.
 
 ```{r}
-res.lfc <- glmTreat(fit.ab, coef=ncol(design), lfc=1)
+res.lfc <- glmTreat(fit.ab, coef = ncol(design), lfc = 1)
+
 summary(decideTests(res.lfc))
+
 topTags(res.lfc)
 ```
 
@@ -487,11 +514,12 @@ Remember, you can subset SingleCellExperiments with logical indices, just like a
 
 summed.filt.subset = summed.filt[,summed.filt$pool != 3]
 
-de.results <- pseudoBulkDGE(summed.filt.subset, 
-    label=summed.filt.subset$celltype.mapped,
-    design=~factor(pool) + tomato,
-    coef="tomatoTRUE",
-    condition=summed.filt.subset$tomato 
+de.results <- pseudoBulkDGE(
+    summed.filt.subset, 
+    label = summed.filt.subset$celltype.mapped,
+    design = ~factor(pool) + tomato,
+    coef = "tomatoTRUE",
+    condition = summed.filt.subset$tomato 
 )
 ```
 
@@ -514,8 +542,6 @@ You can just hand `pheatmap()` a matrix as its only argument. It has a million o
 :::::::::::::: solution
 
 ```{r}
-library(pheatmap)
-
 pheatmap(y.ab$counts)
 ```
 
