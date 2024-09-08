@@ -1036,7 +1036,7 @@ about what pre-processing steps have been performed, if any.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1116,7 +1116,7 @@ cell, while the large majority of droplets are empty.</p>
 <button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
   <h3 class="accordion-header" id="headingSpoiler1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div> Setting the Random Seed </h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
 <div class="accordion-body">
 <p>Whenever your code involves the generation of random numbers, it’s a
 good practice to set the random seed in R with
@@ -1349,7 +1349,7 @@ many cells are we left with at this point?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1625,7 +1625,7 @@ required to use them?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>Spike-ins are deliberately-introduced exogeneous RNA from an exotic
 or synthetic source at a known concentration. This provides a known
@@ -1920,7 +1920,7 @@ representation of the data?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <p>Mathematically, this would require the data to fall on a
 two-dimensional plane (for linear methods like PCA) or a smooth 2D
@@ -2090,7 +2090,7 @@ results?</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
 <div class="accordion-body">
 <p>First subset the object to include only highly variable genes
 (<code>sce2 &lt;- sce[hvg.sce.var,]</code>) and then apply the
@@ -2375,7 +2375,7 @@ what we’d need to change to get fewer, larger clusters.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>We see in the help documentation for <code>?clusterCells</code> that
 all of the clustering algorithm details are handled through the
@@ -2528,7 +2528,7 @@ clusters?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>One important reason why is because averages over all other clusters
 can be sensitive to the cell type composition. If a rare cell type shows
@@ -2821,7 +2821,7 @@ parallel?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>Use <code>BiocParallel</code> and the <code>BPPARAM</code> argument!
 This example will set it to use four cores on your laptop, but you can
@@ -3010,7 +3010,9 @@ large overlaps in their marker sets. In the absence of prior annotation,
 a more general diagnostic check is to compare the assigned labels to
 cluster identities, under the expectation that most cells of a single
 cluster would have the same label (or, if multiple labels are present,
-they should at least represent closely related cell states).</p>
+they should at least represent closely related cell states). We only
+print out the top-left corner of the table here, but you should try
+looking at the whole thing:</p>
 <div class="codewrapper sourceCode" id="cb38">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -3019,231 +3021,23 @@ they should at least represent closely related cell states).</p>
 <span></span>
 <span><span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu">table</span><span class="op">(</span><span class="va">new.labels</span>, <span class="va">sce</span><span class="op">$</span><span class="va">celltype.mapped</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">tab</span></span></code></pre>
+<span><span class="va">tab</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>
-new.labels                       Allantois Blood progenitors 1
-  Allantois                             28                   0
-  Cardiomyocytes                         0                   0
-  Endothelium                            0                   0
-  Erythroid2                             0                   0
-  Erythroid3                             0                   0
-  ExE mesoderm                           0                   0
-  Forebrain/Midbrain/Hindbrain           1                   0
-  Gut                                    0                   0
-  Haematoendothelial progenitors         1                   0
-  Intermediate mesoderm                  0                   0
-  Mesenchyme                             0                   0
-  Neural crest                          11                   4
-  NMP                                    0                   0
-  Paraxial mesoderm                      5                   0
-  Pharyngeal mesoderm                    0                   0
-  Somitic mesoderm                       0                   0
-  Spinal cord                            0                   0
-  Surface ectoderm                       0                   0
+new.labels       Allantois Blood progenitors 1 Blood progenitors 2
+  Allantois             28                   0                   0
+  Cardiomyocytes         0                   0                   0
+  Endothelium            0                   0                   0
+  Erythroid2             0                   0                   1
 
-new.labels                       Blood progenitors 2 Cardiomyocytes
-  Allantois                                        0              0
-  Cardiomyocytes                                   0             27
-  Endothelium                                      0              0
-  Erythroid2                                       1              0
-  Erythroid3                                       0              0
-  ExE mesoderm                                     0              0
-  Forebrain/Midbrain/Hindbrain                     0              0
-  Gut                                              0              0
-  Haematoendothelial progenitors                   0              0
-  Intermediate mesoderm                            0              0
-  Mesenchyme                                       0              0
-  Neural crest                                     6              1
-  NMP                                              0              0
-  Paraxial mesoderm                                0              4
-  Pharyngeal mesoderm                              0              6
-  Somitic mesoderm                                 0              0
-  Spinal cord                                      0              0
-  Surface ectoderm                                 0              0
-
-new.labels                       Caudal epiblast Caudal Mesoderm Def. endoderm
-  Allantois                                    0               0             0
-  Cardiomyocytes                               0               0             0
-  Endothelium                                  0               0             0
-  Erythroid2                                   0               0             0
-  Erythroid3                                   0               0             0
-  ExE mesoderm                                 0               0             0
-  Forebrain/Midbrain/Hindbrain                 1               0             2
-  Gut                                          0               0             0
-  Haematoendothelial progenitors               0               0             0
-  Intermediate mesoderm                        0               0             0
-  Mesenchyme                                   0               0             0
-  Neural crest                                 0               0             1
-  NMP                                          0               0             0
-  Paraxial mesoderm                            0               0             1
-  Pharyngeal mesoderm                          0               0             0
-  Somitic mesoderm                             0               1             1
-  Spinal cord                                  0               0             0
-  Surface ectoderm                             0               0             0
-
-new.labels                       Doublet Endothelium Erythroid1 Erythroid2
-  Allantois                            0           0          0          0
-  Cardiomyocytes                       0           0          0          0
-  Endothelium                          0          13          0          0
-  Erythroid2                           0           0         14         21
-  Erythroid3                           0           0          6          5
-  ExE mesoderm                         0           0          0          0
-  Forebrain/Midbrain/Hindbrain         6           0          0          0
-  Gut                                  0           0          0          0
-  Haematoendothelial progenitors       0          19          0          0
-  Intermediate mesoderm               13           0          0          0
-  Mesenchyme                           0           0          0          0
-  Neural crest                        20           1          3          0
-  NMP                                  0           0          0          0
-  Paraxial mesoderm                    5           0          0          0
-  Pharyngeal mesoderm                  1           0          0          0
-  Somitic mesoderm                     1           0          0          0
-  Spinal cord                          1           0          0          0
-  Surface ectoderm                     0           0          0          0
-
-new.labels                       Erythroid3 ExE mesoderm
-  Allantois                               0            0
-  Cardiomyocytes                          0            0
-  Endothelium                             0            0
-  Erythroid2                             51            0
-  Erythroid3                             49            0
-  ExE mesoderm                            0           23
-  Forebrain/Midbrain/Hindbrain            0            1
-  Gut                                     0            0
-  Haematoendothelial progenitors          0            0
-  Intermediate mesoderm                   0           16
-  Mesenchyme                              0            0
-  Neural crest                            0           17
-  NMP                                     0            0
-  Paraxial mesoderm                       0            0
-  Pharyngeal mesoderm                     0            0
-  Somitic mesoderm                        0            0
-  Spinal cord                             0            0
-  Surface ectoderm                        0            0
-
-new.labels                       Forebrain/Midbrain/Hindbrain Gut
-  Allantois                                                 0   0
-  Cardiomyocytes                                            0   0
-  Endothelium                                               0   0
-  Erythroid2                                                0   0
-  Erythroid3                                                0   0
-  ExE mesoderm                                              0   0
-  Forebrain/Midbrain/Hindbrain                             83   4
-  Gut                                                       0   5
-  Haematoendothelial progenitors                            0   0
-  Intermediate mesoderm                                     0   0
-  Mesenchyme                                                0   0
-  Neural crest                                             20   0
-  NMP                                                       0   0
-  Paraxial mesoderm                                         0   0
-  Pharyngeal mesoderm                                       0   0
-  Somitic mesoderm                                          0   0
-  Spinal cord                                               0   0
-  Surface ectoderm                                          0  12
-
-new.labels                       Haematoendothelial progenitors
-  Allantois                                                   0
-  Cardiomyocytes                                              0
-  Endothelium                                                 0
-  Erythroid2                                                  0
-  Erythroid3                                                  0
-  ExE mesoderm                                                0
-  Forebrain/Midbrain/Hindbrain                                0
-  Gut                                                         0
-  Haematoendothelial progenitors                             16
-  Intermediate mesoderm                                       0
-  Mesenchyme                                                  0
-  Neural crest                                                8
-  NMP                                                         0
-  Paraxial mesoderm                                           2
-  Pharyngeal mesoderm                                         0
-  Somitic mesoderm                                            0
-  Spinal cord                                                 0
-  Surface ectoderm                                            0
-
-new.labels                       Intermediate mesoderm Mesenchyme Neural crest
-  Allantois                                          0          0            0
-  Cardiomyocytes                                     0          0            0
-  Endothelium                                        0          0            0
-  Erythroid2                                         0          0            0
-  Erythroid3                                         0          0            0
-  ExE mesoderm                                       1          7            0
-  Forebrain/Midbrain/Hindbrain                       0          3            0
-  Gut                                                0          0            0
-  Haematoendothelial progenitors                     0          0            0
-  Intermediate mesoderm                              9         15            0
-  Mesenchyme                                         0         69            0
-  Neural crest                                       4          4           10
-  NMP                                                0          0            0
-  Paraxial mesoderm                                  0          7            0
-  Pharyngeal mesoderm                                0         13            0
-  Somitic mesoderm                                   2          0            0
-  Spinal cord                                        0          0            0
-  Surface ectoderm                                   0          0            0
-
-new.labels                       NMP Paraxial mesoderm Pharyngeal mesoderm
-  Allantois                        0                 0                   0
-  Cardiomyocytes                   0                 0                   0
-  Endothelium                      0                 0                   0
-  Erythroid2                       0                 0                   0
-  Erythroid3                       0                 0                   0
-  ExE mesoderm                     0                 0                   0
-  Forebrain/Midbrain/Hindbrain    41                 2                   4
-  Gut                              0                 0                   0
-  Haematoendothelial progenitors   0                 0                   0
-  Intermediate mesoderm            0                 1                   5
-  Mesenchyme                       0                 0                   0
-  Neural crest                     5                20                  10
-  NMP                             16                 0                   0
-  Paraxial mesoderm                0                43                   3
-  Pharyngeal mesoderm              0                 0                  18
-  Somitic mesoderm                 0                 0                   0
-  Spinal cord                      0                 0                   0
-  Surface ectoderm                 0                 0                   0
-
-new.labels                       Rostral neurectoderm Somitic mesoderm
-  Allantois                                         0                0
-  Cardiomyocytes                                    0                0
-  Endothelium                                       0                0
-  Erythroid2                                        0                0
-  Erythroid3                                        0                0
-  ExE mesoderm                                      0                0
-  Forebrain/Midbrain/Hindbrain                     11                1
-  Gut                                               0                0
-  Haematoendothelial progenitors                    0                0
-  Intermediate mesoderm                             0                2
-  Mesenchyme                                        0                0
-  Neural crest                                      0                7
-  NMP                                               0                0
-  Paraxial mesoderm                                 0                0
-  Pharyngeal mesoderm                               0                0
-  Somitic mesoderm                                  0               25
-  Spinal cord                                       0                0
-  Surface ectoderm                                  0                0
-
-new.labels                       Spinal cord Stripped Surface ectoderm
-  Allantois                                0        0                0
-  Cardiomyocytes                           0        0                0
-  Endothelium                              0        1                0
-  Erythroid2                               0        1                0
-  Erythroid3                               0        1                0
-  ExE mesoderm                             0        0                0
-  Forebrain/Midbrain/Hindbrain            37        0               17
-  Gut                                      0        0                2
-  Haematoendothelial progenitors           0        0                0
-  Intermediate mesoderm                    0        0                0
-  Mesenchyme                               0        0                2
-  Neural crest                             3        5                6
-  NMP                                      0        0                0
-  Paraxial mesoderm                        0        0                0
-  Pharyngeal mesoderm                      0        0                0
-  Somitic mesoderm                         0        0                0
-  Spinal cord                              9        0                0
-  Surface ectoderm                         0        0               20</code></pre>
+new.labels       Cardiomyocytes
+  Allantois                   0
+  Cardiomyocytes             27
+  Endothelium                 0
+  Erythroid2                  0</code></pre>
 </div>
 <p>As a diagnostic measure, we examine the distribution of AUCs across
 cells for each label. In heterogeneous populations, the distribution for
@@ -3287,7 +3081,7 @@ Which ones? Why?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <p>The example that jumps out most strongly to the eye is ExE endoderm,
 which doesn’t show clear separate modes. Simultaneously, Endothelium
@@ -3436,7 +3230,7 @@ UMAP plot.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>The <code>NNGraphParam</code> constructor has an argument
 <code>cluster.args</code>. This allows to specify arguments passed on to
@@ -3453,7 +3247,7 @@ parameter of 0.5.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -3482,7 +3276,7 @@ process (BP) gene sets from the Gene Ontology (GO).</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2"> Give me a hint </h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
 <div class="accordion-body">
 <p>Use the <code>goana()</code> function from the <em><a href="https://bioconductor.org/packages/3.19/limma" class="external-link">limma</a></em>
 package to identify GO BP terms that are overrepresented in the list of
@@ -3496,7 +3290,7 @@ marker genes.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
   <h4 class="accordion-header" id="headingSolution6"> Show me the solution </h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -3526,7 +3320,7 @@ and marker gene detection.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution7" aria-expanded="false" aria-controls="collapseSolution7">
   <h4 class="accordion-header" id="headingSolution7"> Show me the solution </h4>
 </button>
-<div id="collapseSolution7" class="accordion-collapse collapse" aria-labelledby="headingSolution7" data-bs-parent="#accordionSolution7">
+<div id="collapseSolution7" class="accordion-collapse collapse" data-bs-parent="#accordionSolution7" aria-labelledby="headingSolution7">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -3598,7 +3392,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-multi-sample"><p>Content from <a href="multi-sample.html">Multi-sample analyses</a></p>
 <hr>
-<p>Last updated on 2024-09-06 |
+<p>Last updated on 2024-09-08 |
 
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/multi-sample.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -3655,13 +3449,23 @@ experiment:</p>
 replicate (pool 3, 4, and 5), we have both host and injected cells.</p>
 <p>We start by loading the data and doing a quick exploratory analysis,
 essentially applying the normalization and visualization techniques that
-we have seen in the previous lectures to all samples.</p>
+we have seen in the previous lectures to all samples. Note that this
+time we’re selecting samples 5 to 10, not just 5 by itself.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">MouseGastrulationData</span><span class="op">)</span></span>
-<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">WTChimeraData</span><span class="op">(</span>samples<span class="op">=</span><span class="fl">5</span><span class="op">:</span><span class="fl">10</span>, type <span class="op">=</span> <span class="st">"processed"</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">batchelor</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">edgeR</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">scater</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">ggplot2</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">scran</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">pheatmap</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">scuttle</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">WTChimeraData</span><span class="op">(</span>samples <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">10</span>, type <span class="op">=</span> <span class="st">"processed"</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">sce</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -3736,15 +3540,12 @@ cell_30703   0.82369305   1.184919</code></pre>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">scater</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">ggplot2</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">scran</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">drop</span> <span class="op">&lt;-</span> <span class="va">sce</span><span class="op">$</span><span class="va">celltype.mapped</span> <span class="op">%in%</span> <span class="fu">c</span><span class="op">(</span><span class="st">"stripped"</span>, <span class="st">"Doublet"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># remove doublets</span></span>
-<span><span class="va">drop</span> <span class="op">&lt;-</span> <span class="va">sce</span><span class="op">$</span><span class="va">celltype.mapped</span> <span class="op">%in%</span> <span class="fu">c</span><span class="op">(</span><span class="st">"stripped"</span>, <span class="st">"Doublet"</span><span class="op">)</span></span>
 <span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="va">sce</span><span class="op">[</span>,<span class="op">!</span><span class="va">drop</span><span class="op">]</span></span>
 <span></span>
 <span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">29482</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu">unlist</span><span class="op">(</span><span class="fu">tapply</span><span class="op">(</span><span class="fu">colnames</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span>, <span class="va">sce</span><span class="op">$</span><span class="va">sample</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="va">perc</span> <span class="op">&lt;-</span> <span class="fu">round</span><span class="op">(</span><span class="fl">0.50</span> <span class="op">*</span> <span class="fu">length</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="fu">sample</span><span class="op">(</span><span class="va">x</span>, <span class="va">perc</span><span class="op">)</span></span>
@@ -3752,23 +3553,24 @@ cell_30703   0.82369305   1.184919</code></pre>
 <span></span>
 <span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="va">sce</span><span class="op">[</span>,<span class="va">idx</span><span class="op">]</span></span></code></pre>
 </div>
-<p>We now normalize the data and visualize them in a tSNE plot.</p>
+<p>We now normalize the data, run some dimensionality reduction steps,
+and visualize them in a tSNE plot.</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># normalization</span></span>
-<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">logNormCounts</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">logNormCounts</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># identify highly variable genes</span></span>
-<span><span class="va">dec</span> <span class="op">&lt;-</span> <span class="fu">modelGeneVar</span><span class="op">(</span><span class="va">sce</span>, block<span class="op">=</span><span class="va">sce</span><span class="op">$</span><span class="va">sample</span><span class="op">)</span></span>
+<span><span class="va">dec</span> <span class="op">&lt;-</span> <span class="fu">modelGeneVar</span><span class="op">(</span><span class="va">sce</span>, block <span class="op">=</span> <span class="va">sce</span><span class="op">$</span><span class="va">sample</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">chosen.hvgs</span> <span class="op">&lt;-</span> <span class="va">dec</span><span class="op">$</span><span class="va">bio</span> <span class="op">&gt;</span> <span class="fl">0</span></span>
 <span></span>
-<span><span class="co"># dimensionality reduction</span></span>
 <span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runPCA</span><span class="op">(</span><span class="va">sce</span>, subset_row <span class="op">=</span> <span class="va">chosen.hvgs</span>, ntop <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runTSNE</span><span class="op">(</span><span class="va">sce</span>, dimred <span class="op">=</span> <span class="st">"PCA"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sce</span><span class="op">$</span><span class="va">sample</span> <span class="op">&lt;-</span> <span class="fu">as.factor</span><span class="op">(</span><span class="va">sce</span><span class="op">$</span><span class="va">sample</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">plotTSNE</span><span class="op">(</span><span class="va">sce</span>, colour_by <span class="op">=</span> <span class="st">"sample"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/multi-sample-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb7">
@@ -3804,7 +3606,7 @@ factor presumably leading to this difference?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Samples 5 and 6 were from the same “pool” of cells. Looking at the
 documentation for the dataset under <code>?WTChimeraData</code> we see
@@ -3816,7 +3618,7 @@ That’s why you can see many of isolated blue/orange clusters on the
 first TSNE plot. If you were developing single-cell library preparation
 protocols you might want to preserve this effect to understand how
 variation in pools leads to variation in expression, but for now, given
-that we’re investigate other effects, we’ll want to remove this as
+that we’re investigating other effects, we’ll want to remove this as
 undesired technical variation.</p>
 </div>
 </div>
@@ -3825,29 +3627,30 @@ undesired technical variation.</p>
 </section><section><h2 class="section-heading" id="correcting-batch-effects">Correcting batch effects<a class="anchor" aria-label="anchor" href="#correcting-batch-effects"></a>
 </h2>
 <hr class="half-width">
-<p>We correct the effect of samples by aid of the
+<p>We “correct” the effect of samples with the
 <code>correctExperiment</code> function in the <code>batchelor</code>
-package and using the <code>sample</code> <code>colData</code> column as
-batch.</p>
+package and using the <code>sample</code> column as batch.</p>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">batchelor</span><span class="op">)</span></span>
-<span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">10102</span><span class="op">)</span></span>
-<span><span class="va">merged</span> <span class="op">&lt;-</span> <span class="fu">correctExperiments</span><span class="op">(</span><span class="va">sce</span>, </span>
-<span>    batch<span class="op">=</span><span class="va">sce</span><span class="op">$</span><span class="va">sample</span>, </span>
-<span>    subset.row<span class="op">=</span><span class="va">chosen.hvgs</span>,</span>
-<span>    PARAM<span class="op">=</span><span class="fu">FastMnnParam</span><span class="op">(</span></span>
-<span>        merge.order<span class="op">=</span><span class="fu">list</span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">10102</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">merged</span> <span class="op">&lt;-</span> <span class="fu">correctExperiments</span><span class="op">(</span></span>
+<span>    <span class="va">sce</span>, </span>
+<span>    batch <span class="op">=</span> <span class="va">sce</span><span class="op">$</span><span class="va">sample</span>, </span>
+<span>    subset.row <span class="op">=</span> <span class="va">chosen.hvgs</span>,</span>
+<span>    PARAM <span class="op">=</span> <span class="fu">FastMnnParam</span><span class="op">(</span></span>
+<span>        merge.order <span class="op">=</span> <span class="fu">list</span><span class="op">(</span></span>
 <span>            <span class="fu">list</span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">5</span><span class="op">)</span>, <span class="co"># WT (3 replicates)</span></span>
 <span>            <span class="fu">list</span><span class="op">(</span><span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">6</span><span class="op">)</span>  <span class="co"># td-Tomato (3 replicates)</span></span>
 <span>        <span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">merged</span> <span class="op">&lt;-</span> <span class="fu">runTSNE</span><span class="op">(</span><span class="va">merged</span>, dimred<span class="op">=</span><span class="st">"corrected"</span><span class="op">)</span></span>
-<span><span class="fu">plotTSNE</span><span class="op">(</span><span class="va">merged</span>, colour_by<span class="op">=</span><span class="st">"batch"</span><span class="op">)</span></span></code></pre>
+<span><span class="va">merged</span> <span class="op">&lt;-</span> <span class="fu">runTSNE</span><span class="op">(</span><span class="va">merged</span>, dimred <span class="op">=</span> <span class="st">"corrected"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">plotTSNE</span><span class="op">(</span><span class="va">merged</span>, colour_by <span class="op">=</span> <span class="st">"batch"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/multi-sample-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Once we removed the sample batch effect, we can proceed with the
 Differential Expression Analysis.</p>
@@ -3869,7 +3672,7 @@ effect correction. Why?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>It’s important to have multiple samples within each experimental
 group because it helps the batch effect correction algorithm distinguish
@@ -3892,7 +3695,7 @@ differences.</p>
 </section><section><h2 class="section-heading" id="differential-expression">Differential Expression<a class="anchor" aria-label="anchor" href="#differential-expression"></a>
 </h2>
 <hr class="half-width">
-<p>In order to perform a Differential Expression Analysis, we need to
+<p>In order to perform a differential expression analysis, we need to
 identify groups of cells across samples/conditions (depending on the
 experimental design and the final aim of the experiment).</p>
 <p>As previously seen, we have two ways of grouping cells, cell
@@ -3920,9 +3723,12 @@ steps.</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Using 'label' and 'sample' as our two factors; each column of the output</span></span>
 <span><span class="co"># corresponds to one unique combination of these two factors.</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">scuttle</span><span class="op">)</span></span>
-<span><span class="va">summed</span> <span class="op">&lt;-</span> <span class="fu">aggregateAcrossCells</span><span class="op">(</span><span class="va">merged</span>, </span>
-<span>    id<span class="op">=</span><span class="fu">colData</span><span class="op">(</span><span class="va">merged</span><span class="op">)</span><span class="op">[</span>,<span class="fu">c</span><span class="op">(</span><span class="st">"celltype.mapped"</span>, <span class="st">"sample"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">summed</span> <span class="op">&lt;-</span> <span class="fu">aggregateAcrossCells</span><span class="op">(</span></span>
+<span>    <span class="va">merged</span>, </span>
+<span>    id <span class="op">=</span> <span class="fu">colData</span><span class="op">(</span><span class="va">merged</span><span class="op">)</span><span class="op">[</span>,<span class="fu">c</span><span class="op">(</span><span class="st">"celltype.mapped"</span>, <span class="st">"sample"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">summed</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -3959,11 +3765,11 @@ type across conditions.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">label</span> <span class="op">&lt;-</span> <span class="st">"Mesenchyme"</span></span>
-<span><span class="va">current</span> <span class="op">&lt;-</span> <span class="va">summed</span><span class="op">[</span>,<span class="va">label</span><span class="op">==</span><span class="va">summed</span><span class="op">$</span><span class="va">celltype.mapped</span><span class="op">]</span></span>
 <span></span>
-<span><span class="co"># Creating up a DGEList object for use in edgeR:</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">edgeR</span><span class="op">)</span></span>
-<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu">DGEList</span><span class="op">(</span><span class="fu">counts</span><span class="op">(</span><span class="va">current</span><span class="op">)</span>, samples<span class="op">=</span><span class="fu">colData</span><span class="op">(</span><span class="va">current</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">current</span> <span class="op">&lt;-</span> <span class="va">summed</span><span class="op">[</span>,<span class="va">label</span> <span class="op">==</span> <span class="va">summed</span><span class="op">$</span><span class="va">celltype.mapped</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu">DGEList</span><span class="op">(</span><span class="fu">counts</span><span class="op">(</span><span class="va">current</span><span class="op">)</span>, samples <span class="op">=</span> <span class="fu">colData</span><span class="op">(</span><span class="va">current</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">y</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -4012,7 +3818,9 @@ don’t need to filter out any of them.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">discarded</span> <span class="op">&lt;-</span> <span class="va">current</span><span class="op">$</span><span class="va">ncells</span> <span class="op">&lt;</span> <span class="fl">10</span></span>
+<span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">y</span><span class="op">[</span>,<span class="op">!</span><span class="va">discarded</span><span class="op">]</span></span>
+<span></span>
 <span><span class="fu">summary</span><span class="op">(</span><span class="va">discarded</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -4028,8 +3836,10 @@ modeling.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">keep</span> <span class="op">&lt;-</span> <span class="fu">filterByExpr</span><span class="op">(</span><span class="va">y</span>, group<span class="op">=</span><span class="va">current</span><span class="op">$</span><span class="va">tomato</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">keep</span> <span class="op">&lt;-</span> <span class="fu">filterByExpr</span><span class="op">(</span><span class="va">y</span>, group <span class="op">=</span> <span class="va">current</span><span class="op">$</span><span class="va">tomato</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">y</span><span class="op">[</span><span class="va">keep</span>,<span class="op">]</span></span>
+<span></span>
 <span><span class="fu">summary</span><span class="op">(</span><span class="va">keep</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -4049,6 +3859,7 @@ need to normalize the data in “single cell form”.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu">calcNormFactors</span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">y</span><span class="op">$</span><span class="va">samples</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -4089,7 +3900,7 @@ y-axis) and present a trumpet shape, as expected.</p>
 <code class="sourceCode R"><span><span class="fu">par</span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu">seq_len</span><span class="op">(</span><span class="fu">ncol</span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="fu">plotMD</span><span class="op">(</span><span class="va">y</span>, column<span class="op">=</span><span class="va">i</span><span class="op">)</span></span>
+<span>    <span class="fu">plotMD</span><span class="op">(</span><span class="va">y</span>, column <span class="op">=</span> <span class="va">i</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre>
 </div>
 <figure><img src="fig/multi-sample-rendered-unnamed-chunk-9-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb20">
@@ -4106,8 +3917,8 @@ representation.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">limma</span><span class="fu">::</span><span class="fu">plotMDS</span><span class="op">(</span><span class="fu">cpm</span><span class="op">(</span><span class="va">y</span>, log<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, </span>
-<span>    col<span class="op">=</span><span class="fu">ifelse</span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">samples</span><span class="op">$</span><span class="va">tomato</span>, <span class="st">"red"</span>, <span class="st">"blue"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">limma</span><span class="fu">::</span><span class="fu">plotMDS</span><span class="op">(</span><span class="fu">cpm</span><span class="op">(</span><span class="va">y</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, </span>
+<span>               col <span class="op">=</span> <span class="fu">ifelse</span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">samples</span><span class="op">$</span><span class="va">tomato</span>, <span class="st">"red"</span>, <span class="st">"blue"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/multi-sample-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We then construct a design matrix by including both the pool and the
 tomato as factors. This design indicates which samples belong to which
@@ -4147,6 +3958,7 @@ parameter, to model the mean-variance trend.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu">estimateDisp</span><span class="op">(</span><span class="va">y</span>, <span class="va">design</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">summary</span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">trended.dispersion</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -4166,7 +3978,7 @@ gene. Additionally, the Common and Trend BCV are shown in
 <code class="sourceCode R"><span><span class="fu">plotBCV</span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/multi-sample-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We then fit a Quasi-Likelihood (QL) negative binomial generalized
-linear model for each gene. The <code>robust=TRUE</code> parameter
+linear model for each gene. The <code>robust = TRUE</code> parameter
 avoids distortions from highly variable clusters. The QL method includes
 an additional dispersion parameter, useful to handle the uncertainty and
 variability of the per-gene variance, which is not well estimated by the
@@ -4176,7 +3988,8 @@ final analysis.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">glmQLFit</span><span class="op">(</span><span class="va">y</span>, <span class="va">design</span>, robust<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">glmQLFit</span><span class="op">(</span><span class="va">y</span>, <span class="va">design</span>, robust <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">summary</span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">var.prior</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -4215,7 +4028,8 @@ cells.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">glmQLFTest</span><span class="op">(</span><span class="va">fit</span>, coef<span class="op">=</span><span class="fu">ncol</span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">glmQLFTest</span><span class="op">(</span><span class="va">fit</span>, coef <span class="op">=</span> <span class="fu">ncol</span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">summary</span><span class="op">(</span><span class="fu">decideTests</span><span class="op">(</span><span class="va">res</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -4255,14 +4069,14 @@ function in the <code>scran</code> package.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">scran</span><span class="op">)</span></span>
-<span><span class="va">summed.filt</span> <span class="op">&lt;-</span> <span class="va">summed</span><span class="op">[</span>,<span class="va">summed</span><span class="op">$</span><span class="va">ncells</span> <span class="op">&gt;=</span> <span class="fl">10</span><span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="va">summed.filt</span> <span class="op">&lt;-</span> <span class="va">summed</span><span class="op">[</span>,<span class="va">summed</span><span class="op">$</span><span class="va">ncells</span> <span class="op">&gt;=</span> <span class="fl">10</span><span class="op">]</span></span>
 <span></span>
-<span><span class="va">de.results</span> <span class="op">&lt;-</span> <span class="fu">pseudoBulkDGE</span><span class="op">(</span><span class="va">summed.filt</span>, </span>
-<span>    label<span class="op">=</span><span class="va">summed.filt</span><span class="op">$</span><span class="va">celltype.mapped</span>,</span>
-<span>    design<span class="op">=</span><span class="op">~</span><span class="fu">factor</span><span class="op">(</span><span class="va">pool</span><span class="op">)</span> <span class="op">+</span> <span class="va">tomato</span>,</span>
-<span>    coef<span class="op">=</span><span class="st">"tomatoTRUE"</span>,</span>
-<span>    condition<span class="op">=</span><span class="va">summed.filt</span><span class="op">$</span><span class="va">tomato</span> </span>
+<span><span class="va">de.results</span> <span class="op">&lt;-</span> <span class="fu">pseudoBulkDGE</span><span class="op">(</span></span>
+<span>    <span class="va">summed.filt</span>, </span>
+<span>    label <span class="op">=</span> <span class="va">summed.filt</span><span class="op">$</span><span class="va">celltype.mapped</span>,</span>
+<span>    design <span class="op">=</span> <span class="op">~</span><span class="fu">factor</span><span class="op">(</span><span class="va">pool</span><span class="op">)</span> <span class="op">+</span> <span class="va">tomato</span>,</span>
+<span>    coef <span class="op">=</span> <span class="st">"tomatoTRUE"</span>,</span>
+<span>    condition <span class="op">=</span> <span class="va">summed.filt</span><span class="op">$</span><span class="va">tomato</span> </span>
 <span><span class="op">)</span></span></code></pre>
 </div>
 <p>The returned object is a list of <code>DataFrame</code>s each with
@@ -4274,6 +4088,7 @@ intermediate plot or diagnostic.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cur.results</span> <span class="op">&lt;-</span> <span class="va">de.results</span><span class="op">[[</span><span class="st">"Allantois"</span><span class="op">]</span><span class="op">]</span></span>
+<span></span>
 <span><span class="va">cur.results</span><span class="op">[</span><span class="fu">order</span><span class="op">(</span><span class="va">cur.results</span><span class="op">$</span><span class="va">PValue</span><span class="op">)</span>,<span class="op">]</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -4311,7 +4126,7 @@ sizes? What does <code>logFC</code> stand for?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>“logFC” stands for log fold-change. Rather than reporting e.g. a
 5-fold increase, it’s better to report a logFC of log(5) = 1.61.
@@ -4330,26 +4145,29 @@ about -8. That’s a big difference if it’s real.</p>
 <p>With DA we look for differences in cluster <em>abundance</em> across
 conditions (the tomato injection in our case), rather than differences
 in gene expression.</p>
-<p>We first setup some code and variables for further analysis, like
-quantifying the number of cells per each cell type and fit a model to
-catch differences between the injected cells and the background.</p>
-<p>The steps are very similar to the ones for DEGs analysis, but this
-time we start our analysis on the computed abundances and without
+<p>Our first steps are quantifying the number of cells per each cell
+type and fitting a model to catch differences between the injected cells
+and the background.</p>
+<p>The process is very similar differential expression modeling, but
+this time we start our analysis on the computed abundances and without
 normalizing the data with TMM.</p>
 <div class="codewrapper sourceCode" id="cb39">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">edgeR</span><span class="op">)</span></span>
-<span><span class="va">abundances</span> <span class="op">&lt;-</span> <span class="fu">table</span><span class="op">(</span><span class="va">merged</span><span class="op">$</span><span class="va">celltype.mapped</span>, <span class="va">merged</span><span class="op">$</span><span class="va">sample</span><span class="op">)</span> </span>
+<code class="sourceCode R"><span><span class="va">abundances</span> <span class="op">&lt;-</span> <span class="fu">table</span><span class="op">(</span><span class="va">merged</span><span class="op">$</span><span class="va">celltype.mapped</span>, <span class="va">merged</span><span class="op">$</span><span class="va">sample</span><span class="op">)</span> </span>
+<span></span>
 <span><span class="va">abundances</span> <span class="op">&lt;-</span> <span class="fu">unclass</span><span class="op">(</span><span class="va">abundances</span><span class="op">)</span> </span>
-<span><span class="co"># Attaching some column metadata.</span></span>
+<span></span>
 <span><span class="va">extra.info</span> <span class="op">&lt;-</span> <span class="fu">colData</span><span class="op">(</span><span class="va">merged</span><span class="op">)</span><span class="op">[</span><span class="fu">match</span><span class="op">(</span><span class="fu">colnames</span><span class="op">(</span><span class="va">abundances</span><span class="op">)</span>, <span class="va">merged</span><span class="op">$</span><span class="va">sample</span><span class="op">)</span>,<span class="op">]</span></span>
-<span><span class="va">y.ab</span> <span class="op">&lt;-</span> <span class="fu">DGEList</span><span class="op">(</span><span class="va">abundances</span>, samples<span class="op">=</span><span class="va">extra.info</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">y.ab</span> <span class="op">&lt;-</span> <span class="fu">DGEList</span><span class="op">(</span><span class="va">abundances</span>, samples <span class="op">=</span> <span class="va">extra.info</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu">model.matrix</span><span class="op">(</span><span class="op">~</span><span class="fu">factor</span><span class="op">(</span><span class="va">pool</span><span class="op">)</span> <span class="op">+</span> <span class="fu">factor</span><span class="op">(</span><span class="va">tomato</span><span class="op">)</span>, <span class="va">y.ab</span><span class="op">$</span><span class="va">samples</span><span class="op">)</span></span>
-<span><span class="va">y.ab</span> <span class="op">&lt;-</span> <span class="fu">estimateDisp</span><span class="op">(</span><span class="va">y.ab</span>, <span class="va">design</span>, trend<span class="op">=</span><span class="st">"none"</span><span class="op">)</span></span>
-<span><span class="va">fit.ab</span> <span class="op">&lt;-</span> <span class="fu">glmQLFit</span><span class="op">(</span><span class="va">y.ab</span>, <span class="va">design</span>, robust<span class="op">=</span><span class="cn">TRUE</span>, abundance.trend<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre>
+<span></span>
+<span><span class="va">y.ab</span> <span class="op">&lt;-</span> <span class="fu">estimateDisp</span><span class="op">(</span><span class="va">y.ab</span>, <span class="va">design</span>, trend <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fit.ab</span> <span class="op">&lt;-</span> <span class="fu">glmQLFit</span><span class="op">(</span><span class="va">y.ab</span>, <span class="va">design</span>, robust <span class="op">=</span> <span class="cn">TRUE</span>, abundance.trend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="background-on-compositional-effect">Background on compositional effect<a class="anchor" aria-label="anchor" href="#background-on-compositional-effect"></a>
@@ -4395,6 +4213,7 @@ our abundance data.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y.ab2</span> <span class="op">&lt;-</span> <span class="fu">calcNormFactors</span><span class="op">(</span><span class="va">y.ab</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">y.ab2</span><span class="op">$</span><span class="va">samples</span><span class="op">$</span><span class="va">norm.factors</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -4407,11 +4226,11 @@ our abundance data.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">y.ab2</span> <span class="op">&lt;-</span> <span class="fu">estimateDisp</span><span class="op">(</span><span class="va">y.ab2</span>, <span class="va">design</span>, trend<span class="op">=</span><span class="st">"none"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">y.ab2</span> <span class="op">&lt;-</span> <span class="fu">estimateDisp</span><span class="op">(</span><span class="va">y.ab2</span>, <span class="va">design</span>, trend <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">fit.ab2</span> <span class="op">&lt;-</span> <span class="fu">glmQLFit</span><span class="op">(</span><span class="va">y.ab2</span>, <span class="va">design</span>, robust<span class="op">=</span><span class="cn">TRUE</span>, abundance.trend<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">fit.ab2</span> <span class="op">&lt;-</span> <span class="fu">glmQLFit</span><span class="op">(</span><span class="va">y.ab2</span>, <span class="va">design</span>, robust <span class="op">=</span> <span class="cn">TRUE</span>, abundance.trend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">res2</span> <span class="op">&lt;-</span> <span class="fu">glmQLFTest</span><span class="op">(</span><span class="va">fit.ab2</span>, coef<span class="op">=</span><span class="fu">ncol</span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">res2</span> <span class="op">&lt;-</span> <span class="fu">glmQLFTest</span><span class="op">(</span><span class="va">fit.ab2</span>, coef <span class="op">=</span> <span class="fu">ncol</span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">summary</span><span class="op">(</span><span class="fu">decideTests</span><span class="op">(</span><span class="va">res2</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
@@ -4427,7 +4246,7 @@ Up                      1</code></pre>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">topTags</span><span class="op">(</span><span class="va">res2</span>, n<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">topTags</span><span class="op">(</span><span class="va">res2</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4463,7 +4282,8 @@ changes in abundance beyond .</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res.lfc</span> <span class="op">&lt;-</span> <span class="fu">glmTreat</span><span class="op">(</span><span class="va">fit.ab</span>, coef<span class="op">=</span><span class="fu">ncol</span><span class="op">(</span><span class="va">design</span><span class="op">)</span>, lfc<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">res.lfc</span> <span class="op">&lt;-</span> <span class="fu">glmTreat</span><span class="op">(</span><span class="va">fit.ab</span>, coef <span class="op">=</span> <span class="fu">ncol</span><span class="op">(</span><span class="va">design</span><span class="op">)</span>, lfc <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">summary</span><span class="op">(</span><span class="fu">decideTests</span><span class="op">(</span><span class="va">res.lfc</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -4544,70 +4364,72 @@ attached base packages:
 [8] base
 
 other attached packages:
- [1] edgeR_4.2.0                  limma_3.60.2
- [3] batchelor_1.20.0             scran_1.32.0
- [5] scater_1.32.0                ggplot2_3.5.1
- [7] scuttle_1.14.0               MouseGastrulationData_1.18.0
- [9] SpatialExperiment_1.14.0     SingleCellExperiment_1.26.0
-[11] SummarizedExperiment_1.34.0  Biobase_2.64.0
-[13] GenomicRanges_1.56.0         GenomeInfoDb_1.40.1
-[15] IRanges_2.38.0               S4Vectors_0.42.0
-[17] BiocGenerics_0.50.0          MatrixGenerics_1.16.0
-[19] matrixStats_1.3.0            BiocStyle_2.32.0
+ [1] pheatmap_1.0.12              scran_1.32.0
+ [3] scater_1.32.0                ggplot2_3.5.1
+ [5] scuttle_1.14.0               edgeR_4.2.0
+ [7] limma_3.60.2                 batchelor_1.20.0
+ [9] MouseGastrulationData_1.18.0 SpatialExperiment_1.14.0
+[11] SingleCellExperiment_1.26.0  SummarizedExperiment_1.34.0
+[13] Biobase_2.64.0               GenomicRanges_1.56.0
+[15] GenomeInfoDb_1.40.1          IRanges_2.38.0
+[17] S4Vectors_0.42.0             BiocGenerics_0.50.0
+[19] MatrixGenerics_1.16.0        matrixStats_1.3.0
+[21] BiocStyle_2.32.0
 
 loaded via a namespace (and not attached):
-  [1] DBI_1.2.3                 formatR_1.14
-  [3] gridExtra_2.3             rlang_1.1.3
-  [5] magrittr_2.0.3            compiler_4.4.1
-  [7] RSQLite_2.3.7             DelayedMatrixStats_1.26.0
-  [9] png_0.1-8                 vctrs_0.6.5
- [11] pkgconfig_2.0.3           crayon_1.5.2
- [13] fastmap_1.2.0             dbplyr_2.5.0
- [15] magick_2.8.3              XVector_0.44.0
- [17] labeling_0.4.3            utf8_1.2.4
- [19] rmarkdown_2.27            UCSC.utils_1.0.0
- [21] ggbeeswarm_0.7.2          purrr_1.0.2
- [23] bit_4.0.5                 bluster_1.14.0
- [25] xfun_0.44                 zlibbioc_1.50.0
- [27] cachem_1.1.0              beachmat_2.20.0
- [29] jsonlite_1.8.8            blob_1.2.4
- [31] highr_0.11                DelayedArray_0.30.1
- [33] BiocParallel_1.38.0       cluster_2.1.6
- [35] irlba_2.3.5.1             parallel_4.4.1
- [37] R6_2.5.1                  Rcpp_1.0.12
- [39] knitr_1.47                splines_4.4.1
- [41] igraph_2.0.3              Matrix_1.7-0
- [43] tidyselect_1.2.1          viridis_0.6.5
- [45] abind_1.4-5               yaml_2.3.8
- [47] codetools_0.2-20          curl_5.2.1
- [49] lattice_0.22-6            tibble_3.2.1
- [51] withr_3.0.0               KEGGREST_1.44.0
- [53] BumpyMatrix_1.12.0        Rtsne_0.17
- [55] evaluate_0.23             BiocFileCache_2.12.0
- [57] ExperimentHub_2.12.0      Biostrings_2.72.1
- [59] pillar_1.9.0              BiocManager_1.30.23
- [61] filelock_1.0.3            renv_1.0.7
- [63] generics_0.1.3            BiocVersion_3.19.1
- [65] sparseMatrixStats_1.16.0  munsell_0.5.1
- [67] scales_1.3.0              glue_1.7.0
- [69] metapod_1.12.0            tools_4.4.1
- [71] AnnotationHub_3.12.0      BiocNeighbors_1.22.0
- [73] ScaledMatrix_1.12.0       locfit_1.5-9.9
- [75] cowplot_1.1.3             grid_4.4.1
- [77] AnnotationDbi_1.66.0      colorspace_2.1-0
- [79] GenomeInfoDbData_1.2.12   beeswarm_0.4.0
- [81] BiocSingular_1.20.0       vipor_0.4.7
- [83] cli_3.6.2                 rsvd_1.0.5
- [85] rappdirs_0.3.3            fansi_1.0.6
- [87] viridisLite_0.4.2         S4Arrays_1.4.1
- [89] dplyr_1.1.4               ResidualMatrix_1.14.0
- [91] gtable_0.3.5              digest_0.6.35
- [93] dqrng_0.4.1               SparseArray_1.4.8
- [95] ggrepel_0.9.5             farver_2.1.2
- [97] rjson_0.2.21              memoise_2.0.1
- [99] htmltools_0.5.8.1         lifecycle_1.0.4
-[101] httr_1.4.7                statmod_1.5.0
-[103] mime_0.12                 bit64_4.0.5              </code></pre>
+  [1] RColorBrewer_1.1-3        jsonlite_1.8.8
+  [3] magrittr_2.0.3            ggbeeswarm_0.7.2
+  [5] magick_2.8.3              farver_2.1.2
+  [7] rmarkdown_2.27            zlibbioc_1.50.0
+  [9] vctrs_0.6.5               memoise_2.0.1
+ [11] DelayedMatrixStats_1.26.0 htmltools_0.5.8.1
+ [13] S4Arrays_1.4.1            AnnotationHub_3.12.0
+ [15] curl_5.2.1                BiocNeighbors_1.22.0
+ [17] SparseArray_1.4.8         cachem_1.1.0
+ [19] ResidualMatrix_1.14.0     igraph_2.0.3
+ [21] mime_0.12                 lifecycle_1.0.4
+ [23] pkgconfig_2.0.3           rsvd_1.0.5
+ [25] Matrix_1.7-0              R6_2.5.1
+ [27] fastmap_1.2.0             GenomeInfoDbData_1.2.12
+ [29] digest_0.6.35             colorspace_2.1-0
+ [31] AnnotationDbi_1.66.0      dqrng_0.4.1
+ [33] irlba_2.3.5.1             ExperimentHub_2.12.0
+ [35] RSQLite_2.3.7             beachmat_2.20.0
+ [37] filelock_1.0.3            labeling_0.4.3
+ [39] fansi_1.0.6               httr_1.4.7
+ [41] abind_1.4-5               compiler_4.4.1
+ [43] bit64_4.0.5               withr_3.0.0
+ [45] BiocParallel_1.38.0       viridis_0.6.5
+ [47] DBI_1.2.3                 highr_0.11
+ [49] rappdirs_0.3.3            DelayedArray_0.30.1
+ [51] rjson_0.2.21              bluster_1.14.0
+ [53] tools_4.4.1               vipor_0.4.7
+ [55] beeswarm_0.4.0            glue_1.7.0
+ [57] grid_4.4.1                Rtsne_0.17
+ [59] cluster_2.1.6             generics_0.1.3
+ [61] gtable_0.3.5              BiocSingular_1.20.0
+ [63] ScaledMatrix_1.12.0       metapod_1.12.0
+ [65] utf8_1.2.4                XVector_0.44.0
+ [67] ggrepel_0.9.5             BiocVersion_3.19.1
+ [69] pillar_1.9.0              BumpyMatrix_1.12.0
+ [71] splines_4.4.1             dplyr_1.1.4
+ [73] BiocFileCache_2.12.0      lattice_0.22-6
+ [75] renv_1.0.7                bit_4.0.5
+ [77] tidyselect_1.2.1          locfit_1.5-9.9
+ [79] Biostrings_2.72.1         knitr_1.47
+ [81] gridExtra_2.3             xfun_0.44
+ [83] statmod_1.5.0             UCSC.utils_1.0.0
+ [85] yaml_2.3.8                evaluate_0.23
+ [87] codetools_0.2-20          tibble_3.2.1
+ [89] BiocManager_1.30.23       cli_3.6.2
+ [91] munsell_0.5.1             Rcpp_1.0.12
+ [93] dbplyr_2.5.0              png_0.1-8
+ [95] parallel_4.4.1            blob_1.2.4
+ [97] sparseMatrixStats_1.16.0  viridisLite_0.4.2
+ [99] scales_1.3.0              purrr_1.0.2
+[101] crayon_1.5.2              rlang_1.1.3
+[103] cowplot_1.1.3             KEGGREST_1.44.0
+[105] formatR_1.14             </code></pre>
 </div>
 </section><section><h2 class="section-heading" id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
 </h2>
@@ -4630,7 +4452,7 @@ issues.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>Remember, you can subset SingleCellExperiments with logical indices,
 just like a matrix. You can also access their column data with the
@@ -4644,7 +4466,7 @@ just like a matrix. You can also access their column data with the
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb52">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4652,11 +4474,12 @@ just like a matrix. You can also access their column data with the
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">summed.filt.subset</span> <span class="op">=</span> <span class="va">summed.filt</span><span class="op">[</span>,<span class="va">summed.filt</span><span class="op">$</span><span class="va">pool</span> <span class="op">!=</span> <span class="fl">3</span><span class="op">]</span></span>
 <span></span>
-<span><span class="va">de.results</span> <span class="op">&lt;-</span> <span class="fu">pseudoBulkDGE</span><span class="op">(</span><span class="va">summed.filt.subset</span>, </span>
-<span>    label<span class="op">=</span><span class="va">summed.filt.subset</span><span class="op">$</span><span class="va">celltype.mapped</span>,</span>
-<span>    design<span class="op">=</span><span class="op">~</span><span class="fu">factor</span><span class="op">(</span><span class="va">pool</span><span class="op">)</span> <span class="op">+</span> <span class="va">tomato</span>,</span>
-<span>    coef<span class="op">=</span><span class="st">"tomatoTRUE"</span>,</span>
-<span>    condition<span class="op">=</span><span class="va">summed.filt.subset</span><span class="op">$</span><span class="va">tomato</span> </span>
+<span><span class="va">de.results</span> <span class="op">&lt;-</span> <span class="fu">pseudoBulkDGE</span><span class="op">(</span></span>
+<span>    <span class="va">summed.filt.subset</span>, </span>
+<span>    label <span class="op">=</span> <span class="va">summed.filt.subset</span><span class="op">$</span><span class="va">celltype.mapped</span>,</span>
+<span>    design <span class="op">=</span> <span class="op">~</span><span class="fu">factor</span><span class="op">(</span><span class="va">pool</span><span class="op">)</span> <span class="op">+</span> <span class="va">tomato</span>,</span>
+<span>    coef <span class="op">=</span> <span class="st">"tomatoTRUE"</span>,</span>
+<span>    condition <span class="op">=</span> <span class="va">summed.filt.subset</span><span class="op">$</span><span class="va">tomato</span> </span>
 <span><span class="op">)</span></span></code></pre>
 </div>
 </div>
@@ -4680,7 +4503,7 @@ abundances table. Does it comport with the model results?</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2"> Give me a hint </h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
 <div class="accordion-body">
 <p>You can just hand <code>pheatmap()</code> a matrix as its only
 argument. It has a million options, but the defaults are usually pretty
@@ -4694,15 +4517,13 @@ good.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb53">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">pheatmap</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">pheatmap</span><span class="op">(</span><span class="va">y.ab</span><span class="op">$</span><span class="va">counts</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">pheatmap</span><span class="op">(</span><span class="va">y.ab</span><span class="op">$</span><span class="va">counts</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/multi-sample-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The top DA result was a decrease in ExE ectoderm in the tomato
 condition, which you can sort of see, especially if you
@@ -6462,7 +6283,7 @@ cells per tissue in descending order.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -6495,7 +6316,7 @@ cells?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb28">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -6527,7 +6348,7 @@ summarise.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -6568,7 +6389,7 @@ columns, where possible.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb30">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
