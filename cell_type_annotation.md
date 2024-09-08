@@ -730,7 +730,7 @@ overlaps in their marker sets. In the absence of prior annotation, a
 more general diagnostic check is to compare the assigned labels to
 cluster identities, under the expectation that most cells of a single
 cluster would have the same label (or, if multiple labels are present,
-they should at least represent closely related cell states).
+they should at least represent closely related cell states). We only print out the top-left corner of the table here, but you should try looking at the whole thing:
 
 
 ``` r
@@ -738,230 +738,22 @@ new.labels <- colnames(results)[max.col(results)]
 
 tab <- table(new.labels, sce$celltype.mapped)
 
-tab
+tab[1:4,1:4]
 ```
 
 ``` output
-                                
-new.labels                       Allantois Blood progenitors 1
-  Allantois                             28                   0
-  Cardiomyocytes                         0                   0
-  Endothelium                            0                   0
-  Erythroid2                             0                   0
-  Erythroid3                             0                   0
-  ExE mesoderm                           0                   0
-  Forebrain/Midbrain/Hindbrain           1                   0
-  Gut                                    0                   0
-  Haematoendothelial progenitors         1                   0
-  Intermediate mesoderm                  0                   0
-  Mesenchyme                             0                   0
-  Neural crest                          11                   4
-  NMP                                    0                   0
-  Paraxial mesoderm                      5                   0
-  Pharyngeal mesoderm                    0                   0
-  Somitic mesoderm                       0                   0
-  Spinal cord                            0                   0
-  Surface ectoderm                       0                   0
-                                
-new.labels                       Blood progenitors 2 Cardiomyocytes
-  Allantois                                        0              0
-  Cardiomyocytes                                   0             27
-  Endothelium                                      0              0
-  Erythroid2                                       1              0
-  Erythroid3                                       0              0
-  ExE mesoderm                                     0              0
-  Forebrain/Midbrain/Hindbrain                     0              0
-  Gut                                              0              0
-  Haematoendothelial progenitors                   0              0
-  Intermediate mesoderm                            0              0
-  Mesenchyme                                       0              0
-  Neural crest                                     6              1
-  NMP                                              0              0
-  Paraxial mesoderm                                0              4
-  Pharyngeal mesoderm                              0              6
-  Somitic mesoderm                                 0              0
-  Spinal cord                                      0              0
-  Surface ectoderm                                 0              0
-                                
-new.labels                       Caudal epiblast Caudal Mesoderm Def. endoderm
-  Allantois                                    0               0             0
-  Cardiomyocytes                               0               0             0
-  Endothelium                                  0               0             0
-  Erythroid2                                   0               0             0
-  Erythroid3                                   0               0             0
-  ExE mesoderm                                 0               0             0
-  Forebrain/Midbrain/Hindbrain                 1               0             2
-  Gut                                          0               0             0
-  Haematoendothelial progenitors               0               0             0
-  Intermediate mesoderm                        0               0             0
-  Mesenchyme                                   0               0             0
-  Neural crest                                 0               0             1
-  NMP                                          0               0             0
-  Paraxial mesoderm                            0               0             1
-  Pharyngeal mesoderm                          0               0             0
-  Somitic mesoderm                             0               1             1
-  Spinal cord                                  0               0             0
-  Surface ectoderm                             0               0             0
-                                
-new.labels                       Doublet Endothelium Erythroid1 Erythroid2
-  Allantois                            0           0          0          0
-  Cardiomyocytes                       0           0          0          0
-  Endothelium                          0          13          0          0
-  Erythroid2                           0           0         14         21
-  Erythroid3                           0           0          6          5
-  ExE mesoderm                         0           0          0          0
-  Forebrain/Midbrain/Hindbrain         6           0          0          0
-  Gut                                  0           0          0          0
-  Haematoendothelial progenitors       0          19          0          0
-  Intermediate mesoderm               13           0          0          0
-  Mesenchyme                           0           0          0          0
-  Neural crest                        20           1          3          0
-  NMP                                  0           0          0          0
-  Paraxial mesoderm                    5           0          0          0
-  Pharyngeal mesoderm                  1           0          0          0
-  Somitic mesoderm                     1           0          0          0
-  Spinal cord                          1           0          0          0
-  Surface ectoderm                     0           0          0          0
-                                
-new.labels                       Erythroid3 ExE mesoderm
-  Allantois                               0            0
-  Cardiomyocytes                          0            0
-  Endothelium                             0            0
-  Erythroid2                             51            0
-  Erythroid3                             49            0
-  ExE mesoderm                            0           23
-  Forebrain/Midbrain/Hindbrain            0            1
-  Gut                                     0            0
-  Haematoendothelial progenitors          0            0
-  Intermediate mesoderm                   0           16
-  Mesenchyme                              0            0
-  Neural crest                            0           17
-  NMP                                     0            0
-  Paraxial mesoderm                       0            0
-  Pharyngeal mesoderm                     0            0
-  Somitic mesoderm                        0            0
-  Spinal cord                             0            0
-  Surface ectoderm                        0            0
-                                
-new.labels                       Forebrain/Midbrain/Hindbrain Gut
-  Allantois                                                 0   0
-  Cardiomyocytes                                            0   0
-  Endothelium                                               0   0
-  Erythroid2                                                0   0
-  Erythroid3                                                0   0
-  ExE mesoderm                                              0   0
-  Forebrain/Midbrain/Hindbrain                             83   4
-  Gut                                                       0   5
-  Haematoendothelial progenitors                            0   0
-  Intermediate mesoderm                                     0   0
-  Mesenchyme                                                0   0
-  Neural crest                                             20   0
-  NMP                                                       0   0
-  Paraxial mesoderm                                         0   0
-  Pharyngeal mesoderm                                       0   0
-  Somitic mesoderm                                          0   0
-  Spinal cord                                               0   0
-  Surface ectoderm                                          0  12
-                                
-new.labels                       Haematoendothelial progenitors
-  Allantois                                                   0
-  Cardiomyocytes                                              0
-  Endothelium                                                 0
-  Erythroid2                                                  0
-  Erythroid3                                                  0
-  ExE mesoderm                                                0
-  Forebrain/Midbrain/Hindbrain                                0
-  Gut                                                         0
-  Haematoendothelial progenitors                             16
-  Intermediate mesoderm                                       0
-  Mesenchyme                                                  0
-  Neural crest                                                8
-  NMP                                                         0
-  Paraxial mesoderm                                           2
-  Pharyngeal mesoderm                                         0
-  Somitic mesoderm                                            0
-  Spinal cord                                                 0
-  Surface ectoderm                                            0
-                                
-new.labels                       Intermediate mesoderm Mesenchyme Neural crest
-  Allantois                                          0          0            0
-  Cardiomyocytes                                     0          0            0
-  Endothelium                                        0          0            0
-  Erythroid2                                         0          0            0
-  Erythroid3                                         0          0            0
-  ExE mesoderm                                       1          7            0
-  Forebrain/Midbrain/Hindbrain                       0          3            0
-  Gut                                                0          0            0
-  Haematoendothelial progenitors                     0          0            0
-  Intermediate mesoderm                              9         15            0
-  Mesenchyme                                         0         69            0
-  Neural crest                                       4          4           10
-  NMP                                                0          0            0
-  Paraxial mesoderm                                  0          7            0
-  Pharyngeal mesoderm                                0         13            0
-  Somitic mesoderm                                   2          0            0
-  Spinal cord                                        0          0            0
-  Surface ectoderm                                   0          0            0
-                                
-new.labels                       NMP Paraxial mesoderm Pharyngeal mesoderm
-  Allantois                        0                 0                   0
-  Cardiomyocytes                   0                 0                   0
-  Endothelium                      0                 0                   0
-  Erythroid2                       0                 0                   0
-  Erythroid3                       0                 0                   0
-  ExE mesoderm                     0                 0                   0
-  Forebrain/Midbrain/Hindbrain    41                 2                   4
-  Gut                              0                 0                   0
-  Haematoendothelial progenitors   0                 0                   0
-  Intermediate mesoderm            0                 1                   5
-  Mesenchyme                       0                 0                   0
-  Neural crest                     5                20                  10
-  NMP                             16                 0                   0
-  Paraxial mesoderm                0                43                   3
-  Pharyngeal mesoderm              0                 0                  18
-  Somitic mesoderm                 0                 0                   0
-  Spinal cord                      0                 0                   0
-  Surface ectoderm                 0                 0                   0
-                                
-new.labels                       Rostral neurectoderm Somitic mesoderm
-  Allantois                                         0                0
-  Cardiomyocytes                                    0                0
-  Endothelium                                       0                0
-  Erythroid2                                        0                0
-  Erythroid3                                        0                0
-  ExE mesoderm                                      0                0
-  Forebrain/Midbrain/Hindbrain                     11                1
-  Gut                                               0                0
-  Haematoendothelial progenitors                    0                0
-  Intermediate mesoderm                             0                2
-  Mesenchyme                                        0                0
-  Neural crest                                      0                7
-  NMP                                               0                0
-  Paraxial mesoderm                                 0                0
-  Pharyngeal mesoderm                               0                0
-  Somitic mesoderm                                  0               25
-  Spinal cord                                       0                0
-  Surface ectoderm                                  0                0
-                                
-new.labels                       Spinal cord Stripped Surface ectoderm
-  Allantois                                0        0                0
-  Cardiomyocytes                           0        0                0
-  Endothelium                              0        1                0
-  Erythroid2                               0        1                0
-  Erythroid3                               0        1                0
-  ExE mesoderm                             0        0                0
-  Forebrain/Midbrain/Hindbrain            37        0               17
-  Gut                                      0        0                2
-  Haematoendothelial progenitors           0        0                0
-  Intermediate mesoderm                    0        0                0
-  Mesenchyme                               0        0                2
-  Neural crest                             3        5                6
-  NMP                                      0        0                0
-  Paraxial mesoderm                        0        0                0
-  Pharyngeal mesoderm                      0        0                0
-  Somitic mesoderm                         0        0                0
-  Spinal cord                              9        0                0
-  Surface ectoderm                         0        0               20
+                
+new.labels       Allantois Blood progenitors 1 Blood progenitors 2
+  Allantois             28                   0                   0
+  Cardiomyocytes         0                   0                   0
+  Endothelium            0                   0                   0
+  Erythroid2             0                   0                   1
+                
+new.labels       Cardiomyocytes
+  Allantois                   0
+  Cardiomyocytes             27
+  Endothelium                 0
+  Erythroid2                  0
 ```
 
 As a diagnostic measure, we examine the distribution of AUCs across

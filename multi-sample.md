@@ -34,14 +34,23 @@ As before, we will use the the wild-type data from the Tal1 chimera experiment:
 
 Note that this is a paired design in which for each biological replicate (pool 3, 4, and 5), we have both host and injected cells.
 
-We start by loading the data and doing a quick exploratory analysis, essentially applying the normalization and visualization techniques that we have seen in the previous lectures to all samples.
+We start by loading the data and doing a quick exploratory analysis, essentially applying the normalization and visualization techniques that we have seen in the previous lectures to all samples. Note that this time we're selecting samples 5 to 10, not just 5 by itself.
 
 
 
 
 ``` r
 library(MouseGastrulationData)
-sce <- WTChimeraData(samples=5:10, type = "processed")
+library(batchelor)
+library(edgeR)
+library(scater)
+library(ggplot2)
+library(scran)
+library(pheatmap)
+library(scuttle)
+
+sce <- WTChimeraData(samples = 5:10, type = "processed")
+
 sce
 ```
 
@@ -111,15 +120,12 @@ To speed up computations, after removing doublets, we randomly select 50% cells 
 
 
 ``` r
-library(scater)
-library(ggplot2)
-library(scran)
-
-# remove doublets
 drop <- sce$celltype.mapped %in% c("stripped", "Doublet")
+
 sce <- sce[,!drop]
 
 set.seed(29482)
+
 idx <- unlist(tapply(colnames(sce), sce$sample, function(x) {
     perc <- round(0.50 * length(x))
     sample(x, perc)
@@ -128,22 +134,22 @@ idx <- unlist(tapply(colnames(sce), sce$sample, function(x) {
 sce <- sce[,idx]
 ```
 
-We now normalize the data and visualize them in a tSNE plot.
+We now normalize the data, run some dimensionality reduction steps, and visualize them in a tSNE plot.
 
 
 ``` r
-# normalization
 sce <- logNormCounts(sce)
 
-# identify highly variable genes
-dec <- modelGeneVar(sce, block=sce$sample)
+dec <- modelGeneVar(sce, block = sce$sample)
+
 chosen.hvgs <- dec$bio > 0
 
-# dimensionality reduction
 sce <- runPCA(sce, subset_row = chosen.hvgs, ntop = 1000)
+
 sce <- runTSNE(sce, dimred = "PCA")
 
 sce$sample <- as.factor(sce$sample)
+
 plotTSNE(sce, colour_by = "sample")
 ```
 
@@ -167,7 +173,7 @@ It seems like samples 5 and 6 are separated off from the others in gene expressi
 
 ::: solution
 
-Samples 5 and 6 were from the same "pool" of cells. Looking at the documentation for the dataset under `?WTChimeraData` we see that the pool variable is defined as: "Integer, embryo pool from which cell derived; samples with same value are matched." So samples 5 and 6 have an experimental factor in common which causes a shared, systematic difference in gene expression profiles compared to the other samples. That's why you can see many of isolated blue/orange clusters on the first TSNE plot. If you were developing single-cell library preparation protocols you might want to preserve this effect to understand how variation in pools leads to variation in expression, but for now, given that we're investigate other effects, we'll want to remove this as undesired technical variation.
+Samples 5 and 6 were from the same "pool" of cells. Looking at the documentation for the dataset under `?WTChimeraData` we see that the pool variable is defined as: "Integer, embryo pool from which cell derived; samples with same value are matched." So samples 5 and 6 have an experimental factor in common which causes a shared, systematic difference in gene expression profiles compared to the other samples. That's why you can see many of isolated blue/orange clusters on the first TSNE plot. If you were developing single-cell library preparation protocols you might want to preserve this effect to understand how variation in pools leads to variation in expression, but for now, given that we're investigating other effects, we'll want to remove this as undesired technical variation.
 
 :::
 
@@ -175,27 +181,29 @@ Samples 5 and 6 were from the same "pool" of cells. Looking at the documentation
 
 ## Correcting batch effects
 
-We correct the effect of samples by aid of the `correctExperiment` function
-in the `batchelor` package and using the `sample` `colData` column as batch.
+We "correct" the effect of samples with the `correctExperiment` function
+in the `batchelor` package and using the `sample` column as batch.
 
 
 
 ``` r
-library(batchelor)
 set.seed(10102)
-merged <- correctExperiments(sce, 
-    batch=sce$sample, 
-    subset.row=chosen.hvgs,
-    PARAM=FastMnnParam(
-        merge.order=list(
+
+merged <- correctExperiments(
+    sce, 
+    batch = sce$sample, 
+    subset.row = chosen.hvgs,
+    PARAM = FastMnnParam(
+        merge.order = list(
             list(1,3,5), # WT (3 replicates)
             list(2,4,6)  # td-Tomato (3 replicates)
         )
     )
 )
 
-merged <- runTSNE(merged, dimred="corrected")
-plotTSNE(merged, colour_by="batch")
+merged <- runTSNE(merged, dimred = "corrected")
+
+plotTSNE(merged, colour_by = "batch")
 ```
 
 <img src="fig/multi-sample-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
@@ -220,23 +228,21 @@ Imagine you had one sample that received a drug treatment and one that did not, 
 
 ## Differential Expression
 
-In order to perform a Differential Expression Analysis, we need to identify 
+In order to perform a differential expression analysis, we need to identify 
 groups of cells across samples/conditions (depending on the experimental 
 design and the final aim of the experiment). 
 
 As previously seen, we have two ways of grouping cells, cell clustering and cell
-labeling.
-In our case we will focus on this second aspect to group cells according to the 
-already annotated cell types to proceed with the computation of the 
-pseudo-bulk samples.
+labeling. In our case we will focus on this second aspect to group cells
+according to the already annotated cell types to proceed with the computation of
+the pseudo-bulk samples.
 
 ### Pseudo-bulk samples
 
-To compute differences between groups of cells, a possible way is to 
-compute pseudo-bulk samples, where we mediate the gene signal of all the cells
-for each specific cell type.
-In this manner, we are then able to detect differences between the same cell type 
-across two different conditions.
+To compute differences between groups of cells, a possible way is to compute
+pseudo-bulk samples, where we mediate the gene signal of all the cells for each
+specific cell type. In this manner, we are then able to detect differences
+between the same cell type across two different conditions.
 
 To compute pseudo-bulk samples, we use the `aggregateAcrossCells` function in the 
 `scuttle` package, which takes as input not only a SingleCellExperiment, 
@@ -248,9 +254,12 @@ we want be able to discern between replicates and conditions during further step
 ``` r
 # Using 'label' and 'sample' as our two factors; each column of the output
 # corresponds to one unique combination of these two factors.
-library(scuttle)
-summed <- aggregateAcrossCells(merged, 
-    id=colData(merged)[,c("celltype.mapped", "sample")])
+
+summed <- aggregateAcrossCells(
+    merged, 
+    id = colData(merged)[,c("celltype.mapped", "sample")]
+)
+
 summed
 ```
 
@@ -283,11 +292,11 @@ cells", and look into differences between this cell type across conditions.
 
 ``` r
 label <- "Mesenchyme"
-current <- summed[,label==summed$celltype.mapped]
 
-# Creating up a DGEList object for use in edgeR:
-library(edgeR)
-y <- DGEList(counts(current), samples=colData(current))
+current <- summed[,label == summed$celltype.mapped]
+
+y <- DGEList(counts(current), samples = colData(current))
+
 y
 ```
 
@@ -336,7 +345,9 @@ to filter out any of them.
 
 ``` r
 discarded <- current$ncells < 10
+
 y <- y[,!discarded]
+
 summary(discarded)
 ```
 
@@ -350,8 +361,10 @@ expressed genes to improve accuracy for the DEGs modeling.
 
 
 ``` r
-keep <- filterByExpr(y, group=current$tomato)
+keep <- filterByExpr(y, group = current$tomato)
+
 y <- y[keep,]
+
 summary(keep)
 ```
 
@@ -369,6 +382,7 @@ counts, we don't need to normalize the data in "single cell form".
 
 ``` r
 y <- calcNormFactors(y)
+
 y$samples
 ```
 
@@ -409,7 +423,7 @@ present a trumpet shape, as expected.
 par(mfrow = c(2,3))
 
 for (i in seq_len(ncol(y))) {
-    plotMD(y, column=i)
+    plotMD(y, column = i)
 }
 ```
 
@@ -426,8 +440,8 @@ To do so, we use the MDS plot, which is very close to a PCA representation.
     
 
 ``` r
-limma::plotMDS(cpm(y, log=TRUE), 
-    col=ifelse(y$samples$tomato, "red", "blue"))
+limma::plotMDS(cpm(y, log = TRUE), 
+               col = ifelse(y$samples$tomato, "red", "blue"))
 ```
 
 <img src="fig/multi-sample-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
@@ -467,6 +481,7 @@ the mean-variance trend.
 
 ``` r
 y <- estimateDisp(y, design)
+
 summary(y$trended.dispersion)
 ```
 
@@ -488,12 +503,13 @@ plotBCV(y)
 
 
 We then fit a Quasi-Likelihood (QL) negative binomial generalized linear model for each gene. 
-The `robust=TRUE` parameter avoids distortions from highly variable clusters.
+The `robust = TRUE` parameter avoids distortions from highly variable clusters.
 The QL method includes an additional dispersion parameter, useful to handle the uncertainty and variability of the per-gene variance, which is not well estimated by the NB dispersions, so the two dispersion types complement each other in the final analysis.
 
 
 ``` r
-fit <- glmQLFit(y, design, robust=TRUE)
+fit <- glmQLFit(y, design, robust = TRUE)
+
 summary(fit$var.prior)
 ```
 
@@ -526,7 +542,8 @@ influence on the mesenchyme cells.
 
 
 ``` r
-res <- glmQLFTest(fit, coef=ncol(design))
+res <- glmQLFTest(fit, coef = ncol(design))
+
 summary(decideTests(res))
 ```
 
@@ -561,14 +578,14 @@ for each cell type, thanks to the `pseudoBulkDGE` function in the `scran` packag
 
 
 ``` r
-library(scran)
 summed.filt <- summed[,summed$ncells >= 10]
 
-de.results <- pseudoBulkDGE(summed.filt, 
-    label=summed.filt$celltype.mapped,
-    design=~factor(pool) + tomato,
-    coef="tomatoTRUE",
-    condition=summed.filt$tomato 
+de.results <- pseudoBulkDGE(
+    summed.filt, 
+    label = summed.filt$celltype.mapped,
+    design = ~factor(pool) + tomato,
+    coef = "tomatoTRUE",
+    condition = summed.filt$tomato 
 )
 ```
 
@@ -578,6 +595,7 @@ Each of these contains also the intermediate results in `edgeR` format to perfor
 
 ``` r
 cur.results <- de.results[["Allantois"]]
+
 cur.results[order(cur.results$PValue),]
 ```
 
@@ -618,26 +636,29 @@ Clearly some of the results have low p-values. What about the effect sizes? What
 With DA we look for differences in cluster *abundance* across conditions (the
 tomato injection in our case), rather than differences in gene expression.
 
-We first setup some code and variables for further analysis, like quantifying the
-number of cells per each cell type and fit a model to catch differences between the 
-injected cells and the background.
+Our first steps are quantifying the number of cells per each cell type and
+fitting a model to catch differences between the injected cells and the
+background.
 
-The steps are very similar to the ones for DEGs analysis, but this time
-we start our analysis on the computed abundances and without normalizing the 
-data with TMM.
+The process is very similar differential expression modeling, but this time we
+start our analysis on the computed abundances and without normalizing the data
+with TMM.
 
 
 ``` r
-library(edgeR)
 abundances <- table(merged$celltype.mapped, merged$sample) 
+
 abundances <- unclass(abundances) 
-# Attaching some column metadata.
+
 extra.info <- colData(merged)[match(colnames(abundances), merged$sample),]
-y.ab <- DGEList(abundances, samples=extra.info)
+
+y.ab <- DGEList(abundances, samples = extra.info)
 
 design <- model.matrix(~factor(pool) + factor(tomato), y.ab$samples)
-y.ab <- estimateDisp(y.ab, design, trend="none")
-fit.ab <- glmQLFit(y.ab, design, robust=TRUE, abundance.trend=FALSE)
+
+y.ab <- estimateDisp(y.ab, design, trend = "none")
+
+fit.ab <- glmQLFit(y.ab, design, robust = TRUE, abundance.trend = FALSE)
 ```
 
 ### Background on compositional effect
@@ -680,6 +701,7 @@ estimate a QL-model for our abundance data.
 
 ``` r
 y.ab2 <- calcNormFactors(y.ab)
+
 y.ab2$samples$norm.factors
 ```
 
@@ -691,11 +713,11 @@ We then use edgeR in a manner similar to what we ran before:
 
 
 ``` r
-y.ab2 <- estimateDisp(y.ab2, design, trend="none")
+y.ab2 <- estimateDisp(y.ab2, design, trend = "none")
 
-fit.ab2 <- glmQLFit(y.ab2, design, robust=TRUE, abundance.trend=FALSE)
+fit.ab2 <- glmQLFit(y.ab2, design, robust = TRUE, abundance.trend = FALSE)
 
-res2 <- glmQLFTest(fit.ab2, coef=ncol(design))
+res2 <- glmQLFTest(fit.ab2, coef = ncol(design))
 
 summary(decideTests(res2))
 ```
@@ -708,7 +730,7 @@ Up                      1
 ```
 
 ``` r
-topTags(res2, n=10)
+topTags(res2, n = 10)
 ```
 
 ``` output
@@ -740,7 +762,8 @@ biases by testing each label for changes in abundance beyond \tau.
 
 
 ``` r
-res.lfc <- glmTreat(fit.ab, coef=ncol(design), lfc=1)
+res.lfc <- glmTreat(fit.ab, coef = ncol(design), lfc = 1)
+
 summary(decideTests(res.lfc))
 ```
 
@@ -813,70 +836,72 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] edgeR_4.2.0                  limma_3.60.2                
- [3] batchelor_1.20.0             scran_1.32.0                
- [5] scater_1.32.0                ggplot2_3.5.1               
- [7] scuttle_1.14.0               MouseGastrulationData_1.18.0
- [9] SpatialExperiment_1.14.0     SingleCellExperiment_1.26.0 
-[11] SummarizedExperiment_1.34.0  Biobase_2.64.0              
-[13] GenomicRanges_1.56.0         GenomeInfoDb_1.40.1         
-[15] IRanges_2.38.0               S4Vectors_0.42.0            
-[17] BiocGenerics_0.50.0          MatrixGenerics_1.16.0       
-[19] matrixStats_1.3.0            BiocStyle_2.32.0            
+ [1] pheatmap_1.0.12              scran_1.32.0                
+ [3] scater_1.32.0                ggplot2_3.5.1               
+ [5] scuttle_1.14.0               edgeR_4.2.0                 
+ [7] limma_3.60.2                 batchelor_1.20.0            
+ [9] MouseGastrulationData_1.18.0 SpatialExperiment_1.14.0    
+[11] SingleCellExperiment_1.26.0  SummarizedExperiment_1.34.0 
+[13] Biobase_2.64.0               GenomicRanges_1.56.0        
+[15] GenomeInfoDb_1.40.1          IRanges_2.38.0              
+[17] S4Vectors_0.42.0             BiocGenerics_0.50.0         
+[19] MatrixGenerics_1.16.0        matrixStats_1.3.0           
+[21] BiocStyle_2.32.0            
 
 loaded via a namespace (and not attached):
-  [1] DBI_1.2.3                 formatR_1.14             
-  [3] gridExtra_2.3             rlang_1.1.3              
-  [5] magrittr_2.0.3            compiler_4.4.1           
-  [7] RSQLite_2.3.7             DelayedMatrixStats_1.26.0
-  [9] png_0.1-8                 vctrs_0.6.5              
- [11] pkgconfig_2.0.3           crayon_1.5.2             
- [13] fastmap_1.2.0             dbplyr_2.5.0             
- [15] magick_2.8.3              XVector_0.44.0           
- [17] labeling_0.4.3            utf8_1.2.4               
- [19] rmarkdown_2.27            UCSC.utils_1.0.0         
- [21] ggbeeswarm_0.7.2          purrr_1.0.2              
- [23] bit_4.0.5                 bluster_1.14.0           
- [25] xfun_0.44                 zlibbioc_1.50.0          
- [27] cachem_1.1.0              beachmat_2.20.0          
- [29] jsonlite_1.8.8            blob_1.2.4               
- [31] highr_0.11                DelayedArray_0.30.1      
- [33] BiocParallel_1.38.0       cluster_2.1.6            
- [35] irlba_2.3.5.1             parallel_4.4.1           
- [37] R6_2.5.1                  Rcpp_1.0.12              
- [39] knitr_1.47                splines_4.4.1            
- [41] igraph_2.0.3              Matrix_1.7-0             
- [43] tidyselect_1.2.1          viridis_0.6.5            
- [45] abind_1.4-5               yaml_2.3.8               
- [47] codetools_0.2-20          curl_5.2.1               
- [49] lattice_0.22-6            tibble_3.2.1             
- [51] withr_3.0.0               KEGGREST_1.44.0          
- [53] BumpyMatrix_1.12.0        Rtsne_0.17               
- [55] evaluate_0.23             BiocFileCache_2.12.0     
- [57] ExperimentHub_2.12.0      Biostrings_2.72.1        
- [59] pillar_1.9.0              BiocManager_1.30.23      
- [61] filelock_1.0.3            renv_1.0.7               
- [63] generics_0.1.3            BiocVersion_3.19.1       
- [65] sparseMatrixStats_1.16.0  munsell_0.5.1            
- [67] scales_1.3.0              glue_1.7.0               
- [69] metapod_1.12.0            tools_4.4.1              
- [71] AnnotationHub_3.12.0      BiocNeighbors_1.22.0     
- [73] ScaledMatrix_1.12.0       locfit_1.5-9.9           
- [75] cowplot_1.1.3             grid_4.4.1               
- [77] AnnotationDbi_1.66.0      colorspace_2.1-0         
- [79] GenomeInfoDbData_1.2.12   beeswarm_0.4.0           
- [81] BiocSingular_1.20.0       vipor_0.4.7              
- [83] cli_3.6.2                 rsvd_1.0.5               
- [85] rappdirs_0.3.3            fansi_1.0.6              
- [87] viridisLite_0.4.2         S4Arrays_1.4.1           
- [89] dplyr_1.1.4               ResidualMatrix_1.14.0    
- [91] gtable_0.3.5              digest_0.6.35            
- [93] dqrng_0.4.1               SparseArray_1.4.8        
- [95] ggrepel_0.9.5             farver_2.1.2             
- [97] rjson_0.2.21              memoise_2.0.1            
- [99] htmltools_0.5.8.1         lifecycle_1.0.4          
-[101] httr_1.4.7                statmod_1.5.0            
-[103] mime_0.12                 bit64_4.0.5              
+  [1] RColorBrewer_1.1-3        jsonlite_1.8.8           
+  [3] magrittr_2.0.3            ggbeeswarm_0.7.2         
+  [5] magick_2.8.3              farver_2.1.2             
+  [7] rmarkdown_2.27            zlibbioc_1.50.0          
+  [9] vctrs_0.6.5               memoise_2.0.1            
+ [11] DelayedMatrixStats_1.26.0 htmltools_0.5.8.1        
+ [13] S4Arrays_1.4.1            AnnotationHub_3.12.0     
+ [15] curl_5.2.1                BiocNeighbors_1.22.0     
+ [17] SparseArray_1.4.8         cachem_1.1.0             
+ [19] ResidualMatrix_1.14.0     igraph_2.0.3             
+ [21] mime_0.12                 lifecycle_1.0.4          
+ [23] pkgconfig_2.0.3           rsvd_1.0.5               
+ [25] Matrix_1.7-0              R6_2.5.1                 
+ [27] fastmap_1.2.0             GenomeInfoDbData_1.2.12  
+ [29] digest_0.6.35             colorspace_2.1-0         
+ [31] AnnotationDbi_1.66.0      dqrng_0.4.1              
+ [33] irlba_2.3.5.1             ExperimentHub_2.12.0     
+ [35] RSQLite_2.3.7             beachmat_2.20.0          
+ [37] filelock_1.0.3            labeling_0.4.3           
+ [39] fansi_1.0.6               httr_1.4.7               
+ [41] abind_1.4-5               compiler_4.4.1           
+ [43] bit64_4.0.5               withr_3.0.0              
+ [45] BiocParallel_1.38.0       viridis_0.6.5            
+ [47] DBI_1.2.3                 highr_0.11               
+ [49] rappdirs_0.3.3            DelayedArray_0.30.1      
+ [51] rjson_0.2.21              bluster_1.14.0           
+ [53] tools_4.4.1               vipor_0.4.7              
+ [55] beeswarm_0.4.0            glue_1.7.0               
+ [57] grid_4.4.1                Rtsne_0.17               
+ [59] cluster_2.1.6             generics_0.1.3           
+ [61] gtable_0.3.5              BiocSingular_1.20.0      
+ [63] ScaledMatrix_1.12.0       metapod_1.12.0           
+ [65] utf8_1.2.4                XVector_0.44.0           
+ [67] ggrepel_0.9.5             BiocVersion_3.19.1       
+ [69] pillar_1.9.0              BumpyMatrix_1.12.0       
+ [71] splines_4.4.1             dplyr_1.1.4              
+ [73] BiocFileCache_2.12.0      lattice_0.22-6           
+ [75] renv_1.0.7                bit_4.0.5                
+ [77] tidyselect_1.2.1          locfit_1.5-9.9           
+ [79] Biostrings_2.72.1         knitr_1.47               
+ [81] gridExtra_2.3             xfun_0.44                
+ [83] statmod_1.5.0             UCSC.utils_1.0.0         
+ [85] yaml_2.3.8                evaluate_0.23            
+ [87] codetools_0.2-20          tibble_3.2.1             
+ [89] BiocManager_1.30.23       cli_3.6.2                
+ [91] munsell_0.5.1             Rcpp_1.0.12              
+ [93] dbplyr_2.5.0              png_0.1-8                
+ [95] parallel_4.4.1            blob_1.2.4               
+ [97] sparseMatrixStats_1.16.0  viridisLite_0.4.2        
+ [99] scales_1.3.0              purrr_1.0.2              
+[101] crayon_1.5.2              rlang_1.1.3              
+[103] cowplot_1.1.3             KEGGREST_1.44.0          
+[105] formatR_1.14             
 ```
 
 ## Exercises
@@ -901,11 +926,12 @@ Remember, you can subset SingleCellExperiments with logical indices, just like a
 ``` r
 summed.filt.subset = summed.filt[,summed.filt$pool != 3]
 
-de.results <- pseudoBulkDGE(summed.filt.subset, 
-    label=summed.filt.subset$celltype.mapped,
-    design=~factor(pool) + tomato,
-    coef="tomatoTRUE",
-    condition=summed.filt.subset$tomato 
+de.results <- pseudoBulkDGE(
+    summed.filt.subset, 
+    label = summed.filt.subset$celltype.mapped,
+    design = ~factor(pool) + tomato,
+    coef = "tomatoTRUE",
+    condition = summed.filt.subset$tomato 
 )
 ```
 
@@ -929,8 +955,6 @@ You can just hand `pheatmap()` a matrix as its only argument. It has a million o
 
 
 ``` r
-library(pheatmap)
-
 pheatmap(y.ab$counts)
 ```
 
