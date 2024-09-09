@@ -239,22 +239,6 @@ metadata |>
 12 sci-RNA-seq                        1
 ```
 
-## Available organisms
-
-
-``` r
-metadata |>
-    distinct(organism, dataset_id) |>
-    count(organism)
-```
-
-``` output
-# A tibble: 1 × 2
-  organism         n
-  <chr>        <int>
-1 Homo sapiens    63
-```
-
 ### Download single-cell RNA sequencing counts 
 
 The data can be provided as either "counts" or counts per million "cpm" as given

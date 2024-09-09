@@ -64,7 +64,9 @@ set, as provided by the
 
 ``` r
 library(TENxBrainData)
+
 sce.brain <- TENxBrainData20k() 
+
 sce.brain
 ```
 
@@ -150,7 +152,9 @@ new file at every operation, which would unnecessarily require time-consuming di
 
 ``` r
 tmp <- counts(sce.brain)
+
 tmp <- log2(tmp + 1)
+
 tmp
 ```
 
@@ -183,8 +187,11 @@ function that we used in the other workflows.
 
 ``` r
 library(scater)
+
 is.mito <- grepl("^mt-", rowData(sce.brain)$Symbol)
+
 qcstats <- perCellQCMetrics(sce.brain, subsets = list(Mt = is.mito))
+
 qcstats
 ```
 
@@ -253,9 +260,10 @@ by indicating the `BPPARAM` argument in `bplapply`.
 
 ``` r
 param <- MulticoreParam(workers = 1)
+
 bplapply(
     X = c(4, 9, 16, 25),
-    FUN = function(x) { sqrt(x) },
+    FUN = sqrt,
     BPPARAM = param
 )
 ```
@@ -286,10 +294,15 @@ calculations on a Unix system:
 
 ``` r
 library(MouseGastrulationData)
+
 library(scran)
+
 sce <- WTChimeraData(samples = 5, type = "processed")
+
 sce <- logNormCounts(sce)
+
 dec.mc <- modelGeneVar(sce, BPPARAM = MulticoreParam(2))
+
 dec.mc
 ```
 
@@ -342,6 +355,7 @@ details).
 ``` r
 # 2 hours, 8 GB, 1 CPU per task, for 10 tasks.
 rs <- list(walltime = 7200, memory = 8000, ncpus = 1)
+
 bpp <- BatchtoolsParam(10, cluster = "slurm", resources = rs)
 ```
 
@@ -393,7 +407,9 @@ graph-based clustering using the Louvain algorithm for community detection:
 
 ``` r
 library(bluster)
+
 sce <- runPCA(sce)
+
 colLabels(sce) <- clusterCells(sce, use.dimred = "PCA",
                                BLUSPARAM = NNGraphParam(cluster.fun = "louvain"))
 ```
@@ -410,10 +426,13 @@ approximation can be largely ignored.
 
 ``` r
 library(scran)
+
 library(BiocNeighbors)
+
 clusters <- clusterCells(sce, use.dimred = "PCA",
                          BLUSPARAM = NNGraphParam(cluster.fun = "louvain",
                                                   BNPARAM = AnnoyParam()))
+
 table(exact = colLabels(sce), approx = clusters)
 ```
 
@@ -421,19 +440,19 @@ table(exact = colLabels(sce), approx = clusters)
      approx
 exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
    1   90   0   0   0   0   0   0   0   1   0   0   0   0   0   0
-   2    0 143   0   1   0   0   0   0   0   0   0   0   0   0   0
+   2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
    3    0   0  75   0   0   0   0   0   0   0   0   0   0   0   0
-   4    0   0   0 253   0   0   0   0   0   0   0   0 144   0   0
-   5    0   0   2   0 391   1   0   0   0   1   0   3   0   0   0
-   6    0   0   0   0   0 206  51   0   0   0   1   0   0   0   0
-   7    0   0   0   0   0   3 194   0   0   1   0   0   0   0   0
-   8    0   0   0   0   2   0   0  91   0   0   0   2   0   0   0
+   4    0   0   0 342   0   0   0   0   0   0   0   0   0   0  55
+   5    0   0   0   0  74   0   0   0   0   0   0 198   0   0   0
+   6    0   0   0   0   0 210   0   0   0   0   0   0   0   0   0
+   7    0   0   0   0   0   0 245   0   0   1   0   0   0   0   0
+   8    0   0   0   0   1   0   0  95   0   0   0   0   0   0   0
    9    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
-   10   0   0   0   0   0   0   0   0   0 113   8   0   0   0   0
-   11   0   0   0   0   0   0   0   0   0   0 144   0   0   0   0
-   12   0   0   0   0   2   0   0   0   0  15   0 199   0   0   0
-   13   0   0   0   0   0   0   0   0   0   0   0   0   0 146   0
-   14   0   0   0   0   0   0   0   0   0   0   0   0   0   0  20
+   10   0   0   0   0   0   0   0   0   0 113   0  16   0   0   0
+   11   0   0   0   0   0   0   0   0   0   0 153   0   0   0   0
+   12   0   0   2   0 321   0   0   0   0   1   0   0   0   0   0
+   13   0   0   0   0   0   0   0   0   0   0   0   0 146   0   0
+   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0
 ```
 
 The similarity of the two clusterings can be quantified by calculating the pairwise Rand index: 
@@ -441,6 +460,7 @@ The similarity of the two clusterings can be quantified by calculating the pairw
 
 ``` r
 rand <- pairwiseRand(colLabels(sce), clusters, mode = "index")
+
 stopifnot(rand > 0.8)
 ```
 
@@ -455,11 +475,17 @@ the biological conclusions.
 
 ``` r
 set.seed(1000)
+
 y1 <- matrix(rnorm(50000), nrow = 1000)
+
 y2 <- matrix(rnorm(50000), nrow = 1000)
+
 Y <- rbind(y1, y2)
+
 exact <- findKNN(Y, k = 20)
+
 approx <- findKNN(Y, k = 20, BNPARAM = AnnoyParam())
+
 mean(exact$index != approx$index)
 ```
 
@@ -487,7 +513,9 @@ library(BiocSingular)
 
 # As the name suggests, it is random, so we need to set the seed.
 set.seed(101000)
+
 r.out <- runPCA(sce, ncomponents = 20, BSPARAM = RandomParam())
+
 str(reducedDim(r.out, "PCA"))
 ```
 
@@ -506,7 +534,9 @@ str(reducedDim(r.out, "PCA"))
 
 ``` r
 set.seed(101001)
+
 i.out <- runPCA(sce, ncomponents = 20, BSPARAM = IrlbaParam())
+
 str(reducedDim(i.out, "PCA"))
 ```
 
@@ -546,7 +576,9 @@ This code block calculates the exact PCA coordinates. Another thing to note: PC 
 
 ``` r
 set.seed(123)
+
 e.out <- runPCA(sce, ncomponents = 20, BSPARAM = ExactParam())
+
 str(reducedDim(e.out, "PCA"))
 ```
 
@@ -661,6 +693,7 @@ We then proceed by loading all required packages and installing the PBMC dataset
 
 ``` r
 library(SeuratData)
+
 InstallData("pbmc3k")
 ```
 
@@ -671,9 +704,13 @@ We then load the dataset as an `SeuratObject` and convert it to a
 ``` r
 # Use PBMC3K from SeuratData
 pbmc <- LoadData(ds = "pbmc3k", type = "pbmc3k.final")
+
 pbmc <- UpdateSeuratObject(pbmc)
+
 pbmc
+
 pbmc.sce <- as.SingleCellExperiment(pbmc)
+
 pbmc.sce
 ```
 
@@ -683,8 +720,11 @@ we demonstrate this here on the wild-type chimera mouse gastrulation dataset.
 
 ``` r
 sce <- WTChimeraData(samples = 5, type = "processed")
+
 assay(sce) <- as.matrix(assay(sce))
+
 sce <- logNormCounts(sce)
+
 sce
 ```
 
@@ -694,7 +734,9 @@ the `as.Seurat` function.
 
 ``` r
 sobj <- as.Seurat(sce)
+
 Idents(sobj) <- "celltype.mapped"
+
 sobj
 ```
 
@@ -734,6 +776,7 @@ package.
 ``` r
 example_h5ad <- system.file("extdata", "krumsiek11.h5ad",
                             package = "zellkonverter")
+
 readH5AD(example_h5ad)
 ```
 
@@ -758,6 +801,7 @@ chimera mouse gastrulation dataset.
 
 ``` r
 out.file <- tempfile(fileext = ".h5ad")
+
 writeH5AD(sce, file = out.file)
 ```
 
@@ -985,15 +1029,18 @@ Use the function `system.time` to obtain the runtime of each job.
 ``` r
 sce.brain = logNormCounts(sce.brain)
 
-system.time({i.out <- runPCA(sce.brain, ncomponents = 20, 
+system.time({i.out <- runPCA(sce.brain, 
+                             ncomponents = 20, 
                              BSPARAM = ExactParam(),
                              BPPARAM = SerialParam())})
 
-system.time({i.out <- runPCA(sce.brain, ncomponents = 20, 
+system.time({i.out <- runPCA(sce.brain, 
+                             ncomponents = 20, 
                              BSPARAM = ExactParam(),
                              BPPARAM = MulticoreParam(workers = 2))})
 
-system.time({i.out <- runPCA(sce.brain, ncomponents = 20, 
+system.time({i.out <- runPCA(sce.brain, 
+                             ncomponents = 20, 
                              BSPARAM = ExactParam(),
                              BPPARAM = MulticoreParam(workers = 3))})
 ```
