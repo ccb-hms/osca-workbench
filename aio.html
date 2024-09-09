@@ -368,7 +368,7 @@
         
 <section id="aio-intro-sce"><p>Content from <a href="intro-sce.html">Introduction to Bioconductor and the SingleCellExperiment class</a></p>
 <hr>
-<p>Last updated on 2024-09-06 |
+<p>Last updated on 2024-09-09 |
 
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/intro-sce.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -592,7 +592,7 @@ disadvantages of this sort of “from scratch” approach?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <ol style="list-style-type: decimal">
 <li><p>You have to do tons of book-keeping! If you perform a QC step
@@ -736,7 +736,7 @@ cell_9771    1.15439     28795</code></pre>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Here we add a column called “conservation” that is just an integer
 sequence from 1 to the number of genes.</p>
@@ -815,10 +815,48 @@ it) and add one or more columns as <code>colData</code>.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>The <code>SingleCellExperiment</code> constructor function can be
 used to create a new <code>SingleCellExperiment</code> object.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
+</button>
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div class="accordion-body">
+<div class="codewrapper sourceCode" id="cb23">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mat</span> <span class="op">=</span> <span class="fu">matrix</span><span class="op">(</span><span class="fu">runif</span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">my_sce</span> <span class="op">=</span> <span class="fu">SingleCellExperiment</span><span class="op">(</span>assays <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>logcounts <span class="op">=</span> <span class="va">mat</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">my_sce</span><span class="op">$</span><span class="va">my_col_info</span> <span class="op">=</span> <span class="fu">runif</span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">my_sce</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 6 5
+metadata(0):
+assays(1): logcounts
+rownames: NULL
+rowData names(0):
+colnames: NULL
+colData names(1): my_col_info
+reducedDimNames(0):
+mainExpName: NULL
+altExpNames(0):</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -832,9 +870,35 @@ used to create a new <code>SingleCellExperiment</code> object.</p>
 <div class="callout-content">
 <p>Combining two objects: The <code>MouseGastrulationData</code> package
 contains several datasets. Download sample 6 of the chimera experiment
-by running <code>sce6 &lt;- WTChimeraData(sample=6)</code>. Use the
+by running <code>sce6 &lt;- WTChimeraData(samples=6)</code>. Use the
 <code>cbind</code> function to combine the new data with the
 <code>sce</code> object created before.</p>
+<div class="codewrapper sourceCode" id="cb25">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sce</span> <span class="op">&lt;-</span>  <span class="fu">WTChimeraData</span><span class="op">(</span>samples <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="va">sce6</span> <span class="op">&lt;-</span> <span class="fu">WTChimeraData</span><span class="op">(</span>samples <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">combined_sce</span> <span class="op">=</span> <span class="fu">cbind</span><span class="op">(</span><span class="va">sce</span>, <span class="va">sce6</span><span class="op">)</span></span>
+<span><span class="va">combined_sce</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 29453 3458
+metadata(0):
+assays(1): counts
+rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
+  ENSMUSG00000095742 tomato-td
+rowData names(2): ENSEMBL SYMBOL
+colnames(3458): cell_9769 cell_9770 ... cell_13225 cell_13226
+colData names(11): cell barcode ... doub.density sizeFactor
+reducedDimNames(2): pca.corrected.E7.5 pca.corrected.E8.5
+mainExpName: NULL
+altExpNames(0):</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -2375,7 +2439,7 @@ what we’d need to change to get fewer, larger clusters.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>We see in the help documentation for <code>?clusterCells</code> that
 all of the clustering algorithm details are handled through the
@@ -2528,7 +2592,7 @@ clusters?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>One important reason why is because averages over all other clusters
 can be sensitive to the cell type composition. If a rare cell type shows
@@ -2821,7 +2885,7 @@ parallel?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>Use <code>BiocParallel</code> and the <code>BPPARAM</code> argument!
 This example will set it to use four cores on your laptop, but you can
@@ -3081,7 +3145,7 @@ Which ones? Why?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <p>The example that jumps out most strongly to the eye is ExE endoderm,
 which doesn’t show clear separate modes. Simultaneously, Endothelium
@@ -3230,7 +3294,7 @@ UMAP plot.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
 <div class="accordion-body">
 <p>The <code>NNGraphParam</code> constructor has an argument
 <code>cluster.args</code>. This allows to specify arguments passed on to
@@ -3247,7 +3311,7 @@ parameter of 0.5.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -3276,7 +3340,7 @@ process (BP) gene sets from the Gene Ontology (GO).</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2"> Give me a hint </h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
 <div class="accordion-body">
 <p>Use the <code>goana()</code> function from the <em><a href="https://bioconductor.org/packages/3.19/limma" class="external-link">limma</a></em>
 package to identify GO BP terms that are overrepresented in the list of
@@ -3290,7 +3354,7 @@ marker genes.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
   <h4 class="accordion-header" id="headingSolution6"> Show me the solution </h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -3320,7 +3384,7 @@ and marker gene detection.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution7" aria-expanded="false" aria-controls="collapseSolution7">
   <h4 class="accordion-header" id="headingSolution7"> Show me the solution </h4>
 </button>
-<div id="collapseSolution7" class="accordion-collapse collapse" data-bs-parent="#accordionSolution7" aria-labelledby="headingSolution7">
+<div id="collapseSolution7" class="accordion-collapse collapse" aria-labelledby="headingSolution7" data-bs-parent="#accordionSolution7">
 <div class="accordion-body">
 <p>TODO</p>
 </div>
@@ -5009,7 +5073,7 @@ overhead.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>From <code>?MulticoreParam</code> :</p>
 <blockquote>
@@ -5241,7 +5305,7 @@ compared to the RSVD results.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>This code block calculates the exact PCA coordinates. Another thing
 to note: PC vectors are only identified up to a sign flip. We can see
@@ -5652,7 +5716,7 @@ matrix in memory as opposed to holding the data out of memory.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>See the <code>HDF5Array</code> function for reading from HDF5 and the
 <code>writeHDF5Array</code> function for writing to HDF5 from the <em><a href="https://bioconductor.org/packages/3.19/HDF5Array" class="external-link">HDF5Array</a></em>
@@ -5666,7 +5730,7 @@ package.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb50">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5745,7 +5809,7 @@ with 3 workers.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2"> Give me a hint </h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
 <div class="accordion-body">
 <p>Use the function <code>system.time</code> to obtain the runtime of
 each job.</p>
@@ -5758,7 +5822,7 @@ each job.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb56">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
