@@ -306,13 +306,68 @@ The `SingleCellExperiment` constructor function can be used to create a new `Sin
 
 :::::::::::::::::::::::
 
+
+::: solution
+
+
+``` r
+mat = matrix(runif(30), ncol = 5)
+
+my_sce = SingleCellExperiment(assays = list(logcounts = mat))
+
+my_sce$my_col_info = runif(5)
+
+my_sce
+```
+
+``` output
+class: SingleCellExperiment 
+dim: 6 5 
+metadata(0):
+assays(1): logcounts
+rownames: NULL
+rowData names(0):
+colnames: NULL
+colData names(1): my_col_info
+reducedDimNames(0):
+mainExpName: NULL
+altExpNames(0):
+```
+
+:::
+
 :::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::: challenge
 
 #### Exercise 2
 
-Combining two objects: The `MouseGastrulationData` package contains several datasets. Download sample 6 of the chimera experiment by running `sce6 <- WTChimeraData(sample=6)`. Use the `cbind` function to combine the new data with the `sce` object created before. 
+Combining two objects: The `MouseGastrulationData` package contains several datasets. Download sample 6 of the chimera experiment by running `sce6 <- WTChimeraData(samples=6)`. Use the `cbind` function to combine the new data with the `sce` object created before. 
+
+
+``` r
+sce <-  WTChimeraData(samples = 5)
+sce6 <- WTChimeraData(samples = 6)
+
+combined_sce = cbind(sce, sce6)
+combined_sce
+```
+
+``` output
+class: SingleCellExperiment 
+dim: 29453 3458 
+metadata(0):
+assays(1): counts
+rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
+  ENSMUSG00000095742 tomato-td
+rowData names(2): ENSEMBL SYMBOL
+colnames(3458): cell_9769 cell_9770 ... cell_13225 cell_13226
+colData names(11): cell barcode ... doub.density sizeFactor
+reducedDimNames(2): pca.corrected.E7.5 pca.corrected.E8.5
+mainExpName: NULL
+altExpNames(0):
+```
+
 
 :::::::::::::::::::::::::::::::::::::::::::::
 
