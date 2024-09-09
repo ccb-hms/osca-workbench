@@ -344,6 +344,7 @@ altExpNames(0):
 
 Combining two objects: The `MouseGastrulationData` package contains several datasets. Download sample 6 of the chimera experiment by running `sce6 <- WTChimeraData(samples=6)`. Use the `cbind` function to combine the new data with the `sce` object created before. 
 
+::: solution
 
 ``` r
 sce <-  WTChimeraData(samples = 5)
@@ -367,6 +368,7 @@ reducedDimNames(2): pca.corrected.E7.5 pca.corrected.E8.5
 mainExpName: NULL
 altExpNames(0):
 ```
+:::
 
 
 :::::::::::::::::::::::::::::::::::::::::::::
