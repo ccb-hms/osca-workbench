@@ -222,13 +222,37 @@ The `SingleCellExperiment` constructor function can be used to create a new `Sin
 
 :::::::::::::::::::::::
 
+
+::: solution
+
+```{r}
+mat = matrix(runif(30), ncol = 5)
+
+my_sce = SingleCellExperiment(assays = list(logcounts = mat))
+
+my_sce$my_col_info = runif(5)
+
+my_sce
+```
+
+:::
+
 :::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::: challenge
 
 #### Exercise 2
 
-Combining two objects: The `MouseGastrulationData` package contains several datasets. Download sample 6 of the chimera experiment by running `sce6 <- WTChimeraData(sample=6)`. Use the `cbind` function to combine the new data with the `sce` object created before. 
+Combining two objects: The `MouseGastrulationData` package contains several datasets. Download sample 6 of the chimera experiment by running `sce6 <- WTChimeraData(samples=6)`. Use the `cbind` function to combine the new data with the `sce` object created before. 
+
+```{r message = FALSE, warning=FALSE}
+sce <-  WTChimeraData(samples = 5)
+sce6 <- WTChimeraData(samples = 6)
+
+combined_sce = cbind(sce, sce6)
+combined_sce
+```
+
 
 :::::::::::::::::::::::::::::::::::::::::::::
 
