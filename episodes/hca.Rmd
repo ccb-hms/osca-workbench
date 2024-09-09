@@ -169,14 +169,6 @@ metadata |>
     count(assay)
 ```
 
-## Available organisms
-
-```{r}
-metadata |>
-    distinct(organism, dataset_id) |>
-    count(organism)
-```
-
 ### Download single-cell RNA sequencing counts 
 
 The data can be provided as either "counts" or counts per million "cpm" as given

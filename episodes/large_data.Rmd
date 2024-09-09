@@ -66,7 +66,9 @@ set, as provided by the
 
 ```{r tenx-brain}
 library(TENxBrainData)
+
 sce.brain <- TENxBrainData20k() 
+
 sce.brain
 ```
 
@@ -79,7 +81,9 @@ This avoids the need for large RAM availability during analyses.
 
 ```{r tenx-brain-size}
 counts(sce.brain)
+
 object.size(counts(sce.brain))
+
 file.info(path(counts(sce.brain)))$size
 ```
 
@@ -94,7 +98,9 @@ new file at every operation, which would unnecessarily require time-consuming di
 
 ```{r}
 tmp <- counts(sce.brain)
+
 tmp <- log2(tmp + 1)
+
 tmp
 ```
 
@@ -110,8 +116,11 @@ function that we used in the other workflows.
 
 ```{r, message = FALSE}
 library(scater)
+
 is.mito <- grepl("^mt-", rowData(sce.brain)$Symbol)
+
 qcstats <- perCellQCMetrics(sce.brain, subsets = list(Mt = is.mito))
+
 qcstats
 ```
 
@@ -148,9 +157,10 @@ by indicating the `BPPARAM` argument in `bplapply`.
 
 ```{r}
 param <- MulticoreParam(workers = 1)
+
 bplapply(
     X = c(4, 9, 16, 25),
-    FUN = function(x) { sqrt(x) },
+    FUN = sqrt,
     BPPARAM = param
 )
 ```
@@ -166,10 +176,15 @@ calculations on a Unix system:
 
 ```{r parallel-mc, message = FALSE}
 library(MouseGastrulationData)
+
 library(scran)
+
 sce <- WTChimeraData(samples = 5, type = "processed")
+
 sce <- logNormCounts(sce)
+
 dec.mc <- modelGeneVar(sce, BPPARAM = MulticoreParam(2))
+
 dec.mc
 ```
 
@@ -190,6 +205,7 @@ details).
 ```{r batch-param, eval=FALSE}
 # 2 hours, 8 GB, 1 CPU per task, for 10 tasks.
 rs <- list(walltime = 7200, memory = 8000, ncpus = 1)
+
 bpp <- BatchtoolsParam(10, cluster = "slurm", resources = rs)
 ```
 
@@ -240,7 +256,9 @@ graph-based clustering using the Louvain algorithm for community detection:
 
 ```{r pca-and-cluster}
 library(bluster)
+
 sce <- runPCA(sce)
+
 colLabels(sce) <- clusterCells(sce, use.dimred = "PCA",
                                BLUSPARAM = NNGraphParam(cluster.fun = "louvain"))
 ```
@@ -256,10 +274,13 @@ approximation can be largely ignored.
 
 ```{r cluster-annoy}
 library(scran)
+
 library(BiocNeighbors)
+
 clusters <- clusterCells(sce, use.dimred = "PCA",
                          BLUSPARAM = NNGraphParam(cluster.fun = "louvain",
                                                   BNPARAM = AnnoyParam()))
+
 table(exact = colLabels(sce), approx = clusters)
 ```
 
@@ -267,6 +288,7 @@ The similarity of the two clusterings can be quantified by calculating the pairw
 
 ```{r check-annoy}
 rand <- pairwiseRand(colLabels(sce), clusters, mode = "index")
+
 stopifnot(rand > 0.8)
 ```
 
@@ -280,11 +302,17 @@ the biological conclusions.
 
 ```{r bad-approx}
 set.seed(1000)
+
 y1 <- matrix(rnorm(50000), nrow = 1000)
+
 y2 <- matrix(rnorm(50000), nrow = 1000)
+
 Y <- rbind(y1, y2)
+
 exact <- findKNN(Y, k = 20)
+
 approx <- findKNN(Y, k = 20, BNPARAM = AnnoyParam())
+
 mean(exact$index != approx$index)
 ```
 
@@ -307,11 +335,15 @@ library(BiocSingular)
 
 # As the name suggests, it is random, so we need to set the seed.
 set.seed(101000)
+
 r.out <- runPCA(sce, ncomponents = 20, BSPARAM = RandomParam())
+
 str(reducedDim(r.out, "PCA"))
 
 set.seed(101001)
+
 i.out <- runPCA(sce, ncomponents = 20, BSPARAM = IrlbaParam())
+
 str(reducedDim(i.out, "PCA"))
 ```
 
@@ -337,10 +369,13 @@ error in PC1 coordinates compared to the RSVD results.
 This code block calculates the exact PCA coordinates. Another thing to note: PC vectors are only identified up to a sign flip. We can see that the RSVD PC1 vector points in the 
 ```{r}
 set.seed(123)
+
 e.out <- runPCA(sce, ncomponents = 20, BSPARAM = ExactParam())
+
 str(reducedDim(e.out, "PCA"))
 
 reducedDim(e.out, "PCA")[1:5,1:3]
+
 reducedDim(r.out, "PCA")[1:5,1:3]
 ```
 
@@ -409,6 +444,7 @@ We then proceed by loading all required packages and installing the PBMC dataset
 
 ```{r seurat-data, eval = FALSE}
 library(SeuratData)
+
 InstallData("pbmc3k")
 ```
 
@@ -418,9 +454,13 @@ We then load the dataset as an `SeuratObject` and convert it to a
 ```{r seurat_singlecell, eval = FALSE}
 # Use PBMC3K from SeuratData
 pbmc <- LoadData(ds = "pbmc3k", type = "pbmc3k.final")
+
 pbmc <- UpdateSeuratObject(pbmc)
+
 pbmc
+
 pbmc.sce <- as.SingleCellExperiment(pbmc)
+
 pbmc.sce
 ```
 
@@ -429,8 +469,11 @@ we demonstrate this here on the wild-type chimera mouse gastrulation dataset.
 
 ```{r sce2sobj, message = FALSE, eval = FALSE}
 sce <- WTChimeraData(samples = 5, type = "processed")
+
 assay(sce) <- as.matrix(assay(sce))
+
 sce <- logNormCounts(sce)
+
 sce
 ```
 
@@ -439,7 +482,9 @@ the `as.Seurat` function.
 
 ```{r, warning = FALSE, eval = FALSE}
 sobj <- as.Seurat(sce)
+
 Idents(sobj) <- "celltype.mapped"
+
 sobj
 ```
 
@@ -477,6 +522,7 @@ package.
 ```{r read-h5ad, message = FALSE, warning = FALSE}
 example_h5ad <- system.file("extdata", "krumsiek11.h5ad",
                             package = "zellkonverter")
+
 readH5AD(example_h5ad)
 ```
 
@@ -486,6 +532,7 @@ chimera mouse gastrulation dataset.
 
 ```{r write-h5ad, message = FALSE}
 out.file <- tempfile(fileext = ".h5ad")
+
 writeH5AD(sce, file = out.file)
 ```
 
@@ -562,15 +609,18 @@ Use the function `system.time` to obtain the runtime of each job.
 
 sce.brain = logNormCounts(sce.brain)
 
-system.time({i.out <- runPCA(sce.brain, ncomponents = 20, 
+system.time({i.out <- runPCA(sce.brain, 
+                             ncomponents = 20, 
                              BSPARAM = ExactParam(),
                              BPPARAM = SerialParam())})
 
-system.time({i.out <- runPCA(sce.brain, ncomponents = 20, 
+system.time({i.out <- runPCA(sce.brain, 
+                             ncomponents = 20, 
                              BSPARAM = ExactParam(),
                              BPPARAM = MulticoreParam(workers = 2))})
 
-system.time({i.out <- runPCA(sce.brain, ncomponents = 20, 
+system.time({i.out <- runPCA(sce.brain, 
+                             ncomponents = 20, 
                              BSPARAM = ExactParam(),
                              BPPARAM = MulticoreParam(workers = 3))})
 
