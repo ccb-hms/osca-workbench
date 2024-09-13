@@ -120,7 +120,8 @@ Let's look at an example dataset. `WTChimeraData` comes from a study on mouse de
 
 
 ``` r
-sce <- WTChimeraData(samples=5)
+sce <- WTChimeraData(samples = 5)
+
 sce
 ```
 
@@ -223,6 +224,7 @@ You can access columns of the colData with the `$` accessor to quickly add cell-
 
 ``` r
 sce$my_sum <- colSums(counts(sce))
+
 colData(sce)[1:3,]
 ```
 
@@ -289,6 +291,7 @@ Here, we use `scater`'s `plotReducedDim` function as an example of how to extrac
 
 ``` r
 library(scater)
+
 plotReducedDim(sce, "pca.corrected.E8.5", colour_by = "celltype.mapped")
 ```
 
@@ -347,10 +350,12 @@ Combining two objects: The `MouseGastrulationData` package contains several data
 ::: solution
 
 ``` r
-sce <-  WTChimeraData(samples = 5)
+sce  <- WTChimeraData(samples = 5)
+
 sce6 <- WTChimeraData(samples = 6)
 
 combined_sce = cbind(sce, sce6)
+
 combined_sce
 ```
 
