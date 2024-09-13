@@ -119,7 +119,8 @@ knitr::include_graphics("http://bioconductor.org/books/release/OSCA.intro/images
 Let's look at an example dataset. `WTChimeraData` comes from a study on mouse development. We can assign one sample to a `SingleCellExperiment` object named `sce` like so:
 
 ```{r, message = FALSE, warning=FALSE}
-sce <- WTChimeraData(samples=5)
+sce <- WTChimeraData(samples = 5)
+
 sce
 ```
 
@@ -148,6 +149,7 @@ This is arguably the most fundamental part of the object that contains the count
 
 ```{r}
 names(assays(sce))
+
 counts(sce)[1:3, 1:3]
 ```
 
@@ -161,6 +163,7 @@ One can interact with them as usual, e.g., by extracting columns or adding addit
 
 ```{r}
 colData(sce)[1:3, 1:4]
+
 rowData(sce)[1:3, 1:2]
 ```
 
@@ -168,6 +171,7 @@ You can access columns of the colData with the `$` accessor to quickly add cell-
 
 ```{r}
 sce$my_sum <- colSums(counts(sce))
+
 colData(sce)[1:3,]
 ```
 
@@ -207,6 +211,7 @@ Here, we use `scater`'s `plotReducedDim` function as an example of how to extrac
 
 ```{r, message = FALSE, warning = FALSE}
 library(scater)
+
 plotReducedDim(sce, "pca.corrected.E8.5", colour_by = "celltype.mapped")
 ```
 
@@ -247,10 +252,12 @@ Combining two objects: The `MouseGastrulationData` package contains several data
 
 ::: solution
 ```{r message = FALSE, warning=FALSE}
-sce <-  WTChimeraData(samples = 5)
+sce  <- WTChimeraData(samples = 5)
+
 sce6 <- WTChimeraData(samples = 6)
 
 combined_sce = cbind(sce, sce6)
+
 combined_sce
 ```
 :::
