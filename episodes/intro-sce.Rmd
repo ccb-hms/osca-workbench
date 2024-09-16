@@ -130,7 +130,8 @@ Depending on the object, slots can contain different types of data (e.g., numeri
 
 :::: challenge
 
-Try to get the data for a different sample from  `WTChimeraData` (other than the fifth one)
+Try to get the data for a different sample from  `WTChimeraData` (other than the fifth one).
+
 ::: solution
 
 Here we assign the sixth sample to `sce6`:
@@ -140,6 +141,7 @@ sce6 <- WTChimeraData(samples = 6)
 
 sce6
 ```
+
 :::
   
 ::::
@@ -252,6 +254,7 @@ my_sce
 Combining two objects: The `MouseGastrulationData` package contains several datasets. Download sample 6 of the chimera experiment by running `sce6 <- WTChimeraData(samples=6)`. Use the `cbind` function to combine the new data with the `sce` object created before. 
 
 ::: solution
+
 ```{r message = FALSE, warning=FALSE}
 sce  <- WTChimeraData(samples = 5)
 
@@ -261,6 +264,7 @@ combined_sce = cbind(sce, sce6)
 
 combined_sce
 ```
+
 :::
 
 
