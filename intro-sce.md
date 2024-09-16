@@ -146,7 +146,8 @@ Depending on the object, slots can contain different types of data (e.g., numeri
 
 :::: challenge
 
-Try to get the data for a different sample from  `WTChimeraData` (other than the fifth one)
+Try to get the data for a different sample from  `WTChimeraData` (other than the fifth one).
+
 ::: solution
 
 Here we assign the sixth sample to `sce6`:
@@ -157,6 +158,7 @@ sce6 <- WTChimeraData(samples = 6)
 
 sce6
 ```
+
 :::
   
 ::::
@@ -351,6 +353,7 @@ Combining two objects: The `MouseGastrulationData` package contains several data
 
 ::: solution
 
+
 ``` r
 sce  <- WTChimeraData(samples = 5)
 
@@ -375,6 +378,7 @@ reducedDimNames(2): pca.corrected.E7.5 pca.corrected.E8.5
 mainExpName: NULL
 altExpNames(0):
 ```
+
 :::
 
 
