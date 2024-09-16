@@ -342,12 +342,30 @@ sce
 
 :::: challenge
 
-Some sophisticated experiments perform additional steps so that they can estimate size factors from so-called "spike-ins". Judging by the name, what do you think "spike-ins" are, and what additional steps are required to use them?
+Fill in the blanks for normalization that uses simpler library size factors instead of deconvolution.
+
+```{r eval=FALSE}
+____ <- ____SizeFactors(sce)
+
+sizeFactors(sce) <- ____
+
+sce <- ____(sce)
+
+sce
+```
 
 ::: solution
+```{r eval=FALSE}
+lib.sf <- librarySizeFactors(sce)
 
-Spike-ins are deliberately-introduced exogeneous RNA from an exotic or synthetic source at a known concentration. This provides a known signal to normalize to. Exotic or synthetic RNA (e.g. soil bacteria RNA in a study of human cells) is used in order to avoid confusing spike-in RNA with sample RNA. This has the obvious advantage of accounting for cell-wise variation, but adds additional sample-preparation work.
+sizeFactors(sce) <- lib.sf
 
+sce <- logNormCounts(sce)
+
+sce
+```
+
+If you run this chunk, make sure to go back and re-run the normalization with deconvolution normalization if you want your work to align with the rest of this episode.
 :::
 
 ::::
@@ -385,19 +403,13 @@ The blue line represents the uninteresting "technical" variance for any given ge
 
 ### Selecting highly variable genes
 
-The next step is to select the subset of HVGs to use in downstream analyses. A larger set will assure that we do not remove important genes, at the cost of potentially increasing noise. Typically, we restrict ourselves to the top $n$ genes, here we chose $n = 1000$, but this choice should be guided by prior biological knowledge; for instance, we may expect that only about 10% of genes to be differentially expressed across our cell populations and hence select 10% of genes as higly variable (e.g., by setting `prop = 0.1`).
+The next step is to select the subset of HVGs to use in downstream analyses. A larger set will assure that we do not remove important genes, at the cost of potentially increasing noise. Typically, we restrict ourselves to the top $n$ genes, here we chose $n = 1000$, but this choice should be guided by prior biological knowledge; for instance, we may expect that only about 10% of genes to be differentially expressed across our cell populations and hence select 10% of genes as highly variable (e.g., by setting `prop = 0.1`).
 
 ```{r}
 hvg.sce.var <- getTopHVGs(dec.sce, n = 1000)
 
 head(hvg.sce.var)
 ```
-
-:::: challenge
-
-Run an internet search for some of the most highly variable genes we've identified here. See if you can identify the type of protein they produce or what sort of process they're involved in. Do they make biological sense to you?
-
-::::
 
 ## Dimensionality Reduction
 
@@ -582,6 +594,29 @@ First subset the object to include only highly variable genes (`sce2 <- sce[hvg.
 The package `DropletTestFiles` includes the raw output from Cell Ranger of the peripheral blood mononuclear cell (PBMC) dataset from 10X Genomics, publicly available from the 10X Genomics website. Repeat the analysis of this vignette using those data.
 
 ::::::::::::::::::::::::::::::::::
+
+
+:::: challenge
+
+#### Extension challenge 1: Spike-ins
+
+Some sophisticated experiments perform additional steps so that they can estimate size factors from so-called "spike-ins". Judging by the name, what do you think "spike-ins" are, and what additional steps are required to use them?
+
+::: solution
+
+Spike-ins are deliberately-introduced exogeneous RNA from an exotic or synthetic source at a known concentration. This provides a known signal to normalize against. Exotic (e.g. soil bacteria RNA in a study of human cells) or synthetic RNA is used in order to avoid confusing spike-in RNA with sample RNA. This has the obvious advantage of accounting for cell-wise variation, but can substantially increase the amount of sample-preparation work.
+
+:::
+
+::::
+
+:::: challenge
+
+#### Extension challenge 2: Background research
+
+Run an internet search for some of the most highly variable genes we identified in the feature selection section. See if you can identify the type of protein they produce or what sort of process they're involved in. Do they make biological sense to you?
+
+::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
