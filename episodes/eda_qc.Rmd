@@ -411,6 +411,30 @@ hvg.sce.var <- getTopHVGs(dec.sce, n = 1000)
 head(hvg.sce.var)
 ```
 
+:::: challenge
+
+Imagine you have data that were prepared by three people with varying level of experience, which leads to varying technical noise. How can you account for this blocking structure when selecting HVGs?
+
+::: solution
+Use the `block` argument in the call to `modelGeneVar()` like so:
+
+```{r eval=FALSE}
+
+sce$experimenter = factor(sample(c("Perry", "Merry", "Gary"),
+                          replace = TRUE, 
+                          size = ncol(sce)))
+
+blocked_variance_df = modelGeneVar(sce, 
+                                   block = sce$experimenter)
+
+```
+
+Blocked models are evaluated on each block separately then combined. If the experimental groups are related in some structured way, it may be preferable to use the `design` argument. See `?modelGeneVar` for more detail.
+
+:::
+
+:::
+
 ## Dimensionality Reduction
 
 Many scRNA-seq analysis procedures involve comparing cells based on their expression values across multiple genes. For example, clustering aims to identify cells with similar transcriptomic profiles by computing Euclidean distances across genes. In these applications, each individual gene represents a dimension of the data, hence we can think of the data as "living" in a ten-thousand-dimensional space.
