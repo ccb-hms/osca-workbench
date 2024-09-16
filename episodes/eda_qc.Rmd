@@ -98,6 +98,8 @@ median(bcrank$total)
 ```
 
 Just 2! Clearly many barcodes produce practically no output.
+
+<!-- This is a direct application challenge of of  "It is likely that most of these droplets are empty and are capturing only ambient or background RNA" and a synthesis challenge of the previous episode where they learned to access columns of DataFrames. --> 
 :::
 
 ::::
@@ -197,6 +199,7 @@ or we could look at the distribution of such metrics and use a data adaptive thr
 
 ```{r}
 summary(df$detected)
+
 summary(df$subsets_Mito_percent)
 ```
 
@@ -212,14 +215,17 @@ sce$discard <- reasons$discard
 
 :::: challenge
 
-We've removed empty cells and low-quality cells to be discarded. How many cells are we left with at this point?
+Maybe our sample preparation was poor and we want the QC to be more strict. How could we change the set the QC filtering to use 4 MADs as the threshold for outlier calling?
 
 ::: solution
+You set `nmads = 4` like so:
+
 ```{r}
-table(sce$discard)
+reasons_strict <- perCellQCFilters(df, sub.fields = "subsets_Mito_percent", nmads = 4)
 ```
 
-There are `r unname(table(sce$discard)[1])` cells that *haven't* been flagged to be discarded, so that's how many we have left.
+You would then need to reassign the `discard` column as well, but we'll stick with the 3 MADs default for now.
+<!-- This is a direct application of what was just shown -->
 :::
 
 ::::
