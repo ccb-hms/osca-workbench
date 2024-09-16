@@ -118,6 +118,8 @@ median(bcrank$total)
 ```
 
 Just 2! Clearly many barcodes produce practically no output.
+
+<!-- This is a direct application challenge of of  "It is likely that most of these droplets are empty and are capturing only ambient or background RNA" and a synthesis challenge of the previous episode where they learned to access columns of DataFrames. --> 
 :::
 
 ::::
@@ -339,21 +341,18 @@ sce$discard <- reasons$discard
 
 :::: challenge
 
-We've removed empty cells and low-quality cells to be discarded. How many cells are we left with at this point?
+Maybe our sample preparation was poor and we want the QC to be more strict. How could we change the set the QC filtering to use 4 MADs as the threshold for outlier calling?
 
 ::: solution
+You set `nmads = 4` like so:
+
 
 ``` r
-table(sce$discard)
+reasons_strict <- perCellQCFilters(df, sub.fields = "subsets_Mito_percent", nmads = 4)
 ```
 
-``` output
-
-FALSE  TRUE 
- 2437   694 
-```
-
-There are 2437 cells that *haven't* been flagged to be discarded, so that's how many we have left.
+You would then need to reassign the `discard` column as well, but we'll stick with the 3 MADs default for now.
+<!-- This is a direct application of what was just shown -->
 :::
 
 ::::
@@ -543,12 +542,32 @@ altExpNames(0):
 
 :::: challenge
 
-Some sophisticated experiments perform additional steps so that they can estimate size factors from so-called "spike-ins". Judging by the name, what do you think "spike-ins" are, and what additional steps are required to use them?
+Fill in the blanks for normalization that uses simpler library size factors instead of deconvolution.
+
+
+``` r
+____ <- ____SizeFactors(sce)
+
+sizeFactors(sce) <- ____
+
+sce <- ____(sce)
+
+sce
+```
 
 ::: solution
 
-Spike-ins are deliberately-introduced exogeneous RNA from an exotic or synthetic source at a known concentration. This provides a known signal to normalize to. Exotic or synthetic RNA (e.g. soil bacteria RNA in a study of human cells) is used in order to avoid confusing spike-in RNA with sample RNA. This has the obvious advantage of accounting for cell-wise variation, but adds additional sample-preparation work.
+``` r
+lib.sf <- librarySizeFactors(sce)
 
+sizeFactors(sce) <- lib.sf
+
+sce <- logNormCounts(sce)
+
+sce
+```
+
+If you run this chunk, make sure to go back and re-run the normalization with deconvolution normalization if you want your work to align with the rest of this episode.
 :::
 
 ::::
@@ -582,13 +601,13 @@ ggplot(mean_var_df, aes(mean, var)) +
          y = "Variance of log-expression")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
 
 The blue line represents the uninteresting "technical" variance for any given gene abundance. The genes with a lot of additional variance exhibit interesting "biological" variation.
 
 ### Selecting highly variable genes
 
-The next step is to select the subset of HVGs to use in downstream analyses. A larger set will assure that we do not remove important genes, at the cost of potentially increasing noise. Typically, we restrict ourselves to the top $n$ genes, here we chose $n = 1000$, but this choice should be guided by prior biological knowledge; for instance, we may expect that only about 10% of genes to be differentially expressed across our cell populations and hence select 10% of genes as higly variable (e.g., by setting `prop = 0.1`).
+The next step is to select the subset of HVGs to use in downstream analyses. A larger set will assure that we do not remove important genes, at the cost of potentially increasing noise. Typically, we restrict ourselves to the top $n$ genes, here we chose $n = 1000$, but this choice should be guided by prior biological knowledge; for instance, we may expect that only about 10% of genes to be differentially expressed across our cell populations and hence select 10% of genes as highly variable (e.g., by setting `prop = 0.1`).
 
 
 ``` r
@@ -604,9 +623,26 @@ head(hvg.sce.var)
 
 :::: challenge
 
-Run an internet search for some of the most highly variable genes we've identified here. See if you can identify the type of protein they produce or what sort of process they're involved in. Do they make biological sense to you?
+Imagine you have data that were prepared by three people with varying level of experience, which leads to varying technical noise. How can you account for this blocking structure when selecting HVGs?
 
-::::
+::: solution
+Use the `block` argument in the call to `modelGeneVar()` like so:
+
+
+``` r
+sce$experimenter = factor(sample(c("Perry", "Merry", "Gary"),
+                          replace = TRUE, 
+                          size = ncol(sce)))
+
+blocked_variance_df = modelGeneVar(sce, 
+                                   block = sce$experimenter)
+```
+
+Blocked models are evaluated on each block separately then combined. If the experimental groups are related in some structured way, it may be preferable to use the `design` argument. See `?modelGeneVar` for more detail.
+
+:::
+
+:::
 
 ## Dimensionality Reduction
 
@@ -658,7 +694,7 @@ ggplot(pct_var_df,
     labs(y = "Variance explained (%)")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
 
 You can see the first two PCs capture the largest amount of variation, but in this case you have to take the first 8 PCs before you've captured 50% of the total.
 
@@ -669,7 +705,7 @@ And we can of course visualize the first 2-3 components, perhaps color-coding ea
 plotPCA(sce, colour_by = "sum")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
 
 It can be helpful to compare pairs of PCs. This can be done with the `ncomponents` argument to `plotReducedDim()`. For example if one batch or cell type splits off on a particular PC, this can help visualize the effect of that.
 
@@ -678,7 +714,7 @@ It can be helpful to compare pairs of PCs. This can be done with the `ncomponent
 plotReducedDim(sce, dimred = "PCA", ncomponents = 3)
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
 
 ### Non-linear methods
 
@@ -695,7 +731,7 @@ sce <- runTSNE(sce, dimred = "PCA")
 plotTSNE(sce)
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
 
 
 ``` r
@@ -706,7 +742,7 @@ sce <- runUMAP(sce, dimred = "PCA")
 plotUMAP(sce)
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-29-1.png" style="display: block; margin: auto;" />
 
 It is easy to over-interpret t-SNE and UMAP plots. We note that the relative sizes and positions of the visual clusters may be misleading, as they tend to inflate dense clusters and compress sparse ones, such that we cannot use the size as a measure of subpopulation heterogeneity. 
 
@@ -793,7 +829,7 @@ sce$DoubletScore <- dbl.dens
 plotTSNE(sce, colour_by = "DoubletScore")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-31-1.png" style="display: block; margin: auto;" />
 
 We can explicitly convert this into doublet calls by identifying large outliers for the score within each sample. Here we use the "griffiths" method to do so.
 
@@ -816,13 +852,13 @@ sce$doublet <- dbl.calls
 plotColData(sce, y = "DoubletScore", colour_by = "doublet")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-29-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-32-1.png" style="display: block; margin: auto;" />
 
 ``` r
 plotTSNE(sce, colour_by = "doublet")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-29-2.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-32-2.png" style="display: block; margin: auto;" />
 
 One way to determine whether a cell is in a real transient state or it is a doublet is to check the number of detected genes and total UMI counts.
 
@@ -831,13 +867,13 @@ One way to determine whether a cell is in a real transient state or it is a doub
 plotColData(sce, "detected", "sum", colour_by = "DoubletScore")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-30-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-33-1.png" style="display: block; margin: auto;" />
 
 ``` r
 plotColData(sce, "detected", "sum", colour_by = "doublet")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-30-2.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-33-2.png" style="display: block; margin: auto;" />
 
 In this case, we only have a few doublets at the periphery of some clusters. It could be fine to keep the doublets in the analysis, but it may be safer to discard them to avoid biases in downstream analysis (e.g., differential expression).
 
@@ -872,6 +908,29 @@ First subset the object to include only highly variable genes (`sce2 <- sce[hvg.
 The package `DropletTestFiles` includes the raw output from Cell Ranger of the peripheral blood mononuclear cell (PBMC) dataset from 10X Genomics, publicly available from the 10X Genomics website. Repeat the analysis of this vignette using those data.
 
 ::::::::::::::::::::::::::::::::::
+
+
+:::: challenge
+
+#### Extension challenge 1: Spike-ins
+
+Some sophisticated experiments perform additional steps so that they can estimate size factors from so-called "spike-ins". Judging by the name, what do you think "spike-ins" are, and what additional steps are required to use them?
+
+::: solution
+
+Spike-ins are deliberately-introduced exogeneous RNA from an exotic or synthetic source at a known concentration. This provides a known signal to normalize against. Exotic (e.g. soil bacteria RNA in a study of human cells) or synthetic RNA is used in order to avoid confusing spike-in RNA with sample RNA. This has the obvious advantage of accounting for cell-wise variation, but can substantially increase the amount of sample-preparation work.
+
+:::
+
+::::
+
+:::: challenge
+
+#### Extension challenge 2: Background research
+
+Run an internet search for some of the most highly variable genes we identified in the feature selection section. See if you can identify the type of protein they produce or what sort of process they're involved in. Do they make biological sense to you?
+
+::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
