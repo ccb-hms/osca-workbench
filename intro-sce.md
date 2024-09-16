@@ -144,19 +144,21 @@ We can think of this (and other) class as a _container_, that contains several d
 
 Depending on the object, slots can contain different types of data (e.g., numeric matrices, lists, etc.). Here we'll review the main slots of the SingleCellExperiment class as well as their getter/setter methods.
 
-
 :::: challenge
 
-Before `SingleCellExperiment`, coders working with single cell data would sometimes keep all of these components in separate objects e.g. a matrix of counts, a data.frame of sample metadata, a data.frame of gene annotations and so on. What are the main disadvantages of this sort of "from scratch" approach?
-
+Try to get the data for a different sample from  `WTChimeraData` (other than the fifth one)
 ::: solution
 
-1. You have to do tons of book-keeping! If you perform a QC step that removes dead cells, now you also have to remember to remove that same set of cells from the cell-wise metadata. Dropped un-expressed genes? Don't forget to filter the gene metadata table too. 
+Here we assign the sixth sample to `sce6`:
 
-2. All the downstream steps have to be "from scratch" as well! All the data munging, analysis, and visualization code has to be customized to the idiosyncrasies of your input. Agh!
 
+``` r
+sce6 <- WTChimeraData(samples = 6)
+
+sce6
+```
 :::
-
+  
 ::::
 
 ### `assays`
@@ -295,7 +297,7 @@ library(scater)
 plotReducedDim(sce, "pca.corrected.E8.5", colour_by = "celltype.mapped")
 ```
 
-<img src="fig/intro-sce-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+<img src="fig/intro-sce-rendered-unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
 
 :::::::::::::::::::::::::::::::::: challenge
 
@@ -377,6 +379,22 @@ altExpNames(0):
 
 
 :::::::::::::::::::::::::::::::::::::::::::::
+
+:::: challenge
+
+#### Extension Challenge 1
+
+Before `SingleCellExperiment`, coders working with single cell data would sometimes keep all of these components in separate objects e.g. a matrix of counts, a data.frame of sample metadata, a data.frame of gene annotations and so on. What are the main disadvantages of this sort of "from scratch" approach?
+
+::: solution
+
+1. You have to do tons of book-keeping! If you perform a QC step that removes dead cells, now you also have to remember to remove that same set of cells from the cell-wise metadata. Dropped un-expressed genes? Don't forget to filter the gene metadata table too. 
+
+2. All the downstream steps have to be "from scratch" as well! All the data munging, analysis, and visualization code has to be customized to the idiosyncrasies of your input. Agh!
+
+:::
+
+::::
 
 :::::::::::::: checklist
 
