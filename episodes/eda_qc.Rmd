@@ -183,8 +183,6 @@ is.mito <- which(chr.loc == "MT")
 We can use the `scuttle` package to compute a set of quality control metrics, specifying that we want to use the mitochondrial genes as a special set of features.
 
 ```{r}
-
-
 df <- perCellQCMetrics(sce, subsets = list(Mito = is.mito))
 
 colData(sce) <- cbind(colData(sce), df)
@@ -196,6 +194,7 @@ Now that we have computed the metrics, we have to decide on thresholds to define
 
 ```{r}
 table(df$sum < 10000)
+
 table(df$subsets_Mito_percent > 10)
 ```
 
@@ -643,6 +642,91 @@ You can see that we get largely similar results, though for clusters 3 and 9 the
 #### Exercise 2: PBMC Data
 
 The package `DropletTestFiles` includes the raw output from Cell Ranger of the peripheral blood mononuclear cell (PBMC) dataset from 10X Genomics, publicly available from the 10X Genomics website. Repeat the analysis of this vignette using those data.
+
+::: solution
+
+The first few lines here read the data from ExperimentHub and the mitochondrial genes are identified by gene symbols in the row data. Otherwise the steps are the same:
+
+```{r eval = FALSE}
+library(DropletTestFiles)
+
+set.seed(100)
+
+listTestFiles(dataset="tenx-3.1.0-5k_pbmc_protein_v3") # look up the remote data path of the raw data
+
+raw_rdatapath <- "DropletTestFiles/tenx-3.1.0-5k_pbmc_protein_v3/1.0.0/raw.tar.gz"
+
+local_path <- getTestFile(raw_rdatapath, prefix = FALSE)
+
+file.copy(local_path, 
+          paste0(local_path, ".tar.gz"))
+
+untar(paste0(local_path, ".tar.gz"),
+      exdir = dirname(local_path))
+
+sce <- read10xCounts(file.path(dirname(local_path), "raw_feature_bc_matrix/"))
+
+e.out <- emptyDrops(counts(sce))
+
+sce <- sce[,which(e.out$FDR <= 0.001)]
+
+# Thankfully the data come with gene symbols, which we can use to identify mitochondrial genes:
+is.mito = grepl("^MT-", rowData(sce)$Symbol) 
+
+# QC metrics ----
+df <- perCellQCMetrics(sce, subsets = list(Mito = is.mito))
+
+colData(sce) <- cbind(colData(sce), df)
+
+colData(sce)
+
+reasons <- perCellQCFilters(df, sub.fields = "subsets_Mito_percent")
+
+reasons
+
+sce$discard <- reasons$discard
+
+sce <- sce[,!sce$discard]
+
+# Normalization ----
+clust <- quickCluster(sce) 
+
+table(clust)
+
+deconv.sf <- calculateSumFactors(sce, cluster = clust)
+
+sizeFactors(sce) <- deconv.sf
+
+sce <- logNormCounts(sce)
+
+# Feature selection ----
+dec.sce <- modelGeneVar(sce)
+
+hvg.sce.var <- getTopHVGs(dec.sce, n = 1000)
+
+# Dimensionality reduction ----
+sce <- runPCA(sce, subset_row = hvg.sce.var)
+
+sce <- runTSNE(sce, dimred = "PCA")
+
+sce <- runUMAP(sce, dimred = "PCA")
+
+# Doublet finding ----
+dbl.dens <- computeDoubletDensity(sce, subset.row = hvg.sce.var,
+                                  d = ncol(reducedDim(sce)))
+
+sce$DoubletScore <- dbl.dens
+
+dbl.calls <- doubletThresholding(data.frame(score = dbl.dens),
+                                 method = "griffiths",
+                                 returnType = "call")
+
+
+sce$doublet <- dbl.calls
+
+```
+
+:::
 
 ::::::::::::::::::::::::::::::::::
 
