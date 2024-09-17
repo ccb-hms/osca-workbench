@@ -45,8 +45,18 @@ We start our analysis by selecting only sample 5, which contains the injected ce
 
 ```{r, message = FALSE}
 library(MouseGastrulationData)
+library(DropletUtils)
+library(ggplot2)
+library(EnsDb.Mmusculus.v79)
+library(scuttle)
+library(scater)
+library(scran)
+library(scDblFinder)
+
 sce <- WTChimeraData(samples = 5, type = "raw")
+
 sce <- sce[[1]]
+
 sce
 ```
 
@@ -57,9 +67,6 @@ This is the same data we examined in the previous lesson.
 From the experiment, we expect to have only a few thousand cells, while we can see that we have data for more than 500,000 droplets. It is likely that most of these droplets are empty and are capturing only ambient or background RNA.
 
 ```{r}
-library(DropletUtils)
-library(ggplot2)
-
 bcrank <- barcodeRanks(counts(sce))
 
 # Only showing unique points for plotting speed.
@@ -121,6 +128,7 @@ e.out <- emptyDrops(counts(sce))
 summary(e.out$FDR <= 0.001)
 
 sce <- sce[,which(e.out$FDR <= 0.001)]
+
 sce
 ```
 
@@ -163,10 +171,6 @@ In particular, high proportions of mitochondrial genes are indicative of poor-qu
 
 First, we need to identify mitochondrial genes. We use the available `EnsDb` mouse package available in Bioconductor, but a more updated version of Ensembl can be used through the `AnnotationHub` or `biomaRt` packages.
 
-```{r, message=FALSE}
-library(EnsDb.Mmusculus.v79)
-```
-
 ```{r}
 chr.loc <- mapIds(EnsDb.Mmusculus.v79,
                   keys    = rownames(sce),
@@ -179,8 +183,6 @@ is.mito <- which(chr.loc == "MT")
 We can use the `scuttle` package to compute a set of quality control metrics, specifying that we want to use the mitochondrial genes as a special set of features.
 
 ```{r}
-library(scuttle)
-
 df <- perCellQCMetrics(sce, subsets = list(Mito = is.mito))
 
 colData(sce) <- cbind(colData(sce), df)
@@ -192,6 +194,7 @@ Now that we have computed the metrics, we have to decide on thresholds to define
 
 ```{r}
 table(df$sum < 10000)
+
 table(df$subsets_Mito_percent > 10)
 ```
 
@@ -240,8 +243,6 @@ Moreover, if there are too many discarded cells, further exploration might be
 needed.
 
 ```{r}
-library(scater)
-
 plotColData(sce, y = "sum", colour_by = "discard") +
     labs(title = "Total count")
 
@@ -284,7 +285,7 @@ lib.sf <- librarySizeFactors(sce)
 
 summary(lib.sf)
 
-sf_df = data.frame(size_factor = lib.sf)
+sf_df <- data.frame(size_factor = lib.sf)
 
 ggplot(sf_df, aes(size_factor)) + 
     geom_histogram() + 
@@ -304,8 +305,6 @@ We use a pre-clustering step: cells in each cluster are normalized separately an
 Note that while we focus on normalization by deconvolution here, many other methods have been proposed and lead to similar performance (see [Borella 2022](learners/reference.md#litref) for a comparative review).
 
 ```{r}
-library(scran)
-
 set.seed(100)
 
 clust <- quickCluster(sce) 
@@ -318,9 +317,9 @@ deconv.sf <- calculateSumFactors(sce, cluster = clust)
 
 summary(deconv.sf)
 
-sf_df$deconv_sf = deconv.sf
+sf_df$deconv_sf <- deconv.sf
 
-sf_df$clust = clust
+sf_df$clust <- clust
 
 ggplot(sf_df, aes(size_factor, deconv_sf)) + 
     geom_abline() + 
@@ -458,8 +457,8 @@ sce
 By default, `runPCA` computes the first 50 principal components. We can check how much original variability they explain. These values are stored in the attributes of the `percentVar` reducedDim:
 
 ```{r}
-pct_var_df = data.frame(PC = 1:50,
-                        pct_var = attr(reducedDim(sce), "percentVar"))
+pct_var_df <- data.frame(PC = 1:50,
+                         pct_var = attr(reducedDim(sce), "percentVar"))
 
 ggplot(pct_var_df,
        aes(PC, pct_var)) + 
@@ -518,12 +517,32 @@ When using them, it is important to consider that they are stochastic methods th
 
 :::: challenge
 
-Can dimensionality reduction techniques provide a perfectly accurate representation of the data?
+Re-run the UMAP for the same sample starting from the pre-processed data (i.e. not `type = "raw"`). What looks the same? What looks different?
 
 ::: solution
-Mathematically, this would require the data to fall on a two-dimensional plane (for linear methods like PCA) or a smooth 2D manifold (for methods like UMAP). You can be confident that this will never happen in real-world data, so the reduction from ~2500-dimensional gene space to two-dimensional plot space always involves some degree of information loss.
-:::
 
+```{r}
+set.seed(111)
+
+sce5 <- WTChimeraData(samples = 5) 
+
+sce5 <- logNormCounts(sce5)
+
+sce5 <- runPCA(sce5)
+
+sce5 <- runUMAP(sce5)
+
+plotUMAP(sce5)
+```
+
+Given that it's the same cells processed through a very similar pipeline, the
+result should look very similar. There's a slight difference in the total number
+of cells, probably because the official processing pipeline didn't use the exact
+same random seed / QC arguments as us.
+
+But you'll notice that even though the shape of the structures are similar, they look slightly distorted. If the upstream QC parameters change, the downstream output visualizations will also change.
+
+:::
 ::::
 
 ## Doublet identification
@@ -550,8 +569,6 @@ Intuitively, if a "cell" is surrounded only by simulated doublets is very likely
 This approach is implemented below using the `scDblFinder` library. We then visualize the scores in a t-SNE plot.
 
 ```{r}
-library(scDblFinder)
-
 set.seed(100)
 
 dbl.dens <- computeDoubletDensity(sce, subset.row = hvg.sce.var,
@@ -595,30 +612,123 @@ In this case, we only have a few doublets at the periphery of some clusters. It 
 
 Here we used the deconvolution method implemented in `scran` based on a previous clustering step. Use the `calculateSumFactors` to compute the size factors without considering a preliminary clustering. Compare the resulting size factors via a scatter plot. How do the results change? What are the risks of not including clustering information?
 
+::: solution
+
+```{r}
+deconv.sf2 <- calculateSumFactors(sce) # dropped `cluster = clust` here
+
+summary(deconv.sf2)
+
+sf_df$deconv_sf2 <- deconv.sf2
+
+sf_df$clust <- clust
+
+ggplot(sf_df, aes(deconv_sf, deconv_sf2)) + 
+    geom_abline() + 
+    geom_point(aes(color = clust)) +
+    scale_x_log10() + 
+    scale_y_log10() + 
+    facet_wrap(vars(clust))
+```
+
+You can see that we get largely similar results, though for clusters 3 and 9 there's a slight deviation from the `y=x` relationship because these clusters (which are fairly distinct from the other clusters) are now being pooled with cells from other clusters. This slightly violates the "majority non-DE genes" assumption.
+
+:::
+
 :::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::: challenge
 
-#### Exercise 2: Dimensionality Reduction
-
-An alternative to PCA for dimensionality reduction is the [NewWave method](https://bioconductor.org/packages/release/bioc/html/NewWave.html). Apply the NewWave method to the SingleCellExperiment object and visually compare the first two dimensions with the first two principal components. What are the major differences in terms of results?
-
-:::::::::::::: hint
-
-First subset the object to include only highly variable genes (`sce2 <- sce[hvg.sce.var,]`) and then apply the `NewWave` function to the new object setting `K = 10` to obtain the first 10 dimensions.
-
-:::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::: challenge
-
-#### Exercise 3: PBMC Data
+#### Exercise 2: PBMC Data
 
 The package `DropletTestFiles` includes the raw output from Cell Ranger of the peripheral blood mononuclear cell (PBMC) dataset from 10X Genomics, publicly available from the 10X Genomics website. Repeat the analysis of this vignette using those data.
 
-::::::::::::::::::::::::::::::::::
+::: solution
 
+The first few lines here read the data from ExperimentHub and the mitochondrial genes are identified by gene symbols in the row data. Otherwise the steps are the same:
+
+```{r eval = FALSE}
+library(DropletTestFiles)
+
+set.seed(100)
+
+listTestFiles(dataset="tenx-3.1.0-5k_pbmc_protein_v3") # look up the remote data path of the raw data
+
+raw_rdatapath <- "DropletTestFiles/tenx-3.1.0-5k_pbmc_protein_v3/1.0.0/raw.tar.gz"
+
+local_path <- getTestFile(raw_rdatapath, prefix = FALSE)
+
+file.copy(local_path, 
+          paste0(local_path, ".tar.gz"))
+
+untar(paste0(local_path, ".tar.gz"),
+      exdir = dirname(local_path))
+
+sce <- read10xCounts(file.path(dirname(local_path), "raw_feature_bc_matrix/"))
+
+e.out <- emptyDrops(counts(sce))
+
+sce <- sce[,which(e.out$FDR <= 0.001)]
+
+# Thankfully the data come with gene symbols, which we can use to identify mitochondrial genes:
+is.mito = grepl("^MT-", rowData(sce)$Symbol) 
+
+# QC metrics ----
+df <- perCellQCMetrics(sce, subsets = list(Mito = is.mito))
+
+colData(sce) <- cbind(colData(sce), df)
+
+colData(sce)
+
+reasons <- perCellQCFilters(df, sub.fields = "subsets_Mito_percent")
+
+reasons
+
+sce$discard <- reasons$discard
+
+sce <- sce[,!sce$discard]
+
+# Normalization ----
+clust <- quickCluster(sce) 
+
+table(clust)
+
+deconv.sf <- calculateSumFactors(sce, cluster = clust)
+
+sizeFactors(sce) <- deconv.sf
+
+sce <- logNormCounts(sce)
+
+# Feature selection ----
+dec.sce <- modelGeneVar(sce)
+
+hvg.sce.var <- getTopHVGs(dec.sce, n = 1000)
+
+# Dimensionality reduction ----
+sce <- runPCA(sce, subset_row = hvg.sce.var)
+
+sce <- runTSNE(sce, dimred = "PCA")
+
+sce <- runUMAP(sce, dimred = "PCA")
+
+# Doublet finding ----
+dbl.dens <- computeDoubletDensity(sce, subset.row = hvg.sce.var,
+                                  d = ncol(reducedDim(sce)))
+
+sce$DoubletScore <- dbl.dens
+
+dbl.calls <- doubletThresholding(data.frame(score = dbl.dens),
+                                 method = "griffiths",
+                                 returnType = "call")
+
+
+sce$doublet <- dbl.calls
+
+```
+
+:::
+
+::::::::::::::::::::::::::::::::::
 
 :::: challenge
 
@@ -639,6 +749,18 @@ Spike-ins are deliberately-introduced exogeneous RNA from an exotic or synthetic
 #### Extension challenge 2: Background research
 
 Run an internet search for some of the most highly variable genes we identified in the feature selection section. See if you can identify the type of protein they produce or what sort of process they're involved in. Do they make biological sense to you?
+
+::::
+
+:::: challenge
+
+#### Extension challenge 3: Reduced dimensionality representations
+
+Can dimensionality reduction techniques provide a perfectly accurate representation of the data?
+
+::: solution
+Mathematically, this would require the data to fall on a two-dimensional plane (for linear methods like PCA) or a smooth 2D manifold (for methods like UMAP). You can be confident that this will never happen in real-world data, so the reduction from ~2500-dimensional gene space to two-dimensional plot space always involves some degree of information loss.
+:::
 
 ::::
 
