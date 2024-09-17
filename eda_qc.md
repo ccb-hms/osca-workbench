@@ -41,8 +41,18 @@ We start our analysis by selecting only sample 5, which contains the injected ce
 
 ``` r
 library(MouseGastrulationData)
+library(DropletUtils)
+library(ggplot2)
+library(EnsDb.Mmusculus.v79)
+library(scuttle)
+library(scater)
+library(scran)
+library(scDblFinder)
+
 sce <- WTChimeraData(samples = 5, type = "raw")
+
 sce <- sce[[1]]
+
 sce
 ```
 
@@ -70,9 +80,6 @@ From the experiment, we expect to have only a few thousand cells, while we can s
 
 
 ``` r
-library(DropletUtils)
-library(ggplot2)
-
 bcrank <- barcodeRanks(counts(sce))
 
 # Only showing unique points for plotting speed.
@@ -149,6 +156,7 @@ logical    6184    3131  513239
 
 ``` r
 sce <- sce[,which(e.out$FDR <= 0.001)]
+
 sce
 ```
 
@@ -209,11 +217,6 @@ First, we need to identify mitochondrial genes. We use the available `EnsDb` mou
 
 
 ``` r
-library(EnsDb.Mmusculus.v79)
-```
-
-
-``` r
 chr.loc <- mapIds(EnsDb.Mmusculus.v79,
                   keys    = rownames(sce),
                   keytype = "GENEID", 
@@ -226,8 +229,6 @@ We can use the `scuttle` package to compute a set of quality control metrics, sp
 
 
 ``` r
-library(scuttle)
-
 df <- perCellQCMetrics(sce, subsets = list(Mito = is.mito))
 
 colData(sce) <- cbind(colData(sce), df)
@@ -368,27 +369,25 @@ needed.
 
 
 ``` r
-library(scater)
-
 plotColData(sce, y = "sum", colour_by = "discard") +
     labs(title = "Total count")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
 ``` r
 plotColData(sce, y = "detected", colour_by = "discard") + 
     labs(title = "Detected features")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-12-2.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-11-2.png" style="display: block; margin: auto;" />
 
 ``` r
 plotColData(sce, y = "subsets_Mito_percent", colour_by = "discard") + 
     labs(title = "Mito percent")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-12-3.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-11-3.png" style="display: block; margin: auto;" />
 
 While the univariate distribution of QC metrics can give some insight on the quality of the sample, often looking at the bivariate distribution of QC metrics is useful, e.g., to confirm that there are no cells with both large total counts and large mitochondrial counts, to ensure that we are not inadvertently removing high-quality cells that happen to be highly metabolically active.
 
@@ -397,7 +396,7 @@ While the univariate distribution of QC metrics can give some insight on the qua
 plotColData(sce,  x ="sum", y = "subsets_Mito_percent", colour_by = "discard")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 
 It could also be a good idea to perform a differential expression analysis between retained and discarded cells to check wether we are removing an unusual cell population rather than low-quality libraries (see [Section 1.5 of OSCA advanced](https://bioconductor.org/books/release/OSCA.advanced/quality-control-redux.html#qc-discard-cell-types)).
 
@@ -449,14 +448,14 @@ summary(lib.sf)
 ```
 
 ``` r
-sf_df = data.frame(size_factor = lib.sf)
+sf_df <- data.frame(size_factor = lib.sf)
 
 ggplot(sf_df, aes(size_factor)) + 
     geom_histogram() + 
     scale_x_log10()
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
 
 
 ### Normalization by deconvolution
@@ -472,8 +471,6 @@ Note that while we focus on normalization by deconvolution here, many other meth
 
 
 ``` r
-library(scran)
-
 set.seed(100)
 
 clust <- quickCluster(sce) 
@@ -500,9 +497,9 @@ summary(deconv.sf)
 ```
 
 ``` r
-sf_df$deconv_sf = deconv.sf
+sf_df$deconv_sf <- deconv.sf
 
-sf_df$clust = clust
+sf_df$clust <- clust
 
 ggplot(sf_df, aes(size_factor, deconv_sf)) + 
     geom_abline() + 
@@ -511,7 +508,7 @@ ggplot(sf_df, aes(size_factor, deconv_sf)) +
     scale_y_log10()
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
 
 Once we have computed the size factors, we compute the normalized expression values for each cell by dividing the count for each gene with the appropriate size factor for that cell. Since we are typically going to work with log-transformed counts, the function `logNormCounts` also log-transforms the normalized values, creating a new assay called `logcounts`.
 
@@ -601,7 +598,7 @@ ggplot(mean_var_df, aes(mean, var)) +
          y = "Variance of log-expression")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
 
 The blue line represents the uninteresting "technical" variance for any given gene abundance. The genes with a lot of additional variance exhibit interesting "biological" variation.
 
@@ -685,8 +682,8 @@ By default, `runPCA` computes the first 50 principal components. We can check ho
 
 
 ``` r
-pct_var_df = data.frame(PC = 1:50,
-                        pct_var = attr(reducedDim(sce), "percentVar"))
+pct_var_df <- data.frame(PC = 1:50,
+                         pct_var = attr(reducedDim(sce), "percentVar"))
 
 ggplot(pct_var_df,
        aes(PC, pct_var)) + 
@@ -694,7 +691,7 @@ ggplot(pct_var_df,
     labs(y = "Variance explained (%)")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
 
 You can see the first two PCs capture the largest amount of variation, but in this case you have to take the first 8 PCs before you've captured 50% of the total.
 
@@ -705,7 +702,7 @@ And we can of course visualize the first 2-3 components, perhaps color-coding ea
 plotPCA(sce, colour_by = "sum")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
 
 It can be helpful to compare pairs of PCs. This can be done with the `ncomponents` argument to `plotReducedDim()`. For example if one batch or cell type splits off on a particular PC, this can help visualize the effect of that.
 
@@ -714,7 +711,7 @@ It can be helpful to compare pairs of PCs. This can be done with the `ncomponent
 plotReducedDim(sce, dimred = "PCA", ncomponents = 3)
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
 
 ### Non-linear methods
 
@@ -731,7 +728,7 @@ sce <- runTSNE(sce, dimred = "PCA")
 plotTSNE(sce)
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
 
 
 ``` r
@@ -742,7 +739,7 @@ sce <- runUMAP(sce, dimred = "PCA")
 plotUMAP(sce)
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-29-1.png" style="display: block; margin: auto;" />
+<img src="fig/eda_qc-rendered-unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
 
 It is easy to over-interpret t-SNE and UMAP plots. We note that the relative sizes and positions of the visual clusters may be misleading, as they tend to inflate dense clusters and compress sparse ones, such that we cannot use the size as a measure of subpopulation heterogeneity. 
 
@@ -776,12 +773,35 @@ When using them, it is important to consider that they are stochastic methods th
 
 :::: challenge
 
-Can dimensionality reduction techniques provide a perfectly accurate representation of the data?
+Re-run the UMAP for the same sample starting from the pre-processed data (i.e. not `type = "raw"`). What looks the same? What looks different?
 
 ::: solution
-Mathematically, this would require the data to fall on a two-dimensional plane (for linear methods like PCA) or a smooth 2D manifold (for methods like UMAP). You can be confident that this will never happen in real-world data, so the reduction from ~2500-dimensional gene space to two-dimensional plot space always involves some degree of information loss.
-:::
 
+
+``` r
+set.seed(111)
+
+sce5 <- WTChimeraData(samples = 5) 
+
+sce5 <- logNormCounts(sce5)
+
+sce5 <- runPCA(sce5)
+
+sce5 <- runUMAP(sce5)
+
+plotUMAP(sce5)
+```
+
+<img src="fig/eda_qc-rendered-unnamed-chunk-30-1.png" style="display: block; margin: auto;" />
+
+Given that it's the same cells processed through a very similar pipeline, the
+result should look very similar. There's a slight difference in the total number
+of cells, probably because the official processing pipeline didn't use the exact
+same random seed / QC arguments as us.
+
+But you'll notice that even though the shape of the structures are similar, they look slightly distorted. If the upstream QC parameters change, the downstream output visualizations will also change.
+
+:::
 ::::
 
 ## Doublet identification
@@ -809,8 +829,6 @@ This approach is implemented below using the `scDblFinder` library. We then visu
 
 
 ``` r
-library(scDblFinder)
-
 set.seed(100)
 
 dbl.dens <- computeDoubletDensity(sce, subset.row = hvg.sce.var,
@@ -885,30 +903,133 @@ In this case, we only have a few doublets at the periphery of some clusters. It 
 
 Here we used the deconvolution method implemented in `scran` based on a previous clustering step. Use the `calculateSumFactors` to compute the size factors without considering a preliminary clustering. Compare the resulting size factors via a scatter plot. How do the results change? What are the risks of not including clustering information?
 
+::: solution
+
+
+``` r
+deconv.sf2 <- calculateSumFactors(sce) # dropped `cluster = clust` here
+
+summary(deconv.sf2)
+```
+
+``` output
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.2985  0.8142  0.9583  1.0000  1.1582  2.7054 
+```
+
+``` r
+sf_df$deconv_sf2 <- deconv.sf2
+
+sf_df$clust <- clust
+
+ggplot(sf_df, aes(deconv_sf, deconv_sf2)) + 
+    geom_abline() + 
+    geom_point(aes(color = clust)) +
+    scale_x_log10() + 
+    scale_y_log10() + 
+    facet_wrap(vars(clust))
+```
+
+<img src="fig/eda_qc-rendered-unnamed-chunk-34-1.png" style="display: block; margin: auto;" />
+
+You can see that we get largely similar results, though for clusters 3 and 9 there's a slight deviation from the `y=x` relationship because these clusters (which are fairly distinct from the other clusters) are now being pooled with cells from other clusters. This slightly violates the "majority non-DE genes" assumption.
+
+:::
+
 :::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::: challenge
 
-#### Exercise 2: Dimensionality Reduction
-
-An alternative to PCA for dimensionality reduction is the [NewWave method](https://bioconductor.org/packages/release/bioc/html/NewWave.html). Apply the NewWave method to the SingleCellExperiment object and visually compare the first two dimensions with the first two principal components. What are the major differences in terms of results?
-
-:::::::::::::: hint
-
-First subset the object to include only highly variable genes (`sce2 <- sce[hvg.sce.var,]`) and then apply the `NewWave` function to the new object setting `K = 10` to obtain the first 10 dimensions.
-
-:::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::: challenge
-
-#### Exercise 3: PBMC Data
+#### Exercise 2: PBMC Data
 
 The package `DropletTestFiles` includes the raw output from Cell Ranger of the peripheral blood mononuclear cell (PBMC) dataset from 10X Genomics, publicly available from the 10X Genomics website. Repeat the analysis of this vignette using those data.
 
-::::::::::::::::::::::::::::::::::
+::: solution
 
+The first few lines here read the data from ExperimentHub and the mitochondrial genes are identified by gene symbols in the row data. Otherwise the steps are the same:
+
+
+``` r
+library(DropletTestFiles)
+
+set.seed(100)
+
+listTestFiles(dataset="tenx-3.1.0-5k_pbmc_protein_v3") # look up the remote data path of the raw data
+
+raw_rdatapath <- "DropletTestFiles/tenx-3.1.0-5k_pbmc_protein_v3/1.0.0/raw.tar.gz"
+
+local_path <- getTestFile(raw_rdatapath, prefix = FALSE)
+
+file.copy(local_path, 
+          paste0(local_path, ".tar.gz"))
+
+untar(paste0(local_path, ".tar.gz"),
+      exdir = dirname(local_path))
+
+sce <- read10xCounts(file.path(dirname(local_path), "raw_feature_bc_matrix/"))
+
+e.out <- emptyDrops(counts(sce))
+
+sce <- sce[,which(e.out$FDR <= 0.001)]
+
+# Thankfully the data come with gene symbols, which we can use to identify mitochondrial genes:
+is.mito = grepl("^MT-", rowData(sce)$Symbol) 
+
+# QC metrics ----
+df <- perCellQCMetrics(sce, subsets = list(Mito = is.mito))
+
+colData(sce) <- cbind(colData(sce), df)
+
+colData(sce)
+
+reasons <- perCellQCFilters(df, sub.fields = "subsets_Mito_percent")
+
+reasons
+
+sce$discard <- reasons$discard
+
+sce <- sce[,!sce$discard]
+
+# Normalization ----
+clust <- quickCluster(sce) 
+
+table(clust)
+
+deconv.sf <- calculateSumFactors(sce, cluster = clust)
+
+sizeFactors(sce) <- deconv.sf
+
+sce <- logNormCounts(sce)
+
+# Feature selection ----
+dec.sce <- modelGeneVar(sce)
+
+hvg.sce.var <- getTopHVGs(dec.sce, n = 1000)
+
+# Dimensionality reduction ----
+sce <- runPCA(sce, subset_row = hvg.sce.var)
+
+sce <- runTSNE(sce, dimred = "PCA")
+
+sce <- runUMAP(sce, dimred = "PCA")
+
+# Doublet finding ----
+dbl.dens <- computeDoubletDensity(sce, subset.row = hvg.sce.var,
+                                  d = ncol(reducedDim(sce)))
+
+sce$DoubletScore <- dbl.dens
+
+dbl.calls <- doubletThresholding(data.frame(score = dbl.dens),
+                                 method = "griffiths",
+                                 returnType = "call")
+
+
+sce$doublet <- dbl.calls
+```
+
+:::
+
+::::::::::::::::::::::::::::::::::
 
 :::: challenge
 
@@ -929,6 +1050,18 @@ Spike-ins are deliberately-introduced exogeneous RNA from an exotic or synthetic
 #### Extension challenge 2: Background research
 
 Run an internet search for some of the most highly variable genes we identified in the feature selection section. See if you can identify the type of protein they produce or what sort of process they're involved in. Do they make biological sense to you?
+
+::::
+
+:::: challenge
+
+#### Extension challenge 3: Reduced dimensionality representations
+
+Can dimensionality reduction techniques provide a perfectly accurate representation of the data?
+
+::: solution
+Mathematically, this would require the data to fall on a two-dimensional plane (for linear methods like PCA) or a smooth 2D manifold (for methods like UMAP). You can be confident that this will never happen in real-world data, so the reduction from ~2500-dimensional gene space to two-dimensional plot space always involves some degree of information loss.
+:::
 
 ::::
 
