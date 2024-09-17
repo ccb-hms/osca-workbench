@@ -286,7 +286,7 @@ lib.sf <- librarySizeFactors(sce)
 
 summary(lib.sf)
 
-sf_df = data.frame(size_factor = lib.sf)
+sf_df <- data.frame(size_factor = lib.sf)
 
 ggplot(sf_df, aes(size_factor)) + 
     geom_histogram() + 
@@ -318,9 +318,9 @@ deconv.sf <- calculateSumFactors(sce, cluster = clust)
 
 summary(deconv.sf)
 
-sf_df$deconv_sf = deconv.sf
+sf_df$deconv_sf <- deconv.sf
 
-sf_df$clust = clust
+sf_df$clust <- clust
 
 ggplot(sf_df, aes(size_factor, deconv_sf)) + 
     geom_abline() + 
@@ -613,30 +613,38 @@ In this case, we only have a few doublets at the periphery of some clusters. It 
 
 Here we used the deconvolution method implemented in `scran` based on a previous clustering step. Use the `calculateSumFactors` to compute the size factors without considering a preliminary clustering. Compare the resulting size factors via a scatter plot. How do the results change? What are the risks of not including clustering information?
 
+::: solution
+
+```{r}
+deconv.sf2 <- calculateSumFactors(sce) # dropped `cluster = clust` here
+
+summary(deconv.sf2)
+
+sf_df$deconv_sf2 <- deconv.sf2
+
+sf_df$clust <- clust
+
+ggplot(sf_df, aes(deconv_sf, deconv_sf2)) + 
+    geom_abline() + 
+    geom_point(aes(color = clust)) +
+    scale_x_log10() + 
+    scale_y_log10() + 
+    facet_wrap(vars(clust))
+```
+
+You can see that we get largely similar results, though for clusters 3 and 9 there's a slight deviation from the `y=x` relationship because these clusters (which are fairly distinct from the other clusters) are now being pooled with cells from other clusters. This slightly violates the "majority non-DE genes" assumption.
+
+:::
+
 :::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::: challenge
 
-#### Exercise 2: Dimensionality Reduction
-
-An alternative to PCA for dimensionality reduction is the [NewWave method](https://bioconductor.org/packages/release/bioc/html/NewWave.html). Apply the NewWave method to the SingleCellExperiment object and visually compare the first two dimensions with the first two principal components. What are the major differences in terms of results?
-
-:::::::::::::: hint
-
-First subset the object to include only highly variable genes (`sce2 <- sce[hvg.sce.var,]`) and then apply the `NewWave` function to the new object setting `K = 10` to obtain the first 10 dimensions.
-
-:::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::: challenge
-
-#### Exercise 3: PBMC Data
+#### Exercise 2: PBMC Data
 
 The package `DropletTestFiles` includes the raw output from Cell Ranger of the peripheral blood mononuclear cell (PBMC) dataset from 10X Genomics, publicly available from the 10X Genomics website. Repeat the analysis of this vignette using those data.
 
 ::::::::::::::::::::::::::::::::::
-
 
 :::: challenge
 
