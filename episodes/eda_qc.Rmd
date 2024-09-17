@@ -45,8 +45,18 @@ We start our analysis by selecting only sample 5, which contains the injected ce
 
 ```{r, message = FALSE}
 library(MouseGastrulationData)
+library(DropletUtils)
+library(ggplot2)
+library(EnsDb.Mmusculus.v79)
+library(scuttle)
+library(scater)
+library(scran)
+library(scDblFinder)
+
 sce <- WTChimeraData(samples = 5, type = "raw")
+
 sce <- sce[[1]]
+
 sce
 ```
 
@@ -57,9 +67,6 @@ This is the same data we examined in the previous lesson.
 From the experiment, we expect to have only a few thousand cells, while we can see that we have data for more than 500,000 droplets. It is likely that most of these droplets are empty and are capturing only ambient or background RNA.
 
 ```{r}
-library(DropletUtils)
-library(ggplot2)
-
 bcrank <- barcodeRanks(counts(sce))
 
 # Only showing unique points for plotting speed.
@@ -121,6 +128,7 @@ e.out <- emptyDrops(counts(sce))
 summary(e.out$FDR <= 0.001)
 
 sce <- sce[,which(e.out$FDR <= 0.001)]
+
 sce
 ```
 
@@ -163,10 +171,6 @@ In particular, high proportions of mitochondrial genes are indicative of poor-qu
 
 First, we need to identify mitochondrial genes. We use the available `EnsDb` mouse package available in Bioconductor, but a more updated version of Ensembl can be used through the `AnnotationHub` or `biomaRt` packages.
 
-```{r, message=FALSE}
-library(EnsDb.Mmusculus.v79)
-```
-
 ```{r}
 chr.loc <- mapIds(EnsDb.Mmusculus.v79,
                   keys    = rownames(sce),
@@ -179,7 +183,7 @@ is.mito <- which(chr.loc == "MT")
 We can use the `scuttle` package to compute a set of quality control metrics, specifying that we want to use the mitochondrial genes as a special set of features.
 
 ```{r}
-library(scuttle)
+
 
 df <- perCellQCMetrics(sce, subsets = list(Mito = is.mito))
 
@@ -240,8 +244,6 @@ Moreover, if there are too many discarded cells, further exploration might be
 needed.
 
 ```{r}
-library(scater)
-
 plotColData(sce, y = "sum", colour_by = "discard") +
     labs(title = "Total count")
 
@@ -304,8 +306,6 @@ We use a pre-clustering step: cells in each cluster are normalized separately an
 Note that while we focus on normalization by deconvolution here, many other methods have been proposed and lead to similar performance (see [Borella 2022](learners/reference.md#litref) for a comparative review).
 
 ```{r}
-library(scran)
-
 set.seed(100)
 
 clust <- quickCluster(sce) 
@@ -458,8 +458,8 @@ sce
 By default, `runPCA` computes the first 50 principal components. We can check how much original variability they explain. These values are stored in the attributes of the `percentVar` reducedDim:
 
 ```{r}
-pct_var_df = data.frame(PC = 1:50,
-                        pct_var = attr(reducedDim(sce), "percentVar"))
+pct_var_df <- data.frame(PC = 1:50,
+                         pct_var = attr(reducedDim(sce), "percentVar"))
 
 ggplot(pct_var_df,
        aes(PC, pct_var)) + 
@@ -518,12 +518,32 @@ When using them, it is important to consider that they are stochastic methods th
 
 :::: challenge
 
-Can dimensionality reduction techniques provide a perfectly accurate representation of the data?
+Re-run the UMAP for the same sample starting from the pre-processed data (i.e. not `type = "raw"`). What looks the same? What looks different?
 
 ::: solution
-Mathematically, this would require the data to fall on a two-dimensional plane (for linear methods like PCA) or a smooth 2D manifold (for methods like UMAP). You can be confident that this will never happen in real-world data, so the reduction from ~2500-dimensional gene space to two-dimensional plot space always involves some degree of information loss.
-:::
 
+```{r}
+set.seed(111)
+
+sce5 <- WTChimeraData(samples = 5) 
+
+sce5 <- logNormCounts(sce5)
+
+sce5 <- runPCA(sce5)
+
+sce5 <- runUMAP(sce5)
+
+plotUMAP(sce5)
+```
+
+Given that it's the same cells processed through a very similar pipeline, the
+result should look very similar. There's a slight difference in the total number
+of cells, probably because the official processing pipeline didn't use the exact
+same random seed / QC arguments as us.
+
+But you'll notice that even though the shape of the structures are similar, they look slightly distorted. If the upstream QC parameters change, the downstream output visualizations will also change.
+
+:::
 ::::
 
 ## Doublet identification
@@ -550,8 +570,6 @@ Intuitively, if a "cell" is surrounded only by simulated doublets is very likely
 This approach is implemented below using the `scDblFinder` library. We then visualize the scores in a t-SNE plot.
 
 ```{r}
-library(scDblFinder)
-
 set.seed(100)
 
 dbl.dens <- computeDoubletDensity(sce, subset.row = hvg.sce.var,
@@ -639,6 +657,18 @@ Spike-ins are deliberately-introduced exogeneous RNA from an exotic or synthetic
 #### Extension challenge 2: Background research
 
 Run an internet search for some of the most highly variable genes we identified in the feature selection section. See if you can identify the type of protein they produce or what sort of process they're involved in. Do they make biological sense to you?
+
+::::
+
+:::: challenge
+
+#### Extension challenge 3: Reduced dimensionality representations
+
+Can dimensionality reduction techniques provide a perfectly accurate representation of the data?
+
+::: solution
+Mathematically, this would require the data to fall on a two-dimensional plane (for linear methods like PCA) or a smooth 2D manifold (for methods like UMAP). You can be confident that this will never happen in real-world data, so the reduction from ~2500-dimensional gene space to two-dimensional plot space always involves some degree of information loss.
+:::
 
 ::::
 
