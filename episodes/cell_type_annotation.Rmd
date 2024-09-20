@@ -47,6 +47,7 @@ We'll be using the fifth processed sample from the WT chimeric mouse embryo data
 
 ```{r data, message = FALSE}
 sce <- WTChimeraData(samples = 5, type = "processed")
+
 sce
 ```
 
@@ -126,11 +127,19 @@ Our clusters look semi-reasonable, but what if we wanted to make them less granu
 
 ::: solution
 
-We see in the help documentation for `?clusterCells` that all of the clustering algorithm details are handled through the `BLUSPARAM` argument, which needs to provide a `BlusterParam` object (of which `NNGraphParam` is a sub-class). Each type of clustering algorithm will have some sort of hyper-parameter that controls the granularity of the output clusters. Looking at `?NNGraphParam` specifically, we see an argument called `k` which is described as "An integer scalar specifying the number of nearest neighbors to consider during graph construction." If the clustering process has to connect larger sets of neighbors, the graph will tend to be cut into larger groups, resulting in less granular clusters. Try the two code blocks above once more with `k = 20`. Given their visual differences, do you think one set of clusters is "right" and the other is "wrong"?  
+We see in the help documentation for `?clusterCells` that all of the clustering algorithm details are handled through the `BLUSPARAM` argument, which needs to provide a `BlusterParam` object (of which `NNGraphParam` is a sub-class). Each type of clustering algorithm will have some sort of hyper-parameter that controls the granularity of the output clusters. Looking at `?NNGraphParam` specifically, we see an argument called `k` which is described as "An integer scalar specifying the number of nearest neighbors to consider during graph construction." If the clustering process has to connect larger sets of neighbors, the graph will tend to be cut into larger groups, resulting in less granular clusters. Try the two code blocks above once more with `k = 30`. Given their visual differences, do you think one set of clusters is "right" and the other is "wrong"?
+
+```{r}
+sce$clust2 <- clusterCells(sce, use.dimred = "PCA",
+                           BLUSPARAM = NNGraphParam(cluster.fun = "louvain",
+                                                    k = 30))
+
+plotReducedDim(sce, "UMAP", color_by = "clust2")
+```
+
 :::
 
 ::::
-
 
 ## Marker gene detection
 
@@ -146,14 +155,14 @@ testing for differential expression between clusters. If a gene is
 strongly DE between clusters, it is likely to have driven the separation
 of cells in the clustering algorithm.
 
-Here, we use `findMarkers()` to perform a Wilcoxon rank sum test against a log2 fold change
-threshold of 1, focusing on up-regulated (positive) markers in one
-cluster when compared to another cluster.
+Here, we use `scoreMarkers()` to perform pairwise comparisons of gene
+expression, focusing on up-regulated (positive) markers in one cluster when
+compared to another cluster.
 
 ```{r marker-detect}
 rownames(sce) <- rowData(sce)$SYMBOL
 
-markers <- findMarkers(sce, test.type = "wilcox", direction = "up", lfc = 1)
+markers <- scoreMarkers(sce)
 
 markers
 ```
@@ -162,7 +171,7 @@ markers
 
 The resulting object contains a sorted marker gene list for each
 cluster, in which the top genes are those that contribute the most to
-the separation of that cluster from mall other clusters.
+the separation of that cluster from all other clusters.
 
 Here, we inspect the ranked marker gene list for the first cluster.
 
@@ -170,39 +179,50 @@ Here, we inspect the ranked marker gene list for the first cluster.
 markers[[1]]
 ```
 
-The `Top` field provides the the minimum rank across all pairwise
-comparisons. The `p.value` field provides the combined *p*-value across
-all comparisons, and the `FDR` field the BH-adjusted *p*-value for each
-gene. The `summary.AUC` provides area under the curve (here the
-concordance probability) from the comparison with the lowest *p*-value,
-the `AUC.n` fields provide the AUC for each pairwise comparison. The AUC
-is the probability that a randomly selected cell in cluster *A* has a
-greater expression of gene *X* than a randomly selected cell in *B*.
+Each column contains summary statistics for each gene in the given cluster.
+These are usually the mean/median/min/max of statistics like Cohen's *d* and AUC
+when comparing this cluster (cluster 1 in this case) to all other clusters.
+`mean.AUC` is usually the most important to check. AUC is the probability that a
+randomly selected cell in cluster *A* has a greater expression of gene
+*X* than a randomly selected cell in cluster *B*. You can set `full.stats=TRUE` if you'd like the marker data frames to retain list columns containing each statistic for each pairwise comparison.
 
 We can then inspect the top marker genes for the first cluster using the
 `plotExpression` function from the
 [scater](https://bioconductor.org/packages/scater) package.
 
 ```{r plot-markers, fig.width = 10, fig.height = 10}
-top.markers <- head(rownames(markers[[1]]))
-plotExpression(sce, features = top.markers, x = "label", color_by = "label")
+c1_markers <- markers[[1]]
+
+ord <- order(c1_markers$mean.AUC, 
+             decreasing = TRUE)
+
+top.markers <- head(rownames(c1_markers[ord,]))
+
+plotExpression(sce, 
+               features = top.markers, 
+               x        = "label", 
+               color_by = "label")
 ```
 
 Clearly, not every marker gene distinguishes cluster 1 from every other cluster. However, with a combination of multiple marker genes it's possible to clearly identify gene patterns that are unique to cluster 1. It's sort of like the 20 questions game - with answers to the right questions about a cell (e.g. "Do you highly express Ptn?"), you can clearly identify what cluster it falls in.
 
-:::: challenge 
+:::: challenge
 
-Why do you think marker genes are found by aggregating pairwise comparisons rather than iteratively comparing each cluster to all other clusters? 
+Looking at the last plot, what clusters are most difficult to distinguish from cluster 1? Now re-run the UMAP plot from the previous section. Do the difficult-to-distinguish clusters make sense?
 
 ::: solution
 
-One important reason why is because averages over all other clusters can be sensitive to the cell type composition. If a rare cell type shows up in one sample, the most discriminative marker genes found in this way could be very different from those found in another sample where the rare cell type is absent. 
+You can see that at least among the top markers, cluster 6 (pale green) tends to have the least separation from cluster 1. 
 
-Generally, it's good to keep in mind that the concept of "everything else" is not a stable basis for comparison. Read that sentence again, because its a subtle but broadly applicable point. Think about it and you can probably identify analogous issues in fields outside of single-cell analysis. It frequently comes up when comparisons between multiple categories are involved.
+```{r}
+plotReducedDim(sce, "UMAP", color_by = "label")
+```
+
+Looking at the UMAP again, we can see that the marker gene overlap of clusters 1 and 6 makes sense. They're right next to each other on the UMAP. They're probably very closely related cell types, and a less granular clustering would probably lump them together.
 
 :::
-::::
 
+::::
 
 ## Cell type annotation
 
@@ -587,6 +607,21 @@ TODO
 :::
 :::
 
+:::: challenge 
+
+#### Extension Challenge 1: Group pair comparisons
+
+Why do you think marker genes are found by aggregating pairwise comparisons rather than iteratively comparing each cluster to all other clusters? 
+
+::: solution
+
+One important reason why is because averages over all other clusters can be sensitive to the cell type composition. If a rare cell type shows up in one sample, the most discriminative marker genes found in this way could be very different from those found in another sample where the rare cell type is absent. 
+
+Generally, it's good to keep in mind that the concept of "everything else" is not a stable basis for comparison. Read that sentence again, because its a subtle but broadly applicable point. Think about it and you can probably identify analogous issues in fields outside of single-cell analysis. It frequently comes up when comparisons between multiple categories are involved.
+
+:::
+::::
+
 ::: checklist
 ## Further Reading
 
@@ -610,9 +645,9 @@ TODO
 -   Once clusters have been obtained, cell type labels are then manually
     assigned to cell clusters by matching cluster-specific upregulated marker
     genes with prior knowledge of cell-type markers.
--   The `findMarkers` function from the `r Biocpkg("scran")` package 
+-   The `scoreMarkers` function from the `r Biocpkg("scran")` package 
     package can be used to find candidate marker genes for clusters of cells by
-    testing for differential expression between pairs of clusters.
+    ranking differential expression between pairs of clusters.
 -   Computational annotation using published reference datasets or curated gene sets
     provides a fast, automated, and reproducible alternative to the manual
     annotation of cell clusters based on marker gene expression.
