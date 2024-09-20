@@ -439,20 +439,21 @@ table(exact = colLabels(sce), approx = clusters)
 ``` output
      approx
 exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
-   1   90   0   0   0   0   0   0   0   1   0   0   0   0   0   0
+   1   88   0   0   0   2   0   0   0   2   0   0   0   0   0   0
    2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
    3    0   0  75   0   0   0   0   0   0   0   0   0   0   0   0
-   4    0   0   0 342   0   0   0   0   0   0   0   0   0   0  55
-   5    0   0   0   0  74   0   0   0   0   0   0 198   0   0   0
+   4    0   0   0 341   0   0   0   0   0   0   0   0   0   0   0
+   5    0   0   0   0 393   0   0   0   0   1   0   2   0   0   0
    6    0   0   0   0   0 210   0   0   0   0   0   0   0   0   0
-   7    0   0   0   0   0   0 245   0   0   1   0   0   0   0   0
-   8    0   0   0   0   1   0   0  95   0   0   0   0   0   0   0
-   9    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
-   10   0   0   0   0   0   0   0   0   0 113   0  16   0   0   0
-   11   0   0   0   0   0   0   0   0   0   0 153   0   0   0   0
-   12   0   0   2   0 321   0   0   0   0   1   0   0   0   0   0
-   13   0   0   0   0   0   0   0   0   0   0   0   0 146   0   0
+   7    0   0   0   0   0  52 193   0   0   1   0   0   0   0   0
+   8    0   0   0   0   0   0   0  95   0   0   0   0   0   0   0
+   9    1   0   0   0   2   0   0   0 106   0   0   0   0   0   0
+   10   0   0   0   0   0   0   0   0   0 105   4   0   0   0   0
+   11   0   0   0   0   0   0   0   0   0   0 143   0   0   0   0
+   12   0   0   0   0   4   0   0   0   0   8   0 211   0   0   0
+   13   0   0   0   0   0   0   0   0   0   0   6   0 146   0   0
    14   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0
+   15   0   0   0   0   0   0   0   0   0   0   0   0   0   0  56
 ```
 
 The similarity of the two clusterings can be quantified by calculating the pairwise Rand index: 
@@ -819,7 +820,7 @@ sessionInfo()
 ``` output
 R version 4.4.1 (2024-06-14)
 Platform: x86_64-pc-linux-gnu
-Running under: Ubuntu 22.04.4 LTS
+Running under: Ubuntu 22.04.5 LTS
 
 Matrix products: default
 BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0 

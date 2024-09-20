@@ -45,6 +45,7 @@ We'll be using the fifth processed sample from the WT chimeric mouse embryo data
 
 ``` r
 sce <- WTChimeraData(samples = 5, type = "processed")
+
 sce
 ```
 
@@ -151,11 +152,22 @@ Our clusters look semi-reasonable, but what if we wanted to make them less granu
 
 ::: solution
 
-We see in the help documentation for `?clusterCells` that all of the clustering algorithm details are handled through the `BLUSPARAM` argument, which needs to provide a `BlusterParam` object (of which `NNGraphParam` is a sub-class). Each type of clustering algorithm will have some sort of hyper-parameter that controls the granularity of the output clusters. Looking at `?NNGraphParam` specifically, we see an argument called `k` which is described as "An integer scalar specifying the number of nearest neighbors to consider during graph construction." If the clustering process has to connect larger sets of neighbors, the graph will tend to be cut into larger groups, resulting in less granular clusters. Try the two code blocks above once more with `k = 20`. Given their visual differences, do you think one set of clusters is "right" and the other is "wrong"?  
+We see in the help documentation for `?clusterCells` that all of the clustering algorithm details are handled through the `BLUSPARAM` argument, which needs to provide a `BlusterParam` object (of which `NNGraphParam` is a sub-class). Each type of clustering algorithm will have some sort of hyper-parameter that controls the granularity of the output clusters. Looking at `?NNGraphParam` specifically, we see an argument called `k` which is described as "An integer scalar specifying the number of nearest neighbors to consider during graph construction." If the clustering process has to connect larger sets of neighbors, the graph will tend to be cut into larger groups, resulting in less granular clusters. Try the two code blocks above once more with `k = 30`. Given their visual differences, do you think one set of clusters is "right" and the other is "wrong"?
+
+
+``` r
+sce$clust2 <- clusterCells(sce, use.dimred = "PCA",
+                           BLUSPARAM = NNGraphParam(cluster.fun = "louvain",
+                                                    k = 30))
+
+plotReducedDim(sce, "UMAP", color_by = "clust2")
+```
+
+<img src="fig/cell_type_annotation-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
+
 :::
 
 ::::
-
 
 ## Marker gene detection
 
@@ -171,15 +183,15 @@ testing for differential expression between clusters. If a gene is
 strongly DE between clusters, it is likely to have driven the separation
 of cells in the clustering algorithm.
 
-Here, we use `findMarkers()` to perform a Wilcoxon rank sum test against a log2 fold change
-threshold of 1, focusing on up-regulated (positive) markers in one
-cluster when compared to another cluster.
+Here, we use `scoreMarkers()` to perform pairwise comparisons of gene
+expression, focusing on up-regulated (positive) markers in one cluster when
+compared to another cluster.
 
 
 ``` r
 rownames(sce) <- rowData(sce)$SYMBOL
 
-markers <- findMarkers(sce, test.type = "wilcox", direction = "up", lfc = 1)
+markers <- scoreMarkers(sce)
 
 markers
 ```
@@ -193,7 +205,7 @@ names(11): 1 2 3 4 5 6 7 8 9 10 11
 
 The resulting object contains a sorted marker gene list for each
 cluster, in which the top genes are those that contribute the most to
-the separation of that cluster from mall other clusters.
+the separation of that cluster from all other clusters.
 
 Here, we inspect the ranked marker gene list for the first cluster.
 
@@ -203,56 +215,80 @@ markers[[1]]
 ```
 
 ``` output
-DataFrame with 29453 rows and 14 columns
-                 Top     p.value         FDR summary.AUC     AUC.2     AUC.3
-           <integer>   <numeric>   <numeric>   <numeric> <numeric> <numeric>
-Crabp2             1 7.31206e-35 1.95784e-31    0.938625  0.938625 0.9159596
-Ptn                1 2.26190e-43 6.66197e-39    0.983313  0.983313 0.9812121
-Crabp1             1 1.13915e-32 2.09696e-29    0.926687  0.926687 0.7927273
-Zeb2               2 3.98744e-10 1.38167e-07    0.801500  0.553125 0.3943434
-Mest               2 1.10835e-24 9.60122e-22    0.883000  0.883000 0.0249495
-...              ...         ...         ...         ...       ...       ...
-AC125149.2     29448           1           1           0         0         0
-AC125149.4     29449           1           1           0         0         0
-AC234645.1     29450           1           1           0         0         0
-AC168977.2     29451           1           1           0         0         0
-Vmn2r122       29453           1           1           0         0         0
-               AUC.4     AUC.5     AUC.6     AUC.7     AUC.8     AUC.9
-           <numeric> <numeric> <numeric> <numeric> <numeric> <numeric>
-Crabp2      0.861986  0.494444  0.690000  0.763833  0.845370  0.769091
-Ptn         0.911773  0.771429  0.198710  0.830667  0.563333  0.898409
-Crabp1      0.540071  0.714127  0.695591  0.767167  0.620556  0.524773
-Zeb2        0.604184  0.390317  0.337849  0.801500  0.447963  0.341364
-Mest        0.136028  0.476190  0.091828  0.386833  0.314444  0.773864
-...              ...       ...       ...       ...       ...       ...
-AC125149.2         0         0         0         0         0         0
-AC125149.4         0         0         0         0         0         0
-AC234645.1         0         0         0         0         0         0
-AC168977.2         0         0         0         0         0         0
-Vmn2r122           0         0         0         0         0         0
-              AUC.10    AUC.11
-           <numeric> <numeric>
-Crabp2     0.9416484  0.882439
-Ptn        0.9463736  0.967317
-Crabp1     0.8584615  0.714878
-Zeb2       0.6175824  0.501463
-Mest       0.0154945  0.290976
-...              ...       ...
-AC125149.2         0         0
-AC125149.4         0         0
-AC234645.1         0         0
-AC168977.2         0         0
-Vmn2r122           0         0
+DataFrame with 29453 rows and 19 columns
+               self.average other.average self.detected other.detected
+                  <numeric>     <numeric>     <numeric>      <numeric>
+Xkr4              0.0000000    0.00366101          0.00     0.00373784
+Gm1992            0.0000000    0.00000000          0.00     0.00000000
+Gm37381           0.0000000    0.00000000          0.00     0.00000000
+Rp1               0.0000000    0.00000000          0.00     0.00000000
+Sox17             0.0279547    0.18822927          0.02     0.09348375
+...                     ...           ...           ...            ...
+AC149090.1        0.3852624   0.352021067          0.33      0.2844935
+DHRSX             0.4108022   0.491424091          0.35      0.3882325
+Vmn2r122          0.0000000   0.000000000          0.00      0.0000000
+CAAA01147332.1    0.0164546   0.000802687          0.01      0.0010989
+tomato-td         0.6341678   0.624350570          0.51      0.4808379
+               mean.logFC.cohen min.logFC.cohen median.logFC.cohen
+                      <numeric>       <numeric>          <numeric>
+Xkr4                 -0.0386672       -0.208498          0.0000000
+Gm1992                0.0000000        0.000000          0.0000000
+Gm37381               0.0000000        0.000000          0.0000000
+Rp1                   0.0000000        0.000000          0.0000000
+Sox17                -0.1383820       -1.292067          0.0324795
+...                         ...             ...                ...
+AC149090.1            0.0644403      -0.1263241          0.0366957
+DHRSX                -0.1154163      -0.4619613         -0.1202781
+Vmn2r122              0.0000000       0.0000000          0.0000000
+CAAA01147332.1        0.1338463       0.0656709          0.1414214
+tomato-td             0.0220121      -0.2535145          0.0196130
+               max.logFC.cohen rank.logFC.cohen  mean.AUC   min.AUC median.AUC
+                     <numeric>        <integer> <numeric> <numeric>  <numeric>
+Xkr4                  0.000000             6949  0.498131  0.489247   0.500000
+Gm1992                0.000000             6554  0.500000  0.500000   0.500000
+Gm37381               0.000000             6554  0.500000  0.500000   0.500000
+Rp1                   0.000000             6554  0.500000  0.500000   0.500000
+Sox17                 0.200319             1482  0.462912  0.228889   0.499575
+...                        ...              ...       ...       ...        ...
+AC149090.1            0.427051             1685  0.518060  0.475000   0.508779
+DHRSX                 0.130189             3431  0.474750  0.389878   0.471319
+Vmn2r122              0.000000             6554  0.500000  0.500000   0.500000
+CAAA01147332.1        0.141421             2438  0.504456  0.499560   0.505000
+tomato-td             0.318068             2675  0.502868  0.427083   0.501668
+                 max.AUC  rank.AUC mean.logFC.detected min.logFC.detected
+               <numeric> <integer>           <numeric>          <numeric>
+Xkr4                0.50      6882        -2.58496e-01       -1.58496e+00
+Gm1992              0.50      6513        -8.00857e-17       -3.20343e-16
+Gm37381             0.50      6513        -8.00857e-17       -3.20343e-16
+Rp1                 0.50      6513        -8.00857e-17       -3.20343e-16
+Sox17               0.51      3957        -4.48729e-01       -4.23204e+00
+...                  ...       ...                 ...                ...
+AC149090.1      0.588462      1932         2.34565e-01       -4.59278e-02
+DHRSX           0.530054      2050        -1.27333e-01       -4.52151e-01
+Vmn2r122        0.500000      6513        -8.00857e-17       -3.20343e-16
+CAAA01147332.1  0.505000      4893         7.27965e-01       -6.64274e-02
+tomato-td       0.576875      1840         9.80090e-02       -2.20670e-01
+               median.logFC.detected max.logFC.detected rank.logFC.detected
+                           <numeric>          <numeric>           <integer>
+Xkr4                      0.00000000        3.20343e-16                5560
+Gm1992                    0.00000000        3.20343e-16                5560
+Gm37381                   0.00000000        3.20343e-16                5560
+Rp1                       0.00000000        3.20343e-16                5560
+Sox17                    -0.00810194        1.51602e+00                 341
+...                              ...                ...                 ...
+AC149090.1                 0.0821121        9.55592e-01                2039
+DHRSX                     -0.1774204        2.28269e-01                3943
+Vmn2r122                   0.0000000        3.20343e-16                5560
+CAAA01147332.1             0.8267364        1.00000e+00                 898
+tomato-td                  0.0805999        4.63438e-01                3705
 ```
 
-The `Top` field provides the the minimum rank across all pairwise
-comparisons. The `p.value` field provides the combined *p*-value across
-all comparisons, and the `FDR` field the BH-adjusted *p*-value for each
-gene. The `summary.AUC` provides area under the curve (here the
-concordance probability) from the comparison with the lowest *p*-value,
-the `AUC.n` fields provide the AUC for each pairwise comparison. The AUC
-is the probability that a randomly selected cell in cluster *A* has a
-greater expression of gene *X* than a randomly selected cell in *B*.
+Each column contains summary statistics for each gene in the given cluster.
+These are usually the mean/median/min/max of statistics like Cohen's *d* and AUC
+when comparing this cluster (cluster 1 in this case) to all other clusters.
+`mean.AUC` is usually the most important to check. AUC is the probability that a
+randomly selected cell in cluster *A* has a greater expression of gene
+*X* than a randomly selected cell in cluster *B*. You can set `full.stats=TRUE` if you'd like the marker data frames to retain list columns containing each statistic for each pairwise comparison.
 
 We can then inspect the top marker genes for the first cluster using the
 `plotExpression` function from the
@@ -260,27 +296,43 @@ We can then inspect the top marker genes for the first cluster using the
 
 
 ``` r
-top.markers <- head(rownames(markers[[1]]))
-plotExpression(sce, features = top.markers, x = "label", color_by = "label")
+c1_markers <- markers[[1]]
+
+ord <- order(c1_markers$mean.AUC, 
+             decreasing = TRUE)
+
+top.markers <- head(rownames(c1_markers[ord,]))
+
+plotExpression(sce, 
+               features = top.markers, 
+               x        = "label", 
+               color_by = "label")
 ```
 
 <img src="fig/cell_type_annotation-rendered-plot-markers-1.png" style="display: block; margin: auto;" />
 
 Clearly, not every marker gene distinguishes cluster 1 from every other cluster. However, with a combination of multiple marker genes it's possible to clearly identify gene patterns that are unique to cluster 1. It's sort of like the 20 questions game - with answers to the right questions about a cell (e.g. "Do you highly express Ptn?"), you can clearly identify what cluster it falls in.
 
-:::: challenge 
+:::: challenge
 
-Why do you think marker genes are found by aggregating pairwise comparisons rather than iteratively comparing each cluster to all other clusters? 
+Looking at the last plot, what clusters are most difficult to distinguish from cluster 1? Now re-run the UMAP plot from the previous section. Do the difficult-to-distinguish clusters make sense?
 
 ::: solution
 
-One important reason why is because averages over all other clusters can be sensitive to the cell type composition. If a rare cell type shows up in one sample, the most discriminative marker genes found in this way could be very different from those found in another sample where the rare cell type is absent. 
+You can see that at least among the top markers, cluster 6 (pale green) tends to have the least separation from cluster 1. 
 
-Generally, it's good to keep in mind that the concept of "everything else" is not a stable basis for comparison. Read that sentence again, because its a subtle but broadly applicable point. Think about it and you can probably identify analogous issues in fields outside of single-cell analysis. It frequently comes up when comparisons between multiple categories are involved.
+
+``` r
+plotReducedDim(sce, "UMAP", color_by = "label")
+```
+
+<img src="fig/cell_type_annotation-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
+
+Looking at the UMAP again, we can see that the marker gene overlap of clusters 1 and 6 makes sense. They're right next to each other on the UMAP. They're probably very closely related cell types, and a less granular clustering would probably lump them together.
 
 :::
-::::
 
+::::
 
 ## Cell type annotation
 
@@ -530,7 +582,7 @@ tab <- table(anno = res$pruned.labels, cluster = colLabels(sce))
 pheatmap(log2(tab + 10), color = colorRampPalette(c("white", "blue"))(101))
 ```
 
-<img src="fig/cell_type_annotation-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
+<img src="fig/cell_type_annotation-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
 As it so happens, we are in the fortunate position where our test
 dataset also contains independently defined labels. We see strong
@@ -630,7 +682,7 @@ assays(2): counts logcounts
 rownames(29411): Xkr4 Gm1992 ... Vmn2r122 CAAA01147332.1
 rowData names(2): ENSEMBL SYMBOL
 colnames(1000): cell_11995 cell_10294 ... cell_11706 cell_11860
-colData names(12): cell barcode ... sizeFactor label
+colData names(13): cell barcode ... label clust2
 reducedDimNames(4): pca.corrected.E7.5 pca.corrected.E8.5 PCA UMAP
 mainExpName: NULL
 altExpNames(0):
@@ -807,7 +859,7 @@ sessionInfo()
 ``` output
 R version 4.4.1 (2024-06-14)
 Platform: x86_64-pc-linux-gnu
-Running under: Ubuntu 22.04.4 LTS
+Running under: Ubuntu 22.04.5 LTS
 
 Matrix products: default
 BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0 
@@ -971,6 +1023,21 @@ TODO
 :::
 :::
 
+:::: challenge 
+
+#### Extension Challenge 1: Group pair comparisons
+
+Why do you think marker genes are found by aggregating pairwise comparisons rather than iteratively comparing each cluster to all other clusters? 
+
+::: solution
+
+One important reason why is because averages over all other clusters can be sensitive to the cell type composition. If a rare cell type shows up in one sample, the most discriminative marker genes found in this way could be very different from those found in another sample where the rare cell type is absent. 
+
+Generally, it's good to keep in mind that the concept of "everything else" is not a stable basis for comparison. Read that sentence again, because its a subtle but broadly applicable point. Think about it and you can probably identify analogous issues in fields outside of single-cell analysis. It frequently comes up when comparisons between multiple categories are involved.
+
+:::
+::::
+
 ::: checklist
 ## Further Reading
 
@@ -994,9 +1061,9 @@ TODO
 -   Once clusters have been obtained, cell type labels are then manually
     assigned to cell clusters by matching cluster-specific upregulated marker
     genes with prior knowledge of cell-type markers.
--   The `findMarkers` function from the *[scran](https://bioconductor.org/packages/3.19/scran)* package 
+-   The `scoreMarkers` function from the *[scran](https://bioconductor.org/packages/3.19/scran)* package 
     package can be used to find candidate marker genes for clusters of cells by
-    testing for differential expression between pairs of clusters.
+    ranking differential expression between pairs of clusters.
 -   Computational annotation using published reference datasets or curated gene sets
     provides a fast, automated, and reproducible alternative to the manual
     annotation of cell clusters based on marker gene expression.
