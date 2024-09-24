@@ -886,7 +886,7 @@ loaded via a namespace (and not attached):
  [69] pillar_1.9.0              BumpyMatrix_1.12.0       
  [71] splines_4.4.1             dplyr_1.1.4              
  [73] BiocFileCache_2.12.0      lattice_0.22-6           
- [75] renv_1.0.7                bit_4.0.5                
+ [75] renv_1.0.9                bit_4.0.5                
  [77] tidyselect_1.2.1          locfit_1.5-9.9           
  [79] Biostrings_2.72.1         knitr_1.47               
  [81] gridExtra_2.3             xfun_0.44                
