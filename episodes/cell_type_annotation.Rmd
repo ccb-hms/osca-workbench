@@ -530,13 +530,15 @@ estimate of the distribution.
 
 :::: challenge
 
-The diagnostics don't look so good for some of the examples here. Which ones? Why?
+Inspect the diagnostics for the next nine cell types. Do they look okay?
 
 ::: solution
+```{r}
+par(mfrow = c(3,3))
 
-The example that jumps out most strongly to the eye is ExE endoderm, which doesn't show clear separate modes. Simultaneously, Endothelium seems to have three or four modes. 
+AUCell_exploreThresholds(cell.aucs[10:18], plotHist = TRUE, assign = TRUE) 
+```
 
-Remember, this is an exploratory diagnostic, not the final word! At this point it'd be good to engage in some critical inspection of the results. Maybe we don't have enough / the best marker genes. In this particular case, the fact that we subsetted the reference set to 1000 cells probably didn't help.
 :::
 
 ::::
@@ -631,7 +633,8 @@ Generally, it's good to keep in mind that the concept of "everything else" is no
 
 :::: challenge
 
-#### Extension Challenge 2z
+#### Extension Challenge 2: Parallelizing SingleR
+
 SingleR can be computationally expensive. How do you set it to run in parallel?
 
 ::: solution
@@ -652,6 +655,21 @@ res2 <- SingleR(test = sce.mat,
 
 `BiocParallel` is the most common way to enable parallel computation in Bioconductor packages, so you can expect to see it elsewhere outside of SingleR.
 
+:::
+
+::::
+
+:::: challenge
+
+#### Extension Challenge 3: Critical inspection of diagnostics
+
+The first set of AUCell diagnostics don't look so good for some of the examples here. Which ones? Why?
+
+::: solution
+
+The example that jumps out most strongly to the eye is ExE endoderm, which doesn't show clear separate modes. Simultaneously, Endothelium seems to have three or four modes. 
+
+Remember, this is an exploratory diagnostic, not the final word! At this point it'd be good to engage in some critical inspection of the results. Maybe we don't have enough / the best marker genes. In this particular case, the fact that we subsetted the reference set to 1000 cells probably didn't help.
 :::
 
 ::::
