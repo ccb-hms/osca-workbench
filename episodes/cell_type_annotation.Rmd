@@ -167,8 +167,6 @@ markers <- scoreMarkers(sce)
 markers
 ```
 
-<!-- TODO change this ^ to scoreMarkers() -->
-
 The resulting object contains a sorted marker gene list for each
 cluster, in which the top genes are those that contribute the most to
 the separation of that cluster from all other clusters.
@@ -218,7 +216,7 @@ You can see that at least among the top markers, cluster 6 (pale green) tends to
 plotReducedDim(sce, "UMAP", color_by = "label")
 ```
 
-Looking at the UMAP again, we can see that the marker gene overlap of clusters 1 and 6 makes sense. They're right next to each other on the UMAP. They're probably very closely related cell types, and a less granular clustering would probably lump them together.
+Looking at the UMAP again, we can see that the marker gene overlap of clusters 1 and 6 makes sense. They're right next to each other on the UMAP. They're probably closely related cell types, and a less granular clustering would probably lump them together.
 
 :::
 
@@ -278,6 +276,8 @@ in the [*SingleR*
 book](https://bioconductor.org/books/release/SingleRBook) from which
 most of the examples here are derived.
 
+Here we take a single sample from `EmbryoAtlasData` as our reference dataset. In practice you would want to take more/all samples, possibly with batch-effect correction (see the next episode).
+
 ```{r ref-data, message = FALSE}
 ref <- EmbryoAtlasData(samples = 29)
 
@@ -298,6 +298,7 @@ You can see we have an assortment of different cell types in the reference (with
 
 ```{r ref-celltypes}
 tab <- sort(table(ref$celltype), decreasing = TRUE)
+
 tab
 ```
 
@@ -398,28 +399,15 @@ pheatmap(log2(tab + 10), color = colorRampPalette(c("white", "blue"))(101))
 
 :::: challenge
 
-SingleR can be computationally expensive. How do you set it to run in parallel?
+Assign the SingleR annotations as a column in the colData for the query object `sce`.
 
 ::: solution
 
-Use `BiocParallel` and the `BPPARAM` argument! This example will set it to use four cores on your laptop, but you can also configure BiocParallel to use cluster jobs.
-
-```{r eval=FALSE, echo = TRUE}
-
-library(BiocParallel)
-
-my_bpparam = MulticoreParam(workers = 4)
-
-res <- SingleR(test = sce.mat, 
-               ref = ref.mat,
-               labels = ref$celltype,
-               BPPARAM = my_bpparam)
+```{r}
+sce$SingleR_label = res$pruned.labels
 ```
 
-`BiocParallel` is the most common way to enable parallel computation in Bioconductor packages, so you can expect to see it elsewhere outside of SingleR.
-
 :::
-
 ::::
 
 ### Assigning cell labels from gene sets
@@ -439,6 +427,25 @@ markers.z <- getTopMarkers(wilcox.z$statistics, wilcox.z$pairs,
 
 lengths(markers.z)
 ```
+
+<!--- 
+
+This version with scoreMarkers() produces worse looking diagnostics, so let's leave it with the pairwise Wilcox version.
+```{r atlas-markers}
+
+ref_markers <- scoreMarkers(ref, groups = ref$celltype, lfc = 1)
+
+get_top_markers <- function(marker_df, n = 100) {
+  ord <- order(marker_df$mean.AUC, decreasing = TRUE)
+  
+  rownames(marker_df[ord,])[1:n]
+}
+
+markers.z <- lapply(ref_markers, get_top_markers)
+
+``` 
+
+-->
 
 Our test dataset will be as before the wild-type chimera dataset.
 
@@ -620,6 +627,33 @@ One important reason why is because averages over all other clusters can be sens
 Generally, it's good to keep in mind that the concept of "everything else" is not a stable basis for comparison. Read that sentence again, because its a subtle but broadly applicable point. Think about it and you can probably identify analogous issues in fields outside of single-cell analysis. It frequently comes up when comparisons between multiple categories are involved.
 
 :::
+::::
+
+:::: challenge
+
+#### Extension Challenge 2z
+SingleR can be computationally expensive. How do you set it to run in parallel?
+
+::: solution
+
+Use `BiocParallel` and the `BPPARAM` argument! This example will set it to use four cores on your laptop, but you can also configure BiocParallel to use cluster jobs.
+
+```{r eval=FALSE, echo = TRUE}
+
+library(BiocParallel)
+
+my_bpparam = MulticoreParam(workers = 4)
+
+res2 <- SingleR(test = sce.mat, 
+                ref = ref.mat,
+                labels = ref$celltype,
+                BPPARAM = my_bpparam)
+```
+
+`BiocParallel` is the most common way to enable parallel computation in Bioconductor packages, so you can expect to see it elsewhere outside of SingleR.
+
+:::
+
 ::::
 
 ::: checklist
