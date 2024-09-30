@@ -269,7 +269,7 @@
 <li><a href="#installation">Installation</a></li>
 <li><a href="#package-load">Package load</a></li>
 <li><a href="#hca-metadata">HCA Metadata</a></li>
-<li><a href="#a-note-on-the-piping-operator">A note on the piping operator</a></li>
+<li><a href="#a-note-on-the-pipe-operator">A note on the pipe operator</a></li>
 <li><a href="#summarizing-the-metadata">Summarizing the metadata</a></li>
 <li><a href="#columns-available-in-the-metadata">Columns available in the metadata</a></li>
 <li><a href="#available-assays">Available assays</a></li>
@@ -338,7 +338,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Accessing data from the Human Cell Atlas (HCA)</h1>
-        <p>Last updated on 2024-09-24 |
+        <p>Last updated on 2024-09-30 |
 
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/hca.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -486,7 +486,7 @@ $ cell_annotation_monaco_singler    &lt;chr&gt; "natural killer", "effector memo
 $ sample_id_db                      &lt;chr&gt; "0c1d320a7d0cbbc281a535912722d272", …
 $ `_sample_name`                    &lt;chr&gt; "BPH340PrSF_Via___transition zone of…</code></pre>
 </div>
-</section><section><h2 class="section-heading" id="a-note-on-the-piping-operator">A note on the piping operator<a class="anchor" aria-label="anchor" href="#a-note-on-the-piping-operator"></a></h2>
+</section><section><h2 class="section-heading" id="a-note-on-the-pipe-operator">A note on the pipe operator<a class="anchor" aria-label="anchor" href="#a-note-on-the-pipe-operator"></a></h2>
 <hr class="half-width"><p>The vignette materials provided by <code>CuratedAtlasQueryR</code>
 show the use of the ‘native’ R pipe (implemented after R version
 <code>4.1.0</code>). For those not familiar with the pipe operator
@@ -632,9 +632,9 @@ samples:</p>
 <code class="sourceCode R"><span><span class="va">sample_subset</span> <span class="op">=</span> <span class="va">metadata</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">filter</span><span class="op">(</span></span>
 <span>        <span class="va">ethnicity</span> <span class="op">==</span> <span class="st">"African"</span> <span class="op">&amp;</span></span>
-<span>        <span class="fu">stringr</span><span class="fu">::</span><span class="fu">str_like</span><span class="op">(</span><span class="va">assay</span>, <span class="st">"%10x%"</span><span class="op">)</span> <span class="op">&amp;</span></span>
+<span>        <span class="fu">grepl</span><span class="op">(</span><span class="st">"10x"</span>, <span class="va">assay</span><span class="op">)</span> <span class="op">&amp;</span></span>
 <span>        <span class="va">tissue</span> <span class="op">==</span> <span class="st">"lung parenchyma"</span> <span class="op">&amp;</span></span>
-<span>        <span class="fu">stringr</span><span class="fu">::</span><span class="fu">str_like</span><span class="op">(</span><span class="va">cell_type</span>, <span class="st">"%CD4%"</span><span class="op">)</span></span>
+<span>        <span class="fu">grepl</span><span class="op">(</span><span class="st">"CD4"</span>, <span class="va">cell_type</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span></code></pre>
 </div>
 <div class="section level4">
@@ -755,12 +755,12 @@ objects, if necessary, is to use
 </div>
 </div>
 </section><section><h2 class="section-heading" id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a></h2>
-<hr class="half-width"><div id="exercise-1" class="callout challenge">
+<hr class="half-width"><div id="exercise-1-basic-counting-piping" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
-<div id="exercise-1" class="callout-inner">
-<h3 class="callout-title">Exercise 1</h3>
+<div id="exercise-1-basic-counting-piping" class="callout-inner">
+<h3 class="callout-title">Exercise 1: Basic counting + piping</h3>
 <div class="callout-content">
 <p>Use <code>count</code> and <code>arrange</code> to get the number of
 cells per tissue in descending order.</p>
@@ -772,7 +772,7 @@ cells per tissue in descending order.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -786,17 +786,17 @@ cells per tissue in descending order.</p>
 </div>
 </div>
 </div>
-<div id="exercise-2" class="callout challenge">
+<div id="exercise-2-tissue-type-counting" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
-<div id="exercise-2" class="callout-inner">
-<h3 class="callout-title">Exercise 2</h3>
+<div id="exercise-2-tissue-type-counting" class="callout-inner">
+<h3 class="callout-title">Exercise 2: Tissue &amp; type counting</h3>
 <div class="callout-content">
-<p>Use <code>dplyr</code>-isms to group by <code>tissue</code> and
-<code>cell_type</code> and get a tally of the highest number of cell
-types per tissue combination. What tissue has the most numerous type of
-cells?</p>
+<p><code>count()</code> can group by multiple factors by simply adding
+another grouping column as an additional argument. Get a tally of the
+highest number of cell types per tissue combination. What tissue has the
+most numerous type of cells?</p>
 </div>
 </div>
 </div>
@@ -805,7 +805,7 @@ cells?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -813,18 +813,19 @@ cells?</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">metadata</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">count</span><span class="op">(</span><span class="va">tissue</span>, <span class="va">cell_type</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">arrange</span><span class="op">(</span><span class="op">-</span><span class="va">n</span><span class="op">)</span></span></code></pre>
+<span>    <span class="fu">arrange</span><span class="op">(</span><span class="op">-</span><span class="va">n</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu">head</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div id="exercise-3" class="callout challenge">
+<div id="exercise-3-comparing-metadata-categories" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
-<div id="exercise-3" class="callout-inner">
-<h3 class="callout-title">Exercise 3</h3>
+<div id="exercise-3-comparing-metadata-categories" class="callout-inner">
+<h3 class="callout-title">Exercise 3: Comparing metadata categories</h3>
 <div class="callout-content">
 <p>Spot some differences between the <code>tissue</code> and
 <code>tissue_harmonised</code> columns. Use <code>count</code> to
@@ -837,7 +838,7 @@ summarise.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -851,6 +852,9 @@ summarise.</p>
 <span>    <span class="fu">count</span><span class="op">(</span><span class="va">tissue_harmonised</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">arrange</span><span class="op">(</span><span class="op">-</span><span class="va">n</span><span class="op">)</span></span></code></pre>
 </div>
+<p>For example you can see that <code>tissue_harmonised</code> merges
+the <code>cortex of kidney</code> and <code>kidney</code> groups in
+<code>tissue</code>.</p>
 <p>To see the full list of curated columns in the metadata, see the
 Details section in the <code>?get_metadata</code> documentation
 page.</p>
@@ -858,12 +862,12 @@ page.</p>
 </div>
 </div>
 </div>
-<div id="exercise-4" class="callout challenge">
+<div id="exercise-4-highly-specific-cell-groups" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
-<div id="exercise-4" class="callout-inner">
-<h3 class="callout-title">Exercise 4</h3>
+<div id="exercise-4-highly-specific-cell-groups" class="callout-inner">
+<h3 class="callout-title">Exercise 4: Highly specific cell groups</h3>
 <div class="callout-content">
 <p>Now that we are a little familiar with navigating the metadata, let’s
 obtain a <code>SingleCellExperiment</code> of 10X scRNA-seq counts of
@@ -878,7 +882,7 @@ columns, where possible.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb28">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -888,7 +892,7 @@ columns, where possible.</p>
 <span>    <span class="fu">filter</span><span class="op">(</span></span>
 <span>        <span class="va">sex</span> <span class="op">==</span> <span class="st">"female"</span> <span class="op">&amp;</span></span>
 <span>        <span class="va">age_days</span> <span class="op">&gt;</span> <span class="fl">80</span> <span class="op">*</span> <span class="fl">365</span> <span class="op">&amp;</span></span>
-<span>        <span class="fu">stringr</span><span class="fu">::</span><span class="fu">str_like</span><span class="op">(</span><span class="va">assay</span>, <span class="st">"%10x%"</span><span class="op">)</span> <span class="op">&amp;</span></span>
+<span>        <span class="fu">grepl</span><span class="op">(</span><span class="st">"10x"</span>, <span class="va">assay</span><span class="op">)</span> <span class="op">&amp;</span></span>
 <span>        <span class="va">disease</span> <span class="op">==</span> <span class="st">"COVID-19"</span> <span class="op">&amp;</span>  </span>
 <span>        <span class="va">tissue_harmonised</span> <span class="op">==</span> <span class="st">"lung"</span> <span class="op">&amp;</span> </span>
 <span>        <span class="va">cell_type_harmonised</span> <span class="op">==</span> <span class="st">"cd8 tem"</span></span>
@@ -911,6 +915,8 @@ reducedDimNames(0):
 mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
+<p>You can see we don’t get very many cells given the strict set of
+conditions we used.</p>
 </div>
 </div>
 </div>
@@ -992,7 +998,7 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/instructor/hca.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/instructor/hca.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-09-24",
+  "dateModified": "2024-09-30",
   "datePublished": "2024-09-30"
 }
 
