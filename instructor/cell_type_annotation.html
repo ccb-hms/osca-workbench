@@ -518,7 +518,7 @@ what we’d need to change to get fewer, larger clusters.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>We see in the help documentation for <code>?clusterCells</code> that
 all of the clustering algorithm details are handled through the
@@ -712,7 +712,7 @@ section. Do the difficult-to-distinguish clusters make sense?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>You can see that at least among the top markers, cluster 6 (pale
 green) tends to have the least separation from cluster 1.</p>
@@ -1007,7 +1007,7 @@ query object <code>sce</code>.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb31">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1270,7 +1270,7 @@ okay?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb43">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2306,7 +2306,7 @@ UMAP plot.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>The <code>NNGraphParam</code> constructor has an argument
 <code>cluster.args</code>. This allows to specify arguments passed on to
@@ -2323,41 +2323,36 @@ parameter of 0.5.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
 <div class="accordion-body">
-<p>TODO</p>
+<div class="codewrapper sourceCode" id="cb47">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">arg_list</span> <span class="op">&lt;-</span> <span class="fu">list</span><span class="op">(</span>objective_function <span class="op">=</span> <span class="st">"modularity"</span>,</span>
+<span>                 resolution_parameter <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sce</span><span class="op">$</span><span class="va">leiden_clust</span> <span class="op">&lt;-</span> <span class="fu">clusterCells</span><span class="op">(</span><span class="va">sce</span>, use.dimred <span class="op">=</span> <span class="st">"PCA"</span>,</span>
+<span>                               BLUSPARAM <span class="op">=</span> <span class="fu">NNGraphParam</span><span class="op">(</span>cluster.fun <span class="op">=</span> <span class="st">"leiden"</span>, </span>
+<span>                                                        cluster.args <span class="op">=</span> <span class="va">arg_list</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">plotReducedDim</span><span class="op">(</span><span class="va">sce</span>, <span class="st">"UMAP"</span>, color_by <span class="op">=</span> <span class="st">"leiden_clust"</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/cell_type_annotation-rendered-unnamed-chunk-8-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></div>
 </div>
 </div>
 </div>
-</div>
-<div id="exercise-2-cluster-annotation" class="callout challenge">
+<div id="exercise-2-reference-marker-genes" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
-<div id="exercise-2-cluster-annotation" class="callout-inner">
-<h3 class="callout-title">Exercise 2: Cluster annotation</h3>
+<div id="exercise-2-reference-marker-genes" class="callout-inner">
+<h3 class="callout-title">Exercise 2: Reference marker genes</h3>
 <div class="callout-content">
-<p>Another strategy for annotating the clusters is to perform a gene set
-enrichment analysis on the marker genes defining each cluster. This
-identifies the pathways and processes that are (relatively) active in
-each cluster based on upregulation of the associated genes compared to
-other clusters. Focus on the top 100 up-regulated genes in a cluster of
-your choice and perform a gene set enrichment analysis of biological
-process (BP) gene sets from the Gene Ontology (GO).</p>
-</div>
-</div>
-</div>
-<div id="accordionHint2" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
-  <h4 class="accordion-header" id="headingHint2"> Give me a hint </h4>
-</button>
-<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
-<div class="accordion-body">
-<p>Use the <code>goana()</code> function from the <em><a href="https://bioconductor.org/packages/3.19/limma" class="external-link">limma</a></em>
-package to identify GO BP terms that are overrepresented in the list of
-marker genes.</p>
-</div>
+<p>Identify the marker genes in the reference single cell experiment,
+using the <code>celltype</code> labels that come with the dataset as the
+groups. Compare the top 100 marker genes of two cell types that are
+close in UMAP space. Do they share similar marker sets?</p>
 </div>
 </div>
 </div>
@@ -2366,39 +2361,57 @@ marker genes.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
   <h4 class="accordion-header" id="headingSolution6"> Show me the solution </h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
 <div class="accordion-body">
-<p>TODO</p>
+<div class="codewrapper sourceCode" id="cb48">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">markers</span> <span class="op">&lt;-</span> <span class="fu">scoreMarkers</span><span class="op">(</span><span class="va">ref</span>, groups <span class="op">=</span> <span class="va">ref</span><span class="op">$</span><span class="va">celltype</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">markers</span></span></code></pre>
 </div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>List of length 19
+names(19): Allantois Cardiomyocytes ... Spinal cord Surface ectoderm</code></pre>
 </div>
+<div class="codewrapper sourceCode" id="cb50">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># It comes with UMAP precomputed too</span></span>
+<span><span class="fu">plotReducedDim</span><span class="op">(</span><span class="va">ref</span>, dimred <span class="op">=</span> <span class="st">"umap"</span>, color_by <span class="op">=</span> <span class="st">"celltype"</span><span class="op">)</span> </span></code></pre>
 </div>
+<figure><img src="../fig/cell_type_annotation-rendered-unnamed-chunk-9-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb51">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Repetitive work -&gt; write a function</span></span>
+<span><span class="va">order_marker_df</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">m_df</span>, <span class="va">n</span> <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="va">ord</span> <span class="op">&lt;-</span> <span class="fu">order</span><span class="op">(</span><span class="va">m_df</span><span class="op">$</span><span class="va">mean.AUC</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="fu">rownames</span><span class="op">(</span><span class="va">m_df</span><span class="op">[</span><span class="va">ord</span>,<span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span>,<span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">order_marker_df</span><span class="op">(</span><span class="va">markers</span><span class="op">[[</span><span class="st">"Erythroid2"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu">order_marker_df</span><span class="op">(</span><span class="va">markers</span><span class="op">[[</span><span class="st">"Erythroid3"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">length</span><span class="op">(</span><span class="fu">intersect</span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fl">100</span></span></code></pre>
 </div>
-<div id="exercise-3-workflow" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] 0.66</code></pre>
 </div>
-<div id="exercise-3-workflow" class="callout-inner">
-<h3 class="callout-title">Exercise 3: Workflow</h3>
-<div class="callout-content">
-<p>The <a href="https://bioconductor.org/packages/scRNAseq" class="external-link">scRNAseq</a>
-package provides gene-level counts for a collection of public scRNA-seq
-datasets, stored as <code>SingleCellExperiment</code> objects with
-annotated cell- and gene-level metadata. Consult the vignette of the <a href="https://bioconductor.org/packages/scRNAseq" class="external-link">scRNAseq</a> package
-to inspect all available datasets and select a dataset of your choice.
-Perform a typical scRNA-seq analysis on this dataset including QC,
-normalization, feature selection, dimensionality reduction, clustering,
-and marker gene detection.</p>
-</div>
-</div>
-</div>
-<div id="accordionSolution7" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution7" aria-expanded="false" aria-controls="collapseSolution7">
-  <h4 class="accordion-header" id="headingSolution7"> Show me the solution </h4>
-</button>
-<div id="collapseSolution7" class="accordion-collapse collapse" aria-labelledby="headingSolution7" data-bs-parent="#accordionSolution7">
-<div class="accordion-body">
-<p>TODO</p>
+<p>Turns out there’s pretty substantial overlap between
+<code>Erythroid2</code> and <code>Erythroid3</code>. It would also be
+interesting to plot the expression of the set difference to confirm that
+the remainder are the the genes used to distinguish these two types from
+each other.</p>
 </div>
 </div>
 </div>
@@ -2416,12 +2429,12 @@ clusters?</p>
 </div>
 </div>
 </div>
-<div id="accordionSolution8" class="accordion challenge-accordion accordion-flush">
+<div id="accordionSolution7" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution8" aria-expanded="false" aria-controls="collapseSolution8">
-  <h4 class="accordion-header" id="headingSolution8"> Show me the solution </h4>
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution7" aria-expanded="false" aria-controls="collapseSolution7">
+  <h4 class="accordion-header" id="headingSolution7"> Show me the solution </h4>
 </button>
-<div id="collapseSolution8" class="accordion-collapse collapse" aria-labelledby="headingSolution8" data-bs-parent="#accordionSolution8">
+<div id="collapseSolution7" class="accordion-collapse collapse" data-bs-parent="#accordionSolution7" aria-labelledby="headingSolution7">
 <div class="accordion-body">
 <p>One important reason why is because averages over all other clusters
 can be sensitive to the cell type composition. If a rare cell type shows
@@ -2450,17 +2463,17 @@ parallel?</p>
 </div>
 </div>
 </div>
-<div id="accordionSolution9" class="accordion challenge-accordion accordion-flush">
+<div id="accordionSolution8" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution9" aria-expanded="false" aria-controls="collapseSolution9">
-  <h4 class="accordion-header" id="headingSolution9"> Show me the solution </h4>
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution8" aria-expanded="false" aria-controls="collapseSolution8">
+  <h4 class="accordion-header" id="headingSolution8"> Show me the solution </h4>
 </button>
-<div id="collapseSolution9" class="accordion-collapse collapse" aria-labelledby="headingSolution9" data-bs-parent="#accordionSolution9">
+<div id="collapseSolution8" class="accordion-collapse collapse" data-bs-parent="#accordionSolution8" aria-labelledby="headingSolution8">
 <div class="accordion-body">
 <p>Use <code>BiocParallel</code> and the <code>BPPARAM</code> argument!
 This example will set it to use four cores on your laptop, but you can
 also configure BiocParallel to use cluster jobs.</p>
-<div class="codewrapper sourceCode" id="cb47">
+<div class="codewrapper sourceCode" id="cb53">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -2492,12 +2505,12 @@ the examples here. Which ones? Why?</p>
 </div>
 </div>
 </div>
-<div id="accordionSolution10" class="accordion challenge-accordion accordion-flush">
+<div id="accordionSolution9" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution10" aria-expanded="false" aria-controls="collapseSolution10">
-  <h4 class="accordion-header" id="headingSolution10"> Show me the solution </h4>
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution9" aria-expanded="false" aria-controls="collapseSolution9">
+  <h4 class="accordion-header" id="headingSolution9"> Show me the solution </h4>
 </button>
-<div id="collapseSolution10" class="accordion-collapse collapse" aria-labelledby="headingSolution10" data-bs-parent="#accordionSolution10">
+<div id="collapseSolution9" class="accordion-collapse collapse" data-bs-parent="#accordionSolution9" aria-labelledby="headingSolution9">
 <div class="accordion-body">
 <p>The example that jumps out most strongly to the eye is ExE endoderm,
 which doesn’t show clear separate modes. Simultaneously, Endothelium
