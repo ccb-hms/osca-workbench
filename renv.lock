@@ -1689,6 +1689,9 @@
       "Version": "5.2.1",
       "Source": "Repository",
       "Repository": "https://carpentries.r-universe.dev",
+      "RemoteUrl": "https://github.com/jeroen/curl",
+      "RemoteRef": "5.2.1",
+      "RemoteSha": "d9f2a6f50932307c89fb7b03bd1a0ef4783fc26f",
       "Requirements": [
         "R"
       ],
@@ -2690,6 +2693,9 @@
       "Version": "2.2.0",
       "Source": "Repository",
       "Repository": "https://carpentries.r-universe.dev",
+      "RemoteUrl": "https://github.com/jeroen/openssl",
+      "RemoteRef": "v2.2.0",
+      "RemoteSha": "dbd2c9502f380d60b80c769140a7be88dd0cefb8",
       "Requirements": [
         "askpass"
       ],
@@ -2897,7 +2903,7 @@
       "Package": "ragg",
       "Version": "1.3.2",
       "Source": "Repository",
-      "Repository": "carpentries",
+      "Repository": "CRAN",
       "Requirements": [
         "systemfonts",
         "textshaping"
