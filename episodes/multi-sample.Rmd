@@ -145,13 +145,13 @@ Expression Analysis.
 
 :::: challenge
 
-Having multiple independent samples in each experimental group is always helpful, but it particularly important when it comes to batch effect correction. Why?
+True or False: after batch correction, no batch-level information is present in the corrected data.
 
 ::: solution
 
-It's important to have multiple samples within each experimental group because it helps the batch effect correction algorithm distinguish differences due to batch effects (uninteresting) from differences due to biology (interesting). 
+False. Batch-level data can be retained through confounding with experimental factors or poor ability to distinguish experimental effects from batch effects. Remember, the changes needed to correct the data are empirically estimated, so they can carry along error. 
 
-Imagine you had one sample that received a drug treatment and one that did not, each with 10,000 cells. They differ substantially in expression of gene X. Is that an important scientific finding? You can't tell for sure, because the effect of drug is indistinguishable from a sample-wise batch effect. But if the difference in gene X holds up when you have five treated samples and five untreated samples, now you can be a bit more confident. Many batch effect correction methods will take information on experimental factors as additional arguments, which they can use to help remove batch effects while retaining experimental differences.
+While batch effect correction algorithms usually do a pretty good job, it's smart to do a sanity check for batch effects at the end of your analysis. You always want to make sure that that effect you're resting your paper submission on isn't driven by batch effects.
 
 :::
 
@@ -369,7 +369,7 @@ Clearly some of the results have low p-values. What about the effect sizes? What
 
 ::: solution
 
-"logFC" stands for log fold-change. Rather than reporting e.g. a 5-fold increase, it's better to report a logFC of log(5) = 1.61. Additive log scales are easier to work with than multiplicative identity scales, once you get used to it.
+"logFC" stands for log fold-change. `edgeR` uses a log2 convention. Rather than reporting e.g. a 5-fold increase, it's better to report a logFC of log2(5) = 2.32. Additive log scales are easier to work with than multiplicative identity scales, once you get used to it.
 
 `ENSMUSG00000037664` seems to have an estimated logFC of about -8. That's a big difference if it's real.
 
@@ -529,7 +529,7 @@ de.results <- pseudoBulkDGE(
 
 :::::::::::::::::::::::::::::::::: challenge
 
-#### Exercise 2: 
+#### Exercise 2: Heatmaps
 
 Use the `pheatmap` package to create a heatmap of the abundances table. Does it comport with the model results?
 
@@ -550,6 +550,22 @@ The top DA result was a decrease in ExE ectoderm in the tomato condition, which 
 :::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::::::::
+
+:::: challenge
+
+#### Extension challenge 1: Group effects
+
+Having multiple independent samples in each experimental group is always helpful, but it particularly important when it comes to batch effect correction. Why?
+
+::: solution
+
+It's important to have multiple samples within each experimental group because it helps the batch effect correction algorithm distinguish differences due to batch effects (uninteresting) from differences due to group/treatment/biology (interesting). 
+
+Imagine you had one sample that received a drug treatment and one that did not, each with 10,000 cells. They differ substantially in expression of gene X. Is that an important scientific finding? You can't tell for sure, because the effect of drug is indistinguishable from a sample-wise batch effect. But if the difference in gene X holds up when you have five treated samples and five untreated samples, now you can be a bit more confident. Many batch effect correction methods will take information on experimental factors as additional arguments, which they can use to help remove batch effects while retaining experimental differences.
+
+:::
+
+::::
 
 :::::::::::::: checklist
 ## Further Reading
