@@ -125,7 +125,7 @@ $ sample_id_db                      <chr> "0c1d320a7d0cbbc281a535912722d272", â€
 $ `_sample_name`                    <chr> "BPH340PrSF_Via___transition zone ofâ€¦
 ```
 
-## A note on the piping operator
+## A note on the pipe operator
 
 The vignette materials provided by `CuratedAtlasQueryR` show the use of the
 'native' R pipe (implemented after R version `4.1.0`). For those not familiar
@@ -253,9 +253,9 @@ For the sake of demonstration, we'll focus this small subset of samples:
 sample_subset = metadata |>
     filter(
         ethnicity == "African" &
-        stringr::str_like(assay, "%10x%") &
+        grepl("10x", assay) &
         tissue == "lung parenchyma" &
-        stringr::str_like(cell_type, "%CD4%")
+        grepl("CD4", cell_type)
     )
 ```
 
@@ -367,7 +367,7 @@ single_cell_counts |> saveHDF5SummarizedExperiment("single_cell_counts")
 
 :::::::::::::::::::::::::::::::::: challenge
 
-#### Exercise 1
+#### Exercise 1: Basic counting + piping
 
 Use `count` and `arrange` to get the number of cells per tissue in descending
 order.
@@ -386,11 +386,11 @@ metadata |>
 
 :::::::::::::::::::::::::::::::::: challenge
 
-#### Exercise 2
+#### Exercise 2: Tissue & type counting
 
-Use `dplyr`-isms to group by `tissue` and `cell_type` and get a tally of the
-highest number of cell types per tissue combination. What tissue has the most
-numerous type of cells? 
+`count()` can group by multiple factors by simply adding another grouping column
+as an additional argument. Get a tally of the highest number of cell types per
+tissue combination. What tissue has the most numerous type of cells?
 
 :::::::::::::: solution
 
@@ -398,7 +398,8 @@ numerous type of cells?
 ``` r
 metadata |>
     count(tissue, cell_type) |>
-    arrange(-n)
+    arrange(-n) |> 
+    head(n = 1)
 ```
 :::::::::::::::::::::::
 
@@ -406,7 +407,7 @@ metadata |>
 
 :::::::::::::::::::::::::::::::::: challenge
 
-#### Exercise 3
+#### Exercise 3: Comparing metadata categories
 
 Spot some differences between the `tissue` and `tissue_harmonised` columns.
 Use `count` to summarise.
@@ -423,6 +424,10 @@ metadata |>
     count(tissue_harmonised) |>
     arrange(-n)
 ```
+
+For example you can see that `tissue_harmonised` merges the `cortex of kidney`
+and `kidney` groups in `tissue`.
+
 To see the full list of curated columns in the metadata, see the Details section
 in the `?get_metadata` documentation page.
     
@@ -432,7 +437,7 @@ in the `?get_metadata` documentation page.
 
 :::::::::::::::::::::::::::::::::: challenge
 
-#### Exercise 4
+#### Exercise 4: Highly specific cell groups
 
 Now that we are a little familiar with navigating the metadata, let's obtain
 a `SingleCellExperiment` of 10X scRNA-seq counts of `cd8 tem` `lung` cells for
@@ -447,7 +452,7 @@ metadata |>
     filter(
         sex == "female" &
         age_days > 80 * 365 &
-        stringr::str_like(assay, "%10x%") &
+        grepl("10x", assay) &
         disease == "COVID-19" &  
         tissue_harmonised == "lung" & 
         cell_type_harmonised == "cd8 tem"
@@ -469,6 +474,8 @@ reducedDimNames(0):
 mainExpName: NULL
 altExpNames(0):
 ```
+
+You can see we don't get very many cells given the strict set of conditions we used.
 :::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::::::::
