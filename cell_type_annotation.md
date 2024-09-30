@@ -1881,47 +1881,71 @@ of 0.5.
 :::
 
 ::: solution
-TODO
+
+``` r
+arg_list <- list(objective_function = "modularity",
+                 resolution_parameter = .5)
+
+sce$leiden_clust <- clusterCells(sce, use.dimred = "PCA",
+                               BLUSPARAM = NNGraphParam(cluster.fun = "leiden", 
+                                                        cluster.args = arg_list))
+
+plotReducedDim(sce, "UMAP", color_by = "leiden_clust")
+```
+
+<img src="fig/cell_type_annotation-rendered-unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
+
 :::
 :::
 
 ::: challenge
-#### Exercise 2: Cluster annotation
+#### Exercise 2: Reference marker genes
 
-Another strategy for annotating the clusters is to perform a gene set
-enrichment analysis on the marker genes defining each cluster. This
-identifies the pathways and processes that are (relatively) active in
-each cluster based on upregulation of the associated genes compared to
-other clusters. Focus on the top 100 up-regulated genes in a cluster of
-your choice and perform a gene set enrichment analysis of biological
-process (BP) gene sets from the Gene Ontology (GO).
-
-::: hint
-Use the `goana()` function from the *[limma](https://bioconductor.org/packages/3.19/limma)* package to
-identify GO BP terms that are overrepresented in the list of marker
-genes.
-:::
+Identify the marker genes in the reference single cell experiment, using the `celltype` labels that come with the dataset as the groups. Compare the top 100 marker genes of two cell types that are close in UMAP space. Do they share similar marker sets?
 
 ::: solution
-TODO
-:::
-:::
 
-::: challenge
-#### Exercise 3: Workflow
 
-The [scRNAseq](https://bioconductor.org/packages/scRNAseq) package
-provides gene-level counts for a collection of public scRNA-seq
-datasets, stored as `SingleCellExperiment` objects with annotated cell-
-and gene-level metadata. Consult the vignette of the
-[scRNAseq](https://bioconductor.org/packages/scRNAseq) package to
-inspect all available datasets and select a dataset of your choice.
-Perform a typical scRNA-seq analysis on this dataset including QC,
-normalization, feature selection, dimensionality reduction, clustering,
-and marker gene detection.
+``` r
+markers <- scoreMarkers(ref, groups = ref$celltype)
 
-::: solution
-TODO
+markers
+```
+
+``` output
+List of length 19
+names(19): Allantois Cardiomyocytes ... Spinal cord Surface ectoderm
+```
+
+``` r
+# It comes with UMAP precomputed too
+plotReducedDim(ref, dimred = "umap", color_by = "celltype") 
+```
+
+<img src="fig/cell_type_annotation-rendered-unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+
+``` r
+# Repetitive work -> write a function
+order_marker_df <- function(m_df, n = 100) {
+  
+  ord <- order(m_df$mean.AUC, decreasing = TRUE)
+  
+  rownames(m_df[ord,][1:n,])
+}
+
+x <- order_marker_df(markers[["Erythroid2"]])
+
+y <- order_marker_df(markers[["Erythroid3"]])
+
+length(intersect(x,y)) / 100
+```
+
+``` output
+[1] 0.66
+```
+
+Turns out there's pretty substantial overlap between `Erythroid2` and `Erythroid3`. It would also be interesting to plot the expression of the set difference to confirm that the remainder are the the genes used to distinguish these two types from each other.
+
 :::
 :::
 
