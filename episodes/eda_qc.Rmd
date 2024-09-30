@@ -72,8 +72,8 @@ bcrank <- barcodeRanks(counts(sce))
 # Only showing unique points for plotting speed.
 uniq <- !duplicated(bcrank$rank)
 
-line_df = data.frame(cutoff = names(metadata(bcrank)),
-                     value  = unlist(metadata(bcrank)))
+line_df <- data.frame(cutoff = names(metadata(bcrank)),
+                      value  = unlist(metadata(bcrank)))
 
 ggplot(bcrank[uniq,], aes(rank, total)) + 
     geom_point() + 
@@ -92,6 +92,8 @@ A simple approach would be to apply a threshold on the total count to only retai
 
 ::: callout
 Depending on your data source, identifying and discarding empty droplets may not be necessary. Some academic institutions have research cores dedicated to single cell work that perform the sample preparation and sequencing. Many of these cores will also perform empty droplet filtering and other initial QC steps. If the sequencing outputs were provided to you by someone else, make sure to communicate with them about what pre-processing steps have been performed, if any.
+
+<!-- TODO: cite official 10x CellRanger docs -->
 :::
 
 :::: challenge 
@@ -671,7 +673,7 @@ e.out <- emptyDrops(counts(sce))
 sce <- sce[,which(e.out$FDR <= 0.001)]
 
 # Thankfully the data come with gene symbols, which we can use to identify mitochondrial genes:
-is.mito = grepl("^MT-", rowData(sce)$Symbol) 
+is.mito <- grepl("^MT-", rowData(sce)$Symbol) 
 
 # QC metrics ----
 df <- perCellQCMetrics(sce, subsets = list(Mito = is.mito))

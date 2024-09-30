@@ -388,8 +388,8 @@ reducedDim(r.out, "PCA") = -1 * reducedDim(r.out, "PCA")
 From there we can visualize the error with a histogram:
 
 ```{r}
-error = reducedDim(r.out, "PCA")[,"PC1"] - 
-        reducedDim(e.out, "PCA")[,"PC1"]
+error <- reducedDim(r.out, "PCA")[,"PC1"] - 
+         reducedDim(e.out, "PCA")[,"PC1"]
 
 data.frame(approx_error = error) |> 
   ggplot(aes(approx_error)) + 
@@ -569,15 +569,15 @@ function for writing to HDF5 from the `r Biocpkg("HDF5Array")` package.
 
 ```{r}
 
-wt_out = tempfile(fileext = ".h5")
+wt_out <- tempfile(fileext = ".h5")
 
-wt_counts = counts(WTChimeraData())
+wt_counts <- counts(WTChimeraData())
 
 writeHDF5Array(wt_counts,
                name = "wt_counts",
                file = wt_out)
 
-oom_wt = HDF5Array(wt_out, "wt_counts")
+oom_wt <- HDF5Array(wt_out, "wt_counts")
 
 object.size(wt_counts)
 
@@ -607,7 +607,7 @@ Use the function `system.time` to obtain the runtime of each job.
 
 ```{r eval=FALSE}
 
-sce.brain = logNormCounts(sce.brain)
+sce.brain <- logNormCounts(sce.brain)
 
 system.time({i.out <- runPCA(sce.brain, 
                              ncomponents = 20, 
