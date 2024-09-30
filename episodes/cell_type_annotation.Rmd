@@ -431,7 +431,7 @@ lengths(markers.z)
 <!--- 
 
 This version with scoreMarkers() produces worse looking diagnostics, so let's leave it with the pairwise Wilcox version.
-```{r atlas-markers}
+```{r atlas-markers-sM}
 
 ref_markers <- scoreMarkers(ref, groups = ref$celltype, lfc = 1)
 
