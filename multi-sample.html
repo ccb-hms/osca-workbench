@@ -331,7 +331,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Multi-sample analyses</h1>
-        <p>Last updated on 2024-09-24 |
+        <p>Last updated on 2024-09-30 |
 
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/multi-sample.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -543,7 +543,7 @@ factor presumably leading to this difference?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Samples 5 and 6 were from the same “pool” of cells. Looking at the
 documentation for the dataset under <code>?WTChimeraData</code> we see
@@ -596,9 +596,8 @@ Differential Expression Analysis.</p>
 <div class="callout-inner">
 <h3 class="callout-title">Challenge</h3>
 <div class="callout-content">
-<p>Having multiple independent samples in each experimental group is
-always helpful, but it particularly important when it comes to batch
-effect correction. Why?</p>
+<p>True or False: after batch correction, no batch-level information is
+present in the corrected data.</p>
 </div>
 </div>
 </div>
@@ -607,22 +606,16 @@ effect correction. Why?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
-<p>It’s important to have multiple samples within each experimental
-group because it helps the batch effect correction algorithm distinguish
-differences due to batch effects (uninteresting) from differences due to
-biology (interesting).</p>
-<p>Imagine you had one sample that received a drug treatment and one
-that did not, each with 10,000 cells. They differ substantially in
-expression of gene X. Is that an important scientific finding? You can’t
-tell for sure, because the effect of drug is indistinguishable from a
-sample-wise batch effect. But if the difference in gene X holds up when
-you have five treated samples and five untreated samples, now you can be
-a bit more confident. Many batch effect correction methods will take
-information on experimental factors as additional arguments, which they
-can use to help remove batch effects while retaining experimental
-differences.</p>
+<p>False. Batch-level data can be retained through confounding with
+experimental factors or poor ability to distinguish experimental effects
+from batch effects. Remember, the changes needed to correct the data are
+empirically estimated, so they can carry along error.</p>
+<p>While batch effect correction algorithms usually do a pretty good
+job, it’s smart to do a sanity check for batch effects at the end of
+your analysis. You always want to make sure that that effect you’re
+resting your paper submission on isn’t driven by batch effects.</p>
 </div>
 </div>
 </div>
@@ -1057,12 +1050,12 @@ sizes? What does <code>logFC</code> stand for?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
-<p>“logFC” stands for log fold-change. Rather than reporting e.g. a
-5-fold increase, it’s better to report a logFC of log(5) = 1.61.
-Additive log scales are easier to work with than multiplicative identity
-scales, once you get used to it.</p>
+<p>“logFC” stands for log fold-change. <code>edgeR</code> uses a log2
+convention. Rather than reporting e.g. a 5-fold increase, it’s better to
+report a logFC of log2(5) = 2.32. Additive log scales are easier to work
+with than multiplicative identity scales, once you get used to it.</p>
 <p><code>ENSMUSG00000037664</code> seems to have an estimated logFC of
 about -8. That’s a big difference if it’s real.</p>
 </div>
@@ -1374,7 +1367,7 @@ issues.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
 <div class="accordion-body">
 <p>Remember, you can subset SingleCellExperiments with logical indices,
 just like a matrix. You can also access their column data with the
@@ -1388,7 +1381,7 @@ just like a matrix. You can also access their column data with the
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb52">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1408,12 +1401,12 @@ just like a matrix. You can also access their column data with the
 </div>
 </div>
 </div>
-<div id="exercise-2" class="callout challenge">
+<div id="exercise-2-heatmaps" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
-<div id="exercise-2" class="callout-inner">
-<h3 class="callout-title">Exercise 2:</h3>
+<div id="exercise-2-heatmaps" class="callout-inner">
+<h3 class="callout-title">Exercise 2: Heatmaps</h3>
 <div class="callout-content">
 <p>Use the <code>pheatmap</code> package to create a heatmap of the
 abundances table. Does it comport with the model results?</p>
@@ -1425,7 +1418,7 @@ abundances table. Does it comport with the model results?</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2"> Give me a hint </h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
 <div class="accordion-body">
 <p>You can just hand <code>pheatmap()</code> a matrix as its only
 argument. It has a million options, but the defaults are usually pretty
@@ -1439,7 +1432,7 @@ good.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb53">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1452,6 +1445,44 @@ condition, which you can sort of see, especially if you
 <code>log1p()</code> the counts or discard rows that show much higher
 values. ExE ectoderm counts were much higher in samples 8 and 10
 compared to 5, 7, and 9.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="extension-challenge-1-group-effects" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="extension-challenge-1-group-effects" class="callout-inner">
+<h3 class="callout-title">Extension challenge 1: Group effects</h3>
+<div class="callout-content">
+<p>Having multiple independent samples in each experimental group is
+always helpful, but it particularly important when it comes to batch
+effect correction. Why?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution6" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
+  <h4 class="accordion-header" id="headingSolution6"> Show me the solution </h4>
+</button>
+<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
+<div class="accordion-body">
+<p>It’s important to have multiple samples within each experimental
+group because it helps the batch effect correction algorithm distinguish
+differences due to batch effects (uninteresting) from differences due to
+group/treatment/biology (interesting).</p>
+<p>Imagine you had one sample that received a drug treatment and one
+that did not, each with 10,000 cells. They differ substantially in
+expression of gene X. Is that an important scientific finding? You can’t
+tell for sure, because the effect of drug is indistinguishable from a
+sample-wise batch effect. But if the difference in gene X holds up when
+you have five treated samples and five untreated samples, now you can be
+a bit more confident. Many batch effect correction methods will take
+information on experimental factors as additional arguments, which they
+can use to help remove batch effects while retaining experimental
+differences.</p>
 </div>
 </div>
 </div>
@@ -1564,7 +1595,7 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/multi-sample.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/multi-sample.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-09-24",
+  "dateModified": "2024-09-30",
   "datePublished": "2024-09-30"
 }
 
