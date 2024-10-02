@@ -488,7 +488,30 @@ packages.</p>
 single-cell data - gene-by-cell expression data, cell-wise metadata, and
 gene-wise annotation - and lets us manipulate them in an organized
 manner.</p>
-<figure><img src="http://bioconductor.org/books/release/OSCA.intro/images/SingleCellExperiment.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Let’s look at an example dataset. <code>WTChimeraData</code> comes
+<figure><img src="http://bioconductor.org/books/release/OSCA.intro/images/SingleCellExperiment.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div id="accordionSpoiler1" class="accordion spoiler-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
+  <h3 class="accordion-header" id="headingSpoiler1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div> Before SingleCellExperiment </h3>
+</button>
+<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
+<div class="accordion-body">
+<p>Before <code>SingleCellExperiment</code>, coders working with single
+cell data would sometimes keep all of these components in separate
+objects e.g. a matrix of counts, a data.frame of sample metadata, a
+data.frame of gene annotations and so on. There were two main
+disadvantages to this sort of “from scratch” approach:</p>
+<ol style="list-style-type: decimal"><li>Tons of book-keeping. If you performed a QC step that removed dead
+cells, you also had to remember to remove that same set of cells from
+the cell-wise metadata. Un-expressed genes were dropped? Don’t forget to
+filter the gene metadata table too.</li>
+<li>All the downstream steps had to be “from scratch” as well. All the
+data munging, analysis, and visualization code had to be customized to
+the idiosyncrasies of a given input set.</li>
+</ol></div>
+</div>
+</div>
+</div>
+<p>Let’s look at an example dataset. <code>WTChimeraData</code> comes
 from a study on mouse development. We can assign one sample to a
 <code>SingleCellExperiment</code> object named <code>sce</code> like
 so:</p>
@@ -691,7 +714,7 @@ sequence from 1 to the number of genes.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">rowData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">$</span><span class="va">conservation</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">nrow</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">rowData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">$</span><span class="va">conservation</span> <span class="op">=</span> <span class="fu">rnorm</span><span class="op">(</span><span class="fu">nrow</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <p>This is just a made-up example with a simple sequence of numbers, but
 in practice its convenient to store any sort of gene-wise information in
@@ -859,39 +882,6 @@ mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
 </div>
-</div>
-</div>
-</div>
-<div id="extension-challenge-1" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<div id="extension-challenge-1" class="callout-inner">
-<h3 class="callout-title">Extension Challenge 1</h3>
-<div class="callout-content">
-<p>Before <code>SingleCellExperiment</code>, coders working with single
-cell data would sometimes keep all of these components in separate
-objects e.g. a matrix of counts, a data.frame of sample metadata, a
-data.frame of gene annotations and so on. What are the main
-disadvantages of this sort of “from scratch” approach?</p>
-</div>
-</div>
-</div>
-<div id="accordionSolution5" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
-  <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
-</button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
-<div class="accordion-body">
-<ol style="list-style-type: decimal"><li><p>You have to do tons of book-keeping! If you perform a QC step
-that removes dead cells, now you also have to remember to remove that
-same set of cells from the cell-wise metadata. Dropped un-expressed
-genes? Don’t forget to filter the gene metadata table too.</p></li>
-<li><p>All the downstream steps have to be “from scratch” as well! All
-the data munging, analysis, and visualization code has to be customized
-to the idiosyncrasies of your input. Agh!</p></li>
-</ol></div>
 </div>
 </div>
 </div>
