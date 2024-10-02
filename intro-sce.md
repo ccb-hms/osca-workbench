@@ -318,9 +318,9 @@ The `SingleCellExperiment` constructor function can be used to create a new `Sin
 
 
 ``` r
-mat = matrix(runif(30), ncol = 5)
+mat <- matrix(runif(30), ncol = 5)
 
-my_sce = SingleCellExperiment(assays = list(logcounts = mat))
+my_sce <- SingleCellExperiment(assays = list(logcounts = mat))
 
 my_sce$my_col_info = runif(5)
 
@@ -359,7 +359,7 @@ sce  <- WTChimeraData(samples = 5)
 
 sce6 <- WTChimeraData(samples = 6)
 
-combined_sce = cbind(sce, sce6)
+combined_sce <- cbind(sce, sce6)
 
 combined_sce
 ```

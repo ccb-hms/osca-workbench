@@ -438,22 +438,21 @@ table(exact = colLabels(sce), approx = clusters)
 
 ``` output
      approx
-exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
-   1   90   0   0   0   4   0   0   0   1   0   0   0   0   0   0
-   2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
-   3    0   0  77   0   0   0   0   0   0   0   0   0   0   0   0
-   4    0   0   0 341   0   0   0   0   0   0   0   0   0   0   0
-   5    0   0   0   0 388   0   0   0   0   1   0   1   0   0   0
-   6    0   0   0   0   0 208   1   0   0   0   1   0   0   0   0
-   7    0   0   0   0   0   1 244   0   0   1   0   0   0   0   0
-   8    0   0   0   0   1   0   0  91   0   0   0   0   0   0   0
-   9    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
-   10   0   0   0   0   0   0   0   0   0 113   0   0   0   0   0
-   11   0   0   0   0   0   0   0   0   0   0 153   0   0   0   0
-   12   0   0   0   0   2   0   0   0   0   0   0 218   0   0   0
-   13   0   0   0   0   0   0   0   0   0   0   0   0 146   0   0
-   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0
-   15   0   0   0   0   0   0   0   0   0   0   0   0   0   0  56
+exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14
+   1   90   0   0   0   0   0   0   0   1   0   0   0   0   0
+   2    0 143   0   1   0   0   0   0   0   0   0   0   0   0
+   3    0   0  77   0   0   0   0   0   0   0   0   0   0   0
+   4    0   0   0 397   0   0   0   0   0   0   0   0   0   0
+   5    0   0   0   0 393   0   0   2   0   0   0   5   0   0
+   6    0   0   0   0   0 204   6   0   0   0   1   0   0   0
+   7    0   0   0   0   0   0 245   0   0   1   0   0   0   0
+   8    0   0   0   0   1   0   0  93   0   0   0   0   0   0
+   9    1   0   0   0   1   0   0   0 106   0   0   0   0   0
+   10   0   0   0   0   0   0   0   0   0 116   2   1   0   0
+   11   0   0   0   0   0   0   0   0   0   2 139   0   6   0
+   12   0   0   0   0   1   0   0   0   0   0   0 210   0   0
+   13   0   0   0   0   0   0   0   0   0   0   0   0 146   0
+   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20
 ```
 
 The similarity of the two clusterings can be quantified by calculating the pairwise Rand index: 
@@ -633,8 +632,8 @@ From there we can visualize the error with a histogram:
 
 
 ``` r
-error = reducedDim(r.out, "PCA")[,"PC1"] - 
-        reducedDim(e.out, "PCA")[,"PC1"]
+error <- reducedDim(r.out, "PCA")[,"PC1"] - 
+         reducedDim(e.out, "PCA")[,"PC1"]
 
 data.frame(approx_error = error) |> 
   ggplot(aes(approx_error)) + 
@@ -962,47 +961,50 @@ function for writing to HDF5 from the *[HDF5Array](https://bioconductor.org/pack
 
 
 ``` r
-wt_out = tempfile(fileext = ".h5")
+wt_out <- tempfile(fileext = ".h5")
 
-wt_counts = counts(WTChimeraData())
+wt_counts <- counts(WTChimeraData())
+```
 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'counts': failed to load resource
+  name: EH2973
+  title: WT chimera processed counts (sample 9)
+  reason: 1 resources failed to download
+```
+
+``` r
 writeHDF5Array(wt_counts,
                name = "wt_counts",
                file = wt_out)
 ```
 
-``` output
-<29453 x 30703> sparse HDF5Matrix object of type "double":
-                       cell_1     cell_2     cell_3 ... cell_30702 cell_30703
-ENSMUSG00000051951          0          0          0   .          0          0
-ENSMUSG00000089699          0          0          0   .          0          0
-ENSMUSG00000102343          0          0          0   .          0          0
-ENSMUSG00000025900          0          0          0   .          0          0
-ENSMUSG00000025902          0          0          0   .          0          0
-               ...          .          .          .   .          .          .
-ENSMUSG00000095041          0          1          2   .          0          0
-ENSMUSG00000063897          0          0          0   .          0          0
-ENSMUSG00000096730          0          0          0   .          0          0
-ENSMUSG00000095742          0          0          0   .          0          0
-         tomato-td          1          0          1   .          0          0
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'is_sparse': object 'wt_counts' not found
 ```
 
 ``` r
-oom_wt = HDF5Array(wt_out, "wt_counts")
+oom_wt <- HDF5Array(wt_out, "wt_counts")
+```
 
+``` error
+Error in file_path_as_absolute(path): file '/tmp/Rtmp6Q9gmL/file1e892f562866.h5' does not exist
+```
+
+``` r
 object.size(wt_counts)
 ```
 
-``` output
-1520366960 bytes
+``` error
+Error in eval(expr, envir, enclos): object 'wt_counts' not found
 ```
 
 ``` r
 object.size(oom_wt)
 ```
 
-``` output
-2488 bytes
+``` error
+Error in eval(expr, envir, enclos): object 'oom_wt' not found
 ```
 
 :::::::::::::::::::::::
@@ -1028,7 +1030,7 @@ Use the function `system.time` to obtain the runtime of each job.
 
 
 ``` r
-sce.brain = logNormCounts(sce.brain)
+sce.brain <- logNormCounts(sce.brain)
 
 system.time({i.out <- runPCA(sce.brain, 
                              ncomponents = 20, 

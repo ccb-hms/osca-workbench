@@ -250,7 +250,7 @@ For the sake of demonstration, we'll focus this small subset of samples:
 
 
 ``` r
-sample_subset = metadata |>
+sample_subset <- metadata |>
     filter(
         ethnicity == "African" &
         grepl("10x", assay) &

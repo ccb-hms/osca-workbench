@@ -1978,7 +1978,7 @@ Use `BiocParallel` and the `BPPARAM` argument! This example will set it to use f
 ``` r
 library(BiocParallel)
 
-my_bpparam = MulticoreParam(workers = 4)
+my_bpparam <- MulticoreParam(workers = 4)
 
 res2 <- SingleR(test = sce.mat, 
                 ref = ref.mat,
