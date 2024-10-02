@@ -370,7 +370,7 @@
         
 <section id="aio-intro-sce"><p>Content from <a href="intro-sce.html">Introduction to Bioconductor and the SingleCellExperiment class</a></p>
 <hr>
-<p>Last updated on 2024-09-24 |
+<p>Last updated on 2024-10-02 |
 
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/intro-sce.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 30 minutes</p>
@@ -837,9 +837,9 @@ used to create a new <code>SingleCellExperiment</code> object.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mat</span> <span class="op">=</span> <span class="fu">matrix</span><span class="op">(</span><span class="fu">runif</span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu">matrix</span><span class="op">(</span><span class="fu">runif</span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">my_sce</span> <span class="op">=</span> <span class="fu">SingleCellExperiment</span><span class="op">(</span>assays <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>logcounts <span class="op">=</span> <span class="va">mat</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">my_sce</span> <span class="op">&lt;-</span> <span class="fu">SingleCellExperiment</span><span class="op">(</span>assays <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>logcounts <span class="op">=</span> <span class="va">mat</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">my_sce</span><span class="op">$</span><span class="va">my_col_info</span> <span class="op">=</span> <span class="fu">runif</span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span>
 <span></span>
@@ -894,7 +894,7 @@ by running <code>sce6 &lt;- WTChimeraData(samples=6)</code>. Use the
 <span></span>
 <span><span class="va">sce6</span> <span class="op">&lt;-</span> <span class="fu">WTChimeraData</span><span class="op">(</span>samples <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">combined_sce</span> <span class="op">=</span> <span class="fu">cbind</span><span class="op">(</span><span class="va">sce</span>, <span class="va">sce6</span><span class="op">)</span></span>
+<span><span class="va">combined_sce</span> <span class="op">&lt;-</span> <span class="fu">cbind</span><span class="op">(</span><span class="va">sce</span>, <span class="va">sce6</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">combined_sce</span></span></code></pre>
 </div>
@@ -994,7 +994,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-eda_qc"><p>Content from <a href="eda_qc.html">Exploratory data analysis and quality control</a></p>
 <hr>
-<p>Last updated on 2024-09-24 |
+<p>Last updated on 2024-10-02 |
 
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/eda_qc.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 45 minutes</p>
@@ -1105,8 +1105,8 @@ ambient or background RNA.</p>
 <span><span class="co"># Only showing unique points for plotting speed.</span></span>
 <span><span class="va">uniq</span> <span class="op">&lt;-</span> <span class="op">!</span><span class="fu">duplicated</span><span class="op">(</span><span class="va">bcrank</span><span class="op">$</span><span class="va">rank</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">line_df</span> <span class="op">=</span> <span class="fu">data.frame</span><span class="op">(</span>cutoff <span class="op">=</span> <span class="fu">names</span><span class="op">(</span><span class="fu">metadata</span><span class="op">(</span><span class="va">bcrank</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>                     value  <span class="op">=</span> <span class="fu">unlist</span><span class="op">(</span><span class="fu">metadata</span><span class="op">(</span><span class="va">bcrank</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">line_df</span> <span class="op">&lt;-</span> <span class="fu">data.frame</span><span class="op">(</span>cutoff <span class="op">=</span> <span class="fu">names</span><span class="op">(</span><span class="fu">metadata</span><span class="op">(</span><span class="va">bcrank</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                      value  <span class="op">=</span> <span class="fu">unlist</span><span class="op">(</span><span class="fu">metadata</span><span class="op">(</span><span class="va">bcrank</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">bcrank</span><span class="op">[</span><span class="va">uniq</span>,<span class="op">]</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">rank</span>, <span class="va">total</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -1140,6 +1140,7 @@ and sequencing. Many of these cores will also perform empty droplet
 filtering and other initial QC steps. If the sequencing outputs were
 provided to you by someone else, make sure to communicate with them
 about what pre-processing steps have been performed, if any.</p>
+<!-- TODO: cite official 10x CellRanger docs -->
 </div>
 </div>
 </div>
@@ -1159,7 +1160,7 @@ about what pre-processing steps have been performed, if any.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1241,7 +1242,7 @@ cell, while the large majority of droplets are empty.</p>
 <button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
   <h3 class="accordion-header" id="headingSpoiler1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div> Setting the Random Seed </h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
 <div class="accordion-body">
 <p>Whenever your code involves the generation of random numbers, it’s a
 good practice to set the random seed in R with
@@ -1467,7 +1468,7 @@ the threshold for outlier calling?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You set <code>nmads = 4</code> like so:</p>
 <div class="codewrapper sourceCode" id="cb24">
@@ -1743,7 +1744,7 @@ factors instead of deconvolution.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb42">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1859,7 +1860,7 @@ account for this blocking structure when selecting HVGs?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <p>Use the <code>block</code> argument in the call to
 <code>modelGeneVar()</code> like so:</p>
@@ -2075,7 +2076,7 @@ looks different?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb56">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2246,7 +2247,7 @@ including clustering information?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
   <h4 class="accordion-header" id="headingSolution6"> Show me the solution </h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb66">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2305,7 +2306,7 @@ Repeat the analysis of this vignette using those data.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution7" aria-expanded="false" aria-controls="collapseSolution7">
   <h4 class="accordion-header" id="headingSolution7"> Show me the solution </h4>
 </button>
-<div id="collapseSolution7" class="accordion-collapse collapse" data-bs-parent="#accordionSolution7" aria-labelledby="headingSolution7">
+<div id="collapseSolution7" class="accordion-collapse collapse" aria-labelledby="headingSolution7" data-bs-parent="#accordionSolution7">
 <div class="accordion-body">
 <p>The first few lines here read the data from ExperimentHub and the
 mitochondrial genes are identified by gene symbols in the row data.
@@ -2337,7 +2338,7 @@ Otherwise the steps are the same:</p>
 <span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="va">sce</span><span class="op">[</span>,<span class="fu">which</span><span class="op">(</span><span class="va">e.out</span><span class="op">$</span><span class="va">FDR</span> <span class="op">&lt;=</span> <span class="fl">0.001</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
 <span><span class="co"># Thankfully the data come with gene symbols, which we can use to identify mitochondrial genes:</span></span>
-<span><span class="va">is.mito</span> <span class="op">=</span> <span class="fu">grepl</span><span class="op">(</span><span class="st">"^MT-"</span>, <span class="fu">rowData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">$</span><span class="va">Symbol</span><span class="op">)</span> </span>
+<span><span class="va">is.mito</span> <span class="op">&lt;-</span> <span class="fu">grepl</span><span class="op">(</span><span class="st">"^MT-"</span>, <span class="fu">rowData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">$</span><span class="va">Symbol</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="co"># QC metrics ----</span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">perCellQCMetrics</span><span class="op">(</span><span class="va">sce</span>, subsets <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>Mito <span class="op">=</span> <span class="va">is.mito</span><span class="op">)</span><span class="op">)</span></span>
@@ -2413,7 +2414,7 @@ required to use them?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution8" aria-expanded="false" aria-controls="collapseSolution8">
   <h4 class="accordion-header" id="headingSolution8"> Show me the solution </h4>
 </button>
-<div id="collapseSolution8" class="accordion-collapse collapse" data-bs-parent="#accordionSolution8" aria-labelledby="headingSolution8">
+<div id="collapseSolution8" class="accordion-collapse collapse" aria-labelledby="headingSolution8" data-bs-parent="#accordionSolution8">
 <div class="accordion-body">
 <p>Spike-ins are deliberately-introduced exogeneous RNA from an exotic
 or synthetic source at a known concentration. This provides a known
@@ -2457,7 +2458,7 @@ representation of the data?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution9" aria-expanded="false" aria-controls="collapseSolution9">
   <h4 class="accordion-header" id="headingSolution9"> Show me the solution </h4>
 </button>
-<div id="collapseSolution9" class="accordion-collapse collapse" data-bs-parent="#accordionSolution9" aria-labelledby="headingSolution9">
+<div id="collapseSolution9" class="accordion-collapse collapse" aria-labelledby="headingSolution9" data-bs-parent="#accordionSolution9">
 <div class="accordion-body">
 <p>Mathematically, this would require the data to fall on a
 two-dimensional plane (for linear methods like PCA) or a smooth 2D
@@ -2542,7 +2543,7 @@ any links that you are not going to use.
 </ol>
 </div></section><section id="aio-cell_type_annotation"><p>Content from <a href="cell_type_annotation.html">Cell type annotation</a></p>
 <hr>
-<p>Last updated on 2024-09-30 |
+<p>Last updated on 2024-10-02 |
 
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/cell_type_annotation.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 45 minutes</p>
@@ -4705,7 +4706,7 @@ also configure BiocParallel to use cluster jobs.</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">BiocParallel</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">my_bpparam</span> <span class="op">=</span> <span class="fu">MulticoreParam</span><span class="op">(</span>workers <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">my_bpparam</span> <span class="op">&lt;-</span> <span class="fu">MulticoreParam</span><span class="op">(</span>workers <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">res2</span> <span class="op">&lt;-</span> <span class="fu">SingleR</span><span class="op">(</span>test <span class="op">=</span> <span class="va">sce.mat</span>, </span>
 <span>                ref <span class="op">=</span> <span class="va">ref.mat</span>,</span>
@@ -6046,7 +6047,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-large_data"><p>Content from <a href="large_data.html">Working with large data</a></p>
 <hr>
-<p>Last updated on 2024-09-24 |
+<p>Last updated on 2024-10-02 |
 
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/large_data.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -6538,22 +6539,21 @@ approximation can be largely ignored.</p>
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>     approx
-exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
-   1   90   0   0   0   4   0   0   0   1   0   0   0   0   0   0
-   2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
-   3    0   0  77   0   0   0   0   0   0   0   0   0   0   0   0
-   4    0   0   0 341   0   0   0   0   0   0   0   0   0   0   0
-   5    0   0   0   0 388   0   0   0   0   1   0   1   0   0   0
-   6    0   0   0   0   0 208   1   0   0   0   1   0   0   0   0
-   7    0   0   0   0   0   1 244   0   0   1   0   0   0   0   0
-   8    0   0   0   0   1   0   0  91   0   0   0   0   0   0   0
-   9    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
-   10   0   0   0   0   0   0   0   0   0 113   0   0   0   0   0
-   11   0   0   0   0   0   0   0   0   0   0 153   0   0   0   0
-   12   0   0   0   0   2   0   0   0   0   0   0 218   0   0   0
-   13   0   0   0   0   0   0   0   0   0   0   0   0 146   0   0
-   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0
-   15   0   0   0   0   0   0   0   0   0   0   0   0   0   0  56</code></pre>
+exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14
+   1   90   0   0   0   0   0   0   0   1   0   0   0   0   0
+   2    0 143   0   1   0   0   0   0   0   0   0   0   0   0
+   3    0   0  77   0   0   0   0   0   0   0   0   0   0   0
+   4    0   0   0 397   0   0   0   0   0   0   0   0   0   0
+   5    0   0   0   0 393   0   0   2   0   0   0   5   0   0
+   6    0   0   0   0   0 204   6   0   0   0   1   0   0   0
+   7    0   0   0   0   0   0 245   0   0   1   0   0   0   0
+   8    0   0   0   0   1   0   0  93   0   0   0   0   0   0
+   9    1   0   0   0   1   0   0   0 106   0   0   0   0   0
+   10   0   0   0   0   0   0   0   0   0 116   2   1   0   0
+   11   0   0   0   0   0   0   0   0   0   2 139   0   6   0
+   12   0   0   0   0   1   0   0   0   0   0   0 210   0   0
+   13   0   0   0   0   0   0   0   0   0   0   0   0 146   0
+   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20</code></pre>
 </div>
 <p>The similarity of the two clusterings can be quantified by
 calculating the pairwise Rand index:</p>
@@ -6772,8 +6772,8 @@ coordinates:</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">error</span> <span class="op">=</span> <span class="fu">reducedDim</span><span class="op">(</span><span class="va">r.out</span>, <span class="st">"PCA"</span><span class="op">)</span><span class="op">[</span>,<span class="st">"PC1"</span><span class="op">]</span> <span class="op">-</span> </span>
-<span>        <span class="fu">reducedDim</span><span class="op">(</span><span class="va">e.out</span>, <span class="st">"PCA"</span><span class="op">)</span><span class="op">[</span>,<span class="st">"PC1"</span><span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="va">error</span> <span class="op">&lt;-</span> <span class="fu">reducedDim</span><span class="op">(</span><span class="va">r.out</span>, <span class="st">"PCA"</span><span class="op">)</span><span class="op">[</span>,<span class="st">"PC1"</span><span class="op">]</span> <span class="op">-</span> </span>
+<span>         <span class="fu">reducedDim</span><span class="op">(</span><span class="va">e.out</span>, <span class="st">"PCA"</span><span class="op">)</span><span class="op">[</span>,<span class="st">"PC1"</span><span class="op">]</span></span>
 <span></span>
 <span><span class="fu">data.frame</span><span class="op">(</span>approx_error <span class="op">=</span> <span class="va">error</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">approx_error</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -7129,54 +7129,63 @@ package.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">wt_out</span> <span class="op">=</span> <span class="fu">tempfile</span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".h5"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">wt_out</span> <span class="op">&lt;-</span> <span class="fu">tempfile</span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".h5"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">wt_counts</span> <span class="op">=</span> <span class="fu">counts</span><span class="op">(</span><span class="fu">WTChimeraData</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">writeHDF5Array</span><span class="op">(</span><span class="va">wt_counts</span>,</span>
-<span>               name <span class="op">=</span> <span class="st">"wt_counts"</span>,</span>
-<span>               file <span class="op">=</span> <span class="va">wt_out</span><span class="op">)</span></span></code></pre>
+<span><span class="va">wt_counts</span> <span class="op">&lt;-</span> <span class="fu">counts</span><span class="op">(</span><span class="fu">WTChimeraData</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>&lt;29453 x 30703&gt; sparse HDF5Matrix object of type "double":
-                       cell_1     cell_2     cell_3 ... cell_30702 cell_30703
-ENSMUSG00000051951          0          0          0   .          0          0
-ENSMUSG00000089699          0          0          0   .          0          0
-ENSMUSG00000102343          0          0          0   .          0          0
-ENSMUSG00000025900          0          0          0   .          0          0
-ENSMUSG00000025902          0          0          0   .          0          0
-               ...          .          .          .   .          .          .
-ENSMUSG00000095041          0          1          2   .          0          0
-ENSMUSG00000063897          0          0          0   .          0          0
-ENSMUSG00000096730          0          0          0   .          0          0
-ENSMUSG00000095742          0          0          0   .          0          0
-         tomato-td          1          0          1   .          0          0</code></pre>
+<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'counts': failed to load resource
+  name: EH2973
+  title: WT chimera processed counts (sample 9)
+  reason: 1 resources failed to download</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb52">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">oom_wt</span> <span class="op">=</span> <span class="fu">HDF5Array</span><span class="op">(</span><span class="va">wt_out</span>, <span class="st">"wt_counts"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">object.size</span><span class="op">(</span><span class="va">wt_counts</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">writeHDF5Array</span><span class="op">(</span><span class="va">wt_counts</span>,</span>
+<span>               name <span class="op">=</span> <span class="st">"wt_counts"</span>,</span>
+<span>               file <span class="op">=</span> <span class="va">wt_out</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>1520366960 bytes</code></pre>
+<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'is_sparse': object 'wt_counts' not found</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb54">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">oom_wt</span> <span class="op">&lt;-</span> <span class="fu">HDF5Array</span><span class="op">(</span><span class="va">wt_out</span>, <span class="st">"wt_counts"</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in file_path_as_absolute(path): file '/tmp/Rtmp6Q9gmL/file1e892f562866.h5' does not exist</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb56">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">object.size</span><span class="op">(</span><span class="va">wt_counts</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'wt_counts' not found</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb58">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">object.size</span><span class="op">(</span><span class="va">oom_wt</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>2488 bytes</code></pre>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'oom_wt' not found</code></pre>
 </div>
 </div>
 </div>
@@ -7217,11 +7226,11 @@ each job.</p>
 </button>
 <div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb56">
+<div class="codewrapper sourceCode" id="cb60">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sce.brain</span> <span class="op">=</span> <span class="fu">logNormCounts</span><span class="op">(</span><span class="va">sce.brain</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">sce.brain</span> <span class="op">&lt;-</span> <span class="fu">logNormCounts</span><span class="op">(</span><span class="va">sce.brain</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">system.time</span><span class="op">(</span><span class="op">{</span><span class="va">i.out</span> <span class="op">&lt;-</span> <span class="fu">runPCA</span><span class="op">(</span><span class="va">sce.brain</span>, </span>
 <span>                             ncomponents <span class="op">=</span> <span class="fl">20</span>, </span>
@@ -7289,7 +7298,7 @@ Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  --></section></section><section id="aio-hca"><p>Content from <a href="hca.html">Accessing data from the Human Cell Atlas (HCA)</a></p>
 <hr>
-<p>Last updated on 2024-09-30 |
+<p>Last updated on 2024-10-02 |
 
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/hca.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 30 minutes</p>
@@ -7618,7 +7627,7 @@ samples:</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sample_subset</span> <span class="op">=</span> <span class="va">metadata</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">sample_subset</span> <span class="op">&lt;-</span> <span class="va">metadata</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">filter</span><span class="op">(</span></span>
 <span>        <span class="va">ethnicity</span> <span class="op">==</span> <span class="st">"African"</span> <span class="op">&amp;</span></span>
 <span>        <span class="fu">grepl</span><span class="op">(</span><span class="st">"10x"</span>, <span class="va">assay</span><span class="op">)</span> <span class="op">&amp;</span></span>
@@ -7769,7 +7778,7 @@ cells per tissue in descending order.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -7802,7 +7811,7 @@ most numerous type of cells?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -7835,7 +7844,7 @@ summarise.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -7879,7 +7888,7 @@ columns, where possible.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb28">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -7987,8 +7996,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/instructor/aio.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/instructor/aio.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-10-01",
-  "datePublished": "2024-10-01"
+  "dateModified": "2024-10-02",
+  "datePublished": "2024-10-02"
 }
 
   </script><script>

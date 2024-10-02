@@ -327,7 +327,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Introduction to Bioconductor and the SingleCellExperiment class</h1>
-        <p>Last updated on 2024-09-24 |
+        <p>Last updated on 2024-10-02 |
 
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/intro-sce.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -783,9 +783,9 @@ used to create a new <code>SingleCellExperiment</code> object.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mat</span> <span class="op">=</span> <span class="fu">matrix</span><span class="op">(</span><span class="fu">runif</span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu">matrix</span><span class="op">(</span><span class="fu">runif</span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">my_sce</span> <span class="op">=</span> <span class="fu">SingleCellExperiment</span><span class="op">(</span>assays <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>logcounts <span class="op">=</span> <span class="va">mat</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">my_sce</span> <span class="op">&lt;-</span> <span class="fu">SingleCellExperiment</span><span class="op">(</span>assays <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>logcounts <span class="op">=</span> <span class="va">mat</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">my_sce</span><span class="op">$</span><span class="va">my_col_info</span> <span class="op">=</span> <span class="fu">runif</span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span>
 <span></span>
@@ -840,7 +840,7 @@ by running <code>sce6 &lt;- WTChimeraData(samples=6)</code>. Use the
 <span></span>
 <span><span class="va">sce6</span> <span class="op">&lt;-</span> <span class="fu">WTChimeraData</span><span class="op">(</span>samples <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">combined_sce</span> <span class="op">=</span> <span class="fu">cbind</span><span class="op">(</span><span class="va">sce</span>, <span class="va">sce6</span><span class="op">)</span></span>
+<span><span class="va">combined_sce</span> <span class="op">&lt;-</span> <span class="fu">cbind</span><span class="op">(</span><span class="va">sce</span>, <span class="va">sce6</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">combined_sce</span></span></code></pre>
 </div>
@@ -990,8 +990,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/instructor/intro-sce.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/instructor/intro-sce.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-09-24",
-  "datePublished": "2024-10-01"
+  "dateModified": "2024-10-02",
+  "datePublished": "2024-10-02"
 }
 
   </script><script>
