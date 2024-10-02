@@ -187,7 +187,7 @@ Try to add a column of gene-wise metadata to the rowData.
 Here we add a column called "conservation" that is just an integer sequence from 1 to the number of genes.
 
 ```{r}
-rowData(sce)$conservation = 1:nrow(sce)
+rowData(sce)$conservation = rnorm(nrow(sce))
 ```
 
 This is just a made-up example with a simple sequence of numbers, but in practice its convenient to store any sort of gene-wise information in the columns of the rowData.
