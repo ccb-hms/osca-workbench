@@ -533,7 +533,7 @@ estimate of the distribution.
 Inspect the diagnostics for the next nine cell types. Do they look okay?
 
 ::: solution
-```{r}
+```{r auc-dist2, results="hide", fig.width = 10, fig.height = 10}
 par(mfrow = c(3,3))
 
 AUCell_exploreThresholds(cell.aucs[10:18], plotHist = TRUE, assign = TRUE) 

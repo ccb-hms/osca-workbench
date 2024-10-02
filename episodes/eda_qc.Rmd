@@ -91,9 +91,9 @@ The distribution of total counts (called the unique molecular identifier or UMI 
 A simple approach would be to apply a threshold on the total count to only retain those barcodes with large totals. However, this may unnecessarily discard libraries derived from cell types with low RNA content.
 
 ::: callout
-Depending on your data source, identifying and discarding empty droplets may not be necessary. Some academic institutions have research cores dedicated to single cell work that perform the sample preparation and sequencing. Many of these cores will also perform empty droplet filtering and other initial QC steps. If the sequencing outputs were provided to you by someone else, make sure to communicate with them about what pre-processing steps have been performed, if any.
+Depending on your data source, identifying and discarding empty droplets may not be necessary. Some academic institutions have research cores dedicated to single cell work that perform the sample preparation and sequencing. Many of these cores will also perform empty droplet filtering and other initial QC steps. Specific details on the steps in common pipelines like [10x Genomics' CellRanger](https://www.10xgenomics.com/support/software/cell-ranger/latest/tutorials) can usually be found in the documentation that came with the sequencing material. 
 
-<!-- TODO: cite official 10x CellRanger docs -->
+The main point is: if the sequencing outputs were provided to you by someone else, make sure to communicate with them about what pre-processing steps have been performed, if any. 
 :::
 
 :::: challenge 
