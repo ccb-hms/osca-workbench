@@ -981,7 +981,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-eda_qc"><p>Content from <a href="eda_qc.html">Exploratory data analysis and quality control</a></p>
 <hr>
-<p>Last updated on 2024-10-02 |
+<p>Last updated on 2024-10-03 |
 
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/eda_qc.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1149,7 +1149,7 @@ pre-processing steps have been performed, if any.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1231,7 +1231,7 @@ cell, while the large majority of droplets are empty.</p>
 <button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
   <h3 class="accordion-header" id="headingSpoiler1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div> Setting the Random Seed </h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
 <div class="accordion-body">
 <p>Whenever your code involves the generation of random numbers, it’s a
 good practice to set the random seed in R with
@@ -1457,7 +1457,7 @@ the threshold for outlier calling?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You set <code>nmads = 4</code> like so:</p>
 <div class="codewrapper sourceCode" id="cb24">
@@ -1733,7 +1733,7 @@ factors instead of deconvolution.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb42">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1844,12 +1844,25 @@ account for this blocking structure when selecting HVGs?</p>
 </div>
 </div>
 </div>
+<div id="accordionHint1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
+  <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
+</button>
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div class="accordion-body">
+<p><code>modelGeneVar()</code> can take a <code>block</code>
+argument.</p>
+</div>
+</div>
+</div>
+</div>
 <div id="accordionSolution4" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <p>Use the <code>block</code> argument in the call to
 <code>modelGeneVar()</code> like so:</p>
@@ -2065,7 +2078,7 @@ looks different?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb56">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2236,7 +2249,7 @@ including clustering information?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
   <h4 class="accordion-header" id="headingSolution6"> Show me the solution </h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb66">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2295,7 +2308,7 @@ Repeat the analysis of this vignette using those data.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution7" aria-expanded="false" aria-controls="collapseSolution7">
   <h4 class="accordion-header" id="headingSolution7"> Show me the solution </h4>
 </button>
-<div id="collapseSolution7" class="accordion-collapse collapse" data-bs-parent="#accordionSolution7" aria-labelledby="headingSolution7">
+<div id="collapseSolution7" class="accordion-collapse collapse" aria-labelledby="headingSolution7" data-bs-parent="#accordionSolution7">
 <div class="accordion-body">
 <p>The first few lines here read the data from ExperimentHub and the
 mitochondrial genes are identified by gene symbols in the row data.
@@ -2403,7 +2416,7 @@ required to use them?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution8" aria-expanded="false" aria-controls="collapseSolution8">
   <h4 class="accordion-header" id="headingSolution8"> Show me the solution </h4>
 </button>
-<div id="collapseSolution8" class="accordion-collapse collapse" data-bs-parent="#accordionSolution8" aria-labelledby="headingSolution8">
+<div id="collapseSolution8" class="accordion-collapse collapse" aria-labelledby="headingSolution8" data-bs-parent="#accordionSolution8">
 <div class="accordion-body">
 <p>Spike-ins are deliberately-introduced exogeneous RNA from an exotic
 or synthetic source at a known concentration. This provides a known
@@ -2447,7 +2460,7 @@ representation of the data?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution9" aria-expanded="false" aria-controls="collapseSolution9">
   <h4 class="accordion-header" id="headingSolution9"> Show me the solution </h4>
 </button>
-<div id="collapseSolution9" class="accordion-collapse collapse" data-bs-parent="#accordionSolution9" aria-labelledby="headingSolution9">
+<div id="collapseSolution9" class="accordion-collapse collapse" aria-labelledby="headingSolution9" data-bs-parent="#accordionSolution9">
 <div class="accordion-body">
 <p>Mathematically, this would require the data to fall on a
 two-dimensional plane (for linear methods like PCA) or a smooth 2D
@@ -2721,7 +2734,7 @@ what we’d need to change to get fewer, larger clusters.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>We see in the help documentation for <code>?clusterCells</code> that
 all of the clustering algorithm details are handled through the
@@ -2918,7 +2931,7 @@ section. Do the difficult-to-distinguish clusters make sense?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You can see that at least among the top markers, cluster 6 (pale
 green) tends to have the least separation from cluster 1.</p>
@@ -3216,7 +3229,7 @@ query object <code>sce</code>.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb31">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -3480,7 +3493,7 @@ okay?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb43">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -3630,7 +3643,7 @@ UMAP plot.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
 <div class="accordion-body">
 <p>The <code>NNGraphParam</code> constructor has an argument
 <code>cluster.args</code>. This allows to specify arguments passed on to
@@ -3647,7 +3660,7 @@ parameter of 0.5.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb46">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -3686,7 +3699,7 @@ close in UMAP space. Do they share similar marker sets?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
   <h4 class="accordion-header" id="headingSolution6"> Show me the solution </h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb47">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -3759,7 +3772,7 @@ clusters?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution7" aria-expanded="false" aria-controls="collapseSolution7">
   <h4 class="accordion-header" id="headingSolution7"> Show me the solution </h4>
 </button>
-<div id="collapseSolution7" class="accordion-collapse collapse" data-bs-parent="#accordionSolution7" aria-labelledby="headingSolution7">
+<div id="collapseSolution7" class="accordion-collapse collapse" aria-labelledby="headingSolution7" data-bs-parent="#accordionSolution7">
 <div class="accordion-body">
 <p>One important reason why is because averages over all other clusters
 can be sensitive to the cell type composition. If a rare cell type shows
@@ -3793,7 +3806,7 @@ parallel?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution8" aria-expanded="false" aria-controls="collapseSolution8">
   <h4 class="accordion-header" id="headingSolution8"> Show me the solution </h4>
 </button>
-<div id="collapseSolution8" class="accordion-collapse collapse" data-bs-parent="#accordionSolution8" aria-labelledby="headingSolution8">
+<div id="collapseSolution8" class="accordion-collapse collapse" aria-labelledby="headingSolution8" data-bs-parent="#accordionSolution8">
 <div class="accordion-body">
 <p>Use <code>BiocParallel</code> and the <code>BPPARAM</code> argument!
 This example will set it to use four cores on your laptop, but you can
@@ -3835,7 +3848,7 @@ the examples here. Which ones? Why?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution9" aria-expanded="false" aria-controls="collapseSolution9">
   <h4 class="accordion-header" id="headingSolution9"> Show me the solution </h4>
 </button>
-<div id="collapseSolution9" class="accordion-collapse collapse" data-bs-parent="#accordionSolution9" aria-labelledby="headingSolution9">
+<div id="collapseSolution9" class="accordion-collapse collapse" aria-labelledby="headingSolution9" data-bs-parent="#accordionSolution9">
 <div class="accordion-body">
 <p>The example that jumps out most strongly to the eye is ExE endoderm,
 which doesn’t show clear separate modes. Simultaneously, Endothelium
@@ -4128,7 +4141,7 @@ factor presumably leading to this difference?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Samples 5 and 6 were from the same “pool” of cells. Looking at the
 documentation for the dataset under <code>?WTChimeraData</code> we see
@@ -4193,7 +4206,7 @@ present in the corrected data.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>False. Batch-level data can be retained through confounding with
 experimental factors or poor ability to distinguish experimental effects
@@ -4641,7 +4654,7 @@ sizes? What does <code>logFC</code> stand for?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>“logFC” stands for log fold-change. <code>edgeR</code> uses a log2
 convention. Rather than reporting e.g. a 5-fold increase, it’s better to
@@ -4967,7 +4980,7 @@ issues.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>Remember, you can subset SingleCellExperiments with logical indices,
 just like a matrix. You can also access their column data with the
@@ -4981,7 +4994,7 @@ just like a matrix. You can also access their column data with the
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb52">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5018,7 +5031,7 @@ abundances table. Does it comport with the model results?</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2"> Give me a hint </h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
 <div class="accordion-body">
 <p>You can just hand <code>pheatmap()</code> a matrix as its only
 argument. It has a million options, but the defaults are usually pretty
@@ -5032,7 +5045,7 @@ good.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb53">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5067,7 +5080,7 @@ effect correction. Why?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
   <h4 class="accordion-header" id="headingSolution6"> Show me the solution </h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
 <div class="accordion-body">
 <p>It’s important to have multiple samples within each experimental
 group because it helps the batch effect correction algorithm distinguish
@@ -5562,7 +5575,7 @@ overhead.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>From <code>?MulticoreParam</code> :</p>
 <blockquote>
@@ -5794,7 +5807,7 @@ compared to the RSVD results.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>This code block calculates the exact PCA coordinates. Another thing
 to note: PC vectors are only identified up to a sign flip. We can see
@@ -6205,7 +6218,7 @@ matrix in memory as opposed to holding the data out of memory.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>See the <code>HDF5Array</code> function for reading from HDF5 and the
 <code>writeHDF5Array</code> function for writing to HDF5 from the <em><a href="https://bioconductor.org/packages/3.19/HDF5Array" class="external-link">HDF5Array</a></em>
@@ -6219,7 +6232,7 @@ package.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb50">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -6307,7 +6320,7 @@ with 3 workers.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2"> Give me a hint </h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
 <div class="accordion-body">
 <p>Use the function <code>system.time</code> to obtain the runtime of
 each job.</p>
@@ -6320,7 +6333,7 @@ each job.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb60">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -6394,7 +6407,7 @@ Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  --></section></section><section id="aio-hca"><p>Content from <a href="hca.html">Accessing data from the Human Cell Atlas (HCA)</a></p>
 <hr>
-<p>Last updated on 2024-10-02 |
+<p>Last updated on 2024-10-03 |
 
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/hca.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -6431,9 +6444,12 @@ data.</li>
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="hca-project">HCA Project<a class="anchor" aria-label="anchor" href="#hca-project"></a>
+<div class="section level1">
+<h1 id="single-cell-data-sources">Single Cell data sources<a class="anchor" aria-label="anchor" href="#single-cell-data-sources"></a>
+</h1>
+<div class="section level2">
+<h2 id="hca-project">HCA Project<a class="anchor" aria-label="anchor" href="#hca-project"></a>
 </h2>
-<hr class="half-width">
 <p>The Human Cell Atlas (HCA) is a large project that aims to learn from
 and map every cell type in the human body. The project extracts spatial
 and molecular characteristics in order to understand cellular function
@@ -6441,26 +6457,29 @@ and networks. It is an international collaborative that charts healthy
 cells in the human body at all ages. There are about 37.2 trillion cells
 in the human body. To read more about the project, head over to their
 website at <a href="https://www.humancellatlas.org" class="external-link uri">https://www.humancellatlas.org</a>.</p>
-</section><section><h2 class="section-heading" id="cellxgene">CELLxGENE<a class="anchor" aria-label="anchor" href="#cellxgene"></a>
+</div>
+<div class="section level2">
+<h2 id="cellxgene">CELLxGENE<a class="anchor" aria-label="anchor" href="#cellxgene"></a>
 </h2>
-<hr class="half-width">
 <p>CELLxGENE is a database and a suite of tools that help scientists to
 find, download, explore, analyze, annotate, and publish single cell
 data. It includes several analytic and visualization tools to help you
 to discover single cell data patterns. To see the list of tools, browse
 to <a href="https://cellxgene.cziscience.com/" class="external-link uri">https://cellxgene.cziscience.com/</a>.</p>
-</section><section><h2 class="section-heading" id="cellxgene-census">CELLxGENE | Census<a class="anchor" aria-label="anchor" href="#cellxgene-census"></a>
+</div>
+<div class="section level2">
+<h2 id="cellxgene-census">CELLxGENE | Census<a class="anchor" aria-label="anchor" href="#cellxgene-census"></a>
 </h2>
-<hr class="half-width">
 <p>The Census provides efficient computational tooling to access, query,
 and analyze all single-cell RNA data from CZ CELLxGENE Discover. Using a
 new access paradigm of cell-based slicing and querying, you can interact
 with the data through TileDB-SOMA, or get slices in AnnData or Seurat
 objects, thus accelerating your research by significantly minimizing
 data harmonization at <a href="https://chanzuckerberg.github.io/cellxgene-census/" class="external-link uri">https://chanzuckerberg.github.io/cellxgene-census/</a>.</p>
-</section><section><h2 class="section-heading" id="the-curatedatlasqueryr-project">The CuratedAtlasQueryR Project<a class="anchor" aria-label="anchor" href="#the-curatedatlasqueryr-project"></a>
+</div>
+<div class="section level2">
+<h2 id="the-curatedatlasqueryr-project">The CuratedAtlasQueryR Project<a class="anchor" aria-label="anchor" href="#the-curatedatlasqueryr-project"></a>
 </h2>
-<hr class="half-width">
 <p>The <code>CuratedAtlasQueryR</code> is an alternative package that
 can also be used to access the CELLxGENE data from R through a tidy API.
 The data has also been harmonized, curated, and re-annotated across
@@ -6473,9 +6492,11 @@ diseased lymphoid tissue. The data for the selected cells can be
 downloaded locally into SingleCellExperiment objects. Pseudo bulk counts
 are also available to facilitate large-scale, summary analyses of
 transcriptional profiles.</p>
-<figure><img src="https://raw.githubusercontent.com/ccb-hms/osca-workbench/main/episodes/figures/curatedAtlasQuery.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section><h2 class="section-heading" id="data-sources-in-r-bioconductor">Data Sources in R / Bioconductor<a class="anchor" aria-label="anchor" href="#data-sources-in-r-bioconductor"></a>
+<figure><img src="https://raw.githubusercontent.com/ccb-hms/osca-workbench/main/episodes/figures/curatedAtlasQuery.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure>
+</div>
+<div class="section level2">
+<h2 id="data-sources-in-r-bioconductor">Data Sources in R / Bioconductor<a class="anchor" aria-label="anchor" href="#data-sources-in-r-bioconductor"></a>
 </h2>
-<hr class="half-width">
 <p>There are a few options to access single cell data with R /
 Bioconductor.</p>
 <table class="table">
@@ -6507,9 +6528,11 @@ Portal API</a></td>
 <td>fine-grained query capable CELLxGENE data including HCA</td>
 </tr>
 </tbody>
-</table></section><section><h2 class="section-heading" id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</table>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<hr class="half-width">
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -6519,9 +6542,10 @@ Portal API</a></td>
 <span></span>
 <span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="st">"CuratedAtlasQueryR"</span><span class="op">)</span></span></code></pre>
 </div>
-</section><section><h2 class="section-heading" id="package-load">Package load<a class="anchor" aria-label="anchor" href="#package-load"></a>
+</div>
+<div class="section level2">
+<h2 id="package-load">Package load<a class="anchor" aria-label="anchor" href="#package-load"></a>
 </h2>
-<hr class="half-width">
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -6529,9 +6553,10 @@ Portal API</a></td>
 <code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">CuratedAtlasQueryR</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">dplyr</span><span class="op">)</span></span></code></pre>
 </div>
-</section><section><h2 class="section-heading" id="hca-metadata">HCA Metadata<a class="anchor" aria-label="anchor" href="#hca-metadata"></a>
+</div>
+<div class="section level2">
+<h2 id="hca-metadata">HCA Metadata<a class="anchor" aria-label="anchor" href="#hca-metadata"></a>
 </h2>
-<hr class="half-width">
 <p>The metadata allows the user to get a lay of the land of what is
 available via the package. In this example, we are using the sample
 database URL which allows us to get a small and quick subset of the
@@ -6544,7 +6569,7 @@ available metadata.</p>
 <span>  <span class="fu">collect</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <p>Get a view of the first 10 columns in the metadata with
-<code>glimpse</code></p>
+<code>glimpse()</code></p>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -6570,9 +6595,10 @@ $ cell_annotation_monaco_singler    &lt;chr&gt; "natural killer", "effector memo
 $ sample_id_db                      &lt;chr&gt; "0c1d320a7d0cbbc281a535912722d272", …
 $ `_sample_name`                    &lt;chr&gt; "BPH340PrSF_Via___transition zone of…</code></pre>
 </div>
-</section><section><h2 class="section-heading" id="a-note-on-the-pipe-operator">A note on the pipe operator<a class="anchor" aria-label="anchor" href="#a-note-on-the-pipe-operator"></a>
+</div>
+<div class="section level2">
+<h2 id="a-tangent-on-the-pipe-operator">A tangent on the pipe operator<a class="anchor" aria-label="anchor" href="#a-tangent-on-the-pipe-operator"></a>
 </h2>
-<hr class="half-width">
 <p>The vignette materials provided by <code>CuratedAtlasQueryR</code>
 show the use of the ‘native’ R pipe (implemented after R version
 <code>4.1.0</code>). For those not familiar with the pipe operator
@@ -6611,77 +6637,43 @@ dataset and then filter to rows where <code>cyl</code> is not equal to
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">summarise</span><span class="op">(</span><span class="fu">filter</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">cyl</span> <span class="op">!=</span> <span class="fl">4</span><span class="op">)</span>, mean_disp <span class="op">=</span> <span class="fu">mean</span><span class="op">(</span><span class="va">disp</span><span class="op">)</span>, .by <span class="op">=</span> <span class="va">cyl</span><span class="op">)</span></span></code></pre>
 </div>
-</section><section><h2 class="section-heading" id="summarizing-the-metadata">Summarizing the metadata<a class="anchor" aria-label="anchor" href="#summarizing-the-metadata"></a>
+</div>
+<div class="section level2">
+<h2 id="exploring-the-metadata">Exploring the metadata<a class="anchor" aria-label="anchor" href="#exploring-the-metadata"></a>
 </h2>
-<hr class="half-width">
-<p>For each distinct tissue and dataset combination, count the number of
-datasets by tissue type.</p>
+<p>Let’s examine the metadata to understand what information it
+contains.</p>
+<p>We can tally the tissue types across datasets to see what tissues the
+experimental data come from:</p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">metadata</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">distinct</span><span class="op">(</span><span class="va">tissue</span>, <span class="va">dataset_id</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">count</span><span class="op">(</span><span class="va">tissue</span><span class="op">)</span></span></code></pre>
+<span>  <span class="fu">count</span><span class="op">(</span><span class="va">tissue</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">arrange</span><span class="op">(</span><span class="op">-</span><span class="va">n</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code># A tibble: 33 × 2
-   tissue                             n
-   &lt;chr&gt;                          &lt;int&gt;
- 1 adrenal gland                      1
- 2 axilla                             1
- 3 blood                             17
- 4 bone marrow                        4
- 5 caecum                             1
- 6 caudate lobe of liver              1
- 7 cortex of kidney                   7
- 8 dorsolateral prefrontal cortex     1
- 9 epithelium of esophagus            1
-10 fovea centralis                    1
+   tissue                   n
+   &lt;chr&gt;                &lt;int&gt;
+ 1 blood                   17
+ 2 kidney                   8
+ 3 cortex of kidney         7
+ 4 heart left ventricle     7
+ 5 renal medulla            6
+ 6 respiratory airway       6
+ 7 bone marrow              4
+ 8 kidney blood vessel      4
+ 9 lung                     4
+10 renal pelvis             4
 # ℹ 23 more rows</code></pre>
 </div>
-</section><section><h2 class="section-heading" id="columns-available-in-the-metadata">Columns available in the metadata<a class="anchor" aria-label="anchor" href="#columns-available-in-the-metadata"></a>
-</h2>
-<hr class="half-width">
+<p>We can do the same for the assay types:</p>
 <div class="codewrapper sourceCode" id="cb11">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">head</span><span class="op">(</span><span class="fu">names</span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code> [1] "cell_"                             "sample_"
- [3] "cell_type"                         "cell_type_harmonised"
- [5] "confidence_class"                  "cell_annotation_azimuth_l2"
- [7] "cell_annotation_blueprint_singler" "cell_annotation_monaco_singler"
- [9] "sample_id_db"                      "_sample_name"                     </code></pre>
-</div>
-<div id="discussion1" class="callout discussion">
-<div class="callout-square">
-<i class="callout-icon" data-feather="message-circle"></i>
-</div>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge</h3>
-<div class="callout-content">
-<p>Glance over the full list of metadata column names. Do any other
-metadata columns jump out as interesting to you for your work?</p>
-<div class="codewrapper sourceCode" id="cb13">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">metadata</span> <span class="op">|&gt;</span> <span class="fu">names</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">sort</span><span class="op">(</span><span class="op">)</span></span></code></pre>
-</div>
-</div>
-</div>
-</div>
-</section><section><h2 class="section-heading" id="available-assays">Available assays<a class="anchor" aria-label="anchor" href="#available-assays"></a>
-</h2>
-<hr class="half-width">
-<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -6708,17 +6700,44 @@ metadata columns jump out as interesting to you for your work?</p>
 11 scRNA-seq                          4
 12 sci-RNA-seq                        1</code></pre>
 </div>
-<div class="section level3">
-<h3 id="download-single-cell-rna-sequencing-counts">Download single-cell RNA sequencing counts<a class="anchor" aria-label="anchor" href="#download-single-cell-rna-sequencing-counts"></a>
+<div id="discussion1" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge</h3>
+<div class="callout-content">
+<p>Look through the full list of metadata column names. Do any other
+metadata columns jump out as interesting to you for your work?</p>
+<div class="codewrapper sourceCode" id="cb13">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">names</span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span></span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="downloading-single-cell-data">Downloading single cell data<a class="anchor" aria-label="anchor" href="#downloading-single-cell-data"></a>
+</h2>
 <p>The data can be provided as either “counts” or counts per million
 “cpm” as given by the <code>assays</code> argument in the
 <code>get_single_cell_experiment()</code> function. By default, the
 <code>SingleCellExperiment</code> provided will contain only the
 ‘counts’ data.</p>
 <p>For the sake of demonstration, we’ll focus this small subset of
-samples:</p>
-<div class="codewrapper sourceCode" id="cb16">
+samples. We use the <code>filter()</code> function from the
+<code>dplyr</code> package to identify cells meeting the following
+criteria:</p>
+<ul>
+<li>African ethnicity</li>
+<li>10x assay</li>
+<li>lung parenchyma tissue</li>
+<li>CD4 cells</li>
+</ul>
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -6730,10 +6749,10 @@ samples:</p>
 <span>        <span class="fu">grepl</span><span class="op">(</span><span class="st">"CD4"</span>, <span class="va">cell_type</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span></code></pre>
 </div>
-<div class="section level4">
-<h4 id="query-raw-counts">Query raw counts<a class="anchor" aria-label="anchor" href="#query-raw-counts"></a>
-</h4>
-<div class="codewrapper sourceCode" id="cb17">
+<p>Out of the 111355 cells in the sample database, 1571 cells meet this
+criteria.</p>
+<p>Now we can use <code>get_single_cell_experiment()</code>:</p>
+<div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -6758,13 +6777,10 @@ reducedDimNames(0):
 mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
-</div>
-<div class="section level4">
-<h4 id="query-counts-scaled-per-million">Query counts scaled per million<a class="anchor" aria-label="anchor" href="#query-counts-scaled-per-million"></a>
-</h4>
-<p>This is helpful if just few genes are of interest, as they can be
-compared across samples.</p>
-<div class="codewrapper sourceCode" id="cb19">
+<p>You can provide different arguments to
+<code>get_single_cell_experiment()</code> to get different formats or
+subsets of the data, like data scaled to counts per million:</p>
+<div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -6787,11 +6803,8 @@ reducedDimNames(0):
 mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
-</div>
-<div class="section level4">
-<h4 id="extract-only-a-subset-of-genes">Extract only a subset of genes<a class="anchor" aria-label="anchor" href="#extract-only-a-subset-of-genes"></a>
-</h4>
-<div class="codewrapper sourceCode" id="cb21">
+<p>or data on only specific genes:</p>
+<div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -6816,14 +6829,10 @@ reducedDimNames(0):
 mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
-</div>
-<div class="section level4">
-<h4 id="extracting-counts-as-a-seurat-object">Extracting counts as a Seurat object<a class="anchor" aria-label="anchor" href="#extracting-counts-as-a-seurat-object"></a>
-</h4>
-<p>If needed, the H5 <code>SingleCellExperiment</code> can be converted
-into a Seurat object. Note that it may take a long time and use a lot of
-memory depending on how many cells you are requesting.</p>
-<div class="codewrapper sourceCode" id="cb23">
+<p>Or if needed, the H5 <code>SingleCellExperiment</code> can be
+returned a Seurat object (note that this may take a long time and use a
+lot of memory depending on how many cells you are requesting).</p>
+<div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -6833,29 +6842,25 @@ memory depending on how many cells you are requesting.</p>
 <span><span class="va">single_cell_counts</span></span></code></pre>
 </div>
 </div>
-</div>
-<div class="section level3">
-<h3 id="save-your-singlecellexperiment">Save your <code>SingleCellExperiment</code>
+<div class="section level2">
+<h2 id="save-your-singlecellexperiment">Save your <code>SingleCellExperiment</code>
 <a class="anchor" aria-label="anchor" href="#save-your-singlecellexperiment"></a>
-</h3>
-<div class="section level4">
-<h4 id="saving-as-hdf5">Saving as HDF5<a class="anchor" aria-label="anchor" href="#saving-as-hdf5"></a>
-</h4>
-<p>The recommended way of saving these <code>SingleCellExperiment</code>
-objects, if necessary, is to use
+</h2>
+<p>Once you have a dataset you’re happy with, you’ll probably want to
+save it. The recommended way of saving these
+<code>SingleCellExperiment</code> objects is to use
 <code>saveHDF5SummarizedExperiment</code> from the
 <code>HDF5Array</code> package.</p>
-<div class="codewrapper sourceCode" id="cb24">
+<div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">single_cell_counts</span> <span class="op">|&gt;</span> <span class="fu">saveHDF5SummarizedExperiment</span><span class="op">(</span><span class="st">"single_cell_counts"</span><span class="op">)</span></span></code></pre>
 </div>
 </div>
-</div>
-</section><section><h2 class="section-heading" id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
+<div class="section level2">
+<h2 id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
 </h2>
-<hr class="half-width">
 <div id="exercise-1-basic-counting-piping" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -6873,9 +6878,9 @@ cells per tissue in descending order.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb25">
+<div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -6906,9 +6911,9 @@ most numerous type of cells?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb26">
+<div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -6939,9 +6944,9 @@ summarise.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb27">
+<div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -6983,9 +6988,9 @@ columns, where possible.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb28">
+<div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -7043,7 +7048,8 @@ object.</li>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
-</section></section>
+</div>
+</div></section>
 </div>
     </main>
 </div>
@@ -7091,8 +7097,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/aio.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/aio.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-10-02",
-  "datePublished": "2024-10-02"
+  "dateModified": "2024-10-03",
+  "datePublished": "2024-10-03"
 }
 
   </script><script>
