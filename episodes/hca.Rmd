@@ -18,6 +18,9 @@ exercises: 10 # Minutes of exercises in the lesson
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+
+# Single Cell data sources
+
 ## HCA Project
 
 The Human Cell Atlas (HCA) is a large project that aims to learn from and map
@@ -102,7 +105,7 @@ metadata <- get_metadata(remote_url = CuratedAtlasQueryR::SAMPLE_DATABASE_URL) |
   collect()
 ```
 
-Get a view of the first 10 columns in the metadata with `glimpse`
+Get a view of the first 10 columns in the metadata with `glimpse()`
 
 ```{r}
 metadata |>
@@ -110,7 +113,7 @@ metadata |>
   glimpse()
 ```
 
-## A note on the pipe operator
+## A tangent on the pipe operator
 
 The vignette materials provided by `CuratedAtlasQueryR` show the use of the
 'native' R pipe (implemented after R version `4.1.0`). For those not familiar
@@ -134,34 +137,20 @@ This command is equivalent to the following:
 summarise(filter(mtcars, cyl != 4), mean_disp = mean(disp), .by = cyl)
 ```
 
-## Summarizing the metadata
+## Exploring the metadata
 
-For each distinct tissue and dataset combination, count the number of datasets
-by tissue type. 
+Let's examine the metadata to understand what information it contains.
+
+We can tally the tissue types across datasets to see what tissues the experimental data come from:
 
 ```{r}
 metadata |>
   distinct(tissue, dataset_id) |> 
-  count(tissue)
+  count(tissue) |> 
+  arrange(-n)
 ```
 
-## Columns available in the metadata
-
-```{r, message = FALSE}
-head(names(metadata), 10)
-```
-
-:::: challenge
-
-Glance over the full list of metadata column names. Do any other metadata columns jump out as interesting to you for your work?
-
-```{r eval=FALSE}
-metadata |> names() |> sort()
-```
-
-::::
-
-## Available assays
+We can do the same for the assay types:
 
 ```{r}
 metadata |>
@@ -169,14 +158,30 @@ metadata |>
     count(assay)
 ```
 
-### Download single-cell RNA sequencing counts 
+:::: challenge
+
+Look through the full list of metadata column names. Do any other metadata
+columns jump out as interesting to you for your work?
+
+```{r eval=FALSE}
+names(metadata)
+```
+
+::::
+
+## Downloading single cell data 
 
 The data can be provided as either "counts" or counts per million "cpm" as given
 by the `assays` argument in the `get_single_cell_experiment()` function. By
 default, the `SingleCellExperiment` provided will contain only the 'counts'
 data.
 
-For the sake of demonstration, we'll focus this small subset of samples:
+For the sake of demonstration, we'll focus this small subset of samples. We use the `filter()` function from the `dplyr` package to identify cells meeting the following criteria:
+
+* African ethnicity
+* 10x assay
+* lung parenchyma tissue
+* CD4 cells
 
 ```{r}
 sample_subset <- metadata |>
@@ -188,8 +193,9 @@ sample_subset <- metadata |>
     )
 ```
 
+Out of the `r nrow(metadata)` cells in the sample database, `r nrow(sample_subset)` cells meet this criteria.
 
-#### Query raw counts
+Now we can use `get_single_cell_experiment()`:
 
 ```{r, message = FALSE}
 single_cell_counts <- sample_subset |>
@@ -198,17 +204,14 @@ single_cell_counts <- sample_subset |>
 single_cell_counts
 ```
 
-#### Query counts scaled per million
-
-This is helpful if just few genes are of interest, as they can be compared
-across samples.
+You can provide different arguments to `get_single_cell_experiment()` to get different formats or subsets of the data, like data scaled to counts per million:
 
 ```{r, message = FALSE}
 sample_subset |>
   get_single_cell_experiment(assays = "cpm")
 ```
 
-#### Extract only a subset of genes
+or data on only specific genes:
 
 ```{r, message = FALSE}
 single_cell_counts <- sample_subset |>
@@ -217,11 +220,9 @@ single_cell_counts <- sample_subset |>
 single_cell_counts
 ```
 
-#### Extracting counts as a Seurat object
-
-If needed, the H5 `SingleCellExperiment` can be converted into a Seurat object.
-Note that it may take a long time and use a lot of memory depending on how many
-cells you are requesting.
+Or if needed, the H5 `SingleCellExperiment` can be returned a Seurat
+object (note that this may take a long time and use a lot of memory depending on
+how many cells you are requesting).
 
 ```{r,eval=FALSE}
 single_cell_counts <- sample_subset |>
@@ -230,13 +231,10 @@ single_cell_counts <- sample_subset |>
 single_cell_counts
 ```
 
-### Save your `SingleCellExperiment`
+## Save your `SingleCellExperiment`
 
-#### Saving as HDF5 
-
-The recommended way of saving these `SingleCellExperiment` objects, if
-necessary, is to use `saveHDF5SummarizedExperiment` from the `HDF5Array`
-package.
+Once you have a dataset you're happy with, you'll probably want to save it. The recommended way of saving these `SingleCellExperiment` objects is to use
+`saveHDF5SummarizedExperiment` from the `HDF5Array` package.
 
 ```{r, eval=FALSE}
 single_cell_counts |> saveHDF5SummarizedExperiment("single_cell_counts")
