@@ -283,17 +283,14 @@ altExpNames(0):
 
 The main advantage of using pseudo-bulk samples is the possibility to use
 well-tested methods for differential analysis like `edgeR` and `DESeq2`, we will
-focus on the former for this analysis. `edgeR` uses a Negative Binomial
-Generalized Linear Model.
+focus on the former for this analysis. `edgeR` and `DESeq2` both use negative binomial models under the hood, but differ in their normalization strategies and other implementation details.
 
 First, let's start with a specific cell type, for instance the "Mesenchymal stem
-cells", and look into differences between this cell type across conditions.
+cells", and look into differences between this cell type across conditions. We put the counts table into a `DGEList` container called `y`, along with the corresponding metadata.
 
 
 ``` r
-label <- "Mesenchyme"
-
-current <- summed[,label == summed$celltype.mapped]
+current <- summed[, summed$celltype.mapped == "Mesenchyme"]
 
 y <- DGEList(counts(current), samples = colData(current))
 
@@ -373,7 +370,7 @@ summary(keep)
 logical    9121    4520 
 ```
 
-We can now proceed to normalize the data There are several approaches for
+We can now proceed to normalize the data. There are several approaches for
 normalizing bulk, and hence pseudo-bulk data. Here, we use the Trimmed Mean of
 M-values method, implemented in the `edgeR` package within the `calcNormFactors`
 function. Keep in mind that because we are going to normalize the pseudo-bulk
@@ -436,7 +433,7 @@ par(mfrow = c(1,1))
 Furthermore, we want to check if the samples cluster together based
 on their known factors (like the tomato injection in this case).
 
-To do so, we use the MDS plot, which is very close to a PCA representation.
+In this case, we'll use the multidimensional scaling (MDS) plot. Multidimensional scaling (which also goes by principal *coordinate* analysis (PCoA)) is a dimensionality reduction technique that's conceptually similar to principal *component* analysis (PCA).
     
 
 ``` r
@@ -500,7 +497,6 @@ plotBCV(y)
 ```
 
 <img src="fig/multi-sample-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
-
 
 We then fit a Quasi-Likelihood (QL) negative binomial generalized linear model for each gene. 
 The `robust = TRUE` parameter avoids distortions from highly variable clusters.
@@ -673,9 +669,10 @@ data means by the total number of cells in each sample (cell type).
 On the other hand, this can lead our data to be susceptible to compositional
 effect. "Compositional" refers to the fact that the cluster abundances in a
 sample are not independent of one another because each cell type is effectively
-competing for space in the sample. They behave like proportions. If cell type A
-abundance increases in a new condition, that means we'll observe less of
-everything else, even if everything else is unaffected by the new condition.
+competing for space in the sample. They behave like proportions in that they
+must sum to 1. If cell type A abundance increases in a new condition, that means
+we'll observe less of everything else, even if everything else is unaffected by
+the new condition.
 
 Compositionality means that our conclusions can be biased by the amount of cells
 present in each cell type. And this amount of cells can be totally unbalanced
@@ -750,7 +747,7 @@ Allantois          0.5462287 15.54924  2.922074 9.193574e-02 3.125815e-01
 
 ###  Testing against a log-fold change threshold
 
-This other approach assumes that the composition bias introduces a spurious
+A second approach assumes that the composition bias introduces a spurious
 log2-fold change of no more than a \tau quantity for a non-DA label.
 
 In other words, we interpret this as the maximum log-fold change in the total
