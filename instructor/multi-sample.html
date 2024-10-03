@@ -331,7 +331,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Multi-sample analyses</h1>
-        <p>Last updated on 2024-09-30 |
+        <p>Last updated on 2024-10-03 |
 
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/multi-sample.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -681,18 +681,19 @@ altExpNames(0):</code></pre>
 <p>The main advantage of using pseudo-bulk samples is the possibility to
 use well-tested methods for differential analysis like
 <code>edgeR</code> and <code>DESeq2</code>, we will focus on the former
-for this analysis. <code>edgeR</code> uses a Negative Binomial
-Generalized Linear Model.</p>
+for this analysis. <code>edgeR</code> and <code>DESeq2</code> both use
+negative binomial models under the hood, but differ in their
+normalization strategies and other implementation details.</p>
 <p>First, let’s start with a specific cell type, for instance the
 “Mesenchymal stem cells”, and look into differences between this cell
-type across conditions.</p>
+type across conditions. We put the counts table into a
+<code>DGEList</code> container called <code>y</code>, along with the
+corresponding metadata.</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">label</span> <span class="op">&lt;-</span> <span class="st">"Mesenchyme"</span></span>
-<span></span>
-<span><span class="va">current</span> <span class="op">&lt;-</span> <span class="va">summed</span><span class="op">[</span>,<span class="va">label</span> <span class="op">==</span> <span class="va">summed</span><span class="op">$</span><span class="va">celltype.mapped</span><span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="va">current</span> <span class="op">&lt;-</span> <span class="va">summed</span><span class="op">[</span>, <span class="va">summed</span><span class="op">$</span><span class="va">celltype.mapped</span> <span class="op">==</span> <span class="st">"Mesenchyme"</span><span class="op">]</span></span>
 <span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu">DGEList</span><span class="op">(</span><span class="fu">counts</span><span class="op">(</span><span class="va">current</span><span class="op">)</span>, samples <span class="op">=</span> <span class="fu">colData</span><span class="op">(</span><span class="va">current</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -774,12 +775,13 @@ modeling.</p>
 <pre class="output" tabindex="0"><code>   Mode   FALSE    TRUE
 logical    9121    4520 </code></pre>
 </div>
-<p>We can now proceed to normalize the data There are several approaches
-for normalizing bulk, and hence pseudo-bulk data. Here, we use the
-Trimmed Mean of M-values method, implemented in the <code>edgeR</code>
-package within the <code>calcNormFactors</code> function. Keep in mind
-that because we are going to normalize the pseudo-bulk counts, we don’t
-need to normalize the data in “single cell form”.</p>
+<p>We can now proceed to normalize the data. There are several
+approaches for normalizing bulk, and hence pseudo-bulk data. Here, we
+use the Trimmed Mean of M-values method, implemented in the
+<code>edgeR</code> package within the <code>calcNormFactors</code>
+function. Keep in mind that because we are going to normalize the
+pseudo-bulk counts, we don’t need to normalize the data in “single cell
+form”.</p>
 <div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -837,8 +839,11 @@ y-axis) and present a trumpet shape, as expected.</p>
 </div>
 <p>Furthermore, we want to check if the samples cluster together based
 on their known factors (like the tomato injection in this case).</p>
-<p>To do so, we use the MDS plot, which is very close to a PCA
-representation.</p>
+<p>In this case, we’ll use the multidimensional scaling (MDS) plot.
+Multidimensional scaling (which also goes by principal
+<em>coordinate</em> analysis (PCoA)) is a dimensionality reduction
+technique that’s conceptually similar to principal <em>component</em>
+analysis (PCA).</p>
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1106,9 +1111,10 @@ means by the total number of cells in each sample (cell type).</p>
 compositional effect. “Compositional” refers to the fact that the
 cluster abundances in a sample are not independent of one another
 because each cell type is effectively competing for space in the sample.
-They behave like proportions. If cell type A abundance increases in a
-new condition, that means we’ll observe less of everything else, even if
-everything else is unaffected by the new condition.</p>
+They behave like proportions in that they must sum to 1. If cell type A
+abundance increases in a new condition, that means we’ll observe less of
+everything else, even if everything else is unaffected by the new
+condition.</p>
 <p>Compositionality means that our conclusions can be biased by the
 amount of cells present in each cell type. And this amount of cells can
 be totally unbalanced between cell types. This is particularly
@@ -1189,7 +1195,7 @@ Allantois          0.5462287 15.54924  2.922074 9.193574e-02 3.125815e-01</code>
 </div>
 <div class="section level3">
 <h3 id="testing-against-a-log-fold-change-threshold">Testing against a log-fold change threshold<a class="anchor" aria-label="anchor" href="#testing-against-a-log-fold-change-threshold"></a></h3>
-<p>This other approach assumes that the composition bias introduces a
+<p>A second approach assumes that the composition bias introduces a
 spurious log2-fold change of no more than a quantity for a non-DA
 label.</p>
 <p>In other words, we interpret this as the maximum log-fold change in
@@ -1597,7 +1603,7 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/instructor/multi-sample.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/instructor/multi-sample.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-09-30",
+  "dateModified": "2024-10-03",
   "datePublished": "2024-10-03"
 }
 
