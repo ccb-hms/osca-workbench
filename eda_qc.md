@@ -624,6 +624,12 @@ head(hvg.sce.var)
 
 Imagine you have data that were prepared by three people with varying level of experience, which leads to varying technical noise. How can you account for this blocking structure when selecting HVGs?
 
+::: hint
+
+`modelGeneVar()` can take a `block` argument. 
+
+:::
+
 ::: solution
 Use the `block` argument in the call to `modelGeneVar()` like so:
 
