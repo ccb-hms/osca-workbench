@@ -141,7 +141,7 @@ BiocManager::install(c("AUCell", "batchelor", "BiocNeighbors",
                        "scuttle", "Seurat", "SeuratData", 
                        "SingleCellExperiment", "SingleR",
                        "TENxBrainData", "zellkonverter"),
-                     Ncpus = 4)
+                       Ncpus = 4)
 ```
 
 <!--- 
