@@ -438,21 +438,21 @@ table(exact = colLabels(sce), approx = clusters)
 
 ``` output
      approx
-exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14
-   1   90   0   0   0   0   0   0   0   1   0   0   0   0   0
-   2    0 143   0   1   0   0   0   0   0   0   0   0   0   0
-   3    0   0  77   0   0   0   0   0   0   0   0   0   0   0
-   4    0   0   0 397   0   0   0   0   0   0   0   0   0   0
-   5    0   0   0   0 393   0   0   2   0   0   0   5   0   0
-   6    0   0   0   0   0 204   6   0   0   0   1   0   0   0
-   7    0   0   0   0   0   0 245   0   0   1   0   0   0   0
-   8    0   0   0   0   1   0   0  93   0   0   0   0   0   0
-   9    1   0   0   0   1   0   0   0 106   0   0   0   0   0
-   10   0   0   0   0   0   0   0   0   0 116   2   1   0   0
-   11   0   0   0   0   0   0   0   0   0   2 139   0   6   0
-   12   0   0   0   0   1   0   0   0   0   0   0 210   0   0
-   13   0   0   0   0   0   0   0   0   0   0   0   0 146   0
-   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20
+exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
+   1   90   0   0   0   1   0   0   0   1   0   0   0   0   0   0
+   2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
+   3    0   0  75   0   2   0   0   0   0   0   0   0   0   0   0
+   4    0   0   0 341   0   0   0   0   0   0   0   0   0   0  56
+   5    0   0   0   0 392   0   0   1   0   1   0   0   0   0   0
+   6    0   0   0   0   0  79 131   0   0   0   0   0   0   0   0
+   7    0   0   0   0   0 245   0   0   0   1   0   0   0   0   0
+   8    0   0   0   0   0   0   0  95   0   0   0   0   0   0   0
+   9    1   0   0   0   2   0   0   0 106   0   0   0   0   0   0
+   10   0   0   0   0   0   0   0   0   0 105   0   0   0   0   0
+   11   0   0   0   0   0   0   1   0   0   5 147   0   0   0   0
+   12   0   0   0   0   1   0   0   0   0  23   0 199   0   0   0
+   13   0   0   0   0   0   0   0   0   0   0   0   0 146   0   0
+   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0
 ```
 
 The similarity of the two clusterings can be quantified by calculating the pairwise Rand index: 
@@ -565,11 +565,11 @@ accurate, though RSVD is much faster for file-backed matrices.
 
 :::: challenge
 
-The uncertainty from approximation error is sometimes psychologically
-objectionable. "Why can't my computer just give me the right answer?" One way to
-alleviate this feeling is to quantify the approximation error on a small test
-set like the sce we have here. Using the `ExactParam()` class, visualize the
-error in PC1 coordinates compared to the RSVD results.
+The uncertainty from approximation error is sometimes aggravating. "Why can't my
+computer just give me the right answer?" One way to alleviate this feeling is to
+quantify the approximation error on a small test set like the sce we have here.
+Using the `ExactParam()` class, visualize the error in PC1 coordinates compared
+to the RSVD results.
 
 ::: solution
 This code block calculates the exact PCA coordinates. Another thing to note: PC vectors are only identified up to a sign flip. We can see that the RSVD PC1 vector points in the 
@@ -964,47 +964,44 @@ function for writing to HDF5 from the *[HDF5Array](https://bioconductor.org/pack
 wt_out <- tempfile(fileext = ".h5")
 
 wt_counts <- counts(WTChimeraData())
-```
 
-``` error
-Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'counts': failed to load resource
-  name: EH2973
-  title: WT chimera processed counts (sample 9)
-  reason: 1 resources failed to download
-```
-
-``` r
 writeHDF5Array(wt_counts,
                name = "wt_counts",
                file = wt_out)
 ```
 
-``` error
-Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'is_sparse': object 'wt_counts' not found
+``` output
+<29453 x 30703> sparse HDF5Matrix object of type "double":
+                       cell_1     cell_2     cell_3 ... cell_30702 cell_30703
+ENSMUSG00000051951          0          0          0   .          0          0
+ENSMUSG00000089699          0          0          0   .          0          0
+ENSMUSG00000102343          0          0          0   .          0          0
+ENSMUSG00000025900          0          0          0   .          0          0
+ENSMUSG00000025902          0          0          0   .          0          0
+               ...          .          .          .   .          .          .
+ENSMUSG00000095041          0          1          2   .          0          0
+ENSMUSG00000063897          0          0          0   .          0          0
+ENSMUSG00000096730          0          0          0   .          0          0
+ENSMUSG00000095742          0          0          0   .          0          0
+         tomato-td          1          0          1   .          0          0
 ```
 
 ``` r
 oom_wt <- HDF5Array(wt_out, "wt_counts")
-```
 
-``` error
-Error in file_path_as_absolute(path): file '/tmp/Rtmp6Q9gmL/file1e892f562866.h5' does not exist
-```
-
-``` r
 object.size(wt_counts)
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'wt_counts' not found
+``` output
+1520366960 bytes
 ```
 
 ``` r
 object.size(oom_wt)
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'oom_wt' not found
+``` output
+2488 bytes
 ```
 
 :::::::::::::::::::::::

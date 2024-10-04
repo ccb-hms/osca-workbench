@@ -369,6 +369,23 @@ metadata |>
     count(tissue) |>
     arrange(-n)
 ```
+
+``` output
+# A tibble: 33 × 2
+   tissue                          n
+   <chr>                       <int>
+ 1 cortex of kidney            36940
+ 2 kidney                      23549
+ 3 lung parenchyma             16719
+ 4 renal medulla                7729
+ 5 respiratory airway           7153
+ 6 blood                        4248
+ 7 bone marrow                  4113
+ 8 heart left ventricle         1454
+ 9 transition zone of prostate  1140
+10 lung                         1137
+# ℹ 23 more rows
+```
 :::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::::::::
@@ -390,6 +407,13 @@ metadata |>
     arrange(-n) |> 
     head(n = 1)
 ```
+
+``` output
+# A tibble: 1 × 3
+  tissue           cell_type                              n
+  <chr>            <chr>                              <int>
+1 cortex of kidney epithelial cell of proximal tubule 29986
+```
 :::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::::::::
@@ -408,10 +432,54 @@ Use `count` to summarise.
 metadata |>
     count(tissue) |>
     arrange(-n)
+```
 
+``` output
+# A tibble: 33 × 2
+   tissue                          n
+   <chr>                       <int>
+ 1 cortex of kidney            36940
+ 2 kidney                      23549
+ 3 lung parenchyma             16719
+ 4 renal medulla                7729
+ 5 respiratory airway           7153
+ 6 blood                        4248
+ 7 bone marrow                  4113
+ 8 heart left ventricle         1454
+ 9 transition zone of prostate  1140
+10 lung                         1137
+# ℹ 23 more rows
+```
+
+``` r
 metadata |>
     count(tissue_harmonised) |>
     arrange(-n)
+```
+
+``` output
+# A tibble: 19 × 2
+   tissue_harmonised     n
+   <chr>             <int>
+ 1 kidney            68851
+ 2 lung              25737
+ 3 blood              4248
+ 4 bone               4113
+ 5 heart              1454
+ 6 lymph node         1210
+ 7 prostate           1156
+ 8 intestine large     816
+ 9 liver               793
+10 thymus              753
+11 intestine small     530
+12 eye                 437
+13 intestine           360
+14 esophagus           334
+15 nose                290
+16 vasculature         143
+17 brain                97
+18 adrenal gland        20
+19 axilla               13
 ```
 
 For example you can see that `tissue_harmonised` merges the `cortex of kidney`
