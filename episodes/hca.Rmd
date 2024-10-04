@@ -251,7 +251,7 @@ order.
 
 :::::::::::::: solution
 
-```{r,eval=FALSE}
+```{r}
 metadata |>
     count(tissue) |>
     arrange(-n)
@@ -270,7 +270,7 @@ tissue combination. What tissue has the most numerous type of cells?
 
 :::::::::::::: solution
 
-```{r,eval=FALSE}
+```{r}
 metadata |>
     count(tissue, cell_type) |>
     arrange(-n) |> 
@@ -290,7 +290,7 @@ Use `count` to summarise.
 
 :::::::::::::: solution
 
-```{r, eval=FALSE}
+```{r}
 metadata |>
     count(tissue) |>
     arrange(-n)
