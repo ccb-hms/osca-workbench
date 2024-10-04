@@ -359,11 +359,11 @@ accurate, though RSVD is much faster for file-backed matrices.
 
 :::: challenge
 
-The uncertainty from approximation error is sometimes psychologically
-objectionable. "Why can't my computer just give me the right answer?" One way to
-alleviate this feeling is to quantify the approximation error on a small test
-set like the sce we have here. Using the `ExactParam()` class, visualize the
-error in PC1 coordinates compared to the RSVD results.
+The uncertainty from approximation error is sometimes aggravating. "Why can't my
+computer just give me the right answer?" One way to alleviate this feeling is to
+quantify the approximation error on a small test set like the sce we have here.
+Using the `ExactParam()` class, visualize the error in PC1 coordinates compared
+to the RSVD results.
 
 ::: solution
 This code block calculates the exact PCA coordinates. Another thing to note: PC vectors are only identified up to a sign flip. We can see that the RSVD PC1 vector points in the 
