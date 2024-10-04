@@ -903,48 +903,16 @@ loaded via a namespace (and not attached):
 
 ## Exercises
 
-:::::::::::::::::::::::::::::::::: challenge
-
-#### Exercise 1: Replicates
-
-Test differential expressed genes with just 2 replicates per condition and look into the changes in the results and possible emerging issues.
-
-
-:::::::::::::: hint
-
-Remember, you can subset SingleCellExperiments with logical indices, just like a matrix. You can also access their column data with the `$` accessor, like a data frame. 
-
-:::::::::::::::::::::::
-
-:::::::::::::: solution
-
-
-
-``` r
-summed.filt.subset = summed.filt[,summed.filt$pool != 3]
-
-de.results <- pseudoBulkDGE(
-    summed.filt.subset, 
-    label = summed.filt.subset$celltype.mapped,
-    design = ~factor(pool) + tomato,
-    coef = "tomatoTRUE",
-    condition = summed.filt.subset$tomato 
-)
-```
-
-:::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::: challenge
 
-#### Exercise 2: Heatmaps
+#### Exercise 1: Heatmaps
 
 Use the `pheatmap` package to create a heatmap of the abundances table. Does it comport with the model results?
 
 :::::::::::::: hint
 
-You can just hand `pheatmap()` a matrix as its only argument. It has a million options, but the defaults are usually pretty good.
+You can simply hand `pheatmap()` a matrix as its only argument. `pheatmap()` has a million options you can tweak, but the defaults are usually pretty good.
 
 :::::::::::::::::::::::
 
@@ -955,9 +923,81 @@ You can just hand `pheatmap()` a matrix as its only argument. It has a million o
 pheatmap(y.ab$counts)
 ```
 
-<img src="fig/multi-sample-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+<img src="fig/multi-sample-rendered-unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
 
 The top DA result was a decrease in ExE ectoderm in the tomato condition, which you can sort of see, especially if you `log1p()` the counts or discard rows that show much higher values. ExE ectoderm counts were much higher in samples 8 and 10 compared to 5, 7, and 9. 
+
+:::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::: challenge
+
+#### Exercise 2: Model specification and comparison
+
+Try re-running the pseudobulk DGE without the `pool` factor in the design specification. Compare the logFC estimates and the distribution of p-values for the `Erythroid3` cell type.
+
+:::::::::::::: hint
+
+After running the second pseudobulk DGE, you can join the two `DataFrame`s of `Erythroid3` statistics using the `merge()` function. You will need to create a common key column from the gene IDs.
+
+:::::::::::::::::::::::
+
+:::::::::::::: solution
+
+
+
+``` r
+de.results2 <- pseudoBulkDGE(
+    summed.filt, 
+    label = summed.filt$celltype.mapped,
+    design = ~tomato,
+    coef = "tomatoTRUE",
+    condition = summed.filt$tomato 
+)
+
+eryth1 <- de.results$Erythroid3
+
+eryth2 <- de.results2$Erythroid3
+
+eryth1$gene <- rownames(eryth1)
+
+eryth2$gene <- rownames(eryth2)
+
+comp_df <- merge(eryth1, eryth2, by = 'gene')
+
+comp_df <- comp_df[!is.na(comp_df$logFC.x),]
+
+ggplot(comp_df, aes(logFC.x, logFC.y)) + 
+    geom_abline(lty = 2, color = "grey") +
+    geom_point() 
+```
+
+<img src="fig/multi-sample-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+
+``` r
+# Reshape to long format for ggplot facets. This is 1000x times easier to do
+# with tidyverse packages:
+pval_df <- reshape(comp_df[,c("gene", "PValue.x", "PValue.y")],
+                   direction = "long", 
+                   v.names = "Pvalue",
+                   timevar = "pool_factor",
+                   times = c("with pool factor", "no pool factor"),
+                   varying = c("PValue.x", "PValue.y"))
+
+ggplot(pval_df, aes(Pvalue)) + 
+    geom_histogram(boundary = 0,
+                   bins = 30) + 
+    facet_wrap("pool_factor")
+```
+
+<img src="fig/multi-sample-rendered-unnamed-chunk-25-2.png" style="display: block; margin: auto;" />
+
+We can see that in this case, the logFC estimates are strongly consistent between the two models, which tells us that the inclusion of the `pool` factor in the model doesn't strongly influence the estimate of the `tomato` coefficients in this case.
+
+The p-value histograms both look alright here, with a largely flat plateau over most of the 0 - 1 range and a spike near 0. This is consistent with the hypothesis that most genes are unaffected by `tomato` but there are a small handful that clearly are. 
+
+If there were large shifts in the logFC estimates or p-value distributions, that's a sign that the design specification change has a large impact on how the model sees the data. If that happens, you'll need to think carefully and critically about what variables should and should not be included in the model formula.
 
 :::::::::::::::::::::::
 
