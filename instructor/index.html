@@ -318,17 +318,16 @@ plethora of tools for the analysis of single-cell data has been
 developed, making it hard to understand the critical steps in the
 analysis workflow and the best methods for each objective of one’s
 study.</p>
-<p>This tutorial aims to provide a solid foundation in using <a href="https://bioconductor.org" class="external-link">Bioconductor</a> tools for single-cell
+<p>This <a href="https://carpentries.org/" class="external-link">Carpentries-style</a>
+tutorial aims to provide a solid foundation in using <a href="https://bioconductor.org" class="external-link">Bioconductor</a> tools for single-cell
 RNA-seq (scRNA-seq) analysis by walking through various steps of typical
 workflows using example datasets.</p>
 <p>This tutorial is based on the the online book “Orchestrating
-Single-Cell Analysis with Bioconductor” (<a href="https://bioconductor.org/books/release/OSCA/" class="external-link">OSCA</a>), started
-in 2018 and continuously updated by many contributors from the
+Single-Cell Analysis with Bioconductor” (<a href="https://bioconductor.org/books/release/OSCA/" class="external-link">OSCA</a>), <a href="https://doi.org/10.1038%2Fs41592-019-0654-x" class="external-link">published in
+2020</a>, and continuously updated by many contributors from the
 Bioconductor community. Like the book, this tutorial strives to be of
 interest to the experimental biologists wanting to analyze their data
 and to the bioinformaticians approaching single-cell data.</p>
-<p>This is a new lesson built with <a href="https://carpentries.github.io/sandpaper-docs" class="external-link">The Carpentries
-Workbench</a>.</p>
 <div id="prerequisites" class="callout prereq">
 <div class="callout-square">
 <i class="callout-icon" data-feather="check"></i>
@@ -338,12 +337,22 @@ Workbench</a>.</p>
 <div class="callout-content">
 <ul><li>Familiarity with R/Bioconductor, such as the <a href="https://carpentries-incubator.github.io/bioc-intro/" class="external-link">Introduction
 to data analysis with R and Bioconductor</a> lesson.</li>
+<li>Familiarity with multivariate analysis and dimensionality reduction,
+such as <a href="https://www.huber.embl.de/msmb/07-chap.html" class="external-link">Chapter
+7</a> of the book <em>Modern Statistics for Modern Biology</em> by
+Holmes and Huber.</li>
 <li>Familiarity with the biology of gene expression and scRNA-seq, such
 as the review article <a href="https://doi.org/10.1186/s13073-017-0467-4" class="external-link">A practical guide to
 single-cell RNA-sequencing</a> by Haque et.al.</li>
 </ul></div>
 </div>
 </div>
+<p>If you use materials of this lesson in published research, please
+cite:</p>
+<p>Amezquita RA, Lun ATL, Becht E, Carey VJ, Carpp LN, Geistlinger L,
+Marini F, Rue-Albrecht K, Risso D, Soneson C, Waldron L, Pagès H, Smith
+ML, Huber W, Morgan M, Gottardo R, Hicks SC. Orchestrating single-cell
+analysis with Bioconductor. <em>Nature Methods</em>, 2020. doi: <a href="https://doi.org/10.1038/s41592-019-0654-x" class="external-link">10.1038/s41592-019-0654-x</a></p>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
@@ -457,7 +466,7 @@ instructions to install packages.</li>
   If you already have R and RStudio installed
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <ul><li>Open RStudio, and click on “Help” &gt; “Check for updates”. If a new
 version is available, quit RStudio, and download the latest version for
@@ -483,7 +492,7 @@ everyone</a> at the bottom of this page.</li>
   If you don’t have R and RStudio installed
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <ul><li>Download R from the <a href="https://cran.r-project.org/bin/windows/base/release.htm" class="external-link">CRAN
 website</a>.</li>
@@ -514,7 +523,7 @@ everyone</a> at the bottom of this page.</li>
   If you already have R and RStudio installed
   </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <ul><li>Open RStudio, and click on “Help” &gt; “Check for updates”. If a new
 version is available, quit RStudio, and download the latest version for
@@ -538,7 +547,7 @@ everyone</a> at the bottom of this page.</li>
   If you don’t have R and RStudio installed
   </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <ul><li>Download R from the <a href="https://cran.r-project.org/bin/macosx/" class="external-link">CRAN website</a>.</li>
 <li>Select the <code>.pkg</code> file for the latest R version</li>
@@ -571,7 +580,7 @@ everyone</a> at the bottom of this page.</li>
   Install R using your package manager and RStudio
   </h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
 <div class="accordion-body">
 <ul><li>Follow the instructions for your distribution from <a href="https://cloud.r-project.org/bin/linux" class="external-link">CRAN</a>, they provide
 information to get the most recent version of R for common
@@ -620,7 +629,7 @@ commands:</p>
 <span>                       <span class="st">"scuttle"</span>, <span class="st">"Seurat"</span>, <span class="st">"SeuratData"</span>, </span>
 <span>                       <span class="st">"SingleCellExperiment"</span>, <span class="st">"SingleR"</span>,</span>
 <span>                       <span class="st">"TENxBrainData"</span>, <span class="st">"zellkonverter"</span><span class="op">)</span>,</span>
-<span>                     Ncpus <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre>
+<span>                       Ncpus <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre>
 </div>
 <!---
 grep -Ph "library\(" episodes/*.Rmd | sort | uniq
