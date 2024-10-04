@@ -31,7 +31,7 @@ options(digits = 3)
 
 ### Overview 
 
-Within the R ecosystem, the Bioconductor project provides tools for the analysis and comprehension of high-throughput genomics data.
+Within the [R](https://www.r-project.org/) ecosystem, the [Bioconductor](https://bioconductor.org/) project provides tools for the analysis and comprehension of high-throughput genomics data.
 The scope of the project covers microarray data, various forms of sequencing (RNA-seq, ChIP-seq, bisulfite, genotyping, etc.), proteomics, flow cytometry and more.
 One of Bioconductor's main selling points is the use of common data structures to promote interoperability between packages, allowing code written by different people (from different organizations, in different countries) to work together seamlessly in complex analyses. 
 
@@ -89,20 +89,21 @@ This will check for more recent versions of each package (within a Bioconductor 
 BiocManager::install()
 ```
 
-Be careful: if you have a lot of packages to update, this can take a long time.
+This might take some time if many packages need to be updated, but is typically
+recommended to avoid issues resulting from outdated package versions. 
 
 ## The `SingleCellExperiment` class
 
 ### Setup
 
-First start by loading some libraries we'll be using:
+We start by loading some libraries we'll be using:
 
 ```{r setup}
 library(SingleCellExperiment)
 library(MouseGastrulationData)
 ```
 
-It's normal to see lot of startup messages when loading these packages. 
+It is normal to see lot of startup messages when loading these packages. 
 
 ### Motivation and overview
 
@@ -118,11 +119,15 @@ knitr::include_graphics("http://bioconductor.org/books/release/OSCA.intro/images
 
 :::: spoiler
 
-### Before `SingleCellExperiment`
+### Benefits of using the integrated `SingleCellExperiment` data container
 
-Before `SingleCellExperiment`, coders working with single cell data would sometimes keep all of these components in separate objects e.g. a matrix of counts, a data.frame of sample metadata, a data.frame of gene annotations and so on. There were two main disadvantages to this sort of "from scratch" approach:
+The complexity of the `SingleCellExperiment` container might be a little bit intimidating in the beginning. 
+One might be tempted to use a simpler approach by just keeping all of these components in separate objects,
+e.g. a `matrix` of counts, a `data.frame` of sample metadata, a `data.frame` of gene annotations, and so on.
 
-1. Tons of book-keeping. If you performed a QC step that removed dead cells, you also had to remember to remove that same set of cells from the cell-wise metadata. Un-expressed genes were dropped? Don't forget to filter the gene metadata table too. 
+There are two main disadvantages to this "from-scratch" approach:
+
+1. It requires a substantial amount of manual bookkeeping to keep the different data components in sync. If you performed a QC step that removed dead cells from the count matrix, you also had to remember to remove that same set of cells from the cell-wise metadata. Did you filtered out genes that did not display sufficient expression levels to be retained for further analysis? Then you would need to make sure to not forget to filter the gene metadata table too. 
 2. All the downstream steps had to be "from scratch" as well. All the data munging, analysis, and visualization code had to be customized to the idiosyncrasies of a given input set.
 
 ::::
@@ -141,11 +146,11 @@ Depending on the object, slots can contain different types of data (e.g., numeri
 
 :::: challenge
 
-Try to get the data for a different sample from  `WTChimeraData` (other than the fifth one).
+Get the data for a different sample from  `WTChimeraData` (other than the fifth one).
 
 ::: solution
 
-Here we assign the sixth sample to `sce6`:
+Here we obtain the sixth sample and assign it to `sce6`:
 
 ```{r, message = FALSE, warning=FALSE, eval=FALSE}
 sce6 <- WTChimeraData(samples = 6)
@@ -167,7 +172,11 @@ names(assays(sce))
 counts(sce)[1:3, 1:3]
 ```
 
-You will notice that in this case we have a sparse matrix of class "dgTMatrix" inside the object. More generally, any "matrix-like" object can be used, e.g., dense matrices or HDF5-backed matrices (see the "Working with large data" episode).
+You will notice that in this case we have a sparse matrix of class `dgTMatrix`
+inside the object. More generally, any "matrix-like" object can be used, e.g.,
+dense matrices or HDF5-backed matrices (as we will explore later in the
+[Working with large data](https://ccb-hms.github.io/osca-workbench/large_data.html)
+episode).
 
 ### `colData` and `rowData`
 
@@ -181,7 +190,7 @@ colData(sce)[1:3, 1:4]
 rowData(sce)[1:3, 1:2]
 ```
 
-You can access columns of the colData with the `$` accessor to quickly add cell-wise metadata to the colData
+You can access columns of the colData with the `$` accessor to quickly add cell-wise metadata to the `colData`.
 
 ```{r}
 sce$my_sum <- colSums(counts(sce))
@@ -191,17 +200,18 @@ colData(sce)[1:3,]
 
 :::: challenge 
 
-Try to add a column of gene-wise metadata to the rowData.
+Add a column of gene-wise metadata to the `rowData`.
 
 ::: solution
 
-Here we add a column called "conservation" that is just an integer sequence from 1 to the number of genes.
+Here, we add a column named `conservation` that could represent an evolutionary conservation score.
 
 ```{r}
-rowData(sce)$conservation = rnorm(nrow(sce))
+rowData(sce)$conservation <- rnorm(nrow(sce))
 ```
 
-This is just a made-up example with a simple sequence of numbers, but in practice its convenient to store any sort of gene-wise information in the columns of the rowData.
+This is just an example for demonstration purposes, but in practice it is convenient
+and simplifies data management to store any sort of gene-wise information in the columns of the `rowData`.
 
 ::: 
 
@@ -209,7 +219,7 @@ This is just a made-up example with a simple sequence of numbers, but in practic
 
 ### The `reducedDims`
 
-Everything that we have described so far (except for the `counts` getter) is part of the `SummarizedExperiment` class that SingleCellExperiment extends. You can find a complete lesson on the `SummarizedExperiment` class in [Introduction to data analysis with R and Bioconductor](https://carpentries-incubator.github.io/bioc-intro/60-next-steps.html) course.
+Everything that we have described so far (except for the `counts` getter) is part of the `SummarizedExperiment` class that `SingleCellExperiment` extends. You can find a complete lesson on the `SummarizedExperiment` class in [Introduction to data analysis with R and Bioconductor](https://carpentries-incubator.github.io/bioc-intro/60-next-steps.html) course.
 
 One peculiarity of `SingleCellExperiment` is its ability to store reduced dimension matrices within the object. These may include PCA, t-SNE, UMAP, etc.
 
@@ -233,7 +243,7 @@ plotReducedDim(sce, "pca.corrected.E8.5", colour_by = "celltype.mapped")
 
 #### Exercise 1
 
-Create a `SingleCellExperiment` object: Try and create a `SingleCellExperiment` object "from scratch". Start from a `matrix` (either randomly generated or with some fake data in it) and add one or more columns as `colData`.
+Create a `SingleCellExperiment` object "from scratch". That means: start from a `matrix` (either randomly generated or with some fake data in it) and add one or more columns as `colData`.
 
 :::::::::::::: hint
 
@@ -262,7 +272,7 @@ my_sce
 
 #### Exercise 2
 
-Combining two objects: The `MouseGastrulationData` package contains several datasets. Download sample 6 of the chimera experiment by running `sce6 <- WTChimeraData(samples=6)`. Use the `cbind` function to combine the new data with the `sce` object created before. 
+Combine two `SingleCellExperiment` objects. The `MouseGastrulationData` package contains several datasets. Download sample 6 of the chimera experiment. Use the `cbind` function to combine the new data with the `sce` object created before. 
 
 ::: solution
 
