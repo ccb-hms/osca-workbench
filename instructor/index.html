@@ -450,163 +450,13 @@ any links that you are not going to use.
 <ul><li>R and RStudio are separate downloads and installations. R is a
 programming language and collection of software that implements that
 language. RStudio is a graphical integrated development environment
-(IDE) that makes using R much easier and more interactive. You need to
+(IDE) that makes using R easier and more interactive. You need to
 install R before you install RStudio. After installing both programs,
-you will need to install some R libraries from within RStudio. Follow
-the instructions below for your operating system, and then follow the
-instructions to install packages.</li>
+you will need to install some R libraries from within RStudio. If you
+need to install R and/or RStudio, there are platform-specific
+installation instructions in the <a href="https://carpentries-incubator.github.io/bioc-intro/" class="external-link">Introduction
+to Bioconductor module</a>.</li>
 </ul></div>
-<div class="section level3">
-<h3 id="you-are-running-windows">You are running Windows<a class="anchor" aria-label="anchor" href="#you-are-running-windows"></a></h3>
-<p><br></p>
-<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1">
-  If you already have R and RStudio installed
-  </h4>
-</button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
-<div class="accordion-body">
-<ul><li>Open RStudio, and click on “Help” &gt; “Check for updates”. If a new
-version is available, quit RStudio, and download the latest version for
-RStudio.</li>
-<li>To check which version of R you are using, start RStudio and the
-first thing that appears in the console indicates the version of R you
-are running. Alternatively, you can type <code>sessionInfo()</code>,
-which will also display which version of R you are running. Go on the <a href="https://cran.r-project.org/bin/windows/base/" class="external-link">CRAN website</a> and
-check whether a more recent version is available. If so, please download
-and install it. You can <a href="https://cran.r-project.org/bin/windows/base/rw-FAQ.html#How-do-I-UNinstall-R_003f" class="external-link">check
-here</a> for more information on how to remove old versions from your
-system if you wish to do so.</li>
-<li>Follow the steps in the instructions <a href="#for-everyone">for
-everyone</a> at the bottom of this page.</li>
-</ul></div>
-</div>
-</div>
-</div>
-<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
-  <h4 class="accordion-header" id="headingSolution2">
-  If you don’t have R and RStudio installed
-  </h4>
-</button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
-<div class="accordion-body">
-<ul><li>Download R from the <a href="https://cran.r-project.org/bin/windows/base/release.htm" class="external-link">CRAN
-website</a>.</li>
-<li>Run the <code>.exe</code> file that was just downloaded</li>
-<li>Go to the <a href="https://www.rstudio.com/products/rstudio/download/#download" class="external-link">RStudio
-download page</a>
-</li>
-<li>Under <em>All Installers</em> select <strong>RStudio
-xxxx.yy.zz-uuu.exe - Windows 10/11</strong> (where x, y, z, and u
-represent version numbers)</li>
-<li>Double click the file to install it</li>
-<li>Once it’s installed, open RStudio to make sure it works and you
-don’t get any error messages</li>
-<li>Follow the steps in the instructions <a href="#for-everyone">for
-everyone</a> at the bottom of this page.</li>
-</ul></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section level3">
-<h3 id="you-are-running-macos">You are running macOS<a class="anchor" aria-label="anchor" href="#you-are-running-macos"></a></h3>
-<p><br></p>
-<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
-  <h4 class="accordion-header" id="headingSolution3">
-  If you already have R and RStudio installed
-  </h4>
-</button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
-<div class="accordion-body">
-<ul><li>Open RStudio, and click on “Help” &gt; “Check for updates”. If a new
-version is available, quit RStudio, and download the latest version for
-RStudio.</li>
-<li>To check the version of R you are using, start RStudio and the first
-thing that appears on the terminal indicates the version of R you are
-running. Alternatively, you can type <code>sessionInfo()</code>, which
-will also display which version of R you are running. Go on the <a href="https://cran.r-project.org/bin/macosx/" class="external-link">CRAN website</a> and check
-whether a more recent version is available. If so, please download and
-install it.</li>
-<li>Follow the steps in the instructions <a href="#for-everyone">for
-everyone</a> at the bottom of this page.</li>
-</ul></div>
-</div>
-</div>
-</div>
-<div id="accordionSolution4" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
-  <h4 class="accordion-header" id="headingSolution4">
-  If you don’t have R and RStudio installed
-  </h4>
-</button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
-<div class="accordion-body">
-<ul><li>Download R from the <a href="https://cran.r-project.org/bin/macosx/" class="external-link">CRAN website</a>.</li>
-<li>Select the <code>.pkg</code> file for the latest R version</li>
-<li>Double click on the downloaded file to install R</li>
-<li>It is also a good idea to install <a href="https://www.xquartz.org/" class="external-link">XQuartz</a> (needed by some
-packages)</li>
-<li>Go to the <a href="https://www.rstudio.com/products/rstudio/download/#download" class="external-link">RStudio
-download page</a>
-</li>
-<li>Under <em>All Installers</em> select <strong>RStudio
-xxxx.yy.zz-uuu.dmg - macOS 10.15+</strong> (where x, y, z, and u
-represent version numbers)</li>
-<li>Double click the file to install RStudio</li>
-<li>Once it’s installed, open RStudio to make sure it works and you
-don’t get any error messages.</li>
-<li>Follow the steps in the instructions <a href="#for-everyone">for
-everyone</a> at the bottom of this page.</li>
-</ul></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section level3">
-<h3 id="you-are-running-linux">You are running Linux<a class="anchor" aria-label="anchor" href="#you-are-running-linux"></a></h3>
-<p><br></p>
-<div id="accordionSolution5" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
-  <h4 class="accordion-header" id="headingSolution5">
-  Install R using your package manager and RStudio
-  </h4>
-</button>
-<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
-<div class="accordion-body">
-<ul><li>Follow the instructions for your distribution from <a href="https://cloud.r-project.org/bin/linux" class="external-link">CRAN</a>, they provide
-information to get the most recent version of R for common
-distributions. For most distributions, you could use your package
-manager (e.g., for Debian/Ubuntu run
-<code>sudo apt-get install r-base</code>, and for Fedora
-<code>sudo yum install R</code>), but we don’t recommend this approach
-as the versions provided by this are usually out of date. In any case,
-make sure you have at least R 4.2.0.</li>
-<li>Go to the <a href="https://www.rstudio.com/products/rstudio/download/#download" class="external-link">RStudio
-download page</a>
-</li>
-<li>Under <em>All Installers</em> select the version that matches your
-distribution, and install it with your preferred method (e.g., with
-Debian/Ubuntu <code>sudo dpkg -i rstudio-xxxx.yy.zz-uuu-amd64.deb</code>
-at the terminal).</li>
-<li>Once it’s installed, open RStudio to make sure it works and you
-don’t get any error messages.</li>
-<li>Follow the steps in the <a href="#for-everyone">instructions for
-everyone</a>
-</li>
-</ul></div>
-</div>
-</div>
-</div>
-</div>
 <div class="section level3">
 <h3 id="for-everyone">For everyone<a class="anchor" aria-label="anchor" href="#for-everyone"></a></h3>
 <p>After installing R and RStudio, you need to install some packages
@@ -620,32 +470,18 @@ commands:</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">install.packages</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="st">"BiocManager"</span>, <span class="st">"remotes"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="st">"AUCell"</span>, <span class="st">"batchelor"</span>, <span class="st">"BiocNeighbors"</span>, </span>
-<span>                       <span class="st">"BiocParallel"</span>, <span class="st">"BiocSingular"</span>, <span class="st">"BiocStyle"</span>, </span>
-<span>                       <span class="st">"bluster"</span>, <span class="st">"CuratedAtlasQueryR"</span>, <span class="st">"dplyr"</span>, </span>
-<span>                       <span class="st">"DropletUtils"</span>, <span class="st">"edgeR"</span>, <span class="st">"EnsDb.Mmusculus.v79"</span>, </span>
-<span>                       <span class="st">"ggplot2"</span>, <span class="st">"GSEABase"</span>, <span class="st">"MouseGastrulationData"</span>,</span>
-<span>                       <span class="st">"pheatmap"</span>, <span class="st">"scater"</span>, <span class="st">"scDblFinder"</span>, <span class="st">"scran"</span>, </span>
-<span>                       <span class="st">"scuttle"</span>, <span class="st">"Seurat"</span>, <span class="st">"SeuratData"</span>, </span>
-<span>                       <span class="st">"SingleCellExperiment"</span>, <span class="st">"SingleR"</span>,</span>
-<span>                       <span class="st">"TENxBrainData"</span>, <span class="st">"zellkonverter"</span><span class="op">)</span>,</span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="st">"AUCell"</span>, <span class="st">"batchelor"</span>, <span class="st">"BiocStyle"</span>, </span>
+<span>                       <span class="st">"CuratedAtlasQueryR"</span>, <span class="st">"DropletUtils"</span>, </span>
+<span>                       <span class="st">"EnsDb.Mmusculus.v79"</span>, <span class="st">"MouseGastrulationData"</span>,</span>
+<span>                       <span class="st">"scDblFinder"</span>, <span class="st">"Seurat"</span>, <span class="st">"lgeistlinger/SeuratData"</span>,</span>
+<span>                       <span class="st">"SingleR"</span>, <span class="st">"TENxBrainData"</span>, <span class="st">"zellkonverter"</span><span class="op">)</span>,</span>
 <span>                       Ncpus <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre>
 </div>
 <!---
 grep -Ph "library\(" episodes/*.Rmd | sort | uniq
 
-^these are all libraries used in the episodes
+^these are all libraries loaded in the episodes
 -->
-<p>On the off chance your computer don’t have multiple CPU cores, remove
-the <code>Ncpus = 4</code> argument.</p>
-<p>If you’ve worked with Bioconductor packages before, and the
-installation command offers to update packages that have newer versions,
-saying something like:</p>
-<pre><code>&lt;...long list of packages...&gt;
-
-Update all/some/none? [a/s/n]:</code></pre>
-<p>Select <code>n</code> for no. If old packages turn out to be a
-problem, cross that bridge when you come to it.</p>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
@@ -702,8 +538,8 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/instructor/index.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/instructor/index.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-10-04",
-  "datePublished": "2024-10-04"
+  "dateModified": "2024-10-07",
+  "datePublished": "2024-10-07"
 }
 
   </script><script>

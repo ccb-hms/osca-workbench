@@ -12,6 +12,6 @@
 "episodes/hca.Rmd" "1577de2f4a851c7e99e3a8459230d6f1" "site/built/hca.md" "2024-10-04"
 "instructors/instructor-notes.md" "205339793f625a1844a768dea8e4a9c8" "site/built/instructor-notes.md" "2024-09-24"
 "learners/reference.md" "40fc1d0be2412d2d9d434a5bc84e4de8" "site/built/reference.md" "2024-09-24"
-"learners/setup.md" "688e3116d23d078822c9977961d8c1ae" "site/built/setup.md" "2024-10-04"
+"learners/setup.md" "3e40ed251636d7ae77a69cf37724d6e5" "site/built/setup.md" "2024-10-07"
 "profiles/learner-profiles.md" "074074346a544b8d2e0774998781c5d4" "site/built/learner-profiles.md" "2024-09-24"
 "renv/profiles/lesson-requirements/renv.lock" "615a211004ad17d22300cc9cab7c6e38" "site/built/renv.lock" "2024-09-24"
