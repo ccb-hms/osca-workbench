@@ -438,21 +438,22 @@ table(exact = colLabels(sce), approx = clusters)
 
 ``` output
      approx
-exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
-   1   90   0   0   0   1   0   0   0   1   0   0   0   0   0   0
-   2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
-   3    0   0  75   0   2   0   0   0   0   0   0   0   0   0   0
-   4    0   0   0 341   0   0   0   0   0   0   0   0   0   0  56
-   5    0   0   0   0 392   0   0   1   0   1   0   0   0   0   0
-   6    0   0   0   0   0  79 131   0   0   0   0   0   0   0   0
-   7    0   0   0   0   0 245   0   0   0   1   0   0   0   0   0
-   8    0   0   0   0   0   0   0  95   0   0   0   0   0   0   0
-   9    1   0   0   0   2   0   0   0 106   0   0   0   0   0   0
-   10   0   0   0   0   0   0   0   0   0 105   0   0   0   0   0
-   11   0   0   0   0   0   0   1   0   0   5 147   0   0   0   0
-   12   0   0   0   0   1   0   0   0   0  23   0 199   0   0   0
-   13   0   0   0   0   0   0   0   0   0   0   0   0 146   0   0
-   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0
+exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14
+   1   88   0   0   0   0   0   0   2   0   0   0   0   0   0
+   2    0  86   0   0   0   0   0   0   0   0   0   0   0   0
+   3    0  57  75   1   0   0   0   0   0   0   0   1   0   0
+   4    0   0   0 341   0   0   0   0   0   0   0   0   0   0
+   5    0   0   0   0 176   0   0   0   0   0   0  11   0   0
+   6    0   0   0   0   0  73 128   0   0   1   0   0   0   0
+   7    0   0   0   0   0 253   0   0   1   0   0   0   0   0
+   8    1   0   0   0   0   0   0 106   0   0   0   1   0   0
+   9    0   0   0   0   0   0   0   0 113   0  10   0   0   0
+   10   0   0   0   0   0   0   0   0   0 153   0   0   0   0
+   11   0   0   0   0   0   0   0   0   0   0 198   0   0   0
+   12   0   0   0   0   0   0   0   0   1   0   0 312   0   0
+   13   0   0   0   0   0   0   0   0   0   0   0   0 146   0
+   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20
+   15   0   0   0  56   0   0   0   0   0   0   0   0   0   0
 ```
 
 The similarity of the two clusterings can be quantified by calculating the pairwise Rand index: 
@@ -926,7 +927,7 @@ loaded via a namespace (and not attached):
 [131] spatstat.geom_3.2-9       RcppHNSW_0.6.0           
 [133] reshape2_1.4.4            ScaledMatrix_1.12.0      
 [135] BiocVersion_3.19.1        evaluate_0.23            
-[137] renv_1.0.9                BiocManager_1.30.23      
+[137] renv_1.0.10               BiocManager_1.30.23      
 [139] httpuv_1.6.15             RANN_2.6.1               
 [141] tidyr_1.3.1               purrr_1.0.2              
 [143] polyclip_1.10-6           future_1.33.2            
@@ -1065,5 +1066,3 @@ system.time({i.out <- runPCA(sce.brain,
 - Converter functions between existing single-cell data formats enable analysis workflows that leverage complementary functionality from poplular single-cell analysis ecosystems.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
-
-## References
