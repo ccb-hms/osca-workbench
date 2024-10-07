@@ -646,5 +646,3 @@ system.time({i.out <- runPCA(sce.brain,
 - Converter functions between existing single-cell data formats enable analysis workflows that leverage complementary functionality from poplular single-cell analysis ecosystems.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
-
-## References
