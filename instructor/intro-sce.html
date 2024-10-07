@@ -218,6 +218,7 @@
       <div class="accordion-body">
         <ul><li><a href="#bioconductor">Bioconductor</a></li>
 <li><a href="#the-singlecellexperiment-class">The <code>SingleCellExperiment</code> class</a></li>
+<li><a href="#references">References</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
 
@@ -327,7 +328,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Introduction to Bioconductor and the SingleCellExperiment class</h1>
-        <p>Last updated on 2024-10-04 |
+        <p>Last updated on 2024-10-07 |
 
         <a href="https://github.com/ccb-hms/osca-carpentries/edit/main/episodes/intro-sce.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -521,9 +522,14 @@ the idiosyncrasies of a given input set.</li>
 </div>
 </div>
 <p>Let’s look at an example dataset. <code>WTChimeraData</code> comes
-from a study on mouse development. We can assign one sample to a
-<code>SingleCellExperiment</code> object named <code>sce</code> like
-so:</p>
+from a study on mouse development <a href="https://www.nature.com/articles/s41586-019-0933-9" class="external-link">Pijuan-Sala et
+al.</a>. The study profiles the effect of a transcription factor TAL1
+and its influence on mouse development. Because mutations in this gene
+can cause severe developmental issues, Tal1-/- cells (positive for
+tdTomato, a fluorescent protein) were injected into wild-type
+blastocysts (tdTomato-), forming chimeric embryos.</p>
+<p>We can assign one sample to a <code>SingleCellExperiment</code>
+object named <code>sce</code> like so:</p>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -927,12 +933,15 @@ fields for storing data unique to single-cell analyses, such as the
 </ul></div>
 </div>
 </div>
-<!--
+</div>
+</section><section><h2 class="section-heading" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+<hr class="half-width"><ol style="list-style-type: decimal"><li>Pijuan-Sala B, Griffiths JA, Guibentif C et al. (2019). A
+single-cell molecular map of mouse gastrulation and early organogenesis.
+Nature 566, 7745:490-495.</li>
+</ol><!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
- -->
-</div>
-</section></div> <!-- / div.lesson-content -->
+ --></section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="../instructor/index.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="../instructor/eda_qc.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
@@ -990,7 +999,7 @@ any links that you are not going to use.
   "url": "https://ccb-hms.github.io/osca-carpentries/instructor/intro-sce.html",
   "identifier": "https://ccb-hms.github.io/osca-carpentries/instructor/intro-sce.html",
   "dateCreated": "2024-01-10",
-  "dateModified": "2024-10-04",
+  "dateModified": "2024-10-07",
   "datePublished": "2024-10-07"
 }
 
