@@ -132,7 +132,9 @@ There are two main disadvantages to this "from-scratch" approach:
 
 ::::
 
-Let's look at an example dataset. `WTChimeraData` comes from a study on mouse development. We can assign one sample to a `SingleCellExperiment` object named `sce` like so:
+Let's look at an example dataset. `WTChimeraData` comes from a study on mouse development [Pijuan-Sala et al.](https://www.nature.com/articles/s41586-019-0933-9). The study profiles the effect of a transcription factor TAL1 and its influence on mouse development. Because mutations in this gene can cause severe developmental issues, Tal1-/- cells (positive for tdTomato, a fluorescent protein) were injected into wild-type blastocysts (tdTomato-), forming chimeric embryos.
+
+We can assign one sample to a `SingleCellExperiment` object named `sce` like so:
 
 ```{r, message = FALSE, warning=FALSE}
 sce <- WTChimeraData(samples = 5)
@@ -308,4 +310,7 @@ combined_sce
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+## References
+
+1. Pijuan-Sala B, Griffiths JA, Guibentif C et al. (2019). A single-cell molecular map of mouse gastrulation and early organogenesis. Nature 566, 7745:490-495.
 
