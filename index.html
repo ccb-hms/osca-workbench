@@ -359,10 +359,9 @@ any links that you are not going to use.
  -->
 
 
-      <section id="setup"><ul><li>Install R, RStudio and packages (see below).</li>
-</ul><div class="section level3">
+      <section id="setup"><div class="section level3">
 <h3 id="r-and-rstudio">R and RStudio<a class="anchor" aria-label="anchor" href="#r-and-rstudio"></a></h3>
-<ul><li>R and RStudio are separate downloads and installations. R is a
+<p>R and RStudio are separate downloads and installations. R is a
 programming language and collection of software that implements that
 language. RStudio is a graphical integrated development environment
 (IDE) that makes using R easier and more interactive. You need to
@@ -370,10 +369,10 @@ install R before you install RStudio. After installing both programs,
 you will need to install some R libraries from within RStudio. If you
 need to install R and/or RStudio, there are platform-specific
 installation instructions in the <a href="https://carpentries-incubator.github.io/bioc-intro/" class="external-link">Introduction
-to Bioconductor module</a>.</li>
-</ul></div>
+to Bioconductor module</a>.</p>
+</div>
 <div class="section level3">
-<h3 id="for-everyone">For everyone<a class="anchor" aria-label="anchor" href="#for-everyone"></a></h3>
+<h3 id="package-installation">Package installation<a class="anchor" aria-label="anchor" href="#package-installation"></a></h3>
 <p>After installing R and RStudio, you need to install some packages
 that will be used during the workshop. We will also learn about package
 installation during the course to explain the following commands. For
@@ -392,11 +391,7 @@ commands:</p>
 <span>                       <span class="st">"SingleR"</span>, <span class="st">"TENxBrainData"</span>, <span class="st">"zellkonverter"</span><span class="op">)</span>,</span>
 <span>                       Ncpus <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre>
 </div>
-<!---
-grep -Ph "library\(" episodes/*.Rmd | sort | uniq
-
-^these are all libraries loaded in the episodes
--->
+<p>You can adjust <code>Ncpus</code> as needed for your machine.</p>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
