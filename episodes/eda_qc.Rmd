@@ -390,8 +390,8 @@ dec.sce <- modelGeneVar(sce)
 
 fit.sce <- metadata(dec.sce)
 
-mean_var_df = data.frame(mean = fit.sce$mean,
-                         var  = fit.sce$var)
+mean_var_df <- data.frame(mean = fit.sce$mean,
+                          var  = fit.sce$var)
 
 ggplot(mean_var_df, aes(mean, var)) + 
     geom_point() + 
