@@ -222,13 +222,13 @@ sce$discard <- reasons$discard
 
 :::: challenge
 
-Maybe our sample preparation was poor and we want the QC to be more strict. How could we change the set the QC filtering to use 4 MADs as the threshold for outlier calling?
+Maybe our sample preparation was poor and we want the QC to be more strict. How could we change the set the QC filtering to use 2.5 MADs as the threshold for outlier calling?
 
 ::: solution
-You set `nmads = 4` like so:
+You set `nmads = 2.5` like so:
 
 ```{r}
-reasons_strict <- perCellQCFilters(df, sub.fields = "subsets_Mito_percent", nmads = 4)
+reasons_strict <- perCellQCFilters(df, sub.fields = "subsets_Mito_percent", nmads = 2.5)
 ```
 
 You would then need to reassign the `discard` column as well, but we'll stick with the 3 MADs default for now.
