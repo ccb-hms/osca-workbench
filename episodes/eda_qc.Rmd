@@ -317,7 +317,7 @@ table(clust)
 ```
 
 ```{r}
-deconv.sf <- calculateSumFactors(sce, cluster = clust)
+deconv.sf <- pooledSizeFactors(sce, cluster = clust)
 
 summary(deconv.sf)
 
