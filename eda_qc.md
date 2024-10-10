@@ -50,26 +50,29 @@ library(scran)
 library(scDblFinder)
 
 sce <- WTChimeraData(samples = 5, type = "raw")
+```
 
+``` error
+Error: failed to load resource
+  name: EH3019
+  title: WT chimera raw counts (sample 5)
+  reason: 1 resources failed to download
+```
+
+``` r
 sce <- sce[[1]]
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'sce' not found
+```
+
+``` r
 sce
 ```
 
-``` output
-class: SingleCellExperiment 
-dim: 29453 522554 
-metadata(0):
-assays(1): counts
-rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
-  ENSMUSG00000095742 tomato-td
-rowData names(2): ENSEMBL SYMBOL
-colnames(522554): AAACCTGAGAAACCAT AAACCTGAGAAACCGC ...
-  TTTGTCATCTTTACGT TTTGTCATCTTTCCTC
-colData names(0):
-reducedDimNames(0):
-mainExpName: NULL
-altExpNames(0):
+``` error
+Error in eval(expr, envir, enclos): object 'sce' not found
 ```
 
 This is the same data we examined in the previous lesson. 
@@ -78,16 +81,42 @@ This is the same data we examined in the previous lesson.
 
 From the experiment, we expect to have only a few thousand cells, while we can see that we have data for more than 500,000 droplets. It is likely that most of these droplets are empty and are capturing only ambient or background RNA.
 
+::: callout
+Depending on your data source, identifying and discarding empty droplets may not be necessary. Some academic institutions have research cores dedicated to single cell work that perform the sample preparation and sequencing. Many of these cores will also perform empty droplet filtering and other initial QC steps. Specific details on the steps in common pipelines like [10x Genomics' CellRanger](https://www.10xgenomics.com/support/software/cell-ranger/latest/tutorials) can usually be found in the documentation that came with the sequencing material. 
+
+The main point is: if the sequencing outputs were provided to you by someone else, make sure to communicate with them about what pre-processing steps have been performed, if any. 
+:::
+
+We can visualize barcode read totals to visualize the distinction between empty droplets and properly profiled single cells in a so-called "knee plot":
+
 
 ``` r
 bcrank <- barcodeRanks(counts(sce))
+```
 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'm' in selecting a method for function 'barcodeRanks': error in evaluating the argument 'object' in selecting a method for function 'counts': object 'sce' not found
+```
+
+``` r
 # Only showing unique points for plotting speed.
 uniq <- !duplicated(bcrank$rank)
+```
 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'duplicated': object 'bcrank' not found
+```
+
+``` r
 line_df <- data.frame(cutoff = names(metadata(bcrank)),
                       value  = unlist(metadata(bcrank)))
+```
 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'metadata': object 'bcrank' not found
+```
+
+``` r
 ggplot(bcrank[uniq,], aes(rank, total)) + 
     geom_point() + 
     geom_hline(data = line_df,
@@ -99,17 +128,13 @@ ggplot(bcrank[uniq,], aes(rank, total)) +
     labs(y = "Total UMI count")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
+``` error
+Error in eval(expr, envir, enclos): object 'bcrank' not found
+```
 
 The distribution of total counts (called the unique molecular identifier or UMI count) exhibits a sharp transition between barcodes with large and small total counts, probably corresponding to cell-containing and empty droplets respectively. 
 
 A simple approach would be to apply a threshold on the total count to only retain those barcodes with large totals. However, this may unnecessarily discard libraries derived from cell types with low RNA content.
-
-::: callout
-Depending on your data source, identifying and discarding empty droplets may not be necessary. Some academic institutions have research cores dedicated to single cell work that perform the sample preparation and sequencing. Many of these cores will also perform empty droplet filtering and other initial QC steps. Specific details on the steps in common pipelines like [10x Genomics' CellRanger](https://www.10xgenomics.com/support/software/cell-ranger/latest/tutorials) can usually be found in the documentation that came with the sequencing material. 
-
-The main point is: if the sequencing outputs were provided to you by someone else, make sure to communicate with them about what pre-processing steps have been performed, if any. 
-:::
 
 :::: challenge 
 
@@ -122,8 +147,8 @@ What is the median number of total counts in the raw data?
 median(bcrank$total)
 ```
 
-``` output
-[1] 2
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'median': object 'bcrank' not found
 ```
 
 Just 2! Clearly many barcodes produce practically no output.
@@ -147,35 +172,34 @@ set.seed(100)
 
 # this may take a few minutes
 e.out <- emptyDrops(counts(sce))
+```
 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'm' in selecting a method for function 'emptyDrops': error in evaluating the argument 'object' in selecting a method for function 'counts': object 'sce' not found
+```
+
+``` r
 summary(e.out$FDR <= 0.001)
 ```
 
-``` output
-   Mode   FALSE    TRUE    NA's 
-logical    6184    3131  513239 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'summary': object 'e.out' not found
 ```
 
 ``` r
 sce <- sce[,which(e.out$FDR <= 0.001)]
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'sce' not found
+```
+
+``` r
 sce
 ```
 
-``` output
-class: SingleCellExperiment 
-dim: 29453 3131 
-metadata(0):
-assays(1): counts
-rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
-  ENSMUSG00000095742 tomato-td
-rowData names(2): ENSEMBL SYMBOL
-colnames(3131): AAACCTGAGACTGTAA AAACCTGAGATGCCTT ... TTTGTCAGTCTGATTG
-  TTTGTCATCTGAGTGT
-colData names(0):
-reducedDimNames(0):
-mainExpName: NULL
-altExpNames(0):
+``` error
+Error in eval(expr, envir, enclos): object 'sce' not found
 ```
 
 The result confirms our expectation: only 3,131 droplets contain a cell, while the large majority of droplets are empty.
@@ -223,8 +247,18 @@ chr.loc <- mapIds(EnsDb.Mmusculus.v79,
                   keys    = rownames(sce),
                   keytype = "GENEID", 
                   column  = "SEQNAME")
+```
 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'rownames': object 'sce' not found
+```
+
+``` r
 is.mito <- which(chr.loc == "MT")
+```
+
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'which': object 'chr.loc' not found
 ```
 
 We can use the `scuttle` package to compute a set of quality control metrics, specifying that we want to use the mitochondrial genes as a special set of features.
@@ -232,40 +266,26 @@ We can use the `scuttle` package to compute a set of quality control metrics, sp
 
 ``` r
 df <- perCellQCMetrics(sce, subsets = list(Mito = is.mito))
+```
 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'perCellQCMetrics': object 'sce' not found
+```
+
+``` r
 colData(sce) <- cbind(colData(sce), df)
+```
 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'colData': object 'sce' not found
+```
+
+``` r
 colData(sce)
 ```
 
-``` output
-DataFrame with 3131 rows and 6 columns
-                       sum  detected subsets_Mito_sum subsets_Mito_detected
-                 <numeric> <integer>        <numeric>             <integer>
-AAACCTGAGACTGTAA     27577      5418              471                    10
-AAACCTGAGATGCCTT     29309      5405              679                    10
-AAACCTGAGCAGCCTC     28795      5218              480                    12
-AAACCTGCATACTCTT     34794      4781              496                    12
-AAACCTGGTGGTACAG       262       229                0                     0
-...                    ...       ...              ...                   ...
-TTTGGTTTCGCCATAA     38398      6020              252                    12
-TTTGTCACACCCTATC      3013      1451              123                     9
-TTTGTCACATTCTCAT      1472       675              599                    11
-TTTGTCAGTCTGATTG       361       293                0                     0
-TTTGTCATCTGAGTGT       267       233               16                     6
-                 subsets_Mito_percent     total
-                            <numeric> <numeric>
-AAACCTGAGACTGTAA              1.70795     27577
-AAACCTGAGATGCCTT              2.31669     29309
-AAACCTGAGCAGCCTC              1.66696     28795
-AAACCTGCATACTCTT              1.42553     34794
-AAACCTGGTGGTACAG              0.00000       262
-...                               ...       ...
-TTTGGTTTCGCCATAA             0.656284     38398
-TTTGTCACACCCTATC             4.082310      3013
-TTTGTCACATTCTCAT            40.692935      1472
-TTTGTCAGTCTGATTG             0.000000       361
-TTTGTCATCTGAGTGT             5.992509       267
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'colData': object 'sce' not found
 ```
 
 Now that we have computed the metrics, we have to decide on thresholds to define high- and low-quality samples. We could check how many cells are above/below a certain fixed threshold. For instance,
@@ -275,20 +295,16 @@ Now that we have computed the metrics, we have to decide on thresholds to define
 table(df$sum < 10000)
 ```
 
-``` output
-
-FALSE  TRUE 
- 2477   654 
+``` error
+Error in df$sum: object of type 'closure' is not subsettable
 ```
 
 ``` r
 table(df$subsets_Mito_percent > 10)
 ```
 
-``` output
-
-FALSE  TRUE 
- 2761   370 
+``` error
+Error in df$subsets_Mito_percent: object of type 'closure' is not subsettable
 ```
 
 or we could look at the distribution of such metrics and use a data adaptive threshold.
@@ -298,18 +314,16 @@ or we could look at the distribution of such metrics and use a data adaptive thr
 summary(df$detected)
 ```
 
-``` output
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-     98    4126    5168    4455    5670    7908 
+``` error
+Error in (function (cond) : error in evaluating the argument 'object' in selecting a method for function 'summary': object of type 'closure' is not subsettable
 ```
 
 ``` r
 summary(df$subsets_Mito_percent)
 ```
 
-``` output
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  0.000   1.155   1.608   5.079   2.182  66.968 
+``` error
+Error in (function (cond) : error in evaluating the argument 'object' in selecting a method for function 'summary': object of type 'closure' is not subsettable
 ```
 
 We can use the `perCellQCFilters` function to apply a set of common adaptive filters to identify low-quality cells. By default, we consider a value to be an outlier if it is more than 3 median absolute deviations (MADs) from the median in the "problematic" direction. This is loosely motivated by the fact that such a filter will retain 99% of non-outlier values that follow a normal distribution.
@@ -317,41 +331,42 @@ We can use the `perCellQCFilters` function to apply a set of common adaptive fil
 
 ``` r
 reasons <- perCellQCFilters(df, sub.fields = "subsets_Mito_percent")
+```
 
+``` error
+Error in x[[sum.field]]: object of type 'closure' is not subsettable
+```
+
+``` r
 reasons
 ```
 
-``` output
-DataFrame with 3131 rows and 4 columns
-         low_lib_size   low_n_features high_subsets_Mito_percent   discard
-     <outlier.filter> <outlier.filter>          <outlier.filter> <logical>
-1               FALSE            FALSE                     FALSE     FALSE
-2               FALSE            FALSE                     FALSE     FALSE
-3               FALSE            FALSE                     FALSE     FALSE
-4               FALSE            FALSE                     FALSE     FALSE
-5                TRUE             TRUE                     FALSE      TRUE
-...               ...              ...                       ...       ...
-3127            FALSE            FALSE                     FALSE     FALSE
-3128             TRUE             TRUE                      TRUE      TRUE
-3129             TRUE             TRUE                      TRUE      TRUE
-3130             TRUE             TRUE                     FALSE      TRUE
-3131             TRUE             TRUE                      TRUE      TRUE
+``` error
+Error in eval(expr, envir, enclos): object 'reasons' not found
 ```
 
 ``` r
 sce$discard <- reasons$discard
 ```
 
+``` error
+Error in eval(expr, envir, enclos): object 'reasons' not found
+```
+
 :::: challenge
 
-Maybe our sample preparation was poor and we want the QC to be more strict. How could we change the set the QC filtering to use 4 MADs as the threshold for outlier calling?
+Maybe our sample preparation was poor and we want the QC to be more strict. How could we change the set the QC filtering to use 2.5 MADs as the threshold for outlier calling?
 
 ::: solution
-You set `nmads = 4` like so:
+You set `nmads = 2.5` like so:
 
 
 ``` r
-reasons_strict <- perCellQCFilters(df, sub.fields = "subsets_Mito_percent", nmads = 4)
+reasons_strict <- perCellQCFilters(df, sub.fields = "subsets_Mito_percent", nmads = 2.5)
+```
+
+``` error
+Error in x[[sum.field]]: object of type 'closure' is not subsettable
 ```
 
 You would then need to reassign the `discard` column as well, but we'll stick with the 3 MADs default for now.
@@ -375,21 +390,27 @@ plotColData(sce, y = "sum", colour_by = "discard") +
     labs(title = "Total count")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+``` error
+Error in eval(expr, envir, enclos): object 'sce' not found
+```
 
 ``` r
 plotColData(sce, y = "detected", colour_by = "discard") + 
     labs(title = "Detected features")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-11-2.png" style="display: block; margin: auto;" />
+``` error
+Error in eval(expr, envir, enclos): object 'sce' not found
+```
 
 ``` r
 plotColData(sce, y = "subsets_Mito_percent", colour_by = "discard") + 
     labs(title = "Mito percent")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-11-3.png" style="display: block; margin: auto;" />
+``` error
+Error in eval(expr, envir, enclos): object 'sce' not found
+```
 
 While the univariate distribution of QC metrics can give some insight on the quality of the sample, often looking at the bivariate distribution of QC metrics is useful, e.g., to confirm that there are no cells with both large total counts and large mitochondrial counts, to ensure that we are not inadvertently removing high-quality cells that happen to be highly metabolically active.
 
@@ -398,7 +419,9 @@ While the univariate distribution of QC metrics can give some insight on the qua
 plotColData(sce,  x ="sum", y = "subsets_Mito_percent", colour_by = "discard")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+``` error
+Error in eval(expr, envir, enclos): object 'sce' not found
+```
 
 It could also be a good idea to perform a differential expression analysis between retained and discarded cells to check wether we are removing an unusual cell population rather than low-quality libraries (see [Section 1.5 of OSCA advanced](https://bioconductor.org/books/release/OSCA.advanced/quality-control-redux.html#qc-discard-cell-types)).
 
@@ -407,23 +430,18 @@ Once we are happy with the results, we can discard the low-quality cells by subs
 
 ``` r
 sce <- sce[,!sce$discard]
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'sce' not found
+```
+
+``` r
 sce
 ```
 
-``` output
-class: SingleCellExperiment 
-dim: 29453 2437 
-metadata(0):
-assays(1): counts
-rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
-  ENSMUSG00000095742 tomato-td
-rowData names(2): ENSEMBL SYMBOL
-colnames(2437): AAACCTGAGACTGTAA AAACCTGAGATGCCTT ... TTTGGTTTCAGTCAGT
-  TTTGGTTTCGCCATAA
-colData names(7): sum detected ... total discard
-reducedDimNames(0):
-mainExpName: NULL
-altExpNames(0):
+``` error
+Error in eval(expr, envir, enclos): object 'sce' not found
 ```
 
 ## Normalization
@@ -440,24 +458,37 @@ The _library size factor_ for each cell is directly proportional to its library 
 
 ``` r
 lib.sf <- librarySizeFactors(sce)
+```
 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'librarySizeFactors': object 'sce' not found
+```
+
+``` r
 summary(lib.sf)
 ```
 
-``` output
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.2730  0.7879  0.9600  1.0000  1.1730  2.5598 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'summary': object 'lib.sf' not found
 ```
 
 ``` r
 sf_df <- data.frame(size_factor = lib.sf)
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'lib.sf' not found
+```
+
+``` r
 ggplot(sf_df, aes(size_factor)) + 
     geom_histogram() + 
     scale_x_log10()
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
+``` error
+Error in eval(expr, envir, enclos): object 'sf_df' not found
+```
 
 
 ### Normalization by deconvolution
@@ -476,33 +507,54 @@ Note that while we focus on normalization by deconvolution here, many other meth
 set.seed(100)
 
 clust <- quickCluster(sce) 
+```
 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'quickCluster': object 'sce' not found
+```
+
+``` r
 table(clust)
 ```
 
-``` output
-clust
-  1   2   3   4   5   6   7   8   9  10  11  12  13 
-273 159 250 122 187 201 154 252 152 169 199 215 104 
+``` error
+Error in eval(expr, envir, enclos): object 'clust' not found
 ```
 
 
 ``` r
-deconv.sf <- calculateSumFactors(sce, cluster = clust)
+deconv.sf <- pooledSizeFactors(sce, cluster = clust)
+```
 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'pooledSizeFactors': object 'sce' not found
+```
+
+``` r
 summary(deconv.sf)
 ```
 
-``` output
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.3100  0.8028  0.9626  1.0000  1.1736  2.7858 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'summary': object 'deconv.sf' not found
 ```
 
 ``` r
 sf_df$deconv_sf <- deconv.sf
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'deconv.sf' not found
+```
+
+``` r
 sf_df$clust <- clust
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'clust' not found
+```
+
+``` r
 ggplot(sf_df, aes(size_factor, deconv_sf)) + 
     geom_abline() + 
     geom_point(aes(color = clust)) +
@@ -510,33 +562,35 @@ ggplot(sf_df, aes(size_factor, deconv_sf)) +
     scale_y_log10()
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
+``` error
+Error in eval(expr, envir, enclos): object 'sf_df' not found
+```
 
 Once we have computed the size factors, we compute the normalized expression values for each cell by dividing the count for each gene with the appropriate size factor for that cell. Since we are typically going to work with log-transformed counts, the function `logNormCounts` also log-transforms the normalized values, creating a new assay called `logcounts`.
 
 
 ``` r
 sizeFactors(sce) <- deconv.sf
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'deconv.sf' not found
+```
+
+``` r
 sce <- logNormCounts(sce)
+```
 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'logNormCounts': object 'sce' not found
+```
+
+``` r
 sce
 ```
 
-``` output
-class: SingleCellExperiment 
-dim: 29453 2437 
-metadata(0):
-assays(2): counts logcounts
-rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
-  ENSMUSG00000095742 tomato-td
-rowData names(2): ENSEMBL SYMBOL
-colnames(2437): AAACCTGAGACTGTAA AAACCTGAGATGCCTT ... TTTGGTTTCAGTCAGT
-  TTTGGTTTCGCCATAA
-colData names(8): sum detected ... discard sizeFactor
-reducedDimNames(0):
-mainExpName: NULL
-altExpNames(0):
+``` error
+Error in eval(expr, envir, enclos): object 'sce' not found
 ```
 
 :::: challenge
@@ -586,12 +640,30 @@ Calculation of the per-gene variance is simple but feature selection requires mo
 
 ``` r
 dec.sce <- modelGeneVar(sce)
+```
 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'modelGeneVar': object 'sce' not found
+```
+
+``` r
 fit.sce <- metadata(dec.sce)
+```
 
-mean_var_df = data.frame(mean = fit.sce$mean,
-                         var  = fit.sce$var)
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'metadata': object 'dec.sce' not found
+```
 
+``` r
+mean_var_df <- data.frame(mean = fit.sce$mean,
+                          var  = fit.sce$var)
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'fit.sce' not found
+```
+
+``` r
 ggplot(mean_var_df, aes(mean, var)) + 
     geom_point() + 
     geom_function(fun = fit.sce$trend, 
@@ -600,7 +672,9 @@ ggplot(mean_var_df, aes(mean, var)) +
          y = "Variance of log-expression")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
+``` error
+Error in eval(expr, envir, enclos): object 'mean_var_df' not found
+```
 
 The blue line represents the uninteresting "technical" variance for any given gene abundance. The genes with a lot of additional variance exhibit interesting "biological" variation.
 
@@ -611,13 +685,18 @@ The next step is to select the subset of HVGs to use in downstream analyses. A l
 
 ``` r
 hvg.sce.var <- getTopHVGs(dec.sce, n = 1000)
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'dec.sce' not found
+```
+
+``` r
 head(hvg.sce.var)
 ```
 
-``` output
-[1] "ENSMUSG00000055609" "ENSMUSG00000052217" "ENSMUSG00000069919"
-[4] "ENSMUSG00000052187" "ENSMUSG00000048583" "ENSMUSG00000051855"
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'head': object 'hvg.sce.var' not found
 ```
 
 :::: challenge
@@ -657,7 +736,7 @@ As the name suggests, dimensionality reduction aims to reduce the number of dime
 
 ### Principal Component Analysis (PCA)
 
-Principal component analysis (PCA) is a dimensionality reduction technique that provides a parsimonious summarization of the data by replacing the original variables (genes) by fewer linear combinations of these variables, that are orthogonal and have successively maximal variance. Such linear combinations seek to "separate out" the observations (cells), while loosing as little information as possible.
+Principal component analysis (PCA) is a dimensionality reduction technique that provides a parsimonious summarization of the data by replacing the original variables (genes) by fewer linear combinations of these variables, that are orthogonal and have successively maximal variance. Such linear combinations seek to "separate out" the observations (cells), while losing as little information as possible.
 
 Without getting into the technical details, one nice feature of PCA is that the principal components (PCs) are ordered by how much variance of the original data they "explain". Furthermore, by focusing on the top $k$ PC we are focusing on the most important directions of variability, which hopefully correspond to biological rather than technical variance. (It is however good practice to check this by e.g. looking at correlation between technical QC metrics and PCs).
 
@@ -666,24 +745,18 @@ One simple way to maximize our chance of capturing biological variation is by co
 
 ``` r
 sce <- runPCA(sce, subset_row = hvg.sce.var)
+```
 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'runPCA': object 'sce' not found
+```
+
+``` r
 sce
 ```
 
-``` output
-class: SingleCellExperiment 
-dim: 29453 2437 
-metadata(0):
-assays(2): counts logcounts
-rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
-  ENSMUSG00000095742 tomato-td
-rowData names(2): ENSEMBL SYMBOL
-colnames(2437): AAACCTGAGACTGTAA AAACCTGAGATGCCTT ... TTTGGTTTCAGTCAGT
-  TTTGGTTTCGCCATAA
-colData names(8): sum detected ... discard sizeFactor
-reducedDimNames(1): PCA
-mainExpName: NULL
-altExpNames(0):
+``` error
+Error in eval(expr, envir, enclos): object 'sce' not found
 ```
 
 By default, `runPCA` computes the first 50 principal components. We can check how much original variability they explain. These values are stored in the attributes of the `percentVar` reducedDim:
@@ -692,14 +765,22 @@ By default, `runPCA` computes the first 50 principal components. We can check ho
 ``` r
 pct_var_df <- data.frame(PC = 1:50,
                          pct_var = attr(reducedDim(sce), "percentVar"))
+```
 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'reducedDim': object 'sce' not found
+```
+
+``` r
 ggplot(pct_var_df,
        aes(PC, pct_var)) + 
     geom_point() + 
     labs(y = "Variance explained (%)")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
+``` error
+Error in eval(expr, envir, enclos): object 'pct_var_df' not found
+```
 
 You can see the first two PCs capture the largest amount of variation, but in this case you have to take the first 8 PCs before you've captured 50% of the total.
 
@@ -710,7 +791,9 @@ And we can of course visualize the first 2-3 components, perhaps color-coding ea
 plotPCA(sce, colour_by = "sum")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'plotPCA': object 'sce' not found
+```
 
 It can be helpful to compare pairs of PCs. This can be done with the `ncomponents` argument to `plotReducedDim()`. For example if one batch or cell type splits off on a particular PC, this can help visualize the effect of that.
 
@@ -719,7 +802,9 @@ It can be helpful to compare pairs of PCs. This can be done with the `ncomponent
 plotReducedDim(sce, dimred = "PCA", ncomponents = 3)
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'reducedDim': object 'sce' not found
+```
 
 ### Non-linear methods
 
@@ -732,22 +817,38 @@ These methods attempt to find a low-dimensional representation of the data that 
 set.seed(100)
 
 sce <- runTSNE(sce, dimred = "PCA")
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'sce' not found
+```
+
+``` r
 plotTSNE(sce)
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'reducedDim': object 'sce' not found
+```
 
 
 ``` r
 set.seed(111)
 
 sce <- runUMAP(sce, dimred = "PCA")
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'sce' not found
+```
+
+``` r
 plotUMAP(sce)
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'reducedDim': object 'sce' not found
+```
 
 It is easy to over-interpret t-SNE and UMAP plots. We note that the relative sizes and positions of the visual clusters may be misleading, as they tend to inflate dense clusters and compress sparse ones, such that we cannot use the size as a measure of subpopulation heterogeneity. 
 
@@ -760,20 +861,8 @@ Note that the `sce` object now includes all the computed dimensionality reduced 
 sce
 ```
 
-``` output
-class: SingleCellExperiment 
-dim: 29453 2437 
-metadata(0):
-assays(2): counts logcounts
-rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
-  ENSMUSG00000095742 tomato-td
-rowData names(2): ENSEMBL SYMBOL
-colnames(2437): AAACCTGAGACTGTAA AAACCTGAGATGCCTT ... TTTGGTTTCAGTCAGT
-  TTTGGTTTCGCCATAA
-colData names(8): sum detected ... discard sizeFactor
-reducedDimNames(3): PCA TSNE UMAP
-mainExpName: NULL
-altExpNames(0):
+``` error
+Error in eval(expr, envir, enclos): object 'sce' not found
 ```
 
 Despite their shortcomings, t-SNE and UMAP can be useful visualization techniques.
@@ -841,21 +930,35 @@ set.seed(100)
 
 dbl.dens <- computeDoubletDensity(sce, subset.row = hvg.sce.var,
                                   d = ncol(reducedDim(sce)))
+```
+
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'computeDoubletDensity': object 'sce' not found
+```
+
+``` r
 summary(dbl.dens)
 ```
 
-``` output
-    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
- 0.04874  0.28757  0.46790  0.65614  0.82371 14.88032 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'summary': object 'dbl.dens' not found
 ```
 
 ``` r
 sce$DoubletScore <- dbl.dens
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'dbl.dens' not found
+```
+
+``` r
 plotTSNE(sce, colour_by = "DoubletScore")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-31-1.png" style="display: block; margin: auto;" />
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'reducedDim': object 'sce' not found
+```
 
 We can explicitly convert this into doublet calls by identifying large outliers for the score within each sample. Here we use the "griffiths" method to do so.
 
@@ -864,27 +967,43 @@ We can explicitly convert this into doublet calls by identifying large outliers 
 dbl.calls <- doubletThresholding(data.frame(score = dbl.dens),
                                  method = "griffiths",
                                  returnType = "call")
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'dbl.dens' not found
+```
+
+``` r
 summary(dbl.calls)
 ```
 
-``` output
-singlet doublet 
-   2124     313 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'summary': object 'dbl.calls' not found
 ```
 
 ``` r
 sce$doublet <- dbl.calls
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'dbl.calls' not found
+```
+
+``` r
 plotColData(sce, y = "DoubletScore", colour_by = "doublet")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-32-1.png" style="display: block; margin: auto;" />
+``` error
+Error in eval(expr, envir, enclos): object 'sce' not found
+```
 
 ``` r
 plotTSNE(sce, colour_by = "doublet")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-32-2.png" style="display: block; margin: auto;" />
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'reducedDim': object 'sce' not found
+```
 
 One way to determine whether a cell is in a real transient state or it is a doublet is to check the number of detected genes and total UMI counts.
 
@@ -893,13 +1012,17 @@ One way to determine whether a cell is in a real transient state or it is a doub
 plotColData(sce, "detected", "sum", colour_by = "DoubletScore")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-33-1.png" style="display: block; margin: auto;" />
+``` error
+Error in eval(expr, envir, enclos): object 'sce' not found
+```
 
 ``` r
 plotColData(sce, "detected", "sum", colour_by = "doublet")
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-33-2.png" style="display: block; margin: auto;" />
+``` error
+Error in eval(expr, envir, enclos): object 'sce' not found
+```
 
 In this case, we only have a few doublets at the periphery of some clusters. It could be fine to keep the doublets in the analysis, but it may be safer to discard them to avoid biases in downstream analysis (e.g., differential expression).
 
@@ -916,20 +1039,37 @@ Here we used the deconvolution method implemented in `scran` based on a previous
 
 ``` r
 deconv.sf2 <- calculateSumFactors(sce) # dropped `cluster = clust` here
+```
 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'pooledSizeFactors': object 'sce' not found
+```
+
+``` r
 summary(deconv.sf2)
 ```
 
-``` output
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.2985  0.8142  0.9583  1.0000  1.1582  2.7054 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'summary': object 'deconv.sf2' not found
 ```
 
 ``` r
 sf_df$deconv_sf2 <- deconv.sf2
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'deconv.sf2' not found
+```
+
+``` r
 sf_df$clust <- clust
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'clust' not found
+```
+
+``` r
 ggplot(sf_df, aes(deconv_sf, deconv_sf2)) + 
     geom_abline() + 
     geom_point(aes(color = clust)) +
@@ -938,7 +1078,9 @@ ggplot(sf_df, aes(deconv_sf, deconv_sf2)) +
     facet_wrap(vars(clust))
 ```
 
-<img src="fig/eda_qc-rendered-unnamed-chunk-34-1.png" style="display: block; margin: auto;" />
+``` error
+Error in eval(expr, envir, enclos): object 'sf_df' not found
+```
 
 You can see that we get largely similar results, though for clusters 3 and 9 there's a slight deviation from the `y=x` relationship because these clusters (which are fairly distinct from the other clusters) are now being pooled with cells from other clusters. This slightly violates the "majority non-DE genes" assumption.
 
