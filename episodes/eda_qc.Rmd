@@ -66,6 +66,14 @@ This is the same data we examined in the previous lesson.
 
 From the experiment, we expect to have only a few thousand cells, while we can see that we have data for more than 500,000 droplets. It is likely that most of these droplets are empty and are capturing only ambient or background RNA.
 
+::: callout
+Depending on your data source, identifying and discarding empty droplets may not be necessary. Some academic institutions have research cores dedicated to single cell work that perform the sample preparation and sequencing. Many of these cores will also perform empty droplet filtering and other initial QC steps. Specific details on the steps in common pipelines like [10x Genomics' CellRanger](https://www.10xgenomics.com/support/software/cell-ranger/latest/tutorials) can usually be found in the documentation that came with the sequencing material. 
+
+The main point is: if the sequencing outputs were provided to you by someone else, make sure to communicate with them about what pre-processing steps have been performed, if any. 
+:::
+
+We can visualize barcode read totals to visualize the distinction between empty droplets and properly profiled single cells in a so-called "knee plot":
+
 ```{r}
 bcrank <- barcodeRanks(counts(sce))
 
@@ -89,12 +97,6 @@ ggplot(bcrank[uniq,], aes(rank, total)) +
 The distribution of total counts (called the unique molecular identifier or UMI count) exhibits a sharp transition between barcodes with large and small total counts, probably corresponding to cell-containing and empty droplets respectively. 
 
 A simple approach would be to apply a threshold on the total count to only retain those barcodes with large totals. However, this may unnecessarily discard libraries derived from cell types with low RNA content.
-
-::: callout
-Depending on your data source, identifying and discarding empty droplets may not be necessary. Some academic institutions have research cores dedicated to single cell work that perform the sample preparation and sequencing. Many of these cores will also perform empty droplet filtering and other initial QC steps. Specific details on the steps in common pipelines like [10x Genomics' CellRanger](https://www.10xgenomics.com/support/software/cell-ranger/latest/tutorials) can usually be found in the documentation that came with the sequencing material. 
-
-The main point is: if the sequencing outputs were provided to you by someone else, make sure to communicate with them about what pre-processing steps have been performed, if any. 
-:::
 
 :::: challenge 
 
@@ -220,13 +222,13 @@ sce$discard <- reasons$discard
 
 :::: challenge
 
-Maybe our sample preparation was poor and we want the QC to be more strict. How could we change the set the QC filtering to use 4 MADs as the threshold for outlier calling?
+Maybe our sample preparation was poor and we want the QC to be more strict. How could we change the set the QC filtering to use 2.5 MADs as the threshold for outlier calling?
 
 ::: solution
-You set `nmads = 4` like so:
+You set `nmads = 2.5` like so:
 
 ```{r}
-reasons_strict <- perCellQCFilters(df, sub.fields = "subsets_Mito_percent", nmads = 4)
+reasons_strict <- perCellQCFilters(df, sub.fields = "subsets_Mito_percent", nmads = 2.5)
 ```
 
 You would then need to reassign the `discard` column as well, but we'll stick with the 3 MADs default for now.
@@ -315,7 +317,7 @@ table(clust)
 ```
 
 ```{r}
-deconv.sf <- calculateSumFactors(sce, cluster = clust)
+deconv.sf <- pooledSizeFactors(sce, cluster = clust)
 
 summary(deconv.sf)
 
@@ -388,8 +390,8 @@ dec.sce <- modelGeneVar(sce)
 
 fit.sce <- metadata(dec.sce)
 
-mean_var_df = data.frame(mean = fit.sce$mean,
-                         var  = fit.sce$var)
+mean_var_df <- data.frame(mean = fit.sce$mean,
+                          var  = fit.sce$var)
 
 ggplot(mean_var_df, aes(mean, var)) + 
     geom_point() + 
@@ -450,7 +452,7 @@ As the name suggests, dimensionality reduction aims to reduce the number of dime
 
 ### Principal Component Analysis (PCA)
 
-Principal component analysis (PCA) is a dimensionality reduction technique that provides a parsimonious summarization of the data by replacing the original variables (genes) by fewer linear combinations of these variables, that are orthogonal and have successively maximal variance. Such linear combinations seek to "separate out" the observations (cells), while loosing as little information as possible.
+Principal component analysis (PCA) is a dimensionality reduction technique that provides a parsimonious summarization of the data by replacing the original variables (genes) by fewer linear combinations of these variables, that are orthogonal and have successively maximal variance. Such linear combinations seek to "separate out" the observations (cells), while losing as little information as possible.
 
 Without getting into the technical details, one nice feature of PCA is that the principal components (PCs) are ordered by how much variance of the original data they "explain". Furthermore, by focusing on the top $k$ PC we are focusing on the most important directions of variability, which hopefully correspond to biological rather than technical variance. (It is however good practice to check this by e.g. looking at correlation between technical QC metrics and PCs).
 
