@@ -620,12 +620,12 @@ In this case, we only have a few doublets at the periphery of some clusters. It 
 
 #### Exercise 1: Normalization
 
-Here we used the deconvolution method implemented in `scran` based on a previous clustering step. Use the `calculateSumFactors` to compute the size factors without considering a preliminary clustering. Compare the resulting size factors via a scatter plot. How do the results change? What are the risks of not including clustering information?
+Here we used the deconvolution method implemented in `scran` based on a previous clustering step. Use the `pooledSizeFactors` to compute the size factors without considering a preliminary clustering. Compare the resulting size factors via a scatter plot. How do the results change? What are the risks of not including clustering information?
 
 ::: solution
 
 ```{r}
-deconv.sf2 <- calculateSumFactors(sce) # dropped `cluster = clust` here
+deconv.sf2 <- pooledSizeFactors(sce) # dropped `cluster = clust` here
 
 summary(deconv.sf2)
 
@@ -703,7 +703,7 @@ clust <- quickCluster(sce)
 
 table(clust)
 
-deconv.sf <- calculateSumFactors(sce, cluster = clust)
+deconv.sf <- pooledSizeFactors(sce, cluster = clust)
 
 sizeFactors(sce) <- deconv.sf
 
