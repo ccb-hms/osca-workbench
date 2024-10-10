@@ -401,37 +401,28 @@ that contains all the droplets for which we have sequenced reads.</p>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">scran</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">scDblFinder</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">WTChimeraData</span><span class="op">(</span>samples <span class="op">=</span> <span class="fl">5</span>, type <span class="op">=</span> <span class="st">"raw"</span><span class="op">)</span></span></code></pre>
+<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">WTChimeraData</span><span class="op">(</span>samples <span class="op">=</span> <span class="fl">5</span>, type <span class="op">=</span> <span class="st">"raw"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="va">sce</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">sce</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error: failed to load resource
-  name: EH3019
-  title: WT chimera raw counts (sample 5)
-  reason: 1 resources failed to download</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb3">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="va">sce</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb5">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sce</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sce' not found</code></pre>
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 29453 522554
+metadata(0):
+assays(1): counts
+rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
+  ENSMUSG00000095742 tomato-td
+rowData names(2): ENSEMBL SYMBOL
+colnames(522554): AAACCTGAGAAACCAT AAACCTGAGAAACCGC ...
+  TTTGTCATCTTTACGT TTTGTCATCTTTCCTC
+colData names(0):
+reducedDimNames(0):
+mainExpName: NULL
+altExpNames(0):</code></pre>
 </div>
 <p>This is the same data we examined in the previous lesson.</p>
 </section><section><h2 class="section-heading" id="droplet-processing">Droplet processing<a class="anchor" aria-label="anchor" href="#droplet-processing"></a></h2>
@@ -463,46 +454,19 @@ pre-processing steps have been performed, if any.</p>
 <p>We can visualize barcode read totals to visualize the distinction
 between empty droplets and properly profiled single cells in a so-called
 “knee plot”:</p>
-<div class="codewrapper sourceCode" id="cb7">
+<div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">bcrank</span> <span class="op">&lt;-</span> <span class="fu">barcodeRanks</span><span class="op">(</span><span class="fu">counts</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'm' in selecting a method for function 'barcodeRanks': error in evaluating the argument 'object' in selecting a method for function 'counts': object 'sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb9">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Only showing unique points for plotting speed.</span></span>
-<span><span class="va">uniq</span> <span class="op">&lt;-</span> <span class="op">!</span><span class="fu">duplicated</span><span class="op">(</span><span class="va">bcrank</span><span class="op">$</span><span class="va">rank</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'duplicated': object 'bcrank' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb11">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">line_df</span> <span class="op">&lt;-</span> <span class="fu">data.frame</span><span class="op">(</span>cutoff <span class="op">=</span> <span class="fu">names</span><span class="op">(</span><span class="fu">metadata</span><span class="op">(</span><span class="va">bcrank</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>                      value  <span class="op">=</span> <span class="fu">unlist</span><span class="op">(</span><span class="fu">metadata</span><span class="op">(</span><span class="va">bcrank</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'metadata': object 'bcrank' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb13">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">bcrank</span><span class="op">[</span><span class="va">uniq</span>,<span class="op">]</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">rank</span>, <span class="va">total</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<code class="sourceCode R"><span><span class="va">bcrank</span> <span class="op">&lt;-</span> <span class="fu">barcodeRanks</span><span class="op">(</span><span class="fu">counts</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Only showing unique points for plotting speed.</span></span>
+<span><span class="va">uniq</span> <span class="op">&lt;-</span> <span class="op">!</span><span class="fu">duplicated</span><span class="op">(</span><span class="va">bcrank</span><span class="op">$</span><span class="va">rank</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">line_df</span> <span class="op">&lt;-</span> <span class="fu">data.frame</span><span class="op">(</span>cutoff <span class="op">=</span> <span class="fu">names</span><span class="op">(</span><span class="fu">metadata</span><span class="op">(</span><span class="va">bcrank</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                      value  <span class="op">=</span> <span class="fu">unlist</span><span class="op">(</span><span class="fu">metadata</span><span class="op">(</span><span class="va">bcrank</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">bcrank</span><span class="op">[</span><span class="va">uniq</span>,<span class="op">]</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">rank</span>, <span class="va">total</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">geom_hline</span><span class="op">(</span>data <span class="op">=</span> <span class="va">line_df</span>,</span>
 <span>               <span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">cutoff</span>,</span>
@@ -512,12 +476,7 @@ between empty droplets and properly profiled single cells in a so-called
 <span>    <span class="fu">scale_y_log10</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">labs</span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Total UMI count"</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'bcrank' not found</code></pre>
-</div>
-<p>The distribution of total counts (called the unique molecular
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The distribution of total counts (called the unique molecular
 identifier or UMI count) exhibits a sharp transition between barcodes
 with large and small total counts, probably corresponding to
 cell-containing and empty droplets respectively.</p>
@@ -541,18 +500,18 @@ content.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">median</span><span class="op">(</span><span class="va">bcrank</span><span class="op">$</span><span class="va">total</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'median': object 'bcrank' not found</code></pre>
+<pre class="output" tabindex="0"><code>[1] 2</code></pre>
 </div>
 <p>Just 2! Clearly many barcodes produce practically no output.</p>
 <!-- This is a direct application challenge of of  "It is likely that most of these droplets are empty and are capturing only ambient or background RNA" and a synthesis challenge of the previous episode where they learned to access columns of DataFrames. -->
@@ -571,7 +530,7 @@ little RNA, both of which would have similar total counts.</p>
 <p>We call cells at a false discovery rate (FDR) of 0.1%, meaning that
 no more than 0.1% of our called barcodes should be empty droplets on
 average.</p>
-<div class="codewrapper sourceCode" id="cb17">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -580,45 +539,40 @@ average.</p>
 <span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># this may take a few minutes</span></span>
-<span><span class="va">e.out</span> <span class="op">&lt;-</span> <span class="fu">emptyDrops</span><span class="op">(</span><span class="fu">counts</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<span><span class="va">e.out</span> <span class="op">&lt;-</span> <span class="fu">emptyDrops</span><span class="op">(</span><span class="fu">counts</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">summary</span><span class="op">(</span><span class="va">e.out</span><span class="op">$</span><span class="va">FDR</span> <span class="op">&lt;=</span> <span class="fl">0.001</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'm' in selecting a method for function 'emptyDrops': error in evaluating the argument 'object' in selecting a method for function 'counts': object 'sce' not found</code></pre>
+<pre class="output" tabindex="0"><code>   Mode   FALSE    TRUE    NA's
+logical    6184    3131  513239 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb19">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">summary</span><span class="op">(</span><span class="va">e.out</span><span class="op">$</span><span class="va">FDR</span> <span class="op">&lt;=</span> <span class="fl">0.001</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="va">sce</span><span class="op">[</span>,<span class="fu">which</span><span class="op">(</span><span class="va">e.out</span><span class="op">$</span><span class="va">FDR</span> <span class="op">&lt;=</span> <span class="fl">0.001</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">sce</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'summary': object 'e.out' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb21">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="va">sce</span><span class="op">[</span>,<span class="fu">which</span><span class="op">(</span><span class="va">e.out</span><span class="op">$</span><span class="va">FDR</span> <span class="op">&lt;=</span> <span class="fl">0.001</span><span class="op">)</span><span class="op">]</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb23">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sce</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sce' not found</code></pre>
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 29453 3131
+metadata(0):
+assays(1): counts
+rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
+  ENSMUSG00000095742 tomato-td
+rowData names(2): ENSEMBL SYMBOL
+colnames(3131): AAACCTGAGACTGTAA AAACCTGAGATGCCTT ... TTTGTCAGTCTGATTG
+  TTTGTCATCTGAGTGT
+colData names(0):
+reducedDimNames(0):
+mainExpName: NULL
+altExpNames(0):</code></pre>
 </div>
 <p>The result confirms our expectation: only 3,131 droplets contain a
 cell, while the large majority of droplets are empty.</p>
@@ -627,7 +581,7 @@ cell, while the large majority of droplets are empty.</p>
 <button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
   <h3 class="accordion-header" id="headingSpoiler1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div> Setting the Random Seed </h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
 <div class="accordion-body">
 <p>Whenever your code involves the generation of random numbers, it’s a
 good practice to set the random seed in R with
@@ -680,115 +634,115 @@ stripped.</p>
 <code>EnsDb</code> mouse package available in Bioconductor, but a more
 updated version of Ensembl can be used through the
 <code>AnnotationHub</code> or <code>biomaRt</code> packages.</p>
-<div class="codewrapper sourceCode" id="cb25">
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">chr.loc</span> <span class="op">&lt;-</span> <span class="fu">mapIds</span><span class="op">(</span><span class="va">EnsDb.Mmusculus.v79</span>,</span>
 <span>                  keys    <span class="op">=</span> <span class="fu">rownames</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span>,</span>
 <span>                  keytype <span class="op">=</span> <span class="st">"GENEID"</span>, </span>
-<span>                  column  <span class="op">=</span> <span class="st">"SEQNAME"</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'rownames': object 'sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb27">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">is.mito</span> <span class="op">&lt;-</span> <span class="fu">which</span><span class="op">(</span><span class="va">chr.loc</span> <span class="op">==</span> <span class="st">"MT"</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'which': object 'chr.loc' not found</code></pre>
+<span>                  column  <span class="op">=</span> <span class="st">"SEQNAME"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">is.mito</span> <span class="op">&lt;-</span> <span class="fu">which</span><span class="op">(</span><span class="va">chr.loc</span> <span class="op">==</span> <span class="st">"MT"</span><span class="op">)</span></span></code></pre>
 </div>
 <p>We can use the <code>scuttle</code> package to compute a set of
 quality control metrics, specifying that we want to use the
 mitochondrial genes as a special set of features.</p>
-<div class="codewrapper sourceCode" id="cb29">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">perCellQCMetrics</span><span class="op">(</span><span class="va">sce</span>, subsets <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>Mito <span class="op">=</span> <span class="va">is.mito</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">perCellQCMetrics</span><span class="op">(</span><span class="va">sce</span>, subsets <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>Mito <span class="op">=</span> <span class="va">is.mito</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">colData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">cbind</span><span class="op">(</span><span class="fu">colData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span>, <span class="va">df</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">colData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'perCellQCMetrics': object 'sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb31">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">colData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">cbind</span><span class="op">(</span><span class="fu">colData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span>, <span class="va">df</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'colData': object 'sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb33">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">colData</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'colData': object 'sce' not found</code></pre>
+<pre class="output" tabindex="0"><code>DataFrame with 3131 rows and 6 columns
+                       sum  detected subsets_Mito_sum subsets_Mito_detected
+                 &lt;numeric&gt; &lt;integer&gt;        &lt;numeric&gt;             &lt;integer&gt;
+AAACCTGAGACTGTAA     27577      5418              471                    10
+AAACCTGAGATGCCTT     29309      5405              679                    10
+AAACCTGAGCAGCCTC     28795      5218              480                    12
+AAACCTGCATACTCTT     34794      4781              496                    12
+AAACCTGGTGGTACAG       262       229                0                     0
+...                    ...       ...              ...                   ...
+TTTGGTTTCGCCATAA     38398      6020              252                    12
+TTTGTCACACCCTATC      3013      1451              123                     9
+TTTGTCACATTCTCAT      1472       675              599                    11
+TTTGTCAGTCTGATTG       361       293                0                     0
+TTTGTCATCTGAGTGT       267       233               16                     6
+                 subsets_Mito_percent     total
+                            &lt;numeric&gt; &lt;numeric&gt;
+AAACCTGAGACTGTAA              1.70795     27577
+AAACCTGAGATGCCTT              2.31669     29309
+AAACCTGAGCAGCCTC              1.66696     28795
+AAACCTGCATACTCTT              1.42553     34794
+AAACCTGGTGGTACAG              0.00000       262
+...                               ...       ...
+TTTGGTTTCGCCATAA             0.656284     38398
+TTTGTCACACCCTATC             4.082310      3013
+TTTGTCACATTCTCAT            40.692935      1472
+TTTGTCAGTCTGATTG             0.000000       361
+TTTGTCATCTGAGTGT             5.992509       267</code></pre>
 </div>
 <p>Now that we have computed the metrics, we have to decide on
 thresholds to define high- and low-quality samples. We could check how
 many cells are above/below a certain fixed threshold. For instance,</p>
-<div class="codewrapper sourceCode" id="cb35">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">table</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">sum</span> <span class="op">&lt;</span> <span class="fl">10000</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in df$sum: object of type 'closure' is not subsettable</code></pre>
+<pre class="output" tabindex="0"><code>
+FALSE  TRUE
+ 2477   654 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb37">
+<div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">table</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">subsets_Mito_percent</span> <span class="op">&gt;</span> <span class="fl">10</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in df$subsets_Mito_percent: object of type 'closure' is not subsettable</code></pre>
+<pre class="output" tabindex="0"><code>
+FALSE  TRUE
+ 2761   370 </code></pre>
 </div>
 <p>or we could look at the distribution of such metrics and use a data
 adaptive threshold.</p>
-<div class="codewrapper sourceCode" id="cb39">
+<div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">summary</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">detected</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in (function (cond) : error in evaluating the argument 'object' in selecting a method for function 'summary': object of type 'closure' is not subsettable</code></pre>
+<pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+     98    4126    5168    4455    5670    7908 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb41">
+<div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">summary</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">subsets_Mito_percent</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in (function (cond) : error in evaluating the argument 'object' in selecting a method for function 'summary': object of type 'closure' is not subsettable</code></pre>
+<pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  0.000   1.155   1.608   5.079   2.182  66.968 </code></pre>
 </div>
 <p>We can use the <code>perCellQCFilters</code> function to apply a set
 of common adaptive filters to identify low-quality cells. By default, we
@@ -796,38 +750,37 @@ consider a value to be an outlier if it is more than 3 median absolute
 deviations (MADs) from the median in the “problematic” direction. This
 is loosely motivated by the fact that such a filter will retain 99% of
 non-outlier values that follow a normal distribution.</p>
-<div class="codewrapper sourceCode" id="cb43">
+<div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">reasons</span> <span class="op">&lt;-</span> <span class="fu">perCellQCFilters</span><span class="op">(</span><span class="va">df</span>, sub.fields <span class="op">=</span> <span class="st">"subsets_Mito_percent"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">reasons</span> <span class="op">&lt;-</span> <span class="fu">perCellQCFilters</span><span class="op">(</span><span class="va">df</span>, sub.fields <span class="op">=</span> <span class="st">"subsets_Mito_percent"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">reasons</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in x[[sum.field]]: object of type 'closure' is not subsettable</code></pre>
+<pre class="output" tabindex="0"><code>DataFrame with 3131 rows and 4 columns
+         low_lib_size   low_n_features high_subsets_Mito_percent   discard
+     &lt;outlier.filter&gt; &lt;outlier.filter&gt;          &lt;outlier.filter&gt; &lt;logical&gt;
+1               FALSE            FALSE                     FALSE     FALSE
+2               FALSE            FALSE                     FALSE     FALSE
+3               FALSE            FALSE                     FALSE     FALSE
+4               FALSE            FALSE                     FALSE     FALSE
+5                TRUE             TRUE                     FALSE      TRUE
+...               ...              ...                       ...       ...
+3127            FALSE            FALSE                     FALSE     FALSE
+3128             TRUE             TRUE                      TRUE      TRUE
+3129             TRUE             TRUE                      TRUE      TRUE
+3130             TRUE             TRUE                     FALSE      TRUE
+3131             TRUE             TRUE                      TRUE      TRUE</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb45">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">reasons</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'reasons' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb47">
+<div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sce</span><span class="op">$</span><span class="va">discard</span> <span class="op">&lt;-</span> <span class="va">reasons</span><span class="op">$</span><span class="va">discard</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'reasons' not found</code></pre>
 </div>
 <div id="challenge2" class="callout challenge">
 <div class="callout-square">
@@ -847,19 +800,14 @@ the threshold for outlier calling?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You set <code>nmads = 2.5</code> like so:</p>
-<div class="codewrapper sourceCode" id="cb49">
+<div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">reasons_strict</span> <span class="op">&lt;-</span> <span class="fu">perCellQCFilters</span><span class="op">(</span><span class="va">df</span>, sub.fields <span class="op">=</span> <span class="st">"subsets_Mito_percent"</span>, nmads <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in x[[sum.field]]: object of type 'closure' is not subsettable</code></pre>
 </div>
 <p>You would then need to reassign the <code>discard</code> column as
 well, but we’ll stick with the 3 MADs default for now.
@@ -877,87 +825,69 @@ problems with the procedure. In particular, we expect to have few
 outliers and with a marked difference from “regular” cells (e.g., a
 bimodal distribution or a long tail). Moreover, if there are too many
 discarded cells, further exploration might be needed.</p>
-<div class="codewrapper sourceCode" id="cb51">
+<div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, y <span class="op">=</span> <span class="st">"sum"</span>, colour_by <span class="op">=</span> <span class="st">"discard"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Total count"</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb53">
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, y <span class="op">=</span> <span class="st">"detected"</span>, colour_by <span class="op">=</span> <span class="st">"discard"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Detected features"</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb55">
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-11-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, y <span class="op">=</span> <span class="st">"subsets_Mito_percent"</span>, colour_by <span class="op">=</span> <span class="st">"discard"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Mito percent"</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sce' not found</code></pre>
-</div>
-<p>While the univariate distribution of QC metrics can give some insight
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-11-3.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>While the univariate distribution of QC metrics can give some insight
 on the quality of the sample, often looking at the bivariate
 distribution of QC metrics is useful, e.g., to confirm that there are no
 cells with both large total counts and large mitochondrial counts, to
 ensure that we are not inadvertently removing high-quality cells that
 happen to be highly metabolically active.</p>
-<div class="codewrapper sourceCode" id="cb57">
+<div class="codewrapper sourceCode" id="cb28">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>,  x <span class="op">=</span><span class="st">"sum"</span>, y <span class="op">=</span> <span class="st">"subsets_Mito_percent"</span>, colour_by <span class="op">=</span> <span class="st">"discard"</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sce' not found</code></pre>
-</div>
-<p>It could also be a good idea to perform a differential expression
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>It could also be a good idea to perform a differential expression
 analysis between retained and discarded cells to check wether we are
 removing an unusual cell population rather than low-quality libraries
 (see <a href="https://bioconductor.org/books/release/OSCA.advanced/quality-control-redux.html#qc-discard-cell-types" class="external-link">Section
 1.5 of OSCA advanced</a>).</p>
 <p>Once we are happy with the results, we can discard the low-quality
 cells by subsetting the original object.</p>
-<div class="codewrapper sourceCode" id="cb59">
+<div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="va">sce</span><span class="op">[</span>,<span class="op">!</span><span class="va">sce</span><span class="op">$</span><span class="va">discard</span><span class="op">]</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="va">sce</span><span class="op">[</span>,<span class="op">!</span><span class="va">sce</span><span class="op">$</span><span class="va">discard</span><span class="op">]</span></span>
+<span><span class="va">sce</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb61">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sce</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sce' not found</code></pre>
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 29453 2437
+metadata(0):
+assays(1): counts
+rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
+  ENSMUSG00000095742 tomato-td
+rowData names(2): ENSEMBL SYMBOL
+colnames(2437): AAACCTGAGACTGTAA AAACCTGAGATGCCTT ... TTTGGTTTCAGTCAGT
+  TTTGGTTTCGCCATAA
+colData names(7): sum detected ... total discard
+reducedDimNames(0):
+mainExpName: NULL
+altExpNames(0):</code></pre>
 </div>
 </div>
 </section><section><h2 class="section-heading" id="normalization">Normalization<a class="anchor" aria-label="anchor" href="#normalization"></a></h2>
@@ -990,53 +920,31 @@ proportional to its library size where the proportionality constant is
 defined such that the mean size factor across all cells is equal to 1.
 This ensures that the normalized expression values are on the same scale
 as the original counts.</p>
-<div class="codewrapper sourceCode" id="cb63">
+<div class="codewrapper sourceCode" id="cb31">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">lib.sf</span> <span class="op">&lt;-</span> <span class="fu">librarySizeFactors</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">lib.sf</span> <span class="op">&lt;-</span> <span class="fu">librarySizeFactors</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">summary</span><span class="op">(</span><span class="va">lib.sf</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'librarySizeFactors': object 'sce' not found</code></pre>
+<pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 0.2730  0.7879  0.9600  1.0000  1.1730  2.5598 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb65">
+<div class="codewrapper sourceCode" id="cb33">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">summary</span><span class="op">(</span><span class="va">lib.sf</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'summary': object 'lib.sf' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb67">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sf_df</span> <span class="op">&lt;-</span> <span class="fu">data.frame</span><span class="op">(</span>size_factor <span class="op">=</span> <span class="va">lib.sf</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'lib.sf' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb69">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">sf_df</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">size_factor</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<code class="sourceCode R"><span><span class="va">sf_df</span> <span class="op">&lt;-</span> <span class="fu">data.frame</span><span class="op">(</span>size_factor <span class="op">=</span> <span class="va">lib.sf</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">sf_df</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">size_factor</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">geom_histogram</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sf_df' not found</code></pre>
-</div>
-<div class="section level3">
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-14-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="section level3">
 <h3 id="normalization-by-deconvolution">Normalization by deconvolution<a class="anchor" aria-label="anchor" href="#normalization-by-deconvolution"></a></h3>
 <p>Library size normalization is not optimal, as it assumes that the
 total sum of UMI counts differ between cells only for technical and not
@@ -1058,127 +966,83 @@ populations.</p>
 <p>Note that while we focus on normalization by deconvolution here, many
 other methods have been proposed and lead to similar performance (see <a href="reference.html#litref">Borella 2022</a> for a comparative
 review).</p>
-<div class="codewrapper sourceCode" id="cb71">
+<div class="codewrapper sourceCode" id="cb34">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">clust</span> <span class="op">&lt;-</span> <span class="fu">quickCluster</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span> </span></code></pre>
+<span><span class="va">clust</span> <span class="op">&lt;-</span> <span class="fu">quickCluster</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="fu">table</span><span class="op">(</span><span class="va">clust</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'quickCluster': object 'sce' not found</code></pre>
+<pre class="output" tabindex="0"><code>clust
+  1   2   3   4   5   6   7   8   9  10  11  12  13
+273 159 250 122 187 201 154 252 152 169 199 215 104 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb73">
+<div class="codewrapper sourceCode" id="cb36">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">table</span><span class="op">(</span><span class="va">clust</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">deconv.sf</span> <span class="op">&lt;-</span> <span class="fu">pooledSizeFactors</span><span class="op">(</span><span class="va">sce</span>, cluster <span class="op">=</span> <span class="va">clust</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">summary</span><span class="op">(</span><span class="va">deconv.sf</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'clust' not found</code></pre>
+<pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 0.3100  0.8028  0.9626  1.0000  1.1736  2.7858 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb75">
+<div class="codewrapper sourceCode" id="cb38">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">deconv.sf</span> <span class="op">&lt;-</span> <span class="fu">pooledSizeFactors</span><span class="op">(</span><span class="va">sce</span>, cluster <span class="op">=</span> <span class="va">clust</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'pooledSizeFactors': object 'sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb77">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">summary</span><span class="op">(</span><span class="va">deconv.sf</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'summary': object 'deconv.sf' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb79">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sf_df</span><span class="op">$</span><span class="va">deconv_sf</span> <span class="op">&lt;-</span> <span class="va">deconv.sf</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'deconv.sf' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb81">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sf_df</span><span class="op">$</span><span class="va">clust</span> <span class="op">&lt;-</span> <span class="va">clust</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'clust' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb83">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">sf_df</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">size_factor</span>, <span class="va">deconv_sf</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<code class="sourceCode R"><span><span class="va">sf_df</span><span class="op">$</span><span class="va">deconv_sf</span> <span class="op">&lt;-</span> <span class="va">deconv.sf</span></span>
+<span></span>
+<span><span class="va">sf_df</span><span class="op">$</span><span class="va">clust</span> <span class="op">&lt;-</span> <span class="va">clust</span></span>
+<span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">sf_df</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">size_factor</span>, <span class="va">deconv_sf</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">geom_abline</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">geom_point</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">clust</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">scale_y_log10</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sf_df' not found</code></pre>
-</div>
-<p>Once we have computed the size factors, we compute the normalized
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-16-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Once we have computed the size factors, we compute the normalized
 expression values for each cell by dividing the count for each gene with
 the appropriate size factor for that cell. Since we are typically going
 to work with log-transformed counts, the function
 <code>logNormCounts</code> also log-transforms the normalized values,
 creating a new assay called <code>logcounts</code>.</p>
-<div class="codewrapper sourceCode" id="cb85">
+<div class="codewrapper sourceCode" id="cb39">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">sizeFactors</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">deconv.sf</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">sizeFactors</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">deconv.sf</span></span>
+<span></span>
+<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">logNormCounts</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sce</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'deconv.sf' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb87">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">logNormCounts</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'logNormCounts': object 'sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb89">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sce</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sce' not found</code></pre>
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 29453 2437
+metadata(0):
+assays(2): counts logcounts
+rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
+  ENSMUSG00000095742 tomato-td
+rowData names(2): ENSEMBL SYMBOL
+colnames(2437): AAACCTGAGACTGTAA AAACCTGAGATGCCTT ... TTTGGTTTCAGTCAGT
+  TTTGGTTTCGCCATAA
+colData names(8): sum detected ... discard sizeFactor
+reducedDimNames(0):
+mainExpName: NULL
+altExpNames(0):</code></pre>
 </div>
 <div id="challenge3" class="callout challenge">
 <div class="callout-square">
@@ -1189,16 +1053,16 @@ creating a new assay called <code>logcounts</code>.</p>
 <div class="callout-content">
 <p>Fill in the blanks for normalization that uses simpler library size
 factors instead of deconvolution.</p>
-<div class="codewrapper sourceCode" id="cb91">
+<div class="codewrapper sourceCode" id="cb41">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode r" tabindex="0"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" tabindex="-1"></a>____ <span class="ot">&lt;-</span> <span class="fu">____SizeFactors</span>(sce)</span>
-<span id="cb91-2"><a href="#cb91-2" tabindex="-1"></a></span>
-<span id="cb91-3"><a href="#cb91-3" tabindex="-1"></a><span class="fu">sizeFactors</span>(sce) <span class="ot">&lt;-</span> ____</span>
-<span id="cb91-4"><a href="#cb91-4" tabindex="-1"></a></span>
-<span id="cb91-5"><a href="#cb91-5" tabindex="-1"></a>sce <span class="ot">&lt;-</span> <span class="fu">____</span>(sce)</span>
-<span id="cb91-6"><a href="#cb91-6" tabindex="-1"></a></span>
-<span id="cb91-7"><a href="#cb91-7" tabindex="-1"></a>sce</span></code></pre>
+<pre class="sourceCode r" tabindex="0"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a>____ <span class="ot">&lt;-</span> <span class="fu">____SizeFactors</span>(sce)</span>
+<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a><span class="fu">sizeFactors</span>(sce) <span class="ot">&lt;-</span> ____</span>
+<span id="cb41-4"><a href="#cb41-4" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" tabindex="-1"></a>sce <span class="ot">&lt;-</span> <span class="fu">____</span>(sce)</span>
+<span id="cb41-6"><a href="#cb41-6" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="#cb41-7" tabindex="-1"></a>sce</span></code></pre>
 </div>
 </div>
 </div>
@@ -1208,9 +1072,9 @@ factors instead of deconvolution.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb92">
+<div class="codewrapper sourceCode" id="cb42">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1254,57 +1118,25 @@ cases, which means that the total variance of a gene is driven more by
 its abundance than its underlying biological heterogeneity. To account
 for this, the <code>modelGeneVar</code> function fits a trend to the
 variance with respect to abundance across all genes.</p>
-<div class="codewrapper sourceCode" id="cb93">
+<div class="codewrapper sourceCode" id="cb43">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dec.sce</span> <span class="op">&lt;-</span> <span class="fu">modelGeneVar</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'modelGeneVar': object 'sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb95">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fit.sce</span> <span class="op">&lt;-</span> <span class="fu">metadata</span><span class="op">(</span><span class="va">dec.sce</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'metadata': object 'dec.sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb97">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mean_var_df</span> <span class="op">&lt;-</span> <span class="fu">data.frame</span><span class="op">(</span>mean <span class="op">=</span> <span class="va">fit.sce</span><span class="op">$</span><span class="va">mean</span>,</span>
-<span>                          var  <span class="op">=</span> <span class="va">fit.sce</span><span class="op">$</span><span class="va">var</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'fit.sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb99">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">mean_var_df</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">mean</span>, <span class="va">var</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<code class="sourceCode R"><span><span class="va">dec.sce</span> <span class="op">&lt;-</span> <span class="fu">modelGeneVar</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fit.sce</span> <span class="op">&lt;-</span> <span class="fu">metadata</span><span class="op">(</span><span class="va">dec.sce</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mean_var_df</span> <span class="op">&lt;-</span> <span class="fu">data.frame</span><span class="op">(</span>mean <span class="op">=</span> <span class="va">fit.sce</span><span class="op">$</span><span class="va">mean</span>,</span>
+<span>                          var  <span class="op">=</span> <span class="va">fit.sce</span><span class="op">$</span><span class="va">var</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">mean_var_df</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">mean</span>, <span class="va">var</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">geom_function</span><span class="op">(</span>fun <span class="op">=</span> <span class="va">fit.sce</span><span class="op">$</span><span class="va">trend</span>, </span>
 <span>                  color <span class="op">=</span> <span class="st">"dodgerblue"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">labs</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Mean of log-expression"</span>,</span>
 <span>         y <span class="op">=</span> <span class="st">"Variance of log-expression"</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'mean_var_df' not found</code></pre>
-</div>
-<p>The blue line represents the uninteresting “technical” variance for
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-20-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The blue line represents the uninteresting “technical” variance for
 any given gene abundance. The genes with a lot of additional variance
 exhibit interesting “biological” variation.</p>
 </div>
@@ -1320,27 +1152,19 @@ instance, we may expect that only about 10% of genes to be
 differentially expressed across our cell populations and hence select
 10% of genes as highly variable (e.g., by setting
 <code>prop = 0.1</code>).</p>
-<div class="codewrapper sourceCode" id="cb101">
+<div class="codewrapper sourceCode" id="cb44">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">hvg.sce.var</span> <span class="op">&lt;-</span> <span class="fu">getTopHVGs</span><span class="op">(</span><span class="va">dec.sce</span>, n <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">hvg.sce.var</span> <span class="op">&lt;-</span> <span class="fu">getTopHVGs</span><span class="op">(</span><span class="va">dec.sce</span>, n <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">head</span><span class="op">(</span><span class="va">hvg.sce.var</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'dec.sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb103">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">head</span><span class="op">(</span><span class="va">hvg.sce.var</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'head': object 'hvg.sce.var' not found</code></pre>
+<pre class="output" tabindex="0"><code>[1] "ENSMUSG00000055609" "ENSMUSG00000052217" "ENSMUSG00000069919"
+[4] "ENSMUSG00000052187" "ENSMUSG00000048583" "ENSMUSG00000051855"</code></pre>
 </div>
 <div id="challenge4" class="callout challenge">
 <div class="callout-square">
@@ -1360,7 +1184,7 @@ account for this blocking structure when selecting HVGs?</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Give me a hint </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
 <div class="accordion-body">
 <p><code>modelGeneVar()</code> can take a <code>block</code>
 argument.</p>
@@ -1373,11 +1197,11 @@ argument.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <p>Use the <code>block</code> argument in the call to
 <code>modelGeneVar()</code> like so:</p>
-<div class="codewrapper sourceCode" id="cb105">
+<div class="codewrapper sourceCode" id="cb46">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1430,91 +1254,70 @@ metrics and PCs).</p>
 <p>One simple way to maximize our chance of capturing biological
 variation is by computing the PCs starting from the highly variable
 genes identified before.</p>
-<div class="codewrapper sourceCode" id="cb106">
+<div class="codewrapper sourceCode" id="cb47">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runPCA</span><span class="op">(</span><span class="va">sce</span>, subset_row <span class="op">=</span> <span class="va">hvg.sce.var</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runPCA</span><span class="op">(</span><span class="va">sce</span>, subset_row <span class="op">=</span> <span class="va">hvg.sce.var</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sce</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'runPCA': object 'sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb108">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sce</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sce' not found</code></pre>
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 29453 2437
+metadata(0):
+assays(2): counts logcounts
+rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
+  ENSMUSG00000095742 tomato-td
+rowData names(2): ENSEMBL SYMBOL
+colnames(2437): AAACCTGAGACTGTAA AAACCTGAGATGCCTT ... TTTGGTTTCAGTCAGT
+  TTTGGTTTCGCCATAA
+colData names(8): sum detected ... discard sizeFactor
+reducedDimNames(1): PCA
+mainExpName: NULL
+altExpNames(0):</code></pre>
 </div>
 <p>By default, <code>runPCA</code> computes the first 50 principal
 components. We can check how much original variability they explain.
 These values are stored in the attributes of the <code>percentVar</code>
 reducedDim:</p>
-<div class="codewrapper sourceCode" id="cb110">
+<div class="codewrapper sourceCode" id="cb49">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pct_var_df</span> <span class="op">&lt;-</span> <span class="fu">data.frame</span><span class="op">(</span>PC <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span>,</span>
-<span>                         pct_var <span class="op">=</span> <span class="fu">attr</span><span class="op">(</span><span class="fu">reducedDim</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span>, <span class="st">"percentVar"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'reducedDim': object 'sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb112">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">pct_var_df</span>,</span>
+<span>                         pct_var <span class="op">=</span> <span class="fu">attr</span><span class="op">(</span><span class="fu">reducedDim</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span>, <span class="st">"percentVar"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">pct_var_df</span>,</span>
 <span>       <span class="fu">aes</span><span class="op">(</span><span class="va">PC</span>, <span class="va">pct_var</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">labs</span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Variance explained (%)"</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'pct_var_df' not found</code></pre>
-</div>
-<p>You can see the first two PCs capture the largest amount of
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-24-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>You can see the first two PCs capture the largest amount of
 variation, but in this case you have to take the first 8 PCs before
 you’ve captured 50% of the total.</p>
 <p>And we can of course visualize the first 2-3 components, perhaps
 color-coding each point by an interesting feature, in this case the
 total number of UMIs per cell.</p>
-<div class="codewrapper sourceCode" id="cb114">
+<div class="codewrapper sourceCode" id="cb50">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plotPCA</span><span class="op">(</span><span class="va">sce</span>, colour_by <span class="op">=</span> <span class="st">"sum"</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'plotPCA': object 'sce' not found</code></pre>
-</div>
-<p>It can be helpful to compare pairs of PCs. This can be done with the
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>It can be helpful to compare pairs of PCs. This can be done with the
 <code>ncomponents</code> argument to <code>plotReducedDim()</code>. For
 example if one batch or cell type splits off on a particular PC, this
 can help visualize the effect of that.</p>
-<div class="codewrapper sourceCode" id="cb116">
+<div class="codewrapper sourceCode" id="cb51">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plotReducedDim</span><span class="op">(</span><span class="va">sce</span>, dimred <span class="op">=</span> <span class="st">"PCA"</span>, ncomponents <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'reducedDim': object 'sce' not found</code></pre>
-</div>
-</div>
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-26-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></div>
 <div class="section level3">
 <h3 id="non-linear-methods">Non-linear methods<a class="anchor" aria-label="anchor" href="#non-linear-methods"></a></h3>
 <p>While PCA is a simple and effective way to visualize (and interpret!)
@@ -1524,55 +1327,27 @@ and projection</em>) have gained much popularity in the literature.</p>
 <p>These methods attempt to find a low-dimensional representation of the
 data that attempt to preserve pair-wise distance and structure in
 high-dimensional gene space as best as possible.</p>
-<div class="codewrapper sourceCode" id="cb118">
+<div class="codewrapper sourceCode" id="cb52">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runTSNE</span><span class="op">(</span><span class="va">sce</span>, dimred <span class="op">=</span> <span class="st">"PCA"</span><span class="op">)</span></span></code></pre>
+<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runTSNE</span><span class="op">(</span><span class="va">sce</span>, dimred <span class="op">=</span> <span class="st">"PCA"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">plotTSNE</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb120">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">plotTSNE</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'reducedDim': object 'sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb122">
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-27-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb53">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">111</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runUMAP</span><span class="op">(</span><span class="va">sce</span>, dimred <span class="op">=</span> <span class="st">"PCA"</span><span class="op">)</span></span></code></pre>
+<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu">runUMAP</span><span class="op">(</span><span class="va">sce</span>, dimred <span class="op">=</span> <span class="st">"PCA"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">plotUMAP</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb124">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">plotUMAP</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'reducedDim': object 'sce' not found</code></pre>
-</div>
-<p>It is easy to over-interpret t-SNE and UMAP plots. We note that the
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-28-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>It is easy to over-interpret t-SNE and UMAP plots. We note that the
 relative sizes and positions of the visual clusters may be misleading,
 as they tend to inflate dense clusters and compress sparse ones, such
 that we cannot use the size as a measure of subpopulation
@@ -1586,16 +1361,28 @@ dimensionality reduced representations of the data for ease of reusing
 and replotting without the need for recomputing. Note the added
 <code>reducedDimNames</code> row when printing <code>sce</code>
 here:</p>
-<div class="codewrapper sourceCode" id="cb126">
+<div class="codewrapper sourceCode" id="cb54">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sce</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sce' not found</code></pre>
+<pre class="output" tabindex="0"><code>class: SingleCellExperiment
+dim: 29453 2437
+metadata(0):
+assays(2): counts logcounts
+rownames(29453): ENSMUSG00000051951 ENSMUSG00000089699 ...
+  ENSMUSG00000095742 tomato-td
+rowData names(2): ENSEMBL SYMBOL
+colnames(2437): AAACCTGAGACTGTAA AAACCTGAGATGCCTT ... TTTGGTTTCAGTCAGT
+  TTTGGTTTCGCCATAA
+colData names(8): sum detected ... discard sizeFactor
+reducedDimNames(3): PCA TSNE UMAP
+mainExpName: NULL
+altExpNames(0):</code></pre>
 </div>
 <p>Despite their shortcomings, t-SNE and UMAP can be useful
 visualization techniques. When using them, it is important to consider
@@ -1621,9 +1408,9 @@ looks different?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb128">
+<div class="codewrapper sourceCode" id="cb56">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1687,139 +1474,78 @@ each cell.</li>
 very likely to be a doublet itself.</p>
 <p>This approach is implemented below using the <code>scDblFinder</code>
 library. We then visualize the scores in a t-SNE plot.</p>
-<div class="codewrapper sourceCode" id="cb129">
+<div class="codewrapper sourceCode" id="cb57">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">dbl.dens</span> <span class="op">&lt;-</span> <span class="fu">computeDoubletDensity</span><span class="op">(</span><span class="va">sce</span>, subset.row <span class="op">=</span> <span class="va">hvg.sce.var</span>,</span>
-<span>                                  d <span class="op">=</span> <span class="fu">ncol</span><span class="op">(</span><span class="fu">reducedDim</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<span>                                  d <span class="op">=</span> <span class="fu">ncol</span><span class="op">(</span><span class="fu">reducedDim</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">summary</span><span class="op">(</span><span class="va">dbl.dens</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'computeDoubletDensity': object 'sce' not found</code></pre>
+<pre class="output" tabindex="0"><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.
+ 0.04874  0.28757  0.46790  0.65614  0.82371 14.88032 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb131">
+<div class="codewrapper sourceCode" id="cb59">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">summary</span><span class="op">(</span><span class="va">dbl.dens</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">sce</span><span class="op">$</span><span class="va">DoubletScore</span> <span class="op">&lt;-</span> <span class="va">dbl.dens</span></span>
+<span></span>
+<span><span class="fu">plotTSNE</span><span class="op">(</span><span class="va">sce</span>, colour_by <span class="op">=</span> <span class="st">"DoubletScore"</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'summary': object 'dbl.dens' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb133">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sce</span><span class="op">$</span><span class="va">DoubletScore</span> <span class="op">&lt;-</span> <span class="va">dbl.dens</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'dbl.dens' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb135">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">plotTSNE</span><span class="op">(</span><span class="va">sce</span>, colour_by <span class="op">=</span> <span class="st">"DoubletScore"</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'reducedDim': object 'sce' not found</code></pre>
-</div>
-<p>We can explicitly convert this into doublet calls by identifying
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-31-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We can explicitly convert this into doublet calls by identifying
 large outliers for the score within each sample. Here we use the
 “griffiths” method to do so.</p>
-<div class="codewrapper sourceCode" id="cb137">
+<div class="codewrapper sourceCode" id="cb60">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dbl.calls</span> <span class="op">&lt;-</span> <span class="fu">doubletThresholding</span><span class="op">(</span><span class="fu">data.frame</span><span class="op">(</span>score <span class="op">=</span> <span class="va">dbl.dens</span><span class="op">)</span>,</span>
 <span>                                 method <span class="op">=</span> <span class="st">"griffiths"</span>,</span>
-<span>                                 returnType <span class="op">=</span> <span class="st">"call"</span><span class="op">)</span></span></code></pre>
+<span>                                 returnType <span class="op">=</span> <span class="st">"call"</span><span class="op">)</span></span>
+<span><span class="fu">summary</span><span class="op">(</span><span class="va">dbl.calls</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'dbl.dens' not found</code></pre>
+<pre class="output" tabindex="0"><code>singlet doublet
+   2124     313 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb139">
+<div class="codewrapper sourceCode" id="cb62">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">summary</span><span class="op">(</span><span class="va">dbl.calls</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">sce</span><span class="op">$</span><span class="va">doublet</span> <span class="op">&lt;-</span> <span class="va">dbl.calls</span></span>
+<span></span>
+<span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, y <span class="op">=</span> <span class="st">"DoubletScore"</span>, colour_by <span class="op">=</span> <span class="st">"doublet"</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'summary': object 'dbl.calls' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb141">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sce</span><span class="op">$</span><span class="va">doublet</span> <span class="op">&lt;-</span> <span class="va">dbl.calls</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'dbl.calls' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb143">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, y <span class="op">=</span> <span class="st">"DoubletScore"</span>, colour_by <span class="op">=</span> <span class="st">"doublet"</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb145">
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-32-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb63">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plotTSNE</span><span class="op">(</span><span class="va">sce</span>, colour_by <span class="op">=</span> <span class="st">"doublet"</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'reducedDim': object 'sce' not found</code></pre>
-</div>
-<p>One way to determine whether a cell is in a real transient state or
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-32-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>One way to determine whether a cell is in a real transient state or
 it is a doublet is to check the number of detected genes and total UMI
 counts.</p>
-<div class="codewrapper sourceCode" id="cb147">
+<div class="codewrapper sourceCode" id="cb64">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, <span class="st">"detected"</span>, <span class="st">"sum"</span>, colour_by <span class="op">=</span> <span class="st">"DoubletScore"</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sce' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb149">
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-33-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb65">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plotColData</span><span class="op">(</span><span class="va">sce</span>, <span class="st">"detected"</span>, <span class="st">"sum"</span>, colour_by <span class="op">=</span> <span class="st">"doublet"</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sce' not found</code></pre>
-</div>
-<p>In this case, we only have a few doublets at the periphery of some
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-33-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>In this case, we only have a few doublets at the periphery of some
 clusters. It could be fine to keep the doublets in the analysis, but it
 may be safer to discard them to avoid biases in downstream analysis
 (e.g., differential expression).</p>
@@ -1834,7 +1560,7 @@ may be safer to discard them to avoid biases in downstream analysis
 <div class="callout-content">
 <p>Here we used the deconvolution method implemented in
 <code>scran</code> based on a previous clustering step. Use the
-<code>calculateSumFactors</code> to compute the size factors without
+<code>pooledSizeFactors</code> to compute the size factors without
 considering a preliminary clustering. Compare the resulting size factors
 via a scatter plot. How do the results change? What are the risks of not
 including clustering information?</p>
@@ -1846,69 +1572,38 @@ including clustering information?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
   <h4 class="accordion-header" id="headingSolution6"> Show me the solution </h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb151">
+<div class="codewrapper sourceCode" id="cb66">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">deconv.sf2</span> <span class="op">&lt;-</span> <span class="fu">calculateSumFactors</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span> <span class="co"># dropped `cluster = clust` here</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">deconv.sf2</span> <span class="op">&lt;-</span> <span class="fu">pooledSizeFactors</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span> <span class="co"># dropped `cluster = clust` here</span></span>
+<span></span>
+<span><span class="fu">summary</span><span class="op">(</span><span class="va">deconv.sf2</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'pooledSizeFactors': object 'sce' not found</code></pre>
+<pre class="output" tabindex="0"><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+ 0.2985  0.8142  0.9583  1.0000  1.1582  2.7054 </code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb153">
+<div class="codewrapper sourceCode" id="cb68">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">summary</span><span class="op">(</span><span class="va">deconv.sf2</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'summary': object 'deconv.sf2' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb155">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sf_df</span><span class="op">$</span><span class="va">deconv_sf2</span> <span class="op">&lt;-</span> <span class="va">deconv.sf2</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'deconv.sf2' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb157">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sf_df</span><span class="op">$</span><span class="va">clust</span> <span class="op">&lt;-</span> <span class="va">clust</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'clust' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb159">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">sf_df</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">deconv_sf</span>, <span class="va">deconv_sf2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<code class="sourceCode R"><span><span class="va">sf_df</span><span class="op">$</span><span class="va">deconv_sf2</span> <span class="op">&lt;-</span> <span class="va">deconv.sf2</span></span>
+<span></span>
+<span><span class="va">sf_df</span><span class="op">$</span><span class="va">clust</span> <span class="op">&lt;-</span> <span class="va">clust</span></span>
+<span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">sf_df</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">deconv_sf</span>, <span class="va">deconv_sf2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">geom_abline</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">geom_point</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">clust</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">scale_y_log10</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu">facet_wrap</span><span class="op">(</span><span class="fu">vars</span><span class="op">(</span><span class="va">clust</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sf_df' not found</code></pre>
-</div>
-<p>You can see that we get largely similar results, though for clusters
+<figure><img src="fig/eda_qc-rendered-unnamed-chunk-34-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>You can see that we get largely similar results, though for clusters
 3 and 9 there’s a slight deviation from the <code>y=x</code>
 relationship because these clusters (which are fairly distinct from the
 other clusters) are now being pooled with cells from other clusters.
@@ -1936,12 +1631,12 @@ Repeat the analysis of this vignette using those data.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution7" aria-expanded="false" aria-controls="collapseSolution7">
   <h4 class="accordion-header" id="headingSolution7"> Show me the solution </h4>
 </button>
-<div id="collapseSolution7" class="accordion-collapse collapse" data-bs-parent="#accordionSolution7" aria-labelledby="headingSolution7">
+<div id="collapseSolution7" class="accordion-collapse collapse" aria-labelledby="headingSolution7" data-bs-parent="#accordionSolution7">
 <div class="accordion-body">
 <p>The first few lines here read the data from ExperimentHub and the
 mitochondrial genes are identified by gene symbols in the row data.
 Otherwise the steps are the same:</p>
-<div class="codewrapper sourceCode" id="cb161">
+<div class="codewrapper sourceCode" id="cb69">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1990,7 +1685,7 @@ Otherwise the steps are the same:</p>
 <span></span>
 <span><span class="fu">table</span><span class="op">(</span><span class="va">clust</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">deconv.sf</span> <span class="op">&lt;-</span> <span class="fu">calculateSumFactors</span><span class="op">(</span><span class="va">sce</span>, cluster <span class="op">=</span> <span class="va">clust</span><span class="op">)</span></span>
+<span><span class="va">deconv.sf</span> <span class="op">&lt;-</span> <span class="fu">pooledSizeFactors</span><span class="op">(</span><span class="va">sce</span>, cluster <span class="op">=</span> <span class="va">clust</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">sizeFactors</span><span class="op">(</span><span class="va">sce</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">deconv.sf</span></span>
 <span></span>
@@ -2044,7 +1739,7 @@ required to use them?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution8" aria-expanded="false" aria-controls="collapseSolution8">
   <h4 class="accordion-header" id="headingSolution8"> Show me the solution </h4>
 </button>
-<div id="collapseSolution8" class="accordion-collapse collapse" data-bs-parent="#accordionSolution8" aria-labelledby="headingSolution8">
+<div id="collapseSolution8" class="accordion-collapse collapse" aria-labelledby="headingSolution8" data-bs-parent="#accordionSolution8">
 <div class="accordion-body">
 <p>Spike-ins are deliberately-introduced exogeneous RNA from an exotic
 or synthetic source at a known concentration. This provides a known
@@ -2088,7 +1783,7 @@ representation of the data?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution9" aria-expanded="false" aria-controls="collapseSolution9">
   <h4 class="accordion-header" id="headingSolution9"> Show me the solution </h4>
 </button>
-<div id="collapseSolution9" class="accordion-collapse collapse" data-bs-parent="#accordionSolution9" aria-labelledby="headingSolution9">
+<div id="collapseSolution9" class="accordion-collapse collapse" aria-labelledby="headingSolution9" data-bs-parent="#accordionSolution9">
 <div class="accordion-body">
 <p>Mathematically, this would require the data to fall on a
 two-dimensional plane (for linear methods like PCA) or a smooth 2D
