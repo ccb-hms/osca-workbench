@@ -682,7 +682,7 @@ sce <- read10xCounts(file.path(dirname(local_path), "raw_feature_bc_matrix/"))
 
 ::: solution
 
-The first few lines here read the data from ExperimentHub and the mitochondrial genes are identified by gene symbols in the row data. Otherwise the steps are the same:
+After getting the data, the steps are largely copy-pasted from above. For the sake of simplicity the mitochondrial genes are identified by gene symbols in the row data. Otherwise the steps are the same:
 
 ```{r eval = FALSE}
 e.out <- emptyDrops(counts(sce))
