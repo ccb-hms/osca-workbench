@@ -8,10 +8,11 @@ This course is aimed at graduate students, postdocs, and faculty interested in l
 * Statistics basics such as hypothesis tests, summary statistics, principal component analysis
 * R basics such as variable assignment, accessing object components, and looking up help documentation
 
-The following online textbooks provide excellent coverage of these and related topics if you would like a refresher:
+The following online textbooks/resources provide excellent coverage of these and related topics if you would like a refresher:
 
 * *Molecular Biology of the Cell*, Alberts et al.
 * [Modern Statistics for Modern Biology](https://www.huber.embl.de/msmb/)
+* Bioconductor Carpentries on [Introduction to data analysis with R](https://carpentries-incubator.github.io/bioc-intro/) and [RNA-seq analysis](https://carpentries-incubator.github.io/bioc-rnaseq/)
 * [R for Data Science (2e)](https://r4ds.hadley.nz/)
 
 The following are *not* required:
