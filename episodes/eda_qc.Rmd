@@ -425,7 +425,7 @@ Imagine you have data that were prepared by three people with varying level of e
 :::
 
 ::: solution
-Use the `block` argument in the call to `modelGeneVar()` like so:
+Use the `block` argument in the call to `modelGeneVar()` like so. We don't have experimenter information in this dataset, so in order to have some names to work with we assign them randomly from a set of names.
 
 ```{r eval=FALSE}
 
