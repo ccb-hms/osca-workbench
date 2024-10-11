@@ -386,6 +386,12 @@ in the [*SingleR*
 book](https://bioconductor.org/books/release/SingleRBook) from which
 most of the examples here are derived.
 
+::: callout
+
+Remember, the quality of reference-based cell type annotation can only be as good as the cell type assignments in the reference. Garbage in, garbage out. In practice, it's worthwhile to spend time carefully assessing your to make sure the original assignments make sense and that it's compatible with the query dataset you're trying to annotate.
+
+:::
+
 Here we take a single sample from `EmbryoAtlasData` as our reference dataset. In practice you would want to take more/all samples, possibly with batch-effect correction (see the next episode).
 
 
@@ -947,7 +953,7 @@ loaded via a namespace (and not attached):
  [77] splines_4.4.1             dplyr_1.1.4              
  [79] BiocFileCache_2.12.0      lattice_0.22-6           
  [81] survival_3.6-4            FNN_1.1.4                
- [83] renv_1.0.9                bit_4.0.5                
+ [83] renv_1.0.10               bit_4.0.5                
  [85] tidyselect_1.2.1          locfit_1.5-9.9           
  [87] Biostrings_2.72.1         knitr_1.47               
  [89] gridExtra_2.3             edgeR_4.2.0              
