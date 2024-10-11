@@ -425,7 +425,7 @@ Imagine you have data that were prepared by three people with varying level of e
 :::
 
 ::: solution
-Use the `block` argument in the call to `modelGeneVar()` like so:
+Use the `block` argument in the call to `modelGeneVar()` like so. We don't have experimenter information in this dataset, so in order to have some names to work with we assign them randomly from a set of names.
 
 ```{r eval=FALSE}
 
@@ -651,18 +651,18 @@ You can see that we get largely similar results, though for clusters 3 and 9 the
 
 #### Exercise 2: PBMC Data
 
-The package `DropletTestFiles` includes the raw output from Cell Ranger of the peripheral blood mononuclear cell (PBMC) dataset from 10X Genomics, publicly available from the 10X Genomics website. Repeat the analysis of this vignette using those data.
+The [`DropletTestFiles` package](https://www.bioconductor.org/packages/release/data/experiment/html/DropletTestFiles.html) includes the raw output from Cell Ranger of the peripheral blood mononuclear cell (PBMC) dataset from 10X Genomics, publicly available from the 10X Genomics website. Repeat the analysis of this vignette using those data. 
 
-::: solution
+The hint demonstrates how to identify, download, extract, and read the data starting from the help documentation of `?DropletTestFiles::listTestFiles`, but try working through those steps on your own for extra challenge (they're useful skills to develop in practice).
 
-The first few lines here read the data from ExperimentHub and the mitochondrial genes are identified by gene symbols in the row data. Otherwise the steps are the same:
+::: hint
 
-```{r eval = FALSE}
+```{r eval=FALSE}
 library(DropletTestFiles)
 
 set.seed(100)
 
-listTestFiles(dataset="tenx-3.1.0-5k_pbmc_protein_v3") # look up the remote data path of the raw data
+listTestFiles(dataset = "tenx-3.1.0-5k_pbmc_protein_v3") # look up the remote data path of the raw data
 
 raw_rdatapath <- "DropletTestFiles/tenx-3.1.0-5k_pbmc_protein_v3/1.0.0/raw.tar.gz"
 
@@ -676,6 +676,15 @@ untar(paste0(local_path, ".tar.gz"),
 
 sce <- read10xCounts(file.path(dirname(local_path), "raw_feature_bc_matrix/"))
 
+```
+
+:::
+
+::: solution
+
+After getting the data, the steps are largely copy-pasted from above. For the sake of simplicity the mitochondrial genes are identified by gene symbols in the row data. Otherwise the steps are the same:
+
+```{r eval = FALSE}
 e.out <- emptyDrops(counts(sce))
 
 sce <- sce[,which(e.out$FDR <= 0.001)]
