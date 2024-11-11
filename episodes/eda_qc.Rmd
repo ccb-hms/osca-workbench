@@ -808,3 +808,10 @@ Mathematically, this would require the data to fall on a two-dimensional plane (
 [^2]: [Vallejos (2017)](learners/reference.md#litref)
 [^3]: [Lun (2016)](learners/reference.md#litref)
 
+## Session Info
+
+```{r, tidy=TRUE}
+sessionInfo()
+```
+
+

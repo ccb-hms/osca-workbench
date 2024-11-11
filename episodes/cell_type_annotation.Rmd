@@ -83,17 +83,15 @@ which the cells truly reside. After annotation based on marker genes,
 the clusters can be treated as proxies for more abstract biological
 concepts such as cell types or states.
 
-Popularized by its use in
-[Seurat](https://cran.r-project.org/web/packages/Seurat/index.html),
-graph-based clustering is a flexible and scalable technique for
-clustering large scRNA-seq datasets. We first build a graph where each
-node is a cell that is connected to its nearest neighbors in the
-high-dimensional space. Edges are weighted based on the similarity
-between the cells involved, with higher weight given to cells that are
-more closely related. We then apply algorithms to identify "communities"
-of cells that are more connected to cells in the same community than
-they are to cells of different communities. Each community represents a
-cluster that we can use for downstream interpretation.
+Graph-based clustering is a flexible and scalable technique for identifying
+coherent groups of cells in large scRNA-seq datasets. We first build a graph
+where each node is a cell that is connected to its nearest neighbors in the
+high-dimensional space. Edges are weighted based on the similarity between the
+cells involved, with higher weight given to cells that are more closely related.
+We then apply algorithms to identify "communities" of cells that are more
+connected to cells in the same community than they are to cells of different
+communities. Each community represents a cluster that we can use for downstream
+interpretation.
 
 Here, we use the `clusterCells()` function from the
 [scran](https://bioconductor.org/packages/scran) package to perform
@@ -549,12 +547,6 @@ AUCell_exploreThresholds(cell.aucs[10:18], plotHist = TRUE, assign = TRUE)
 
 ::::
 
-## Session Info
-
-```{r sessionInfo}
-sessionInfo()
-```
-
 ## Exercises
 
 ::: challenge
@@ -720,3 +712,9 @@ Remember, this is an exploratory diagnostic, not the final word! At this point i
 -   The `r Biocpkg("AUCell")` package provides an enrichment
     test to identify curated marker sets that are highly expressed in each cell. 
 :::
+
+## Session Info
+
+```{r, tidy=TRUE}
+sessionInfo()
+```

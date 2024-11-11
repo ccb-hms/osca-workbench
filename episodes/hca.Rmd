@@ -347,3 +347,8 @@ You can see we don't get very many cells given the strict set of conditions we u
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 
+## Session Info
+
+```{r, tidy=TRUE}
+sessionInfo()
+```

@@ -314,3 +314,9 @@ combined_sce
 
 1. Pijuan-Sala B, Griffiths JA, Guibentif C et al. (2019). A single-cell molecular map of mouse gastrulation and early organogenesis. Nature 566, 7745:490-495.
 
+## Session Info
+
+```{r, tidy=TRUE}
+sessionInfo()
+```
+

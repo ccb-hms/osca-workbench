@@ -483,12 +483,6 @@ topTags(res.lfc)
 
 Addionally, the choice of \tau can be guided by other external experimental data, like a previous or a pilot experiment.
 
-## Session Info
-
-```{r, tidy=TRUE}
-sessionInfo()
-```
-
 ## Exercises
 
 
@@ -585,7 +579,7 @@ If there were large shifts in the logFC estimates or p-value distributions, that
 
 #### Extension challenge 1: Group effects
 
-Having multiple independent samples in each experimental group is always helpful, but it particularly important when it comes to batch effect correction. Why?
+Having multiple independent samples in each experimental group is always helpful, but it's particularly important when it comes to batch effect correction. Why?
 
 ::: solution
 
@@ -625,3 +619,10 @@ Imagine you had one sample that received a drug treatment and one that did not, 
     limited replication - except that the counts are not of reads per gene, but
     of cells per label.
 ::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Session Info
+
+```{r, tidy=TRUE}
+sessionInfo()
+```
+

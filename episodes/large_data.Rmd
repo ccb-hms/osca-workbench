@@ -540,12 +540,6 @@ The resulting H5AD file can then be read into Python using scanpy's
 [read_h5ad](https://scanpy.readthedocs.io/en/stable/generated/scanpy.read_h5ad.html)
 function and then directly used in compatible Python-based analysis frameworks.
 
-## Session Info
-
-```{r sessionInfo}
-sessionInfo()
-```
-
 
 ## Exercises
 
@@ -646,3 +640,9 @@ system.time({i.out <- runPCA(sce.brain,
 - Converter functions between existing single-cell data formats enable analysis workflows that leverage complementary functionality from poplular single-cell analysis ecosystems.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
+
+## Session Info
+
+```{r, tidy=TRUE}
+sessionInfo()
+```
