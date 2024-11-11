@@ -428,3 +428,92 @@ altExpNames(0):
 
 1. Pijuan-Sala B, Griffiths JA, Guibentif C et al. (2019). A single-cell molecular map of mouse gastrulation and early organogenesis. Nature 566, 7745:490-495.
 
+## Session Info
+
+
+``` r
+sessionInfo()
+```
+
+``` output
+R version 4.4.1 (2024-06-14)
+Platform: x86_64-pc-linux-gnu
+Running under: Ubuntu 22.04.5 LTS
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0 
+LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.10.0
+
+locale:
+ [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
+ [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
+ [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
+[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+
+time zone: UTC
+tzcode source: system (glibc)
+
+attached base packages:
+[1] stats4    stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] scater_1.32.0                ggplot2_3.5.1               
+ [3] scuttle_1.14.0               MouseGastrulationData_1.18.0
+ [5] SpatialExperiment_1.14.0     SingleCellExperiment_1.26.0 
+ [7] SummarizedExperiment_1.34.0  Biobase_2.64.0              
+ [9] GenomicRanges_1.56.0         GenomeInfoDb_1.40.1         
+[11] IRanges_2.38.0               S4Vectors_0.42.0            
+[13] BiocGenerics_0.50.0          MatrixGenerics_1.16.0       
+[15] matrixStats_1.3.0            BiocStyle_2.32.0            
+
+loaded via a namespace (and not attached):
+ [1] DBI_1.2.3                 formatR_1.14             
+ [3] gridExtra_2.3             rlang_1.1.3              
+ [5] magrittr_2.0.3            compiler_4.4.1           
+ [7] RSQLite_2.3.7             DelayedMatrixStats_1.26.0
+ [9] png_0.1-8                 vctrs_0.6.5              
+[11] pkgconfig_2.0.3           crayon_1.5.2             
+[13] fastmap_1.2.0             dbplyr_2.5.0             
+[15] magick_2.8.3              XVector_0.44.0           
+[17] labeling_0.4.3            utf8_1.2.4               
+[19] rmarkdown_2.27            UCSC.utils_1.0.0         
+[21] ggbeeswarm_0.7.2          purrr_1.0.2              
+[23] bit_4.0.5                 xfun_0.44                
+[25] zlibbioc_1.50.0           cachem_1.1.0             
+[27] beachmat_2.20.0           jsonlite_1.8.8           
+[29] blob_1.2.4                highr_0.11               
+[31] DelayedArray_0.30.1       BiocParallel_1.38.0      
+[33] irlba_2.3.5.1             parallel_4.4.1           
+[35] R6_2.5.1                  Rcpp_1.0.12              
+[37] knitr_1.47                Matrix_1.7-0             
+[39] tidyselect_1.2.1          viridis_0.6.5            
+[41] abind_1.4-5               yaml_2.3.8               
+[43] codetools_0.2-20          curl_5.2.1               
+[45] lattice_0.22-6            tibble_3.2.1             
+[47] withr_3.0.0               KEGGREST_1.44.0          
+[49] BumpyMatrix_1.12.0        evaluate_0.23            
+[51] BiocFileCache_2.12.0      ExperimentHub_2.12.0     
+[53] Biostrings_2.72.1         pillar_1.9.0             
+[55] BiocManager_1.30.23       filelock_1.0.3           
+[57] renv_1.0.11               generics_0.1.3           
+[59] BiocVersion_3.19.1        sparseMatrixStats_1.16.0 
+[61] munsell_0.5.1             scales_1.3.0             
+[63] glue_1.7.0                tools_4.4.1              
+[65] AnnotationHub_3.12.0      BiocNeighbors_1.22.0     
+[67] ScaledMatrix_1.12.0       cowplot_1.1.3            
+[69] grid_4.4.1                AnnotationDbi_1.66.0     
+[71] colorspace_2.1-0          GenomeInfoDbData_1.2.12  
+[73] beeswarm_0.4.0            BiocSingular_1.20.0      
+[75] vipor_0.4.7               cli_3.6.2                
+[77] rsvd_1.0.5                rappdirs_0.3.3           
+[79] fansi_1.0.6               viridisLite_0.4.2        
+[81] S4Arrays_1.4.1            dplyr_1.1.4              
+[83] gtable_0.3.5              digest_0.6.35            
+[85] ggrepel_0.9.5             SparseArray_1.4.8        
+[87] farver_2.1.2              rjson_0.2.21             
+[89] memoise_2.0.1             htmltools_0.5.8.1        
+[91] lifecycle_1.0.4           httr_1.4.7               
+[93] mime_0.12                 bit64_4.0.5              
+```
+

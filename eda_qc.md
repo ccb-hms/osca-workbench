@@ -1109,3 +1109,113 @@ Mathematically, this would require the data to fall on a two-dimensional plane (
 [^2]: [Vallejos (2017)](learners/reference.md#litref)
 [^3]: [Lun (2016)](learners/reference.md#litref)
 
+## Session Info
+
+
+``` r
+sessionInfo()
+```
+
+``` output
+R version 4.4.1 (2024-06-14)
+Platform: x86_64-pc-linux-gnu
+Running under: Ubuntu 22.04.5 LTS
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0 
+LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.10.0
+
+locale:
+ [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
+ [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
+ [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
+[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+
+time zone: UTC
+tzcode source: system (glibc)
+
+attached base packages:
+[1] stats4    stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] scDblFinder_1.18.0           scran_1.32.0                
+ [3] scater_1.32.0                scuttle_1.14.0              
+ [5] EnsDb.Mmusculus.v79_2.99.0   ensembldb_2.28.0            
+ [7] AnnotationFilter_1.28.0      GenomicFeatures_1.56.0      
+ [9] AnnotationDbi_1.66.0         ggplot2_3.5.1               
+[11] DropletUtils_1.24.0          MouseGastrulationData_1.18.0
+[13] SpatialExperiment_1.14.0     SingleCellExperiment_1.26.0 
+[15] SummarizedExperiment_1.34.0  Biobase_2.64.0              
+[17] GenomicRanges_1.56.0         GenomeInfoDb_1.40.1         
+[19] IRanges_2.38.0               S4Vectors_0.42.0            
+[21] BiocGenerics_0.50.0          MatrixGenerics_1.16.0       
+[23] matrixStats_1.3.0            BiocStyle_2.32.0            
+
+loaded via a namespace (and not attached):
+  [1] jsonlite_1.8.8            magrittr_2.0.3           
+  [3] ggbeeswarm_0.7.2          magick_2.8.3             
+  [5] farver_2.1.2              rmarkdown_2.27           
+  [7] BiocIO_1.14.0             zlibbioc_1.50.0          
+  [9] vctrs_0.6.5               memoise_2.0.1            
+ [11] Rsamtools_2.20.0          DelayedMatrixStats_1.26.0
+ [13] RCurl_1.98-1.14           htmltools_0.5.8.1        
+ [15] S4Arrays_1.4.1            AnnotationHub_3.12.0     
+ [17] curl_5.2.1                BiocNeighbors_1.22.0     
+ [19] xgboost_1.7.7.1           Rhdf5lib_1.26.0          
+ [21] SparseArray_1.4.8         rhdf5_2.48.0             
+ [23] cachem_1.1.0              GenomicAlignments_1.40.0 
+ [25] igraph_2.0.3              mime_0.12                
+ [27] lifecycle_1.0.4           pkgconfig_2.0.3          
+ [29] rsvd_1.0.5                Matrix_1.7-0             
+ [31] R6_2.5.1                  fastmap_1.2.0            
+ [33] GenomeInfoDbData_1.2.12   digest_0.6.35            
+ [35] colorspace_2.1-0          dqrng_0.4.1              
+ [37] irlba_2.3.5.1             ExperimentHub_2.12.0     
+ [39] RSQLite_2.3.7             beachmat_2.20.0          
+ [41] labeling_0.4.3            filelock_1.0.3           
+ [43] fansi_1.0.6               httr_1.4.7               
+ [45] abind_1.4-5               compiler_4.4.1           
+ [47] bit64_4.0.5               withr_3.0.0              
+ [49] BiocParallel_1.38.0       viridis_0.6.5            
+ [51] DBI_1.2.3                 highr_0.11               
+ [53] HDF5Array_1.32.0          R.utils_2.12.3           
+ [55] MASS_7.3-60.2             rappdirs_0.3.3           
+ [57] DelayedArray_0.30.1       bluster_1.14.0           
+ [59] rjson_0.2.21              tools_4.4.1              
+ [61] vipor_0.4.7               beeswarm_0.4.0           
+ [63] R.oo_1.26.0               glue_1.7.0               
+ [65] restfulr_0.0.15           rhdf5filters_1.16.0      
+ [67] grid_4.4.1                Rtsne_0.17               
+ [69] cluster_2.1.6             generics_0.1.3           
+ [71] gtable_0.3.5              R.methodsS3_1.8.2        
+ [73] data.table_1.15.4         metapod_1.12.0           
+ [75] BiocSingular_1.20.0       ScaledMatrix_1.12.0      
+ [77] utf8_1.2.4                XVector_0.44.0           
+ [79] ggrepel_0.9.5             BiocVersion_3.19.1       
+ [81] pillar_1.9.0              limma_3.60.2             
+ [83] BumpyMatrix_1.12.0        dplyr_1.1.4              
+ [85] BiocFileCache_2.12.0      lattice_0.22-6           
+ [87] FNN_1.1.4                 renv_1.0.11              
+ [89] rtracklayer_1.64.0        bit_4.0.5                
+ [91] tidyselect_1.2.1          locfit_1.5-9.9           
+ [93] Biostrings_2.72.1         knitr_1.47               
+ [95] gridExtra_2.3             ProtGenerics_1.36.0      
+ [97] edgeR_4.2.0               xfun_0.44                
+ [99] statmod_1.5.0             UCSC.utils_1.0.0         
+[101] lazyeval_0.2.2            yaml_2.3.8               
+[103] evaluate_0.23             codetools_0.2-20         
+[105] tibble_3.2.1              BiocManager_1.30.23      
+[107] cli_3.6.2                 uwot_0.2.2               
+[109] munsell_0.5.1             Rcpp_1.0.12              
+[111] dbplyr_2.5.0              png_0.1-8                
+[113] XML_3.99-0.16.1           parallel_4.4.1           
+[115] blob_1.2.4                sparseMatrixStats_1.16.0 
+[117] bitops_1.0-7              viridisLite_0.4.2        
+[119] scales_1.3.0              purrr_1.0.2              
+[121] crayon_1.5.2              rlang_1.1.3              
+[123] formatR_1.14              cowplot_1.1.3            
+[125] KEGGREST_1.44.0          
+```
+
+

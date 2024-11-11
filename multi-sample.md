@@ -803,6 +803,153 @@ Allantois           0.9866105512
 
 Addionally, the choice of \tau can be guided by other external experimental data, like a previous or a pilot experiment.
 
+## Exercises
+
+
+:::::::::::::::::::::::::::::::::: challenge
+
+#### Exercise 1: Heatmaps
+
+Use the `pheatmap` package to create a heatmap of the abundances table. Does it comport with the model results?
+
+:::::::::::::: hint
+
+You can simply hand `pheatmap()` a matrix as its only argument. `pheatmap()` has a million options you can tweak, but the defaults are usually pretty good.
+
+:::::::::::::::::::::::
+
+:::::::::::::: solution
+
+
+``` r
+pheatmap(y.ab$counts)
+```
+
+<img src="fig/multi-sample-rendered-unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
+
+The top DA result was a decrease in ExE ectoderm in the tomato condition, which you can sort of see, especially if you `log1p()` the counts or discard rows that show much higher values. ExE ectoderm counts were much higher in samples 8 and 10 compared to 5, 7, and 9. 
+
+:::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::: challenge
+
+#### Exercise 2: Model specification and comparison
+
+Try re-running the pseudobulk DGE without the `pool` factor in the design specification. Compare the logFC estimates and the distribution of p-values for the `Erythroid3` cell type.
+
+:::::::::::::: hint
+
+After running the second pseudobulk DGE, you can join the two `DataFrame`s of `Erythroid3` statistics using the `merge()` function. You will need to create a common key column from the gene IDs.
+
+:::::::::::::::::::::::
+
+:::::::::::::: solution
+
+
+
+``` r
+de.results2 <- pseudoBulkDGE(
+    summed.filt, 
+    label = summed.filt$celltype.mapped,
+    design = ~tomato,
+    coef = "tomatoTRUE",
+    condition = summed.filt$tomato 
+)
+
+eryth1 <- de.results$Erythroid3
+
+eryth2 <- de.results2$Erythroid3
+
+eryth1$gene <- rownames(eryth1)
+
+eryth2$gene <- rownames(eryth2)
+
+comp_df <- merge(eryth1, eryth2, by = 'gene')
+
+comp_df <- comp_df[!is.na(comp_df$logFC.x),]
+
+ggplot(comp_df, aes(logFC.x, logFC.y)) + 
+    geom_abline(lty = 2, color = "grey") +
+    geom_point() 
+```
+
+<img src="fig/multi-sample-rendered-unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
+
+``` r
+# Reshape to long format for ggplot facets. This is 1000x times easier to do
+# with tidyverse packages:
+pval_df <- reshape(comp_df[,c("gene", "PValue.x", "PValue.y")],
+                   direction = "long", 
+                   v.names = "Pvalue",
+                   timevar = "pool_factor",
+                   times = c("with pool factor", "no pool factor"),
+                   varying = c("PValue.x", "PValue.y"))
+
+ggplot(pval_df, aes(Pvalue)) + 
+    geom_histogram(boundary = 0,
+                   bins = 30) + 
+    facet_wrap("pool_factor")
+```
+
+<img src="fig/multi-sample-rendered-unnamed-chunk-24-2.png" style="display: block; margin: auto;" />
+
+We can see that in this case, the logFC estimates are strongly consistent between the two models, which tells us that the inclusion of the `pool` factor in the model doesn't strongly influence the estimate of the `tomato` coefficients in this case.
+
+The p-value histograms both look alright here, with a largely flat plateau over most of the 0 - 1 range and a spike near 0. This is consistent with the hypothesis that most genes are unaffected by `tomato` but there are a small handful that clearly are. 
+
+If there were large shifts in the logFC estimates or p-value distributions, that's a sign that the design specification change has a large impact on how the model sees the data. If that happens, you'll need to think carefully and critically about what variables should and should not be included in the model formula.
+
+:::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::::::::
+
+:::: challenge
+
+#### Extension challenge 1: Group effects
+
+Having multiple independent samples in each experimental group is always helpful, but it's particularly important when it comes to batch effect correction. Why?
+
+::: solution
+
+It's important to have multiple samples within each experimental group because it helps the batch effect correction algorithm distinguish differences due to batch effects (uninteresting) from differences due to group/treatment/biology (interesting). 
+
+Imagine you had one sample that received a drug treatment and one that did not, each with 10,000 cells. They differ substantially in expression of gene X. Is that an important scientific finding? You can't tell for sure, because the effect of drug is indistinguishable from a sample-wise batch effect. But if the difference in gene X holds up when you have five treated samples and five untreated samples, now you can be a bit more confident. Many batch effect correction methods will take information on experimental factors as additional arguments, which they can use to help remove batch effects while retaining experimental differences.
+
+:::
+
+::::
+
+:::::::::::::: checklist
+## Further Reading
+
+* OSCA book, Multi-sample analysis, [Chapters 1, 4, and 6](https://bioconductor.org/books/release/OSCA.multisample)
+
+::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: keypoints 
+-   Batch effects are systematic technical differences in the observed expression
+    in cells measured in different experimental batches.
+-   Computational removal of batch-to-batch variation with the `correctExperiment`
+    function from the *[batchelor](https://bioconductor.org/packages/3.19/batchelor)* package allows us to combine data
+    across multiple batches for a consolidated downstream analysis.
+-   Differential expression (DE) analysis of replicated multi-condition scRNA-seq experiments
+    is typically based on pseudo-bulk expression profiles, generated by summing
+    counts for all cells with the same combination of label and sample.
+-   The `aggregateAcrossCells` function from the *[scater](https://bioconductor.org/packages/3.19/scater)* package
+    facilitates the creation of pseudo-bulk samples.   
+-   The `pseudoBulkDGE` function from the *[scran](https://bioconductor.org/packages/3.19/scran)* package can be used
+    to detect significant changes in expression between conditions for pseudo-bulk samples
+    consisting of cells of the same type.
+-   Differential abundance (DA) analysis aims at identifying significant changes in
+    cell type abundance across conditions.
+-   DA analysis uses bulk DE methods such as *[edgeR](https://bioconductor.org/packages/3.19/edgeR)* and *[DESeq2](https://bioconductor.org/packages/3.19/DESeq2)*,
+    which provide suitable statistical models for count data in the presence of
+    limited replication - except that the counts are not of reads per gene, but
+    of cells per label.
+::::::::::::::::::::::::::::::::::::::::::::::::
+
 ## Session Info
 
 
@@ -883,7 +1030,7 @@ loaded via a namespace (and not attached):
  [69] pillar_1.9.0              BumpyMatrix_1.12.0       
  [71] splines_4.4.1             dplyr_1.1.4              
  [73] BiocFileCache_2.12.0      lattice_0.22-6           
- [75] renv_1.0.9                bit_4.0.5                
+ [75] renv_1.0.11               bit_4.0.5                
  [77] tidyselect_1.2.1          locfit_1.5-9.9           
  [79] Biostrings_2.72.1         knitr_1.47               
  [81] gridExtra_2.3             xfun_0.44                
@@ -901,149 +1048,3 @@ loaded via a namespace (and not attached):
 [105] formatR_1.14             
 ```
 
-## Exercises
-
-
-:::::::::::::::::::::::::::::::::: challenge
-
-#### Exercise 1: Heatmaps
-
-Use the `pheatmap` package to create a heatmap of the abundances table. Does it comport with the model results?
-
-:::::::::::::: hint
-
-You can simply hand `pheatmap()` a matrix as its only argument. `pheatmap()` has a million options you can tweak, but the defaults are usually pretty good.
-
-:::::::::::::::::::::::
-
-:::::::::::::: solution
-
-
-``` r
-pheatmap(y.ab$counts)
-```
-
-<img src="fig/multi-sample-rendered-unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
-
-The top DA result was a decrease in ExE ectoderm in the tomato condition, which you can sort of see, especially if you `log1p()` the counts or discard rows that show much higher values. ExE ectoderm counts were much higher in samples 8 and 10 compared to 5, 7, and 9. 
-
-:::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::: challenge
-
-#### Exercise 2: Model specification and comparison
-
-Try re-running the pseudobulk DGE without the `pool` factor in the design specification. Compare the logFC estimates and the distribution of p-values for the `Erythroid3` cell type.
-
-:::::::::::::: hint
-
-After running the second pseudobulk DGE, you can join the two `DataFrame`s of `Erythroid3` statistics using the `merge()` function. You will need to create a common key column from the gene IDs.
-
-:::::::::::::::::::::::
-
-:::::::::::::: solution
-
-
-
-``` r
-de.results2 <- pseudoBulkDGE(
-    summed.filt, 
-    label = summed.filt$celltype.mapped,
-    design = ~tomato,
-    coef = "tomatoTRUE",
-    condition = summed.filt$tomato 
-)
-
-eryth1 <- de.results$Erythroid3
-
-eryth2 <- de.results2$Erythroid3
-
-eryth1$gene <- rownames(eryth1)
-
-eryth2$gene <- rownames(eryth2)
-
-comp_df <- merge(eryth1, eryth2, by = 'gene')
-
-comp_df <- comp_df[!is.na(comp_df$logFC.x),]
-
-ggplot(comp_df, aes(logFC.x, logFC.y)) + 
-    geom_abline(lty = 2, color = "grey") +
-    geom_point() 
-```
-
-<img src="fig/multi-sample-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
-
-``` r
-# Reshape to long format for ggplot facets. This is 1000x times easier to do
-# with tidyverse packages:
-pval_df <- reshape(comp_df[,c("gene", "PValue.x", "PValue.y")],
-                   direction = "long", 
-                   v.names = "Pvalue",
-                   timevar = "pool_factor",
-                   times = c("with pool factor", "no pool factor"),
-                   varying = c("PValue.x", "PValue.y"))
-
-ggplot(pval_df, aes(Pvalue)) + 
-    geom_histogram(boundary = 0,
-                   bins = 30) + 
-    facet_wrap("pool_factor")
-```
-
-<img src="fig/multi-sample-rendered-unnamed-chunk-25-2.png" style="display: block; margin: auto;" />
-
-We can see that in this case, the logFC estimates are strongly consistent between the two models, which tells us that the inclusion of the `pool` factor in the model doesn't strongly influence the estimate of the `tomato` coefficients in this case.
-
-The p-value histograms both look alright here, with a largely flat plateau over most of the 0 - 1 range and a spike near 0. This is consistent with the hypothesis that most genes are unaffected by `tomato` but there are a small handful that clearly are. 
-
-If there were large shifts in the logFC estimates or p-value distributions, that's a sign that the design specification change has a large impact on how the model sees the data. If that happens, you'll need to think carefully and critically about what variables should and should not be included in the model formula.
-
-:::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::::::::
-
-:::: challenge
-
-#### Extension challenge 1: Group effects
-
-Having multiple independent samples in each experimental group is always helpful, but it particularly important when it comes to batch effect correction. Why?
-
-::: solution
-
-It's important to have multiple samples within each experimental group because it helps the batch effect correction algorithm distinguish differences due to batch effects (uninteresting) from differences due to group/treatment/biology (interesting). 
-
-Imagine you had one sample that received a drug treatment and one that did not, each with 10,000 cells. They differ substantially in expression of gene X. Is that an important scientific finding? You can't tell for sure, because the effect of drug is indistinguishable from a sample-wise batch effect. But if the difference in gene X holds up when you have five treated samples and five untreated samples, now you can be a bit more confident. Many batch effect correction methods will take information on experimental factors as additional arguments, which they can use to help remove batch effects while retaining experimental differences.
-
-:::
-
-::::
-
-:::::::::::::: checklist
-## Further Reading
-
-* OSCA book, Multi-sample analysis, [Chapters 1, 4, and 6](https://bioconductor.org/books/release/OSCA.multisample)
-
-::::::::::::::
-
-::::::::::::::::::::::::::::::::::::: keypoints 
--   Batch effects are systematic technical differences in the observed expression
-    in cells measured in different experimental batches.
--   Computational removal of batch-to-batch variation with the `correctExperiment`
-    function from the *[batchelor](https://bioconductor.org/packages/3.19/batchelor)* package allows us to combine data
-    across multiple batches for a consolidated downstream analysis.
--   Differential expression (DE) analysis of replicated multi-condition scRNA-seq experiments
-    is typically based on pseudo-bulk expression profiles, generated by summing
-    counts for all cells with the same combination of label and sample.
--   The `aggregateAcrossCells` function from the *[scater](https://bioconductor.org/packages/3.19/scater)* package
-    facilitates the creation of pseudo-bulk samples.   
--   The `pseudoBulkDGE` function from the *[scran](https://bioconductor.org/packages/3.19/scran)* package can be used
-    to detect significant changes in expression between conditions for pseudo-bulk samples
-    consisting of cells of the same type.
--   Differential abundance (DA) analysis aims at identifying significant changes in
-    cell type abundance across conditions.
--   DA analysis uses bulk DE methods such as *[edgeR](https://bioconductor.org/packages/3.19/edgeR)* and *[DESeq2](https://bioconductor.org/packages/3.19/DESeq2)*,
-    which provide suitable statistical models for count data in the presence of
-    limited replication - except that the counts are not of reads per gene, but
-    of cells per label.
-::::::::::::::::::::::::::::::::::::::::::::::::
