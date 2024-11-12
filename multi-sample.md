@@ -34,7 +34,7 @@ As before, we will use the the wild-type data from the Tal1 chimera experiment:
 
 Note that this is a paired design in which for each biological replicate (pool 3, 4, and 5), we have both host and injected cells.
 
-We start by loading the data and doing a quick exploratory analysis, essentially applying the normalization and visualization techniques that we have seen in the previous lectures to all samples. Note that this time we're selecting samples 5 to 10, not just 5 by itself.
+We start by loading the data and doing a quick exploratory analysis, essentially applying the normalization and visualization techniques that we have seen in the previous lectures to all samples. Note that this time we're selecting samples 5 to 10, not just 5 by itself. Also note the `type = "processed"` argument: we are explicitly selecting the version of the data that has already been QC processed.
 
 
 
@@ -116,7 +116,7 @@ cell_30702   0.00108837   0.550807
 cell_30703   0.82369305   1.184919
 ```
 
-To speed up computations, after removing doublets, we randomly select 50% cells per sample.
+For the sake of making these examples run faster, we drop some problematic types (stripped nuclei and doublets) and also randomly select 50% cells per sample.
 
 
 ``` r
@@ -134,7 +134,7 @@ idx <- unlist(tapply(colnames(sce), sce$sample, function(x) {
 sce <- sce[,idx]
 ```
 
-We now normalize the data, run some dimensionality reduction steps, and visualize them in a tSNE plot.
+We now normalize the data, run some dimensionality reduction steps, and visualize them in a tSNE plot. In this case we happen to have a ton of cell types to visualize, so we define a custom palette with a lot of visually distinct colors (adapted from the `polychrome` palette in the [`pals` package](https://cran.r-project.org/web/packages/pals/vignettes/pals_examples.html)). 
 
 
 ``` r
@@ -156,8 +156,15 @@ plotTSNE(sce, colour_by = "sample")
 <img src="fig/multi-sample-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
 
 ``` r
+color_vec <- c("#5A5156", "#E4E1E3", "#F6222E", "#FE00FA", "#16FF32", "#3283FE", 
+               "#FEAF16", "#B00068", "#1CFFCE", "#90AD1C", "#2ED9FF", "#DEA0FD", 
+               "#AA0DFE", "#F8A19F", "#325A9B", "#C4451C", "#1C8356", "#85660D", 
+               "#B10DA1", "#3B00FB", "#1CBE4F", "#FA0087", "#333333", "#F7E1A0", 
+               "#C075A6", "#782AB6", "#AAF400", "#BDCDFF", "#822E1C", "#B5EFB5", 
+               "#7ED7D1", "#1C7F93", "#D85FF7", "#683B79", "#66B0FF", "#FBE426")
+
 plotTSNE(sce, colour_by = "celltype.mapped") +
-    scale_color_discrete() +
+    scale_color_manual(values = color_vec) +
     theme(legend.position = "bottom")
 ```
 
@@ -207,6 +214,18 @@ plotTSNE(merged, colour_by = "batch")
 ```
 
 <img src="fig/multi-sample-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
+
+We can also see that when coloring by cell type, the cell types are now nicely confined to their own clusters for the most part:
+
+
+``` r
+plotTSNE(merged, colour_by = "celltype.mapped") +
+    scale_color_manual(values = color_vec) +
+    theme(legend.position = "bottom")
+```
+
+<img src="fig/multi-sample-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
+
 
 Once we removed the sample batch effect, we can proceed with the Differential 
 Expression Analysis.
@@ -424,7 +443,7 @@ for (i in seq_len(ncol(y))) {
 }
 ```
 
-<img src="fig/multi-sample-rendered-unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+<img src="fig/multi-sample-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
 
 ``` r
 par(mfrow = c(1,1))
@@ -441,7 +460,7 @@ limma::plotMDS(cpm(y, log = TRUE),
                col = ifelse(y$samples$tomato, "red", "blue"))
 ```
 
-<img src="fig/multi-sample-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
+<img src="fig/multi-sample-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
 We then construct a design matrix by including both the pool and the tomato as factors.
 This design indicates which samples belong to which pool and condition, so we can
@@ -496,7 +515,7 @@ Additionally, the Common and Trend BCV are shown in `red` and `blue`.
 plotBCV(y)
 ```
 
-<img src="fig/multi-sample-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+<img src="fig/multi-sample-rendered-unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
 
 We then fit a Quasi-Likelihood (QL) negative binomial generalized linear model for each gene. 
 The `robust = TRUE` parameter avoids distortions from highly variable clusters.
@@ -530,7 +549,7 @@ QL dispersion estimates for each gene as a function of abundance. Raw estimates 
 plotQLDisp(fit)
 ```
 
-<img src="fig/multi-sample-rendered-unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
+<img src="fig/multi-sample-rendered-unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
 
 We then use an empirical Bayes quasi-likelihood F-test to test for differential expression (due to tomato injection) per each gene at a False Discovery Rate (FDR) of 5%.
 The low amount of DGEs highlights that the tomato injection effect has a low 
@@ -814,7 +833,7 @@ Use the `pheatmap` package to create a heatmap of the abundances table. Does it 
 
 :::::::::::::: hint
 
-You can simply hand `pheatmap()` a matrix as its only argument. `pheatmap()` has a million options you can tweak, but the defaults are usually pretty good.
+You can simply hand `pheatmap()` a matrix as its only argument. `pheatmap()` has a million options you can adjust, but the defaults are usually pretty good. Try to overlay sample-level information with the `annotation_col` argument for an extra challenge.
 
 :::::::::::::::::::::::
 
@@ -825,7 +844,22 @@ You can simply hand `pheatmap()` a matrix as its only argument. `pheatmap()` has
 pheatmap(y.ab$counts)
 ```
 
-<img src="fig/multi-sample-rendered-unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
+<img src="fig/multi-sample-rendered-unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
+
+``` r
+anno_df <- y.ab$samples[,c("tomato", "pool")]
+
+anno_df$pool = as.character(anno_df$pool)
+
+anno_df$tomato <- ifelse(anno_df$tomato,
+                         "tomato+",
+                         "tomato-")
+
+pheatmap(y.ab$counts,
+         annotation_col = anno_df)
+```
+
+<img src="fig/multi-sample-rendered-unnamed-chunk-24-2.png" style="display: block; margin: auto;" />
 
 The top DA result was a decrease in ExE ectoderm in the tomato condition, which you can sort of see, especially if you `log1p()` the counts or discard rows that show much higher values. ExE ectoderm counts were much higher in samples 8 and 10 compared to 5, 7, and 9. 
 
@@ -875,7 +909,7 @@ ggplot(comp_df, aes(logFC.x, logFC.y)) +
     geom_point() 
 ```
 
-<img src="fig/multi-sample-rendered-unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
+<img src="fig/multi-sample-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
 
 ``` r
 # Reshape to long format for ggplot facets. This is 1000x times easier to do
@@ -893,7 +927,7 @@ ggplot(pval_df, aes(Pvalue)) +
     facet_wrap("pool_factor")
 ```
 
-<img src="fig/multi-sample-rendered-unnamed-chunk-24-2.png" style="display: block; margin: auto;" />
+<img src="fig/multi-sample-rendered-unnamed-chunk-25-2.png" style="display: block; margin: auto;" />
 
 We can see that in this case, the logFC estimates are strongly consistent between the two models, which tells us that the inclusion of the `pool` factor in the model doesn't strongly influence the estimate of the `tomato` coefficients in this case.
 
