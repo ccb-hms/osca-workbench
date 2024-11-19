@@ -992,7 +992,7 @@ sessionInfo()
 ```
 
 ``` output
-R version 4.4.1 (2024-06-14)
+R version 4.4.2 (2024-10-31)
 Platform: x86_64-pc-linux-gnu
 Running under: Ubuntu 22.04.5 LTS
 
@@ -1047,22 +1047,22 @@ loaded via a namespace (and not attached):
  [35] RSQLite_2.3.7             beachmat_2.20.0          
  [37] filelock_1.0.3            labeling_0.4.3           
  [39] fansi_1.0.6               httr_1.4.7               
- [41] abind_1.4-5               compiler_4.4.1           
+ [41] abind_1.4-5               compiler_4.4.2           
  [43] bit64_4.0.5               withr_3.0.0              
  [45] BiocParallel_1.38.0       viridis_0.6.5            
  [47] DBI_1.2.3                 highr_0.11               
  [49] rappdirs_0.3.3            DelayedArray_0.30.1      
  [51] rjson_0.2.21              bluster_1.14.0           
- [53] tools_4.4.1               vipor_0.4.7              
+ [53] tools_4.4.2               vipor_0.4.7              
  [55] beeswarm_0.4.0            glue_1.7.0               
- [57] grid_4.4.1                Rtsne_0.17               
+ [57] grid_4.4.2                Rtsne_0.17               
  [59] cluster_2.1.6             generics_0.1.3           
  [61] gtable_0.3.5              BiocSingular_1.20.0      
  [63] ScaledMatrix_1.12.0       metapod_1.12.0           
  [65] utf8_1.2.4                XVector_0.44.0           
  [67] ggrepel_0.9.5             BiocVersion_3.19.1       
  [69] pillar_1.9.0              BumpyMatrix_1.12.0       
- [71] splines_4.4.1             dplyr_1.1.4              
+ [71] splines_4.4.2             dplyr_1.1.4              
  [73] BiocFileCache_2.12.0      lattice_0.22-6           
  [75] renv_1.0.11               bit_4.0.5                
  [77] tidyselect_1.2.1          locfit_1.5-9.9           
@@ -1074,7 +1074,7 @@ loaded via a namespace (and not attached):
  [89] BiocManager_1.30.23       cli_3.6.2                
  [91] munsell_0.5.1             Rcpp_1.0.12              
  [93] dbplyr_2.5.0              png_0.1-8                
- [95] parallel_4.4.1            blob_1.2.4               
+ [95] parallel_4.4.2            blob_1.2.4               
  [97] sparseMatrixStats_1.16.0  viridisLite_0.4.2        
  [99] scales_1.3.0              purrr_1.0.2              
 [101] crayon_1.5.2              rlang_1.1.3              

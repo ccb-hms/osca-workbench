@@ -436,7 +436,7 @@ sessionInfo()
 ```
 
 ``` output
-R version 4.4.1 (2024-06-14)
+R version 4.4.2 (2024-10-31)
 Platform: x86_64-pc-linux-gnu
 Running under: Ubuntu 22.04.5 LTS
 
@@ -470,7 +470,7 @@ other attached packages:
 loaded via a namespace (and not attached):
  [1] DBI_1.2.3                 formatR_1.14             
  [3] gridExtra_2.3             rlang_1.1.3              
- [5] magrittr_2.0.3            compiler_4.4.1           
+ [5] magrittr_2.0.3            compiler_4.4.2           
  [7] RSQLite_2.3.7             DelayedMatrixStats_1.26.0
  [9] png_0.1-8                 vctrs_0.6.5              
 [11] pkgconfig_2.0.3           crayon_1.5.2             
@@ -484,7 +484,7 @@ loaded via a namespace (and not attached):
 [27] beachmat_2.20.0           jsonlite_1.8.8           
 [29] blob_1.2.4                highr_0.11               
 [31] DelayedArray_0.30.1       BiocParallel_1.38.0      
-[33] irlba_2.3.5.1             parallel_4.4.1           
+[33] irlba_2.3.5.1             parallel_4.4.2           
 [35] R6_2.5.1                  Rcpp_1.0.12              
 [37] knitr_1.47                Matrix_1.7-0             
 [39] tidyselect_1.2.1          viridis_0.6.5            
@@ -499,10 +499,10 @@ loaded via a namespace (and not attached):
 [57] renv_1.0.11               generics_0.1.3           
 [59] BiocVersion_3.19.1        sparseMatrixStats_1.16.0 
 [61] munsell_0.5.1             scales_1.3.0             
-[63] glue_1.7.0                tools_4.4.1              
+[63] glue_1.7.0                tools_4.4.2              
 [65] AnnotationHub_3.12.0      BiocNeighbors_1.22.0     
 [67] ScaledMatrix_1.12.0       cowplot_1.1.3            
-[69] grid_4.4.1                AnnotationDbi_1.66.0     
+[69] grid_4.4.2                AnnotationDbi_1.66.0     
 [71] colorspace_2.1-0          GenomeInfoDbData_1.2.12  
 [73] beeswarm_0.4.0            BiocSingular_1.20.0      
 [75] vipor_0.4.7               cli_3.6.2                

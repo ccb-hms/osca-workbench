@@ -1117,7 +1117,7 @@ sessionInfo()
 ```
 
 ``` output
-R version 4.4.1 (2024-06-14)
+R version 4.4.2 (2024-10-31)
 Platform: x86_64-pc-linux-gnu
 Running under: Ubuntu 22.04.5 LTS
 
@@ -1175,18 +1175,18 @@ loaded via a namespace (and not attached):
  [39] RSQLite_2.3.7             beachmat_2.20.0          
  [41] labeling_0.4.3            filelock_1.0.3           
  [43] fansi_1.0.6               httr_1.4.7               
- [45] abind_1.4-5               compiler_4.4.1           
+ [45] abind_1.4-5               compiler_4.4.2           
  [47] bit64_4.0.5               withr_3.0.0              
  [49] BiocParallel_1.38.0       viridis_0.6.5            
  [51] DBI_1.2.3                 highr_0.11               
  [53] HDF5Array_1.32.0          R.utils_2.12.3           
  [55] MASS_7.3-60.2             rappdirs_0.3.3           
  [57] DelayedArray_0.30.1       bluster_1.14.0           
- [59] rjson_0.2.21              tools_4.4.1              
+ [59] rjson_0.2.21              tools_4.4.2              
  [61] vipor_0.4.7               beeswarm_0.4.0           
  [63] R.oo_1.26.0               glue_1.7.0               
  [65] restfulr_0.0.15           rhdf5filters_1.16.0      
- [67] grid_4.4.1                Rtsne_0.17               
+ [67] grid_4.4.2                Rtsne_0.17               
  [69] cluster_2.1.6             generics_0.1.3           
  [71] gtable_0.3.5              R.methodsS3_1.8.2        
  [73] data.table_1.15.4         metapod_1.12.0           
@@ -1209,7 +1209,7 @@ loaded via a namespace (and not attached):
 [107] cli_3.6.2                 uwot_0.2.2               
 [109] munsell_0.5.1             Rcpp_1.0.12              
 [111] dbplyr_2.5.0              png_0.1-8                
-[113] XML_3.99-0.16.1           parallel_4.4.1           
+[113] XML_3.99-0.16.1           parallel_4.4.2           
 [115] blob_1.2.4                sparseMatrixStats_1.16.0 
 [117] bitops_1.0-7              viridisLite_0.4.2        
 [119] scales_1.3.0              purrr_1.0.2              

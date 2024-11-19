@@ -439,20 +439,20 @@ table(exact = colLabels(sce), approx = clusters)
 ``` output
      approx
 exact   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
-   1   91   0   0   0   0   0   0   0   0   0   0   1   0   0   0
+   1   95   0   0   0   0   0   0   0   0   0   0   0   0   0   0
    2    0 143   0   0   0   0   0   0   0   0   0   0   0   0   1
-   3    0   0  75   0   0   0   0   0   0   0   0   0   0   0   0
-   4    0   0   0 341   0   0   0   0   0   0   0   0   0   0  56
-   5    0   0   2   0  74   0   0   0   0   0   0 320   0   0   0
-   6    0   0   0   0   0  81 246   0   0   0   2   0   0   0   0
-   7    0   0   0   0   0 128   0   0   0   0   0   0   0   0   0
-   8    0   0   0   0  95   0   0   0   0   0   0   0   0   0   0
-   9    0   0   0   0   0   0   0 108   0   0   0   1   0   0   0
-   10   0   0   0   0   0   0   0   0 113   0   0   0   0   0   0
-   11   0   0   0   0   0   2   0   0   7 139   0   0   6   0   0
-   12   0   0   0   0   7   0   0   0   0   0 205   1   0   0   0
-   13   0   0   0   0   0   0   2   0   0   0   0   0 143   0   1
-   14   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0
+   3    0   0  77   0   0   0   0   0   0   0   0   0   0   0   0
+   4    0   0   0 341   0   0   0   0   0   0   0   0   0   0   0
+   5    0   0   0   0 390   0   0   2   0   0   0   0   0   0   0
+   6    0   0   0   0   0 210 245   0   0   1   0   2   1   0   0
+   7    0   0   0   0   0   0   0  92   0   0   0   0   0   0   0
+   8    1   0   0   0   1   0   0   0 106   0   0   0   0   0   0
+   9    0   0   0   0   0   0   0   0   0 113   0   0   0   0   0
+   10   0   0   0   0   0   0   0   0   0   5 142   0   6   0   0
+   11   0   0   0   0   2   0   0   2   0  10   0 202   0   0   0
+   12   0   0   0   0   0   0   0   0   0   0   0   0 145   0   0
+   13   0   0   0   0   0   0   0   0   0   0   0   0   0  20   0
+   14   0   0   0   0   0   0   0   0   0   0   0   0   0   0  56
 ```
 
 The similarity of the two clusterings can be quantified by calculating the pairwise Rand index: 
@@ -945,7 +945,7 @@ sessionInfo()
 ```
 
 ``` output
-R version 4.4.1 (2024-06-14)
+R version 4.4.2 (2024-10-31)
 Platform: x86_64-pc-linux-gnu
 Running under: Ubuntu 22.04.5 LTS
 
@@ -987,7 +987,7 @@ other attached packages:
 
 loaded via a namespace (and not attached):
   [1] spatstat.sparse_3.0-3     httr_1.4.7               
-  [3] RColorBrewer_1.1-3        tools_4.4.1              
+  [3] RColorBrewer_1.1-3        tools_4.4.2              
   [5] sctransform_0.4.1         utf8_1.2.4               
   [7] R6_2.5.1                  lazyeval_0.2.2           
   [9] uwot_0.2.2                rhdf5filters_1.16.0      
@@ -1003,7 +1003,7 @@ loaded via a namespace (and not attached):
  [29] ggbeeswarm_0.7.2          fansi_1.0.6              
  [31] lifecycle_1.0.4           yaml_2.3.8               
  [33] edgeR_4.2.0               BiocFileCache_2.12.0     
- [35] Rtsne_0.17                grid_4.4.1               
+ [35] Rtsne_0.17                grid_4.4.2               
  [37] blob_1.2.4                promises_1.3.0           
  [39] dqrng_0.4.1               ExperimentHub_2.12.0     
  [41] crayon_1.5.2              dir.expiry_1.12.0        
@@ -1026,7 +1026,7 @@ loaded via a namespace (and not attached):
  [75] vipor_0.4.7               KernSmooth_2.23-24       
  [77] colorspace_2.1-0          DBI_1.2.3                
  [79] tidyselect_1.2.1          bit_4.0.5                
- [81] compiler_4.4.1            curl_5.2.1               
+ [81] compiler_4.4.2            curl_5.2.1               
  [83] basilisk.utils_1.16.0     plotly_4.10.4            
  [85] scales_1.3.0              lmtest_0.9-40            
  [87] rappdirs_0.3.3            stringr_1.5.1            
@@ -1047,9 +1047,9 @@ loaded via a namespace (and not attached):
 [117] reticulate_1.37.0         stringi_1.8.4            
 [119] zlibbioc_1.50.0           MASS_7.3-60.2            
 [121] AnnotationHub_3.12.0      plyr_1.8.9               
-[123] parallel_4.4.1            listenv_0.9.1            
+[123] parallel_4.4.2            listenv_0.9.1            
 [125] ggrepel_0.9.5             deldir_2.0-4             
-[127] Biostrings_2.72.1         splines_4.4.1            
+[127] Biostrings_2.72.1         splines_4.4.2            
 [129] tensor_1.5                locfit_1.5-9.9           
 [131] igraph_2.0.3              spatstat.geom_3.2-9      
 [133] RcppHNSW_0.6.0            reshape2_1.4.4           
