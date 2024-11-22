@@ -60,7 +60,7 @@ bulk counts are also available to facilitate large-scale, summary analyses of
 transcriptional profiles. 
 
 ```{r, echo = FALSE}
-knitr::include_graphics("https://raw.githubusercontent.com/ccb-hms/osca-workbench/main/episodes/figures/curatedAtlasQuery.png")
+knitr::include_graphics("https://raw.githubusercontent.com/carpentries-incubator/bioc-scrnaseq/main/episodes/figures/curatedAtlasQuery.png")
 ```
 
 ## Data Sources in R / Bioconductor
