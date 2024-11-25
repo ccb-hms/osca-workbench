@@ -125,10 +125,10 @@ The complexity of the `SingleCellExperiment` container might be a little bit int
 One might be tempted to use a simpler approach by just keeping all of these components in separate objects,
 e.g. a `matrix` of counts, a `data.frame` of sample metadata, a `data.frame` of gene annotations, and so on.
 
-There are two main disadvantages to this "from-scratch" approach:
+There are two main disadvantages to this type of "from scratch" approach:
 
-1. It requires a substantial amount of manual bookkeeping to keep the different data components in sync. If you performed a QC step that removed dead cells from the count matrix, you also had to remember to remove that same set of cells from the cell-wise metadata. Did you filtered out genes that did not display sufficient expression levels to be retained for further analysis? Then you would need to make sure to not forget to filter the gene metadata table too. 
-2. All the downstream steps had to be "from scratch" as well. All the data munging, analysis, and visualization code had to be customized to the idiosyncrasies of a given input set.
+1. It requires a substantial amount of manual bookkeeping to keep the different data components in sync. If you performed a QC step that removed dead cells from the count matrix, you also had to remember to remove that same set of cells from the cell-wise metadata. Did you filter out genes that did not display sufficient expression levels to be retained for further analysis? Then you also need to remember to filter the gene metadata table too. 
+2. All the downstream steps had to be "from scratch" as well. All the data munging, analysis, and visualization code will need to be customized to the idiosyncrasies of a given input set.
 
 ::::
 
