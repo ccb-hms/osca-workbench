@@ -1815,16 +1815,8 @@
     },
     "duckdb": {
       "Package": "duckdb",
-      "Version": "1.1.3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "DBI",
-        "R",
-        "methods",
-        "utils"
-      ],
-      "Hash": "beb1e14711d97990855bd94b7d51f56b"
+      "Version": "1.1.2",
+      "Source": "Repository"
     },
     "edgeR": {
       "Package": "edgeR",
